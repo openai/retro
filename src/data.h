@@ -9,6 +9,10 @@
 #include <unordered_map>
 #include <vector>
 
+#ifdef ABSOLUTE
+#undef ABSOLUTE
+#endif
+
 namespace Retro {
 
 class GameData {

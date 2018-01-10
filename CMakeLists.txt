@@ -3,6 +3,11 @@ if(POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
 endif()
 
+if(NOT WIN32)
+    set(BUILD_PYTHON ON CACHE BOOL "Build Python module")
+    mark_as_advanced(BUILD_PYTHON)
+endif()
+
 find_package(Git QUIET)
 if(NOT EXISTS ${CMAKE_SOURCE_DIR}/third-party/pybind11/include)
     message(STATUS "Submodules seem to be missing. Attempting to clone now.")
@@ -15,7 +20,9 @@ if(NOT EXISTS ${CMAKE_SOURCE_DIR}/third-party/pybind11/include)
     unset(SUCCESS)
 endif()
 
-find_package(PythonInterp REQUIRED)
+if(BUILD_PYTHON)
+    find_package(PythonInterp REQUIRED)
+endif()
 
 file(READ "${CMAKE_SOURCE_DIR}/VERSION" PROJECT_VERSION)
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "$CMAKE_SOURCE_DIR}/VERSION")
@@ -30,7 +37,9 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 option(BUILD_TESTS "Should tests be built" ON)
 
-find_package(PythonLibs REQUIRED)
+if(BUILD_PYTHON)
+    find_package(PythonLibs REQUIRED)
+endif()
 find_package(ZLIB REQUIRED)
 find_package(PkgConfig)
 
@@ -41,9 +50,12 @@ if(APPLE)
     set(LUA_INCLUDE_DIRS "${LUA_INCLUDE_DIR}")
 else()
     set(LUA_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/third-party/luajit/src")
+    if(NOT CMAKE_HOST_SYSTEM_NAME STREQUAL CMAKE_SYSTEM_NAME)
+        set(LUA_FLAGS HOST_CC=gcc CROSS="${cross_prefix}" TARGET_SYS="${CMAKE_SYSTEM_NAME}")
+    endif()
     set(LUA_LIBRARY "${LUA_INCLUDE_DIRS}/libluajit.a")
     add_custom_command(OUTPUT "${LUA_LIBRARY}"
-        COMMAND $(MAKE) CFLAGS=-fPIC libluajit.a
+        COMMAND $(MAKE) CFLAGS=-fPIC libluajit.a ${LUA_FLAGS}
         WORKING_DIRECTORY "${LUA_INCLUDE_DIRS}")
 endif()
 
@@ -84,8 +96,11 @@ function(add_core PLATFORM CORE_NAME)
         add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version"
             COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
     endif()
+    if(WIN32)
+        set(LIBRETRO_PLATFORM platform=win)
+    endif()
     add_custom_command(OUTPUT "${TARGET_PATH}"
-        COMMAND CFLAGS=-w CXXFLAGS=-w LDFLAGS=-w $(MAKE) -f ${MAKEFILE}
+        COMMAND CFLAGS=-w CXXFLAGS=-w LDFLAGS=-w $(MAKE) -f ${MAKEFILE} CC="${CMAKE_C_COMPILER}" CXX="${CMAKE_CXX_COMPILER}" ${LIBRETRO_PLATFORM}
         COMMAND ${CMAKE_COMMAND} -E copy "${CORE_NAME}_libretro*" "${TARGET_PATH}"
         WORKING_DIRECTORY "cores/${PLATFORM}/${SUBDIR}"
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
@@ -137,23 +152,25 @@ add_library(retro-base STATIC
     src/utils.cpp
     src/zipfile.cpp
     ${LUA_LIBRARY})
-target_link_libraries(retro-base ${ZLIB_LIBRARY} ${LIBZIP_LIBRARIES} ${LUA_LIBRARY})
+target_link_libraries(retro-base ${ZLIB_LIBRARY} ${LIBZIP_LIBRARIES} ${LUA_LIBRARY} ${LUA_LIBRRAY})
 add_dependencies(retro-base ${CORE_TARGETS})
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_link_libraries(retro-base dl)
 endif()
 
-add_library(retro SHARED src/retro.cpp)
-set_target_properties(retro PROPERTIES
-    LIBRARY_OUTPUT_DIRECTORY "${PYLIB_DIRECTORY}/retro"
-    OUTPUT_NAME _retro
-    PREFIX ""
-    SUFFIX ${PYEXT_SUFFIX})
 include_directories(src retro third-party/pybind11/include third-party third-party/gtest/googletest/include ${PYTHON_INCLUDE_DIRS})
-if(APPLE)
-    set(PYBIND_LIBS "-undefined dynamic_lookup")
+if(BUILD_PYTHON)
+    add_library(retro SHARED src/retro.cpp)
+    set_target_properties(retro PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY "${PYLIB_DIRECTORY}/retro"
+        OUTPUT_NAME _retro
+        PREFIX ""
+        SUFFIX ${PYEXT_SUFFIX})
+    if(APPLE)
+        set(PYBIND_LIBS "-undefined dynamic_lookup")
+    endif()
+    target_link_libraries(retro retro-base ${PYBIND_LIBS})
 endif()
-target_link_libraries(retro retro-base ${PYBIND_LIBS})
 
 if(BUILD_TESTS)
     enable_testing()

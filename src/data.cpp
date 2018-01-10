@@ -3,6 +3,10 @@
 #include "script.h"
 #include "utils.h"
 
+#ifdef ERROR
+#undef ERROR
+#endif
+
 #include "json.hpp"
 
 #include <fstream>

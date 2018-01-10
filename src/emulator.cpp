@@ -1,5 +1,7 @@
 #include <cassert>
+#ifndef _WIN32
 #include <dlfcn.h>
+#endif
 #include <fstream>
 #include <map>
 #include <sstream>
@@ -10,6 +12,12 @@
 #include "data.h"
 #include "emulator.h"
 #include "libretro.h"
+
+#ifndef _WIN32
+#define GETSYM dlsym
+#else
+#define GETSYM GetProcAddress
+#endif
 
 using namespace std;
 
@@ -140,7 +148,11 @@ void Emulator::reset() {
 		memset(m_buttonMask, 0, sizeof(m_buttonMask));
 		string romPath = m_romPath;
 
+#ifdef _WIN32
+		FreeLibrary(m_coreHandle);
+#else
 		dlclose(m_coreHandle);
+#endif
 		m_coreHandle = nullptr;
 		s_loadedEmulator = nullptr;
 		m_romLoaded = false;
@@ -162,7 +174,11 @@ void Emulator::unloadCore() {
 		unloadRom();
 	}
 	retro_deinit();
+#ifdef _WIN32
+	FreeLibrary(m_coreHandle);
+#else
 	dlclose(m_coreHandle);
+#endif
 	m_coreHandle = nullptr;
 	s_loadedEmulator = nullptr;
 }
@@ -218,33 +234,37 @@ bool Emulator::loadCore(const string& corePath) {
 		return false;
 	}
 
+#ifdef _WIN32
+	m_coreHandle = LoadLibrary(corePath.c_str());
+#else
 	m_coreHandle = dlopen(corePath.c_str(), RTLD_LAZY);
+#endif
 	if (!m_coreHandle) {
 		return false;
 	}
 
-	retro_init = reinterpret_cast<void (*)()>(dlsym(m_coreHandle, "retro_init"));
-	retro_deinit = reinterpret_cast<void (*)()>(dlsym(m_coreHandle, "retro_deinit"));
-	retro_api_version = reinterpret_cast<unsigned int (*)()>(dlsym(m_coreHandle, "retro_api_version"));
-	retro_get_system_info = reinterpret_cast<void (*)(struct retro_system_info*)>(dlsym(m_coreHandle, "retro_get_system_info"));
-	retro_get_system_av_info = reinterpret_cast<void (*)(struct retro_system_av_info*)>(dlsym(m_coreHandle, "retro_get_system_av_info"));
-	retro_reset = reinterpret_cast<void (*)()>(dlsym(m_coreHandle, "retro_reset"));
-	retro_run = reinterpret_cast<void (*)()>(dlsym(m_coreHandle, "retro_run"));
-	retro_serialize_size = reinterpret_cast<size_t (*)()>(dlsym(m_coreHandle, "retro_serialize_size"));
-	retro_serialize = reinterpret_cast<bool (*)(void*, size_t)>(dlsym(m_coreHandle, "retro_serialize"));
-	retro_unserialize = reinterpret_cast<bool (*)(const void*, size_t)>(dlsym(m_coreHandle, "retro_unserialize"));
-	retro_load_game = reinterpret_cast<bool (*)(const struct retro_game_info*)>(dlsym(m_coreHandle, "retro_load_game"));
-	retro_unload_game = reinterpret_cast<void (*)()>(dlsym(m_coreHandle, "retro_unload_game"));
-	retro_get_memory_data = reinterpret_cast<void* (*) (unsigned int)>(dlsym(m_coreHandle, "retro_get_memory_data"));
-	retro_get_memory_size = reinterpret_cast<size_t (*)(unsigned int)>(dlsym(m_coreHandle, "retro_get_memory_size"));
-	retro_cheat_reset = reinterpret_cast<void (*)()>(dlsym(m_coreHandle, "retro_cheat_reset"));
-	retro_cheat_set = reinterpret_cast<void (*)(unsigned int, bool, const char*)>(dlsym(m_coreHandle, "retro_cheat_set"));
-	retro_set_environment = reinterpret_cast<void (*)(retro_environment_t)>(dlsym(m_coreHandle, "retro_set_environment"));
-	retro_set_video_refresh = reinterpret_cast<void (*)(retro_video_refresh_t)>(dlsym(m_coreHandle, "retro_set_video_refresh"));
-	retro_set_audio_sample = reinterpret_cast<void (*)(retro_audio_sample_t)>(dlsym(m_coreHandle, "retro_set_audio_sample"));
-	retro_set_audio_sample_batch = reinterpret_cast<void (*)(retro_audio_sample_batch_t)>(dlsym(m_coreHandle, "retro_set_audio_sample_batch"));
-	retro_set_input_poll = reinterpret_cast<void (*)(retro_input_poll_t)>(dlsym(m_coreHandle, "retro_set_input_poll"));
-	retro_set_input_state = reinterpret_cast<void (*)(short (*)(unsigned int, unsigned int, unsigned int, unsigned int))>(dlsym(m_coreHandle, "retro_set_input_state"));
+	retro_init = reinterpret_cast<void (*)()>(GETSYM(m_coreHandle, "retro_init"));
+	retro_deinit = reinterpret_cast<void (*)()>(GETSYM(m_coreHandle, "retro_deinit"));
+	retro_api_version = reinterpret_cast<unsigned int (*)()>(GETSYM(m_coreHandle, "retro_api_version"));
+	retro_get_system_info = reinterpret_cast<void (*)(struct retro_system_info*)>(GETSYM(m_coreHandle, "retro_get_system_info"));
+	retro_get_system_av_info = reinterpret_cast<void (*)(struct retro_system_av_info*)>(GETSYM(m_coreHandle, "retro_get_system_av_info"));
+	retro_reset = reinterpret_cast<void (*)()>(GETSYM(m_coreHandle, "retro_reset"));
+	retro_run = reinterpret_cast<void (*)()>(GETSYM(m_coreHandle, "retro_run"));
+	retro_serialize_size = reinterpret_cast<size_t (*)()>(GETSYM(m_coreHandle, "retro_serialize_size"));
+	retro_serialize = reinterpret_cast<bool (*)(void*, size_t)>(GETSYM(m_coreHandle, "retro_serialize"));
+	retro_unserialize = reinterpret_cast<bool (*)(const void*, size_t)>(GETSYM(m_coreHandle, "retro_unserialize"));
+	retro_load_game = reinterpret_cast<bool (*)(const struct retro_game_info*)>(GETSYM(m_coreHandle, "retro_load_game"));
+	retro_unload_game = reinterpret_cast<void (*)()>(GETSYM(m_coreHandle, "retro_unload_game"));
+	retro_get_memory_data = reinterpret_cast<void* (*) (unsigned int)>(GETSYM(m_coreHandle, "retro_get_memory_data"));
+	retro_get_memory_size = reinterpret_cast<size_t (*)(unsigned int)>(GETSYM(m_coreHandle, "retro_get_memory_size"));
+	retro_cheat_reset = reinterpret_cast<void (*)()>(GETSYM(m_coreHandle, "retro_cheat_reset"));
+	retro_cheat_set = reinterpret_cast<void (*)(unsigned int, bool, const char*)>(GETSYM(m_coreHandle, "retro_cheat_set"));
+	retro_set_environment = reinterpret_cast<void (*)(retro_environment_t)>(GETSYM(m_coreHandle, "retro_set_environment"));
+	retro_set_video_refresh = reinterpret_cast<void (*)(retro_video_refresh_t)>(GETSYM(m_coreHandle, "retro_set_video_refresh"));
+	retro_set_audio_sample = reinterpret_cast<void (*)(retro_audio_sample_t)>(GETSYM(m_coreHandle, "retro_set_audio_sample"));
+	retro_set_audio_sample_batch = reinterpret_cast<void (*)(retro_audio_sample_batch_t)>(GETSYM(m_coreHandle, "retro_set_audio_sample_batch"));
+	retro_set_input_poll = reinterpret_cast<void (*)(retro_input_poll_t)>(GETSYM(m_coreHandle, "retro_set_input_poll"));
+	retro_set_input_state = reinterpret_cast<void (*)(short (*)(unsigned int, unsigned int, unsigned int, unsigned int))>(GETSYM(m_coreHandle, "retro_set_input_state"));
 
 	// The default according to the docs
 	m_imgDepth = 15;

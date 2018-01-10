@@ -7,6 +7,9 @@
 #include <vector>
 #include <cstring>
 #include <stdarg.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 namespace Retro {
 
@@ -80,7 +83,11 @@ private:
 	retro_system_av_info m_avInfo = {};
 	std::vector<retro_memory_descriptor> m_map;
 
+#ifdef _WIN32
+	HMODULE m_coreHandle = nullptr;
+#else
 	void* m_coreHandle = nullptr;
+#endif
 	bool m_romLoaded = false;
 	std::string m_core;
 	std::string m_romPath;

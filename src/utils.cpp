@@ -43,9 +43,15 @@ int64_t calculate(Operation op, int64_t reference, int64_t value) {
 string drillUp(const vector<string>& targets, const string& fail, const string& hint) {
 	char rpath[PATH_MAX];
 	string path(".");
+#ifndef _WIN32
 	if (!hint.empty() && realpath(hint.c_str(), rpath)) {
 		path = rpath;
 	}
+#else
+	if (!hint.empty()) {
+		path = hint;
+	}
+#endif
 	while (!path.empty() && path != "/") {
 		for (const auto& target : targets) {
 			struct stat statbuf;
@@ -55,9 +61,11 @@ string drillUp(const vector<string>& targets, const string& fail, const string& 
 			}
 		}
 		path = path.substr(0, path.find_last_of('/'));
+#ifndef _WIN32
 		if (!path.empty() && realpath(path.c_str(), rpath)) {
 			path = rpath;
 		}
+#endif
 	}
 	if (!fail.empty()) {
 		return fail + "/" + targets[0];

@@ -5,6 +5,10 @@
 #include <unordered_map>
 #include <vector>
 
+#ifdef VOID
+#undef VOID
+#endif
+
 namespace Retro {
 
 class Variant {

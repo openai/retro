@@ -7,7 +7,11 @@
 #include <string>
 
 #include <fcntl.h>
+#ifndef _WIN32
 #include <sys/mman.h>
+#else
+#include <windows.h>
+#endif
 #include <unistd.h>
 
 namespace Retro {
@@ -44,6 +48,9 @@ private:
 	int m_backingFd = -1;
 	bool m_managed = false;
 	size_t m_size = 0;
+#ifdef _WIN32
+	HANDLE m_mapView;
+#endif
 };
 
 template<typename T>
@@ -71,7 +78,12 @@ bool MemoryView<T>::open(const std::string& file, size_t bytes) {
 		m_size = lseek(m_backingFd, 0, SEEK_END);
 	}
 	m_managed = true;
+#ifdef _WIN32
+	m_mapView = CreateFileMapping(reinterpret_cast<HANDLE>(_get_osfhandle(m_backingFd)), 0, PAGE_READWRITE, 0, m_size, 0);
+	m_buffer = reinterpret_cast<T*>(static_cast<uint8_t*>(MapViewOfFile(m_mapView, FILE_MAP_WRITE, 0, 0, m_size)));
+#else
 	m_buffer = reinterpret_cast<T*>(static_cast<uint8_t*>(mmap(nullptr, m_size, PROT_READ | PROT_WRITE, MAP_SHARED, m_backingFd, 0)));
+#endif
 	if (m_buffer == reinterpret_cast<T*>(-1)) {
 		m_buffer = nullptr;
 		m_managed = false;
@@ -100,7 +112,11 @@ void MemoryView<T>::open(size_t bytes) {
 	m_backingFd = -1;
 	m_size = bytes;
 	m_managed = true;
+#ifdef _WIN32
+	m_buffer = static_cast<T*>(VirtualAlloc(nullptr, bytes, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
+#else
 	m_buffer = static_cast<T*>(mmap(nullptr, bytes, PROT_READ | PROT_WRITE, MAP_ANON | MAP_SHARED, -1, 0));
+#endif
 }
 
 template<typename T>
@@ -116,7 +132,16 @@ void MemoryView<T>::close() {
 	}
 	if (m_managed) {
 		if (m_buffer) {
+#ifdef _WIN32
+			if (m_backingFd >= 0) {
+				UnmapViewOfFile(m_buffer);
+				CloseHandle(m_mapView);
+			} else {
+				VirtualFree(m_buffer, 0, MEM_RELEASE);
+			}
+#else
 			munmap(m_buffer, m_size);
+#endif
 		}
 		if (m_backingFd >= 0) {
 			::close(m_backingFd);
@@ -151,7 +176,12 @@ void MemoryView<T>::clone(const void* buffer, size_t bytes) {
 	if (static_cast<void*>(m_buffer) != buffer || !m_managed) {
 		close();
 	}
+
+#ifdef _WIN32
+	T* newBuffer = static_cast<T*>(VirtualAlloc(nullptr, bytes, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE));
+#else
 	T* newBuffer = static_cast<T*>(mmap(nullptr, bytes, PROT_READ | PROT_WRITE, MAP_ANON | MAP_SHARED, -1, 0));
+#endif
 	memcpy(newBuffer, buffer, bytes);
 	m_buffer = newBuffer;
 	m_size = bytes;
