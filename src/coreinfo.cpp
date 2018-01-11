@@ -2,6 +2,7 @@
 
 #include "coreinfo.h"
 #include "data.h"
+#include "utils.h"
 
 using namespace std;
 using nlohmann::json;
@@ -21,7 +22,7 @@ string corePath(const string& hint) {
 	if (envDir) {
 		s_coreDirectory = envDir;
 	} else if (hint.size()) {
-		s_coreDirectory = hint;
+		s_coreDirectory =  drillUp({ "cores" }, ".", hint);
 	} else {
 		s_coreDirectory = ".";
 	}
