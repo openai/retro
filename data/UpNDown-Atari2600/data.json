@@ -1,0 +1,17 @@
+{
+  "info": {
+    "deathTimer": {
+      "address": 148,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 134,
+      "mask": 15,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 128,
+      "type": ">d3"
+    }
+  }
+}

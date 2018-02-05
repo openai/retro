@@ -1,0 +1,20 @@
+{
+  "info": {
+    "height": {
+      "address": 152,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 201,
+      "type": "|d1"
+    },
+    "scoreHi": {
+      "address": 230,
+      "type": "|d1"
+    },
+    "scoreLo": {
+      "address": 232,
+      "type": "|d1"
+    }
+  }
+}

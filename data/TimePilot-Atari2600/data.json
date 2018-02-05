@@ -1,0 +1,16 @@
+{
+  "info": {
+    "score1": {
+      "address": 141,
+      "type": "|d1"
+    },
+    "score2": {
+      "address": 143,
+      "type": "|d1"
+    },
+    "terminal": {
+      "address": 160,
+      "type": "|i1"
+    }
+  }
+}

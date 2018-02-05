@@ -1,0 +1,26 @@
+{
+    "Genesis": {
+        "lib": "genesis_plus_gx",
+        "ext": ["md"],
+        "rambase": 16711680,
+        "keybinds": ["X", "Z", "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "C", "A", "S", "D"],
+        "buttons": ["B", "A", "MODE", "START", "UP", "DOWN", "LEFT", "RIGHT", "C", "Y", "X", "Z"],
+        "types": ["|u1", ">u2", ">u4", "|i1", ">i2", ">i4", "|d1", ">d2", ">d4", "<d4", ">d6", ">d8", ">n4", ">n6", ">n8"],
+        "overlay": ["=", ">", 2],
+        "actions": [
+            [[], ["UP"], ["DOWN"], ["LEFT"], ["RIGHT"], ["UP", "LEFT"], ["UP", "RIGHT"], ["DOWN", "LEFT"], ["DOWN", "RIGHT"]],
+            [[], ["A"], ["B"], ["C"], ["X"], ["Y"], ["Z"], ["A", "B"], ["B", "C"], ["A", "X"], ["B", "Y"], ["C", "Z"], ["X", "Y"], ["Y", "Z"]]
+        ]
+    },
+    "Atari2600": {
+        "lib": "stella",
+        "ext": ["a26"],
+        "rambase": 128,
+        "keybinds": ["Z", null, "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT"],
+        "buttons": ["BUTTON", null, "SELECT", "RESET", "UP", "DOWN", "LEFT", "RIGHT"],
+        "actions": [
+            [[], ["UP"], ["DOWN"], ["LEFT"], ["RIGHT"], ["UP", "LEFT"], ["UP", "RIGHT"], ["DOWN", "LEFT"], ["DOWN", "RIGHT"]],
+            [[], ["BUTTON"]]
+        ]
+    }
+}

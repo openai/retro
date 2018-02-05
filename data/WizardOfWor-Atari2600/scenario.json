@@ -1,0 +1,25 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "byte": {
+        "op": "equal",
+        "reference": 248
+      },
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "scoreHi": {
+        "reward": 10000.0
+      },
+      "scoreLo": {
+        "penalty": 100.0,
+        "reward": 100.0
+      }
+    }
+  }
+}

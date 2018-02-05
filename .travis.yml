@@ -1,0 +1,41 @@
+before_script:
+  - git fetch --unshallow || true
+  - mkdir -p $HOME/roms
+cache:
+  - ccache
+  - directories:
+    - $HOME/roms/
+language: cpp # Needed for ccache
+matrix:
+  include:
+    - os: linux
+      services:
+        - docker
+      before_install:
+        - docker login us.gcr.io -u="_json_key" -p="$GOOGLE_APPLICATION_CREDENTIALS_DATA"
+        - ( while true; do echo '.'; sleep 60; done ) & docker pull us.gcr.io/universe-162007/retro # Keep travis alive while pulling
+      script:
+        - >
+          docker run
+          --env TRAVIS_OS_NAME="$TRAVIS_OS_NAME"
+          --env TRAVIS_TAG="$TRAVIS_TAG"
+          --env TRAVIS_BRANCH="$TRAVIS_BRANCH"
+          --env TRAVIS_PULL_REQUEST="$TRAVIS_PULL_REQUEST"
+          --env GOOGLE_APPLICATION_CREDENTIALS_DATA="$GOOGLE_APPLICATION_CREDENTIALS_DATA"
+          --volume /home/travis/build/openai/retro:/root/code/retro
+          --volume /home/travis/roms:/root/roms
+          --volume /home/travis/.ccache:/root/.ccache
+          --workdir /root/code/retro
+          us.gcr.io/universe-162007/retro
+          bash -lc 'python travis.py'
+    - os: osx
+      osx_image: xcode8.3
+      before_install:
+        - curl -o miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+        - bash miniconda.sh -b
+        - export PATH="$HOME/miniconda3/bin:$PATH"
+        - hash -r
+        - conda install --yes python=3.6.1
+        - export PATH=/usr/local/opt/ccache/libexec:$PATH
+      script:
+        - python travis.py

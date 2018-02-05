@@ -1,0 +1,16 @@
+{
+  "info": {
+    "minutes": {
+      "address": 149,
+      "type": "|d1"
+    },
+    "score": {
+      "address": 144,
+      "type": ">d3"
+    },
+    "seconds": {
+      "address": 150,
+      "type": "|d1"
+    }
+  }
+}

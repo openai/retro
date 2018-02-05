@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "terminal": {
+        "op": "greater-or-equal",
+        "reference": 64
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

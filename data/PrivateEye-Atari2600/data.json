@@ -1,0 +1,12 @@
+{
+  "info": {
+    "score": {
+      "address": 200,
+      "type": ">d3"
+    },
+    "timer": {
+      "address": 194,
+      "type": "|u1"
+    }
+  }
+}

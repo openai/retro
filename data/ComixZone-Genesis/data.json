@@ -1,0 +1,20 @@
+{
+  "info": {
+    "finalscore": {
+      "address": 16760564,
+      "type": ">u2"
+    },
+    "finishes": {
+      "address": 16760578,
+      "type": ">u2"
+    },
+    "health": {
+      "address": 16760580,
+      "type": ">i2"
+    },
+    "progress": {
+      "address": 16760568,
+      "type": ">u2"
+    }
+  }
+}

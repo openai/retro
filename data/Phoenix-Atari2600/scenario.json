@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "state": {
+        "op": "equal",
+        "reference": 128
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

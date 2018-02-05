@@ -1,0 +1,20 @@
+{
+  "info": {
+    "minutes": {
+      "address": 135,
+      "type": "|d1"
+    },
+    "opponent": {
+      "address": 139,
+      "type": "|d1"
+    },
+    "score": {
+      "address": 138,
+      "type": "|d1"
+    },
+    "seconds": {
+      "address": 134,
+      "type": "|d1"
+    }
+  }
+}

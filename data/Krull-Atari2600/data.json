@@ -1,0 +1,20 @@
+{
+  "info": {
+    "byte1": {
+      "address": 162,
+      "type": "|u1"
+    },
+    "byte2": {
+      "address": 128,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 159,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 156,
+      "type": ">d3"
+    }
+  }
+}

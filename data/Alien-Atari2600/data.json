@@ -1,0 +1,34 @@
+{
+  "info": {
+    "lives": {
+      "address": 192,
+      "type": "|u1",
+      "mask": 15
+    },
+    "score1": {
+      "address": 139,
+      "mask": 120,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 137,
+      "mask": 120,
+      "type": "|u1"
+    },
+    "score3": {
+      "address": 135,
+      "mask": 120,
+      "type": "|u1"
+    },
+    "score4": {
+      "address": 133,
+      "mask": 120,
+      "type": "|u1"
+    },
+    "score5": {
+      "address": 131,
+      "mask": 120,
+      "type": "|u1"
+    }
+  }
+}

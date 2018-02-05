@@ -1,0 +1,22 @@
+{
+  "done": {
+    "variables": {
+      "terminal": {
+        "op": "equal",
+        "reference": -1
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "deadSquads": {
+        "penalty": 12.0,
+        "reward": 12.0
+      },
+      "deadTanks": {
+        "penalty": 1.0,
+        "reward": 1.0
+      }
+    }
+  }
+}

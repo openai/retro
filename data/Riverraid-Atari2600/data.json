@@ -1,0 +1,32 @@
+{
+  "info": {
+    "lives": {
+      "address": 192,
+      "type": "|u1"
+    },
+    "score0": {
+      "address": 215,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 213,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 211,
+      "type": "|u1"
+    },
+    "score3": {
+      "address": 209,
+      "type": "|u1"
+    },
+    "score4": {
+      "address": 207,
+      "type": "|u1"
+    },
+    "score5": {
+      "address": 205,
+      "type": "|u1"
+    }
+  }
+}

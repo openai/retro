@@ -1,0 +1,16 @@
+{
+  "info": {
+    "deathCounter": {
+      "address": 199,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 211,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 222,
+      "type": ">d3"
+    }
+  }
+}

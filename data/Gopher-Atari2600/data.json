@@ -1,0 +1,12 @@
+{
+  "info": {
+    "carrot": {
+      "address": 180,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 176,
+      "type": ">d3"
+    }
+  }
+}

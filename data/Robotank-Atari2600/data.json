@@ -1,0 +1,16 @@
+{
+  "info": {
+    "deadSquads": {
+      "address": 182,
+      "type": "|u1"
+    },
+    "deadTanks": {
+      "address": 181,
+      "type": "|u1"
+    },
+    "terminal": {
+      "address": 180,
+      "type": "|i1"
+    }
+  }
+}

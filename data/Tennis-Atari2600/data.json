@@ -1,0 +1,20 @@
+{
+  "info": {
+    "matches": {
+      "address": 199,
+      "type": "|u1"
+    },
+    "opponentMatches": {
+      "address": 200,
+      "type": "|u1"
+    },
+    "opponentScore": {
+      "address": 198,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 197,
+      "type": "|u1"
+    }
+  }
+}

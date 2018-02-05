@@ -1,0 +1,15 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:x_and_level_reward"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

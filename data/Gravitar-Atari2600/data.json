@@ -1,0 +1,12 @@
+{
+  "info": {
+    "score": {
+      "address": 135,
+      "type": ">d3"
+    },
+    "screen": {
+      "address": 129,
+      "type": "|u1"
+    }
+  }
+}

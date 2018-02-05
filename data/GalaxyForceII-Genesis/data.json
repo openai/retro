@@ -1,0 +1,12 @@
+{
+  "info": {
+    "energy": {
+      "address": 16775220,
+      "type": ">u2"
+    },
+    "score": {
+      "address": 16775226,
+      "type": ">u4"
+    }
+  }
+}

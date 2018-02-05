@@ -1,0 +1,16 @@
+{
+  "info": {
+    "flag": {
+      "address": 254,
+      "type": "|u1"
+    },
+    "opponent": {
+      "address": 247,
+      "type": "|d1"
+    },
+    "score": {
+      "address": 246,
+      "type": "|d1"
+    }
+  }
+}

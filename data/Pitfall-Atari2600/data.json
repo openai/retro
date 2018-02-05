@@ -1,0 +1,16 @@
+{
+  "info": {
+    "lives": {
+      "address": 128,
+      "type": "|u1"
+    },
+    "logoTimer": {
+      "address": 158,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 213,
+      "type": ">d3"
+    }
+  }
+}

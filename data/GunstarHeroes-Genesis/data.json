@@ -1,0 +1,20 @@
+{
+  "info": {
+    "enemyHealth": {
+      "address": 16763300,
+      "type": ">u2"
+    },
+    "health": {
+      "address": 16753700,
+      "type": ">i2"
+    },
+    "score": {
+      "address": 16753764,
+      "type": ">d5"
+    },
+    "scroll": {
+      "address": 16754952,
+      "type": ">u2"
+    }
+  }
+}

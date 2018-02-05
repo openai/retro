@@ -1,0 +1,24 @@
+{
+  "scripts": [
+    "script.lua"
+  ],
+  "done": {
+    "script": "lua:done"
+  },
+  "reward": {
+    "variables": {
+      "matches": {
+        "reward": 1.0
+      },
+      "opponentMatches": {
+        "reward": -1.0
+      },
+      "opponentScore": {
+        "reward": -1.0
+      },
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

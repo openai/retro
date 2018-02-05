@@ -1,0 +1,24 @@
+{
+  "info": {
+    "opponent_score": {
+      "address": 16716941,
+      "type": "|u1"
+    },
+    "opponent_wins": {
+      "address": 16712779,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16715869,
+      "type": "|u1"
+    },
+    "time": {
+      "address": 16712774,
+      "type": ">i2"
+    },
+    "wins": {
+      "address": 16712778,
+      "type": "|u1"
+    }
+  }
+}

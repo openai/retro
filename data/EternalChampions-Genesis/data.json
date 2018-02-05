@@ -1,0 +1,24 @@
+{
+  "info": {
+    "current_match": {
+      "address": 16749395,
+      "type": "|u1"
+    },
+    "health": {
+      "address": 16755695,
+      "type": "|u1"
+    },
+    "matches_won": {
+      "address": 16749392,
+      "type": ">u2"
+    },
+    "opponent_health": {
+      "address": 16755387,
+      "type": "|u1"
+    },
+    "opponent_matches_won": {
+      "address": 16749391,
+      "type": "|u1"
+    }
+  }
+}

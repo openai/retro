@@ -1,0 +1,20 @@
+{
+  "done": {
+    "variables": {
+      "level_end_bonus": {
+        "measurement": "delta",
+        "op": "negative"
+      },
+      "lives": {
+        "measurement": "delta",
+        "op": "negative"
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:x_and_level_reward"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

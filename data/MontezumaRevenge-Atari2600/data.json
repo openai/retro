@@ -1,0 +1,16 @@
+{
+  "info": {
+    "flag": {
+      "address": 254,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 186,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 147,
+      "type": ">d3"
+    }
+  }
+}

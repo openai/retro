@@ -1,0 +1,12 @@
+{
+  "info": {
+    "score1": {
+      "address": 141,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 142,
+      "type": "|u1"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "done": {
+    "variables": {
+      "matches_won": {
+        "op": "equal",
+        "reference": 2
+      },
+      "opponent_matches_won": {
+        "op": "equal",
+        "reference": 2
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "opponent_health": {
+        "penalty": -1.0
+      }
+    }
+  }
+}

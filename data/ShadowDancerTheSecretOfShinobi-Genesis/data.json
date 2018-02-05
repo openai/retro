@@ -1,0 +1,32 @@
+{
+  "info": {
+    "gameover": {
+      "address": 16711896,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16716766,
+      "type": "|u1"
+    },
+    "master_level": {
+      "address": 16714953,
+      "type": "|u1"
+    },
+    "prisoners": {
+      "address": 16716767,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16716768,
+      "type": ">d4"
+    },
+    "scroll": {
+      "address": 16716640,
+      "type": ">d2"
+    },
+    "sub_level": {
+      "address": 16714955,
+      "type": "|u1"
+    }
+  }
+}

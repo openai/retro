@@ -1,0 +1,29 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "lives": {
+        "op": "zero"
+      }
+    },
+    "nodes": {
+      "vel": {
+        "variables": {
+          "xVelDeath": {
+            "op": "nonzero"
+          },
+          "yVel": {
+            "op": "nonzero"
+          }
+        }
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 100.0
+      }
+    }
+  }
+}

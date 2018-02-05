@@ -1,0 +1,16 @@
+{
+  "info": {
+    "round": {
+      "address": 164,
+      "type": "|d1"
+    },
+    "scoreHi": {
+      "address": 166,
+      "type": "|d1"
+    },
+    "scoreLo": {
+      "address": 161,
+      "type": "|d1"
+    }
+  }
+}

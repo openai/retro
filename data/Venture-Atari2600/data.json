@@ -1,0 +1,20 @@
+{
+  "info": {
+    "audio": {
+      "address": 205,
+      "type": "|i1"
+    },
+    "death": {
+      "address": 191,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 198,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 199,
+      "type": ">d2"
+    }
+  }
+}

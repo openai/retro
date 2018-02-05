@@ -1,0 +1,32 @@
+{
+  "info": {
+    "characters_left": {
+      "address": 16754781,
+      "type": "|u1"
+    },
+    "characters_saved": {
+      "address": 16754789,
+      "type": "|u1"
+    },
+    "enemies_left": {
+      "address": 16753159,
+      "type": "|u1"
+    },
+    "gameover": {
+      "address": 16769318,
+      "type": "|u1"
+    },
+    "gameover_timer": {
+      "address": 16753338,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 16754770,
+      "type": ">u4"
+    },
+    "time": {
+      "address": 16753156,
+      "type": "|u1"
+    }
+  }
+}

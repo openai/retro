@@ -1,0 +1,22 @@
+{
+  "info": {
+    "byte": {
+      "address": 244,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 141,
+      "mask": 15,
+      "type": "|u1"
+    },
+    "scoreHi": {
+      "address": 136,
+      "mask": 15,
+      "type": "|d1"
+    },
+    "scoreLo": {
+      "address": 134,
+      "type": "|d1"
+    }
+  }
+}

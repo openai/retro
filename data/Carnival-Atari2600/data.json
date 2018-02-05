@@ -1,0 +1,12 @@
+{
+  "info": {
+    "ammo": {
+      "address": 131,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 173,
+      "type": ">d2"
+    }
+  }
+}

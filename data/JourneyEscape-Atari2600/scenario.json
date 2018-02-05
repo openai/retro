@@ -1,0 +1,20 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "minutes": {
+        "op": "zero"
+      },
+      "seconds": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "penalty": 1.0
+      }
+    }
+  }
+}

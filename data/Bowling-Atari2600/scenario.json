@@ -1,0 +1,21 @@
+{
+  "done": {
+    "variables": {
+      "round": {
+        "op": "greater-than",
+        "reference": 10
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "scoreHi": {
+        "reward": 100.0
+      },
+      "scoreLo": {
+        "penalty": 1.0,
+        "reward": 1.0
+      }
+    }
+  }
+}

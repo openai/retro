@@ -1,0 +1,17 @@
+{
+  "info": {
+    "lives": {
+      "address": 134,
+      "type": "|u1",
+      "mask": 15
+    },
+    "score": {
+      "address": 220,
+      "type": "<d3"
+    },
+    "screen": {
+      "address": 140,
+      "type": "|u1"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "audio": {
+        "op": "equal",
+        "reference": -1
+      },
+      "death": {
+        "op": "negative"
+      },
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 100.0
+      }
+    }
+  }
+}

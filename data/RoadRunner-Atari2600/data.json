@@ -1,0 +1,21 @@
+{
+  "info": {
+    "lives": {
+      "address": 196,
+      "type": "|u1",
+      "mask": 7
+    },
+    "score": {
+      "address": 201,
+      "type": "<n4"
+    },
+    "xVelDeath": {
+      "address": 189,
+      "type": "|u1"
+    },
+    "yVel": {
+      "address": 185,
+      "type": "|u1"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "info": {
+    "health": {
+      "address": 16764427,
+      "type": "|u1"
+    },
+    "scroll": {
+      "address": 16764700,
+      "type": ">u2"
+    }
+  }
+}

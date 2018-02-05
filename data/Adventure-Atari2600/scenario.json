@@ -1,0 +1,30 @@
+{
+  "done": {
+    "variables": {
+      "chaliceStatus": {
+        "op": "equal",
+        "reference": 18
+      },
+      "playerEaten": {
+        "op": "equal",
+        "reference": 2
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "chaliceStatus": {
+        "measurement": "absolute",
+        "op": "equal",
+        "reference": 18,
+        "reward": 1.0
+      },
+      "playerEaten": {
+        "measurement": "absolute",
+        "op": "equal",
+        "penalty": -1.0,
+        "reference": 2
+      }
+    }
+  }
+}

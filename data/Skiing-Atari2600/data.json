@@ -1,0 +1,16 @@
+{
+  "info": {
+    "centiseconds": {
+      "address": 233,
+      "type": ">d2"
+    },
+    "end": {
+      "address": 145,
+      "type": "|i1"
+    },
+    "minutes": {
+      "address": 232,
+      "type": "|u1"
+    }
+  }
+}

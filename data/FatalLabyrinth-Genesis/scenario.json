@@ -1,0 +1,29 @@
+{
+  "done": {
+    "variables": {
+      "health": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "armor_power": {
+        "reward": 1.0
+      },
+      "experience_level": {
+        "penalty": 10.0,
+        "reward": 10.0
+      },
+      "floor_level": {
+        "reward": 10.0
+      },
+      "food": {
+        "reward": 1.0
+      },
+      "power": {
+        "reward": 1.0
+      }
+    }
+  }
+}

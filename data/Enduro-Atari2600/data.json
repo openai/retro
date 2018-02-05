@@ -1,0 +1,16 @@
+{
+  "info": {
+    "carsRemaining": {
+      "address": 171,
+      "type": "<d2"
+    },
+    "level": {
+      "address": 173,
+      "type": "|u1"
+    },
+    "terminal": {
+      "address": 175,
+      "type": "|i1"
+    }
+  }
+}

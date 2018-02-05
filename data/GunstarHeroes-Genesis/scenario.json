@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "health": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "scroll": {
+        "reward": 1.0
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "info": {
+    "armor_power": {
+      "address": 16749589,
+      "type": ">u2"
+    },
+    "experience_level": {
+      "address": 16749588,
+      "type": "|u1"
+    },
+    "floor_level": {
+      "address": 16749587,
+      "type": "|u1"
+    },
+    "food": {
+      "address": 16749596,
+      "type": "|d1"
+    },
+    "health": {
+      "address": 16749584,
+      "type": ">d2"
+    },
+    "health_max": {
+      "address": 16749580,
+      "type": ">d4"
+    },
+    "power": {
+      "address": 16749592,
+      "type": "|u1"
+    }
+  }
+}

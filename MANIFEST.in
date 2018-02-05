@@ -1,0 +1,5 @@
+recursive-include third-party **
+recursive-include cores **
+global-exclude .git* .*.yml *.o *.a *.dylib *.so *.dll
+exclude travis.py retro/VERSION.txt
+recursive-exclude retro/cores *-version

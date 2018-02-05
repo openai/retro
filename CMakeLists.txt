@@ -1,0 +1,161 @@
+cmake_minimum_required(VERSION 3.1)
+if(POLICY CMP0048)
+    cmake_policy(SET CMP0048 NEW)
+endif()
+
+find_package(Git QUIET)
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/third-party/pybind11/include)
+    message(STATUS "Submodules seem to be missing. Attempting to clone now.")
+    execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init RESULT_VARIABLE SUCCESS)
+    if(SUCCESS EQUAL 0)
+        message(STATUS "Submodules cloned!")
+    else()
+        message(FATAL_ERROR "Failed to check out submodules. Aborting.")
+    endif()
+    unset(SUCCESS)
+endif()
+
+find_package(PythonInterp REQUIRED)
+
+file(READ "${CMAKE_SOURCE_DIR}/VERSION" PROJECT_VERSION)
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "$CMAKE_SOURCE_DIR}/VERSION")
+
+project(Retro VERSION ${PROJECT_VERSION})
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-sign-compare -Wno-missing-field-initializers -mssse3")
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+option(BUILD_TESTS "Should tests be built" ON)
+
+find_package(PythonLibs REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(PkgConfig)
+
+pkg_search_module(LIBZIP QUIET libzip)
+
+if(APPLE)
+    find_package(Lua 5.1 EXACT REQUIRED)
+    set(LUA_INCLUDE_DIRS "${LUA_INCLUDE_DIR}")
+else()
+    set(LUA_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/third-party/luajit/src")
+    set(LUA_LIBRARY "${LUA_INCLUDE_DIRS}/libluajit.a")
+    add_custom_command(OUTPUT "${LUA_LIBRARY}"
+        COMMAND $(MAKE) CFLAGS=-fPIC libluajit.a
+        WORKING_DIRECTORY "${LUA_INCLUDE_DIRS}")
+endif()
+
+set(PYEXT_SUFFIX ".so" CACHE STRING "Suffix for Python extension modules")
+set(PYLIB_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "Build directory that contains retro module")
+file(MAKE_DIRECTORY "${PYLIB_DIRECTORY}/retro/cores")
+
+set(CORES)
+set(CORE_TARGETS)
+
+function(add_core PLATFORM CORE_NAME)
+    if(GIT_EXECUTABLE AND EXISTS ${CMAKE_SOURCE_DIR}/.git AND IS_DIRECTORY ${CMAKE_SOURCE_DIR}/.git)
+        add_custom_target(${PLATFORM}-submodule
+            COMMAND ${GIT_EXECUTABLE} submodule update --init cores/${PLATFORM}
+            DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/.git/index")
+    endif()
+    set(TARGET_NAME ${CORE_NAME}_libretro${CMAKE_SHARED_LIBRARY_SUFFIX})
+    get_filename_component(TARGET_PATH "${PYLIB_DIRECTORY}/retro/cores/${TARGET_NAME}" ABSOLUTE)
+    list(APPEND CORES "${TARGET_PATH}")
+    set(CORES "${CORES}" PARENT_SCOPE)
+    set(SUBDIR)
+    if(EXISTS "cores/${PLATFORM}/Makefile.libretro")
+        set(MAKEFILE Makefile.libretro)
+    elseif(EXISTS "cores/${PLATFORM}/Makefile")
+        set(MAKEFILE Makefile)
+    elseif(EXISTS "cores/${PLATFORM}/libretro/Makefile")
+        set(MAKEFILE Makefile)
+        set(SUBDIR libretro)
+    else()
+        message(FATAL_ERROR "Could not find Makefile. Did you clone submodules?")
+    endif()
+
+    if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
+        add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version"
+            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/.git/modules/${PLATFORM}/HEAD" "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version"
+            DEPENDS ${PLATFORM}-submodule)
+    else()
+        add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version"
+            COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
+    endif()
+    add_custom_command(OUTPUT "${TARGET_PATH}"
+        COMMAND CFLAGS=-w CXXFLAGS=-w LDFLAGS=-w $(MAKE) -f ${MAKEFILE}
+        COMMAND ${CMAKE_COMMAND} -E copy "${CORE_NAME}_libretro*" "${TARGET_PATH}"
+        WORKING_DIRECTORY "cores/${PLATFORM}/${SUBDIR}"
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
+
+    add_custom_target(${PLATFORM} ALL DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version" "${TARGET_PATH}")
+    list(APPEND CORE_TARGETS "${PLATFORM}")
+    set(CORE_TARGETS "${CORE_TARGETS}" PARENT_SCOPE)
+
+    add_custom_target(clean-${PLATFORM}
+        COMMAND $(MAKE) -f ${MAKEFILE} clean
+        COMMAND ${CMAKE_COMMAND} -E remove "${TARGET_PATH}"
+        WORKING_DIRECTORY "cores/${PLATFORM}/${SUBDIR}")
+endfunction()
+
+add_core(genesis genesis_plus_gx)
+add_core(atari2600 stella)
+
+set(CLEAN_CORES)
+foreach(CORE IN LISTS CORE_TARGETS)
+    list(APPEND CLEAN_CORES "clean-${CORE}")
+endforeach()
+
+add_custom_target(clean-cores DEPENDS ${CLEAN_CORES})
+add_custom_target(cores DEPENDS ${CORE_TARGETS})
+unset(CLEAN_CORES)
+
+if(LIBZIP_FOUND)
+    add_definitions(-DUSE_LIBZIP)
+    set(ZIP_SRC src/zipfile.cpp)
+    include_directories(${LIBZIP_INCLUDE_DIRS})
+    link_directories(${LIBZIP_LIBRARY_DIRS})
+else()
+    message(WARNING "Could not find libzip, disabling zip file/bk2 support")
+endif()
+
+include_directories(${LUA_INCLUDE_DIRS})
+
+add_library(retro-base STATIC
+    src/coreinfo.cpp
+    src/data.cpp
+    src/emulator.cpp
+    src/imageops.cpp
+    src/memory.cpp
+    src/movie.cpp
+    src/movie-bk2.cpp
+    src/script.cpp
+    src/script-lua.cpp
+    src/utils.cpp
+    ${ZIP_SRC}
+    ${LUA_LIBRARY})
+target_link_libraries(retro-base ${ZLIB_LIBRARY} ${LIBZIP_LIBRARIES} ${LUA_LIBRARY})
+add_dependencies(retro-base ${CORE_TARGETS})
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_link_libraries(retro-base dl)
+endif()
+
+add_library(retro SHARED src/retro.cpp)
+set_target_properties(retro PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY "${PYLIB_DIRECTORY}/retro"
+    OUTPUT_NAME _retro
+    PREFIX ""
+    SUFFIX ${PYEXT_SUFFIX})
+include_directories(src retro third-party/pybind11/include third-party third-party/gtest/googletest/include ${PYTHON_INCLUDE_DIRS})
+if(APPLE)
+    set(PYBIND_LIBS "-undefined dynamic_lookup")
+endif()
+target_link_libraries(retro retro-base ${PYBIND_LIBS})
+
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(third-party/gtest/googlemock)
+    add_subdirectory(tests)
+endif()

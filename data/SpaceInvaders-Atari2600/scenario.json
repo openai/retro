@@ -1,0 +1,24 @@
+{
+  "done": {
+    "variables": {
+      "height": {
+        "op": "negative"
+      },
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "scoreHi": {
+        "penalty": -1.01000010967254638671875,
+        "reward": 100.0
+      },
+      "scoreLo": {
+        "penalty": 1.0,
+        "reward": 1.0
+      }
+    }
+  }
+}

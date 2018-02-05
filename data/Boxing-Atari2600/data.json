@@ -1,0 +1,21 @@
+{
+  "info": {
+    "minutes": {
+      "address": 144,
+      "mask": 240,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 146,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 147,
+      "type": "|u1"
+    },
+    "seconds": {
+      "address": 145,
+      "type": "|d1"
+    }
+  }
+}

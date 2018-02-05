@@ -1,0 +1,31 @@
+{
+  "done": {
+    "condition": "all",
+    "nodes": {
+      "timer": {
+        "variables": {
+          "gameovertimer": {
+            "op": "equal",
+            "reference": 9
+          },
+          "score": {
+            "op": "zero"
+          }
+        }
+      }
+    },
+    "variables": {
+      "gameovertimer": {
+        "op": "equal",
+        "reference": 25
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}
