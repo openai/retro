@@ -29,7 +29,7 @@ matrix:
           us.gcr.io/universe-162007/retro
           bash -lc 'python travis.py'
     - os: osx
-      osx_image: xcode8.3
+      osx_image: xcode8
       before_install:
         - curl -o miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
         - bash miniconda.sh -b
