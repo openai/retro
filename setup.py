@@ -46,7 +46,7 @@ class CMakeBuild(build_ext):
 
 
 setup(
-    name='retro',
+    name='gym-retro',
     version=open(VERSION_PATH, 'r').read(),
     license='MIT',
     install_requires=['gym>=0.9.4'],
