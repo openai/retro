@@ -81,9 +81,10 @@ def main():
         call(['pip', 'install', '-e', '.'])
         call(['make', '-j3'])
 
-    with Fold('script.package', 'Packaging binaries'):
-        call(['python', 'setup.py', '-q', 'bdist_wheel'])
-        upload_to_gcs(['dist/*.whl'], 'builds')
+    if os.environ['TRAVIS_BRANCH'] == 'master' or os.environ['TRAVIS_TAG']:
+        with Fold('script.package', 'Packaging binaries'):
+            call(['python', 'setup.py', '-q', 'bdist_wheel'])
+            upload_to_gcs(['dist/*.whl'], 'builds')
 
     with Fold('script.test', 'Running tests'):
         call(['ctest', '--verbose'])
