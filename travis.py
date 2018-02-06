@@ -69,9 +69,10 @@ def main():
             # update brew first, which should install the correct version of ruby
             # and avoid the error "Homebrew must be run under Ruby 2.3"
             call(['brew', 'update'])
-            call(['brew', 'install', 'libzip', 'lua@5.1'])
-        elif os_name != 'linux':
-            raise Exception('unrecognized os name')
+            call(['brew', 'install', 'libzip', 'lua@5.1', 'ccache'])
+        elif os_name == 'linux':
+            cmake_options = []
+            os.environ['PATH'] = '/usr/lib/ccache:' + os.environ['PATH']
 
     with Fold('script.build', 'Building'):
         call(['cmake', '.', '-DBUILD_TESTS=ON'])
