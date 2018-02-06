@@ -15,7 +15,4 @@ def pytest_collection_modifyitems(items):
                 try:
                     retro.get_romfile_path(key.replace('_', '-'))
                 except FileNotFoundError:
-                    if item.originalname == 'test_rom':
-                        item.add_marker(pytest.mark.xfail)
-                    else:
-                        item.add_marker(pytest.mark.skip)
+                    item.add_marker(pytest.mark.skip)
