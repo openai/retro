@@ -57,7 +57,6 @@ def test():
 
 
 def plot_history():
-    call(['pip', 'install', '-U', 'matplotlib', 'pygit2==0.24.2'])
     import scripts.plot_history as plot
     plot.main()
 
@@ -77,7 +76,6 @@ def main():
     with Fold('script.build', 'Building'):
         call(['cmake', '.', '-DBUILD_TESTS=ON'])
         call(['python', 'setup.py', '-q', 'build_ext', '-i', '-j3'])
-        call(['pip', 'install', 'wheel', 'google-cloud', 'pytest', 'pytest-xdist'])
         call(['pip', 'install', '-e', '.'])
         call(['make', '-j3'])
 

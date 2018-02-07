@@ -1,6 +1,7 @@
 before_script:
-  - git fetch --unshallow || true
   - mkdir -p $HOME/roms
+git:
+  depth: false
 cache:
   - ccache
   - directories:
@@ -12,8 +13,7 @@ matrix:
       services:
         - docker
       before_install:
-        - docker login us.gcr.io -u="_json_key" -p="$GOOGLE_APPLICATION_CREDENTIALS_DATA"
-        - ( while true; do echo '.'; sleep 60; done ) & docker pull us.gcr.io/universe-162007/retro # Keep travis alive while pulling
+        - docker pull quay.io/openai/travis-build
       script:
         - >
           docker run
@@ -26,8 +26,8 @@ matrix:
           --volume /home/travis/roms:/root/roms
           --volume /home/travis/.ccache:/root/.ccache
           --workdir /root/code/retro
-          us.gcr.io/universe-162007/retro
-          bash -lc 'python travis.py'
+          quay.io/openai/travis-build
+          python travis.py
     - os: osx
       osx_image: xcode8
       before_install:
@@ -37,5 +37,6 @@ matrix:
         - hash -r
         - conda install --yes python=3.6.1
         - export PATH=/usr/local/opt/ccache/libexec:$PATH
+        - pip install wheel google-cloud pytest pytest-xdist
       script:
         - python travis.py
