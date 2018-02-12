@@ -79,10 +79,16 @@ def main():
         call(['pip', 'install', '-e', '.'])
         call(['make', '-j3'])
 
-    if os.environ['TRAVIS_BRANCH'] == 'master' or os.environ['TRAVIS_TAG']:
+    if os.environ['TRAVIS_PULL_REQUEST'] == 'false':
         with Fold('script.package', 'Packaging binaries'):
             call(['python', 'setup.py', '-q', 'bdist_wheel'])
-            upload_to_gcs(['dist/*.whl'], 'builds')
+
+            if os.environ['TRAVIS_BRANCH'] == 'master':
+                upload_dir = 'builds'
+            else:
+                upload_dir = 'builds/%s' % os.environ['TRAVIS_BRANCH']
+
+            upload_to_gcs(['dist/*.whl'], upload_dir)
 
     with Fold('script.test', 'Running tests'):
         call(['ctest', '--verbose'])
