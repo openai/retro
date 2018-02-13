@@ -22,6 +22,7 @@ using namespace Retro;
 struct PyGameData;
 struct PyRetroEmulator {
 	Retro::Emulator m_re;
+	int m_cheats = 0;
 	PyRetroEmulator(const string& rom_path) {
 		if (Emulator::isLoaded()) {
 			throw std::runtime_error("Cannot create multiple emulator instances per process");
@@ -89,6 +90,16 @@ struct PyRetroEmulator {
 		for (int key = 0; key < mask.size(); ++key) {
 			m_re.setKey(player, key, mask.data()[key]);
 		}
+	}
+
+	void addCheat(const string& code) {
+		m_re.setCheat(m_cheats, true, code.c_str());
+		++m_cheats;
+	}
+
+	void clearCheats() {
+		m_re.clearCheats();
+		m_cheats = 0;
 	}
 
 	void configureData(PyGameData& data);
@@ -309,6 +320,8 @@ PYBIND11_MODULE(_retro, m) {
 		.def("get_audio_rate", &PyRetroEmulator::getAudioRate)
 		.def("get_resolution", &PyRetroEmulator::getResolution)
 		.def("configure_data", &PyRetroEmulator::configureData)
+		.def("add_cheat", &PyRetroEmulator::addCheat)
+		.def("clear_cheats", &PyRetroEmulator::clearCheats)
 		.def_static("load_core_info", &PyRetroEmulator::loadCoreInfo);
 
 	py::class_<PyMemoryView>(m, "Memory")
