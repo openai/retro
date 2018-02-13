@@ -24,6 +24,8 @@ def scan_missing():
             missing.append((game, 'data.json'))
         if not os.path.isfile(os.path.join(gamedir, 'scenario.json')):
             missing.append((game, 'scenario.json'))
+        if not os.path.isfile(os.path.join(gamedir, 'metadata.json')):
+            missing.append((game, 'metadata.json'))
         if not retro.list_states(game):
             missing.append((game, '*.state'))
         if not os.path.isfile(os.path.join(gamedir, 'rom.sha')):
@@ -73,7 +75,7 @@ def verify_scenario(game, scenario='scenario', raw=None, dataraw=None):
     file = os.path.join(game, '%s.json' % 'scenario')
     try:
         if not raw:
-            with open(os.path.join(retro.get_game_path(file))) as f:
+            with open(retro.get_game_path(file)) as f:
                 scen = json.load(f)
         else:
             scen = json.loads(raw)
@@ -140,6 +142,29 @@ def verify_scenario(game, scenario='scenario', raw=None, dataraw=None):
 
     warnings = [(file, w) for (file, w) in warnings if w not in whitelist.get(file, [])]
     return warnings, errors
+
+
+def verify_default_state(game, raw=None):
+    file = os.path.join(game, 'metadata.json')
+    try:
+        if not raw:
+            with open(retro.get_game_path(file)) as f:
+                metadata = json.load(f)
+        else:
+            metadata = json.loads(raw)
+    except json.JSONDecodeError:
+        return [], [(file, 'fail decode')]
+    except IOError:
+        return [], []
+
+    errors = []
+    state = metadata.get('default_state')
+    if not state:
+        return [], [(file, 'default state missing')]
+    if state not in retro.list_states(game):
+        errors.append((file, 'invalid default state %s' % state))
+
+    return [], errors
 
 
 def verify_json():
