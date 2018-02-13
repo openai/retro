@@ -1,4 +1,3 @@
-#ifdef USE_LIBZIP
 #include "zipfile.h"
 
 #include <algorithm>
@@ -107,5 +106,3 @@ bool Zip::File::flush() {
 	}
 	return true;
 }
-
-#endif

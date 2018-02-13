@@ -244,11 +244,7 @@ struct PyMovie {
 	PyMovie(py::str name, bool record) {
 		recording = record;
 		if (record) {
-#ifdef USE_LIBZIP
 			m_movie = std::make_unique<MovieBK2>(name, true);
-#else
-			throw std::runtime_error("retro not configured with libzip");
-#endif
 		} else {
 			m_movie = Movie::load(name);
 		}
@@ -259,10 +255,8 @@ struct PyMovie {
 
 	void configure(py::str name, const PyRetroEmulator& emu) {
 		if (recording) {
-#ifdef USE_LIBZIP
 			static_cast<MovieBK2*>(m_movie.get())->setGameName(name);
 			static_cast<MovieBK2*>(m_movie.get())->loadKeymap(emu.m_re.core());
-#endif
 		}
 	}
 

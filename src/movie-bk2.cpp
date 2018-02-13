@@ -8,8 +8,6 @@
 using namespace std;
 using namespace Retro;
 
-#ifdef USE_LIBZIP
-
 static const unordered_map<string, char> s_keyNames{
 	make_pair("A", 'A'),
 	make_pair("B", 'B'),
@@ -275,5 +273,3 @@ void MovieBK2::loadState() {
 	}
 	m_state.resize(m_state.size() - 2048 + read);
 }
-
-#endif

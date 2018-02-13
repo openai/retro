@@ -1,7 +1,5 @@
 #pragma once
 
-#ifdef USE_LIBZIP
-
 #include "zip.h"
 
 #include <memory>
@@ -45,5 +43,3 @@ private:
 	std::vector<std::unique_ptr<File>> m_files;
 };
 }
-
-#endif

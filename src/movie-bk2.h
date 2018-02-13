@@ -3,8 +3,6 @@
 #include <unordered_map>
 #include <vector>
 
-#ifdef USE_LIBZIP
-
 #include "movie.h"
 #include "zipfile.h"
 
@@ -48,5 +46,3 @@ private:
 	std::string m_gameName{ "?" };
 };
 }
-
-#endif

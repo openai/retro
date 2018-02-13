@@ -68,7 +68,7 @@ def main():
             # update brew first, which should install the correct version of ruby
             # and avoid the error "Homebrew must be run under Ruby 2.3"
             call(['brew', 'update'])
-            call(['brew', 'install', 'libzip', 'lua@5.1', 'ccache'])
+            call(['brew', 'install', 'lua@5.1', 'ccache'])
         elif os_name == 'linux':
             cmake_options = []
             os.environ['PATH'] = '/usr/lib/ccache:' + os.environ['PATH']
@@ -91,7 +91,7 @@ def main():
             upload_to_gcs(['dist/*.whl'], upload_dir)
 
     with Fold('script.test', 'Running tests'):
-        call(['ctest', '--verbose'])
+        call(['ctest', '--verbose', '-E', '\.test'])  # Exclude libzip tests
 
         if os_name == 'linux':
             passed = test()

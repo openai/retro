@@ -9,9 +9,7 @@ using namespace std;
 using namespace Retro;
 
 static unordered_map<string, function<unique_ptr<Movie>(const string&)>> s_movieTypes{
-#ifdef USE_LIBZIP
 	make_pair("bk2", MovieBK2::load),
-#endif
 };
 
 std::unique_ptr<Movie> Movie::load(const string& path) {

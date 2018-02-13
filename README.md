@@ -17,14 +17,12 @@ See [LICENSES.md](LICENSES.md) for information on the licenses of the individual
 Mac:
 
 ```sh
-brew install pkg-config libzip lua@5.1
+brew install pkg-config lua@5.1
 ```
 
 Linux:
 
-```sh
-sudo apt-get install libzip4
-```
+None
 
 ## Install from source
 

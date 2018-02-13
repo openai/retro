@@ -19,3 +19,6 @@
 	path = third-party/luajit
 	url = http://luajit.org/git/luajit-2.0.git
         ignore = dirty
+[submodule "third-party/libzip"]
+	path = third-party/libzip
+	url = https://github.com/nih-at/libzip.git

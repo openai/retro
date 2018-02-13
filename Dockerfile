@@ -4,8 +4,8 @@ SHELL ["/bin/bash", "-c"]
 ENV PYVER=3.5
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        build-essential ccache cmake git libffi-dev libgit2-dev libzip-dev \
-        pkg-config software-properties-common unzip && \
+        build-essential ccache cmake git libffi-dev libgit2-dev pkg-config \
+        software-properties-common unzip && \
     apt-get clean
 
 RUN add-apt-repository -y ppa:deadsnakes/ppa && \

@@ -113,12 +113,13 @@ add_custom_target(cores DEPENDS ${CORE_TARGETS})
 unset(CLEAN_CORES)
 
 if(LIBZIP_FOUND)
-    add_definitions(-DUSE_LIBZIP)
-    set(ZIP_SRC src/zipfile.cpp)
     include_directories(${LIBZIP_INCLUDE_DIRS})
     link_directories(${LIBZIP_LIBRARY_DIRS})
 else()
-    message(WARNING "Could not find libzip, disabling zip file/bk2 support")
+    set(BUILD_SHARED_LIBS OFF)
+    set(LIBZIP_LIBRARIES zip)
+    add_subdirectory(third-party/libzip)
+    include_directories(third-party/libzip third-party/libzip/lib)
 endif()
 
 include_directories(${LUA_INCLUDE_DIRS})
@@ -134,7 +135,7 @@ add_library(retro-base STATIC
     src/script.cpp
     src/script-lua.cpp
     src/utils.cpp
-    ${ZIP_SRC}
+    src/zipfile.cpp
     ${LUA_LIBRARY})
 target_link_libraries(retro-base ${ZLIB_LIBRARY} ${LIBZIP_LIBRARIES} ${LUA_LIBRARY})
 add_dependencies(retro-base ${CORE_TARGETS})
