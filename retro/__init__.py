@@ -31,6 +31,9 @@ ACTIONS_FILTERED = 1
 ACTIONS_DISCRETE = 2
 ACTIONS_MULTI_DISCRETE = 3
 
+STATE_DEFAULT = -1
+STATE_NONE = 0
+
 EMU_CORES = {}
 EMU_INFO = {}
 EMU_EXTENSIONS = {}
@@ -98,7 +101,7 @@ def list_states(game):
     return [state.split(os.sep)[-1][:-len(".state")] for state in states]
 
 
-def make(game, state, **kwargs):
+def make(game, state=STATE_DEFAULT, **kwargs):
     from retro.retro_env import RetroEnv
     try:
         get_romfile_path(game)

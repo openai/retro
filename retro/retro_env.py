@@ -2,6 +2,7 @@ import gc
 import gym
 import gzip
 import gym.spaces
+import json
 import numpy as np
 import os
 import retro
@@ -38,7 +39,7 @@ class RetroEnv(gym.Env):
             path = os.getcwd()
         self.movie_path = path
 
-    def __init__(self, game, state=None, scenario=None, info=None, use_restricted_actions=retro.ACTIONS_FILTERED, record=False):
+    def __init__(self, game, state=retro.STATE_DEFAULT, scenario=None, info=None, use_restricted_actions=retro.ACTIONS_FILTERED, record=False):
         if not hasattr(self, 'spec'):
             self.spec = None
         self.img = None
@@ -48,9 +49,20 @@ class RetroEnv(gym.Env):
 
         game_path = retro.get_game_path(game)
         rom_path = retro.get_romfile_path(game)
+        metadata_path = os.path.join(game_path, 'metadata.json')
 
-        if state is None:
+        if state == retro.STATE_NONE:
             self.initial_state = None
+        elif state == retro.STATE_DEFAULT:
+            self.initial_state = None
+            try:
+                with open(metadata_path) as f:
+                    metadata = json.load(f)
+                if 'default_state' in metadata:
+                    with gzip.open(os.path.join(game_path, metadata['default_state']) + '.state', 'rb') as fh:
+                        self.initial_state = fh.read()
+            except (IOError, json.JSONDecodeError):
+                pass
         else:
             if not state.endswith('.state'):
                 state += '.state'
