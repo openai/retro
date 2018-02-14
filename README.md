@@ -70,11 +70,13 @@ while True:
 ```python
 import retro
 
-env = retro.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1', use_restricted_actions=retro.ACTIONS_ALL)
-env.reset()
-
 movie = retro.Movie('SonicTheHedgehog-Genesis-GreenHillZone.Act1-0000.bk2')
 movie.step()
+
+env = retro.make(movie.get_game(), None, use_restricted_actions=retro.ACTIONS_ALL)
+env.initial_state = movie.get_state()
+env.reset()
+
 while movie.step():
     keys = []
     for i in range(env.NUM_BUTTONS):
