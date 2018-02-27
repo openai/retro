@@ -49,7 +49,7 @@ setup(
     name='gym-retro',
     version=open(VERSION_PATH, 'r').read(),
     license='MIT',
-    install_requires=['gym>=0.9.4'],
+    install_requires=['gym'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
     cmdclass={'build_ext': CMakeBuild},
     packages=['retro', 'retro.data'],

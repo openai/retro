@@ -5,7 +5,6 @@ import os
 import json
 import subprocess
 import sys
-from gym.envs.registration import register
 from retro._retro import Movie, RetroEmulator, core_path, data_path
 
 ROOT_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
@@ -110,12 +109,3 @@ def make(game, state, **kwargs):
             print('Game not found: %s. Did you make sure to import the ROM?' % game)
         return None
     return RetroEnv(game, state, **kwargs)
-
-
-for game in list_games():
-    for state in list_states(game):
-        register(
-            id='%s-%s-v0' % (game, state),
-            # Make sure to capture the variables
-            entry_point=lambda g=game, s=state: make(g, s),
-        )
