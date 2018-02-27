@@ -12,7 +12,7 @@
   },
   "reward": {
     "variables": {
-      "score": {
+      "level_score": {
         "reward": 1.0
       }
     }

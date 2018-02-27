@@ -16,7 +16,7 @@
       "address": 16769318,
       "type": "|u1"
     },
-    "gameover_timer": {
+    "continue_timer": {
       "address": 16753338,
       "type": "|i1"
     },

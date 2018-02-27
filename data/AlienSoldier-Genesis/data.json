@@ -2,11 +2,15 @@
   "info": {
     "health": {
       "address": 16753174,
-      "type": ">d2"
+      "type": ">u2"
     },
     "score": {
       "address": 16753170,
       "type": ">d4"
+    },
+    "time": {
+      "address": 16753264,
+      "type": ">d2"
     }
   }
 }

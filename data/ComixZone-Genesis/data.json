@@ -1,5 +1,9 @@
 {
   "info": {
+    "combos": {
+      "address": 16760576,
+      "type": ">u2"
+    },
     "finalscore": {
       "address": 16760564,
       "type": ">u2"

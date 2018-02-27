@@ -1,13 +1,5 @@
 {
   "info": {
-    "health": {
-      "address": 16771192,
-      "type": ">u2"
-    },
-    "level2": {
-      "address": 16712726,
-      "type": ">u2"
-    },
     "lives": {
       "address": 16771196,
       "type": ">u2"

@@ -1,0 +1,1 @@
+Score in the game is the combination of finishes, combos and progress.  The variable for combos is currently missing.

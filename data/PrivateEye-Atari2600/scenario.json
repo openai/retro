@@ -1,7 +1,7 @@
 {
   "done": {
     "variables": {
-      "timer": {
+      "time": {
         "op": "greater-than",
         "reference": 1
       }

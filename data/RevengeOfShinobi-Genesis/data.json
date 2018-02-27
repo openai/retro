@@ -2,7 +2,7 @@
   "info": {
     "health": {
       "address": 16769339,
-      "type": "|d1"
+      "type": "|u1"
     },
     "lives": {
       "address": 16769345,

@@ -1,0 +1,2 @@
+Score 'flickers' occasionally for no real reason, and reward goes out of sync w/ score onscreen.
+The Lua script is here to address this problem.

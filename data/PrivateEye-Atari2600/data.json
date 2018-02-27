@@ -4,7 +4,7 @@
       "address": 200,
       "type": ">d3"
     },
-    "timer": {
+    "time": {
       "address": 194,
       "type": "|u1"
     }

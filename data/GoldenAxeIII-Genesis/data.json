@@ -8,8 +8,12 @@
       "address": 16763104,
       "type": "|u1"
     },
-    "score": {
+    "level_score": {
       "address": 16762684,
+      "type": ">u2"
+    },
+    "total_score": {
+      "address": 16762686,
       "type": ">u2"
     }
   }

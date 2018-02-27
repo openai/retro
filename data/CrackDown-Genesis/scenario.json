@@ -2,9 +2,9 @@
   "done": {
     "condition": "all",
     "nodes": {
-      "timer": {
+      "time": {
         "variables": {
-          "gameovertimer": {
+          "gameover": {
             "op": "equal",
             "reference": 9
           },
@@ -15,7 +15,7 @@
       }
     },
     "variables": {
-      "gameovertimer": {
+      "gameover": {
         "op": "equal",
         "reference": 25
       }

@@ -1,0 +1,3 @@
+Lives briefly changes from the current # of lives to zero, so the done condition is that the game ends when you still have 2 lives remaining.
+
+Score briefly changes from the current score to 0 in between lives, resulting in a doubling of reward; the Lua script accounts for this.

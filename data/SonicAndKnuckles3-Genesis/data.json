@@ -32,6 +32,10 @@
       "address": 16772630,
       "type": ">u2"
     },
+    "special_stage": {
+      "address": 16776776,
+      "type": "|i1"
+    },
     "x": {
       "address": 16756752,
       "type": ">u2"

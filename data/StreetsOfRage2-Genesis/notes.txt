@@ -1,0 +1,1 @@
+Data file has x and y coordinates of player included, however, this is not included in the reward function.

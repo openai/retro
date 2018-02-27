@@ -7,9 +7,10 @@
     }
   },
   "reward": {
-    "script": "lua:x_and_level_reward"
-  },
-  "scripts": [
-    "script.lua"
-  ]
+    "variables": {
+      "score": {
+        "reward": 10.0
+      }
+    }
+  }
 }

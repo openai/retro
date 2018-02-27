@@ -1,0 +1,1 @@
+Dying decreases your score in the game, but this is not reflected in the current reward

@@ -1,18 +1,9 @@
 {
   "done": {
-    "variables": {
-      "level_end_bonus": {
-        "measurement": "delta",
-        "op": "negative"
-      },
-      "lives": {
-        "measurement": "delta",
-        "op": "negative"
-      }
-    }
+    "script": "lua:contest_done"
   },
   "reward": {
-    "script": "lua:x_and_level_reward"
+    "script": "lua:contest_reward"
   },
   "scripts": [
     "script.lua"

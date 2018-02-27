@@ -1,0 +1,3 @@
+There are in fact 2 different "game over" variables here:
+gameover: changes to 1 when the player runs out of characters to save and there are no characters saved (this works on different levels ending) and appears when "Continue?" appears onscreen.
+continue_timer: starts counting down after "Continue?" appears and is equal to -1 when at 'true' gameover - no actions can be taken to restart the game.

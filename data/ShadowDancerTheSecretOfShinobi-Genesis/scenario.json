@@ -1,20 +1,16 @@
 {
   "done": {
-    "condition": "all",
     "variables": {
-      "gameover": {
-        "op": "nonzero"
-      },
       "lives": {
-        "op": "zero"
+        "op": "equal",
+        "reference": 1
       }
     }
   },
   "reward": {
-    "script": "lua:reward"
+    "script": "lua:max_score_reward"
   },
   "scripts": [
-    "script.lua",
     "script.lua"
   ]
 }

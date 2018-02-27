@@ -1,6 +1,6 @@
 {
   "info": {
-    "gameovertimer": {
+    "gameover": {
       "address": 16721509,
       "type": "|i1"
     },

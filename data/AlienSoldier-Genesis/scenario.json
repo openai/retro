@@ -3,6 +3,9 @@
     "variables": {
       "health": {
         "op": "zero"
+      },
+      "time": {
+        "op": "zero"
       }
     }
   },

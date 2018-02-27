@@ -1,17 +1,14 @@
-function scores ()
-  local score = data.score
-  local x_position = data.scroll
-  if x_position == 50 then
-    score = 0
-  end
-  return score
-end
+max_score = 0
 
-oldrew = 0
-function reward ()
-  local score = scores()
-  local rew = score 
-  newrew = rew - oldrew
-  oldrew = rew
-  return newrew
+function max_score_reward ()
+  local current_score = data.score
+  if data.score > max_score then
+    local delta = data.score - max_score
+    max_score = data.score
+    return delta
+  else
+    return 0
+  end
 end
+-- Score briefly changes to 0 in between lives, thus doubling the reward.
+-- This script takes that into account and compares the current score to the previous score and ignores jumps from 0 -> previous score.
