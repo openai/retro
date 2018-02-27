@@ -102,10 +102,9 @@ def make(game, state, **kwargs):
     from retro.retro_env import RetroEnv
     try:
         get_romfile_path(game)
-    except Exception:
+    except FileNotFoundError:
         if not os.path.exists(os.path.join(get_game_path(game), "rom.sha")):
-            print('Game not found: %s.' % game)
+            raise FileNotFoundError('Game not found: %s' % game)
         else:
-            print('Game not found: %s. Did you make sure to import the ROM?' % game)
-        return None
+            raise FileNotFoundError('Game not found: %s. Did you make sure to import the ROM?' % game)
     return RetroEnv(game, state, **kwargs)

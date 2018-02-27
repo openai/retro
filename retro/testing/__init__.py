@@ -57,7 +57,7 @@ def testenv(request):
 
     env_box = []
 
-    def create(state=None, *args, **kwargs):
+    def create(state=retro.STATE_NONE, *args, **kwargs):
         env = retro.make(request.param, state, *args, **kwargs)
         env_box.append(env)
         return env
