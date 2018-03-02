@@ -4,11 +4,13 @@ SHELL ["/bin/bash", "-c"]
 ENV PYVER=3.5
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        build-essential ccache cmake git libffi-dev libgit2-dev pkg-config \
-        software-properties-common unzip && \
+        build-essential ccache cmake git libffi-dev \
+        libz-mingw-w64-dev mingw-w64 pkg-config software-properties-common \
+        unzip zip && \
     apt-get clean
 
-RUN add-apt-repository -y ppa:deadsnakes/ppa && \
+RUN apt-add-repository -y ppa:deadsnakes/ppa && \
+    apt-add-repository -y ppa:tobydox/mingw-w64 && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         libpython3.5-dev python3.5-venv \
@@ -18,12 +20,19 @@ RUN add-apt-repository -y ppa:deadsnakes/ppa && \
 RUN python3.5 -m venv ~/venv3.5 && \
     . ~/venv3.5/bin/activate && \
     pip install wheel && \
-    pip install google-cloud google-resumable-media matplotlib pygit2==0.24.2 pytest requests && \
+    pip install google-cloud google-resumable-media pytest requests && \
     python3.6 -m venv ~/venv3.6 && \
     . ~/venv3.6/bin/activate && \
     pip install wheel && \
     pip install google-cloud google-resumable-media pytest requests && \
     rm -rf ~/.cache && \
+    ln -s ~/venv3.5 ~/venv && \
     echo "source /root/venv\$PYVER/bin/activate" > ~/.bash_profile
+
+WORKDIR /root
+COPY scripts scripts
+COPY cmake cmake
+COPY third-party/libzip libzip
+RUN CROSS=win64 ROOT=/usr/x86_64-w64-mingw32 ./scripts/build_deps.sh
 
 ENTRYPOINT ["bash", "-lc", "exec $0 $@"]

@@ -15,6 +15,11 @@ services:
   - docker
 osx_image: xcode8
 
+matrix:
+  include:
+    - os: linux
+      env: CROSS=win64
+
 before_script:
   - mkdir -p $HOME/roms
 script:
@@ -22,6 +27,7 @@ script:
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
     docker run
     --env PYVER="$PYVER"
+    --env CROSS="$CROSS"
     --env TRAVIS_OS_NAME="$TRAVIS_OS_NAME"
     --env TRAVIS_TAG="$TRAVIS_TAG"
     --env TRAVIS_BRANCH="$TRAVIS_BRANCH"
