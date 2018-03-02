@@ -4,10 +4,6 @@
       "address": 16776721,
       "type": "|u1"
     },
-    "level": {
-      "address": 16776720,
-      "type": ">u2"
-    },
     "level_end_bonus": {
       "address": 16775848,
       "type": "|u1"
