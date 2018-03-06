@@ -10,8 +10,8 @@ import tarfile
 import tempfile
 
 
-username = input('Username: ')
-password = getpass.getpass('Password (leave blank if cached): ')
+username = input('Steam Username: ')
+password = getpass.getpass('Steam Password (leave blank if cached): ')
 
 if password:
     password = password + '\n'
@@ -37,7 +37,7 @@ with tempfile.TemporaryDirectory() as dir:
         '+app_update', '34270', 'validate',
         '+quit']
 
-    print('Downloading ROMs...')
+    print('Installing games...')
     subprocess.run(command, check=True, input=password.encode('utf-8'), stdout=subprocess.DEVNULL)
     romdir = os.path.join(dir, 'uncompressed ROMs')
     roms = [os.path.join(romdir, rom) for rom in os.listdir(romdir)]
