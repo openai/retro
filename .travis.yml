@@ -18,7 +18,9 @@ osx_image: xcode8
 matrix:
   include:
     - os: linux
-      env: CROSS=win64
+      env:
+        - CROSS=win64
+        - PYVER=3.6
 
 before_script:
   - mkdir -p $HOME/roms

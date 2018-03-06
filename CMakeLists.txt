@@ -30,10 +30,8 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 option(BUILD_TESTS "Should tests be built" ON)
 
-if(NOT WIN32)
-    set(BUILD_PYTHON ON CACHE BOOL "Build Python module")
-    mark_as_advanced(BUILD_PYTHON)
-endif()
+set(BUILD_PYTHON ON CACHE BOOL "Build Python module")
+mark_as_advanced(BUILD_PYTHON)
 
 if(BUILD_PYTHON)
     find_package(PythonLibs REQUIRED)
@@ -60,7 +58,11 @@ else()
         WORKING_DIRECTORY "${LUA_INCLUDE_DIRS}")
 endif()
 
-set(PYEXT_SUFFIX ".so" CACHE STRING "Suffix for Python extension modules")
+if(NOT WIN32)
+    set(PYEXT_SUFFIX ".so" CACHE STRING "Suffix for Python extension modules")
+else()
+    set(PYEXT_SUFFIX ".pyd" CACHE STRING "Suffix for Python extension modules" FORCE)
+endif()
 set(PYLIB_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "Build directory that contains retro module")
 file(MAKE_DIRECTORY "${PYLIB_DIRECTORY}/retro/cores")
 
@@ -166,11 +168,14 @@ if(BUILD_PYTHON)
     add_library(retro SHARED src/retro.cpp)
     set_target_properties(retro PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${PYLIB_DIRECTORY}/retro"
+        RUNTIME_OUTPUT_DIRECTORY "${PYLIB_DIRECTORY}/retro"
         OUTPUT_NAME _retro
         PREFIX ""
         SUFFIX ${PYEXT_SUFFIX})
     if(APPLE)
         set(PYBIND_LIBS "-undefined dynamic_lookup")
+    elseif(WIN32)
+        set(PYBIND_LIBS "${PYTHON_LIBRARY}")
     endif()
     target_link_libraries(retro retro-base ${PYBIND_LIBS})
 endif()

@@ -12,6 +12,9 @@ set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
 set(cross_prefix x86_64-w64-mingw32-)
 set(link_flags "-static-libgcc -static-libstdc++")
 
+set(PYTHON_LIBRARY /usr/x86_64-w64-mingw32/lib/python3.6/libpython.a)
+set(PYTHON_INCLUDE_DIR /usr/x86_64-w64-mingw32/include/python3.6/)
+
 set(CMAKE_EXE_LINKER_FLAGS ${link_flags} CACHE INTERNAL "exe link flags")
 set(CMAKE_MODULE_LINKER_FLAGS ${link_flags} CACHE INTERNAL "module link flags")
 set(CMAKE_SHARED_LINKER_FLAGS "${link_flags} -Wl,--export-all-symbols" CACHE INTERNAL "shared link flags")

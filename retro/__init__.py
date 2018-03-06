@@ -23,6 +23,8 @@ if sys.platform.startswith('linux'):
     EXT = 'so'
 elif sys.platform == 'darwin':
     EXT = 'dylib'
+elif sys.platform == 'win32':
+    EXT = 'dll'
 else:
     raise RuntimeError('Unrecognized platform')
 

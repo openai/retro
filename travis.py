@@ -64,6 +64,7 @@ def plot_history():
 def main():
     os_name = os.environ['TRAVIS_OS_NAME']
     cross = os.environ.get('CROSS')
+    bdist_options = []
     with Fold('script.deps', 'Installing dependencies'):
         if os_name != 'osx':
             os.environ['PATH'] = '/usr/lib/ccache:' + os.environ['PATH']
@@ -77,28 +78,30 @@ def main():
             cmake_options = []
             if cross in ('win32', 'win64'):
                 cmake_options = ['-DCMAKE_TOOLCHAIN_FILE=cmake/%s.cmake' % cross]
+            if cross == 'win32':
+                bdist_options = ['--plat-name', 'win32']
+            if cross == 'win64':
+                bdist_options = ['--plat-name', 'win_amd64']
         else:
             raise Exception('unrecognized os name')
 
     with Fold('script.build', 'Building'):
         call(['cmake', '.', '-DBUILD_TESTS=ON'] + cmake_options)
-        if os_name not in ('win64', 'win32'):
-            call(['python', 'setup.py', '-q', 'build_ext', '-i', '-j3'])
+        call(['python', 'setup.py', '-q', 'build_ext', '-i', '-j3'])
+        if cross not in ('win64', 'win32'):
             call(['pip', 'install', '-e', '.'])
         call(['make', '-j3'])
 
     if os.environ['TRAVIS_PULL_REQUEST'] == 'false':
         with Fold('script.package', 'Packaging binaries'):
-            if cross not in ('win64', 'win32'):
-                call(['python', 'setup.py', '-q', 'bdist_wheel'])
+            call(['python', 'setup.py', '-q', 'bdist_wheel'] + bdist_options)
 
             if os.environ['TRAVIS_BRANCH'] == 'master':
                 upload_dir = 'builds'
             else:
                 upload_dir = 'builds/%s' % os.environ['TRAVIS_BRANCH']
 
-            if cross not in ('win64', 'win32'):
-                upload_to_gcs(['dist/*.whl'], upload_dir)
+            upload_to_gcs(['dist/*.whl'], upload_dir)
 
     if cross not in ('win64', 'win32'):
         with Fold('script.test', 'Running tests'):
