@@ -15,5 +15,3 @@ make -j2 install
 cd ..
 rm -rf build-$CROSS
 popd
-
-$BASE/scripts/install_python.sh

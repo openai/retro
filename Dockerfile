@@ -4,9 +4,9 @@ SHELL ["/bin/bash", "-c"]
 ENV PYVER=3.5
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        build-essential ccache cmake curl git libffi-dev libz-mingw-w64-dev \
-        mingw-w64 p7zip-full pkg-config software-properties-common unzip \
-        zip && \
+        build-essential ccache cmake curl g++-multilib gcc-multilib git \
+        libffi-dev libz-mingw-w64-dev mingw-w64 p7zip-full pkg-config  \
+        software-properties-common unzip zip && \
     apt-get clean
 
 RUN apt-add-repository -y ppa:deadsnakes/ppa && \
@@ -33,6 +33,12 @@ WORKDIR /root
 COPY scripts scripts
 COPY cmake cmake
 COPY third-party/libzip libzip
-RUN CROSS=win64 ROOT=/usr/x86_64-w64-mingw32 ./scripts/build_deps.sh
+
+RUN CROSS=win32 ROOT=/usr/i686-w64-mingw32 ./scripts/install_python.sh && \
+    CROSS=win64 ROOT=/usr/x86_64-w64-mingw32 ./scripts/install_python.sh
+
+RUN CROSS=win32 ROOT=/usr/i686-w64-mingw32 ./scripts/build_libzip.sh && \
+    CROSS=win64 ROOT=/usr/x86_64-w64-mingw32 ./scripts/build_libzip.sh && \
+    rm -rf libzip
 
 ENTRYPOINT ["bash", "-lc", "exec $0 $@"]

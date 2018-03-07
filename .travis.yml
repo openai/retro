@@ -19,6 +19,18 @@ matrix:
   include:
     - os: linux
       env:
+        - CROSS=win32
+        - PYVER=3.5
+    - os: linux
+      env:
+        - CROSS=win32
+        - PYVER=3.6
+    - os: linux
+      env:
+        - CROSS=win64
+        - PYVER=3.5
+    - os: linux
+      env:
         - CROSS=win64
         - PYVER=3.6
 
