@@ -7,6 +7,9 @@ import re
 import retro
 
 whitelist = {
+    'Airstriker-Genesis/data.json': {
+        'suspicious type >u2 for lives'
+    },
     'Qbert-Atari2600/scenario.json': {
         'suspicious variable in done condition: score'
     },
