@@ -9,7 +9,7 @@
   },
   "reward": {
     "variables": {
-      "gems_removed": {
+      "matches": {
         "reward": 1.0
       },
       "rounds_won": {

@@ -1,15 +1,7 @@
 {
   "info": {
-    "gems_removed": {
+    "matches": {
       "address": 16715869,
-      "type": "|u1"
-    },
-    "opponent_gems_removed": {
-      "address": 16716941,
-      "type": "|u1"
-    },
-    "opponent_wins": {
-      "address": 16712779,
       "type": "|u1"
     },
     "rounds_lost": {
@@ -19,10 +11,6 @@
     "rounds_won": {
       "address": 16712778,
       "type": "|u1"
-    },
-    "time": {
-      "address": 16712774,
-      "type": ">i2"
     }
   }
 }

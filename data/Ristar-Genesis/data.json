@@ -1,13 +1,5 @@
 {
   "info": {
-    "health": {
-      "address": 16760888,
-      "type": "|u1"
-    },
-    "level": {
-      "address": 16770429,
-      "type": "|u1"
-    },
     "lives": {
       "address": 16770424,
       "type": "|i1"

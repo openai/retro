@@ -1,29 +1,15 @@
 {
   "done": {
-    "condition": "all",
-    "nodes": {
-      "time": {
-        "variables": {
-          "gameover": {
-            "op": "equal",
-            "reference": 9
-          },
-          "score": {
-            "op": "zero"
-          }
-        }
-      }
-    },
     "variables": {
-      "gameover": {
-        "op": "equal",
-        "reference": 25
+      "lives": {
+        "op": "zero"
       }
     }
   },
   "reward": {
     "variables": {
       "score": {
+        "penalty": 1.0,
         "reward": 1.0
       }
     }

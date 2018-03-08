@@ -7,10 +7,6 @@
     "health": {
       "address": 16749584,
       "type": ">d2"
-    },
-    "food": {
-      "address": 37916,
-      "type": "|d1"
-   }
+    }
   }
 }

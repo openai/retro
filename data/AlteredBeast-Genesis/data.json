@@ -1,9 +1,5 @@
 {
   "info": {
-    "bossHealth": {
-      "address": 16769892,
-      "type": ">u2"
-    },
     "health": {
       "address": 16764688,
       "type": "|i1"
@@ -11,10 +7,6 @@
     "lives": {
       "address": 16757024,
       "type": "|u1"
-    },
-    "powerup": {
-      "address": 16764971,
-      "type": "|i1"
     },
     "score": {
       "address": 16757026,

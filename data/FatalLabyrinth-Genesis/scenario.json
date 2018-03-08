@@ -1,10 +1,6 @@
 {
   "done": {
     "variables": {
-      "food": {
-        "op": "greater-or-equal",
-        "reference": 99
-      },
       "health": {
         "op": "zero"
       }

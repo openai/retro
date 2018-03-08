@@ -1,2 +1,2 @@
-When you beat a level you get +2000 score due to how the game handles the score variable.
-The gameover variable is the counter that appears only at gameover.
+When you beat a level you briefly get +2000 score due to how the game handles the score variable.
+Slightly incorrect done condition - ends 1 life early
