@@ -1,7 +1,9 @@
 #include "imageops.h"
 
+#ifdef __SSSE3__
 #include <emmintrin.h>
 #include <tmmintrin.h>
+#endif
 #include <stdexcept>
 #include <cstring>
 
@@ -11,6 +13,7 @@ using namespace std;
 static void image565To888(const uint16_t* in, uint8_t* out, size_t w, size_t h, size_t stride);
 static void imageX888To888(const uint32_t* in, uint8_t* out, size_t w, size_t h, size_t stride);
 
+#ifdef __SSSE3__
 const static __m128i maskR16 = _mm_set1_epi16(0xF800);
 const static __m128i maskG16 = _mm_set1_epi16(0x07E0);
 const static __m128i maskB16 = _mm_set1_epi16(0x001F);
@@ -91,14 +94,17 @@ static inline void _convert565To888(const __m128i* in, __m128i* out) {
 	_mm_store_si128(&out[1], out1);
 	_mm_store_si128(&out[2], out2);
 }
+#endif
 
 void image565To888(const uint16_t* in, uint8_t* out, size_t w, size_t h, size_t stride) {
 	for (size_t y = 0; y < h; ++y) {
-		size_t x;
-		for (x = 0; x < w; x += 16) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x < w; x += 16) {
 			_convert565To888(reinterpret_cast<const __m128i*>(&in[x]), reinterpret_cast<__m128i*>(out));
 			out += 16 * 3;
 		}
+#endif
 		for (; x < w; ++x) {
 			uint16_t rgb = in[x];
 			out[0] = (rgb & 0xF800) >> 8;
@@ -112,8 +118,9 @@ void image565To888(const uint16_t* in, uint8_t* out, size_t w, size_t h, size_t 
 
 void imageX888To888(const uint32_t* in, uint8_t* out, size_t w, size_t h, size_t stride) {
 	for (size_t y = 0; y < h; ++y) {
-		size_t x;
-		for (x = 0; x + 15 < w; x += 16) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x + 15 < w; x += 16) {
 			/* B0 G0 R0 X0 B1 G1 R1 X1 B2 G2 R2 X2 B3 G3 R3 X3 -> R0 G0 B0 R1 G1 B1 R2 G2 B2 R3 G3 B3 00 00 00 00 */
 			const static __m128i blend00 = _mm_set_epi8(0x80, 0x80, 0x80, 0x80, 0x0C, 0x0D, 0x0E, 0x08, 0x09, 0x0A, 0x04, 0x05, 0x06, 0x00, 0x01, 0x02);
 
@@ -151,6 +158,7 @@ void imageX888To888(const uint32_t* in, uint8_t* out, size_t w, size_t h, size_t
 			_mm_storeu_si128(reinterpret_cast<__m128i*>(&out[32]), out2);
 			out += 48;
 		}
+#endif
 		for (; x < w; ++x) {
 			uint32_t xrgb = in[x];
 			out[0] = xrgb;
