@@ -100,7 +100,7 @@ def list_games():
 def list_states(game):
     path = get_game_path(game)
     states = glob.glob(os.path.join(path, "*.state"))
-    return [state.split(os.sep)[-1][:-len(".state")] for state in states]
+    return [state.split(os.sep)[-1][:-len(".state")] for state in states if not state.startswith("_")]
 
 
 def make(game, state=STATE_DEFAULT, **kwargs):
