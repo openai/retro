@@ -128,6 +128,12 @@ ROM files contain the game itself. Each system has a unique file extension to de
 
 Sometime ROMs from these systems use different extensions, e.g. `.gen` for Genesis, `.bin` for Atari, etc. Please rename the ROMs to use the aforementioned extensions in these cases.
 
+The following non-commerical ROMs are included with Gym Retro for testing purposes:
+
+- [Dekadrive](http://www.pouet.net/prod.php?which=67142) by Dekadence
+- [Automaton](https://pdroms.de/files/atari2600/automaton-minigame-compo-2003) by Derek Ledbetter
+- [Airstriker](https://pdroms.de/genesis/airstriker-v1-50-genesis-game) by Electrokinesis
+
 ## States
 
 Emulation allows the entire state of a video game system to be stored to disk and restored. These files are specific to the emulator, but always end with `.state`. These are identical to the versions used in the standalone versions of the emulators but gzipped.
