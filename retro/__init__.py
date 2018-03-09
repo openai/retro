@@ -5,7 +5,7 @@ import os
 import json
 import subprocess
 import sys
-from retro._retro import Movie, RetroEmulator, core_path, data_path
+from retro._retro import Movie, RetroEmulator, core_path, data_path as _data_path
 
 ROOT_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 RETRO_DATA_PATH = os.path.dirname(__file__)
@@ -40,6 +40,11 @@ EMU_CORES = {}
 EMU_INFO = {}
 EMU_EXTENSIONS = {}
 
+
+def data_path(hint=RETRO_DATA_PATH):
+    return _data_path(hint)
+
+
 with open(os.path.join(os.path.dirname(__file__), 'cores.json')) as f:
     _coreInfo = f.read()
     RetroEmulator.load_core_info(_coreInfo)
@@ -58,7 +63,7 @@ def get_game_path(game=""):
     """
     Return the path to a given game's directory
     """
-    return os.path.join(data_path(RETRO_DATA_PATH), game)
+    return os.path.join(data_path(), game)
 
 
 def get_romfile_path(game):
