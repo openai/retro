@@ -50,7 +50,7 @@ script:
     --volume /home/travis/build/openai/retro:/root/code/retro
     --volume /home/travis/.ccache:/root/.ccache
     --workdir /root/code/retro
-    quay.io/openai/travis-build
+    openai/travis-build
     python travis.py;
     fi
   - |
