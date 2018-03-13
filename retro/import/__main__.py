@@ -1,4 +1,4 @@
-#!/usr/bin/env python
 from retro.scripts.import_path import main
 
-main()
+if __name__ == '__main__':
+    main()
