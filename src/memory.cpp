@@ -243,7 +243,7 @@ int64_t DynamicMemoryView::operator[](size_t offset) const {
 	return dtype.decode(m_mem.offset(offset));
 }
 
-const DataType AddressSpace::s_type{"|u1"};
+const DataType AddressSpace::s_type{ "|u1" };
 
 void AddressSpace::addBlock(size_t offset, size_t size, void* data) {
 	if (data) {
@@ -360,7 +360,7 @@ Datum AddressSpace::operator[](const Variable& var) {
 		if (var.address - kv.first >= kv.second.size()) {
 			continue;
 		}
-		return Datum(kv.second.offset(0), Variable{var.type, var.address - kv.first, var.mask}, *m_overlay);
+		return Datum(kv.second.offset(0), Variable{ var.type, var.address - kv.first, var.mask }, *m_overlay);
 	}
 	throw std::out_of_range("No known mapping");
 }

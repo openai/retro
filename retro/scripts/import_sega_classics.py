@@ -32,11 +32,11 @@ def main():
         tarball.extractall(dir)
 
         command = ['%s/steamcmd.sh' % dir,
-            '+login', username,
-            '+force_install_dir', dir,
-            '+@sSteamCmdForcePlatformType', 'windows',
-            '+app_update', '34270', 'validate',
-            '+quit']
+                   '+login', username,
+                   '+force_install_dir', dir,
+                   '+@sSteamCmdForcePlatformType', 'windows',
+                   '+app_update', '34270', 'validate',
+                   '+quit']
 
         print('Installing games...')
         subprocess.run(command, check=True, input=password.encode('utf-8'), stdout=subprocess.DEVNULL)

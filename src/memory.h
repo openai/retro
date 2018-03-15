@@ -387,7 +387,8 @@ public:
 	AddressSpace& operator=(AddressSpace&&);
 
 private:
-	static const DataType s_type;;
+	static const DataType s_type;
+	;
 	std::map<size_t, MemoryView<>> m_blocks;
 	std::unique_ptr<MemoryOverlay> m_overlay = std::make_unique<MemoryOverlay>();
 };
