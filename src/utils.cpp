@@ -60,7 +60,11 @@ string drillUp(const vector<string>& targets, const string& fail, const string& 
 				return testPath;
 			}
 		}
+#ifndef _WIN32
 		string new_path = path.substr(0, path.find_last_of('/'));
+#else
+		string new_path = path.substr(0, path.find_last_of("/\\"));
+#endif
 		if (new_path == path) {
 			break;
 		}
