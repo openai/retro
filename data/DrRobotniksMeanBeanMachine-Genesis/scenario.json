@@ -9,6 +9,7 @@
   "reward": {
     "variables": {
       "score": {
+        "penalty": 1.0,
         "reward": 1.0
       }
     }

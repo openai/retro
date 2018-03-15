@@ -1,0 +1,1 @@
+Although the in-game matches counter goes up to 9999, the defined variable only goes up to 255 as the top bits of the high byte appear to be used for some other variable.

@@ -9,11 +9,8 @@
   },
   "reward": {
     "variables": {
-      "matches": {
-        "reward": 1.0
-      },
       "rounds_won": {
-        "reward": 100.0
+        "reward": 1.0
       }
     }
   }
