@@ -17,9 +17,13 @@ def main():
     if password:
         password = password + '\n'
 
-        authcode = input('Steam Guard code (leave blank if unknown): ')
+        authcode = input('Steam Guard code: ')
         if authcode:
             password = password + authcode + '\n'
+        else:
+            password = password + '\r\n'
+    else:
+        password = '\r\n'
 
     with tempfile.TemporaryDirectory() as dir:
         if sys.platform.startswith('linux'):
@@ -39,7 +43,11 @@ def main():
                    '+quit']
 
         print('Installing games...')
-        subprocess.run(command, check=True, input=password.encode('utf-8'), stdout=subprocess.DEVNULL)
+        output = subprocess.run(command, input=password.encode('utf-8'), stdout=subprocess.PIPE)
+        if output.returncode != 0:
+            stdout = output.stdout.decode('utf-8').split('\n')
+            print(*stdout[-3:-1], sep='\n')
+            sys.exit(1)
         romdir = os.path.join(dir, 'uncompressed ROMs')
         roms = [os.path.join(romdir, rom) for rom in os.listdir(romdir)]
         retro.data.merge(*roms, quiet=False)
