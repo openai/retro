@@ -72,6 +72,11 @@ if(NOT WIN32)
 else()
     set(PYEXT_SUFFIX ".pyd" CACHE STRING "Suffix for Python extension modules" FORCE)
 endif()
+
+if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+    set(STATIC_LDFLAGS "-static-libstdc++")
+endif()
+
 set(PYLIB_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "Build directory that contains retro module")
 file(MAKE_DIRECTORY "${PYLIB_DIRECTORY}/retro/cores")
 
@@ -112,7 +117,7 @@ function(add_core PLATFORM CORE_NAME)
         set(LIBRETRO_PLATFORM platform=win)
     endif()
     add_custom_command(OUTPUT "${TARGET_PATH}"
-        COMMAND CFLAGS=-w CXXFLAGS=-w LDFLAGS=-w $(MAKE) -f ${MAKEFILE} CC="${CMAKE_C_COMPILER}" CXX="${CMAKE_CXX_COMPILER}" ${LIBRETRO_PLATFORM}
+        COMMAND CFLAGS=-w CXXFLAGS=-w "LDFLAGS=-w ${STATIC_LDFLAGS}" $(MAKE) -f ${MAKEFILE} CC="${CMAKE_C_COMPILER}" CXX="${CMAKE_CXX_COMPILER}" ${LIBRETRO_PLATFORM}
         COMMAND ${CMAKE_COMMAND} -E copy "${CORE_NAME}_libretro*" "${TARGET_PATH}"
         WORKING_DIRECTORY "cores/${PLATFORM}/${SUBDIR}"
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
@@ -186,7 +191,7 @@ if(BUILD_PYTHON)
     elseif(WIN32)
         set(PYBIND_LIBS "${PYTHON_LIBRARY}")
     endif()
-    target_link_libraries(retro retro-base ${PYBIND_LIBS})
+    target_link_libraries(retro retro-base ${PYBIND_LIBS} ${STATIC_LDFLAGS})
 endif()
 
 if(BUILD_TESTS)
