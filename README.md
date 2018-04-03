@@ -26,6 +26,8 @@ None
 
 ## Install from source
 
+To build Gym Retro you must first install CMake.
+
 ```sh
 git clone --recursive git@github.com:openai/retro.git gym-retro
 cd gym-retro
