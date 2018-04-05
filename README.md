@@ -2,6 +2,8 @@
 
 Gym Retro is a wrapper for video game emulator cores using the Libretro API to turn them into Gym environments.
 It includes support for multiple classic game consoles and a dataset of different games.
+It runs on Linux, macOS and Windows with Python 3.5 and 3.6 support.
+
 Each game has files listing memory locations for in-game variables, reward functions based on those variables, episode end conditions, savestates at the beginning of levels and a file containing hashes of ROMs that work with these files.
 Please note that ROMs are not included and you must obtain them yourself.
 
@@ -12,17 +14,33 @@ Currently supported systems:
 
 See [LICENSES.md](LICENSES.md) for information on the licenses of the individual cores.
 
-# Dependencies
+# Installation
 
-Mac:
+Gym Retro requires Python 3.5 or 3.6. Please make sure to install the appropriate distribution for your OS beforehand. Please note that due to compatibility issues with some of the cores 32-bit operating systems are not supported.
+
+## Extra Prerequesites
+
+Building Gym Retro requires at least either gcc 5 or clang 3.4.
+
+Given that LuaJIT does not work properly on macOS you must first install Lua 5.1 from homebrew if running macOS:
 
 ```sh
 brew install pkg-config lua@5.1
 ```
 
-Linux:
+## Install from binary
 
-None
+```sh
+pip install gym-retro
+```
+
+### macOS
+
+These wheels require macOS 10.11 or newer.
+
+### Linux
+
+These wheels require glibc 2.14 or newer.
 
 ## Install from source
 
@@ -47,9 +65,8 @@ git submodule update --init
 # Use With Gym
 
 ```python
-import gym
 import retro
-env = gym.make('SonicTheHedgehog-Genesis-GreenHillZone.Act1-v0')
+env = retro.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1')
 ```
 
 # Replay files
@@ -75,7 +92,7 @@ import retro
 movie = retro.Movie('SonicTheHedgehog-Genesis-GreenHillZone.Act1-0000.bk2')
 movie.step()
 
-env = retro.make(movie.get_game(), None, use_restricted_actions=retro.ACTIONS_ALL)
+env = retro.make(game=movie.get_game(), None, use_restricted_actions=retro.ACTIONS_ALL)
 env.initial_state = movie.get_state()
 env.reset()
 
