@@ -47,6 +47,9 @@ class CMakeBuild(build_ext):
 
 setup(
     name='gym-retro',
+    author='OpenAI',
+    author_email='vickipfau@openai.com',
+    url='https://github.com/openai/retro',
     version=open(VERSION_PATH, 'r').read(),
     license='MIT',
     install_requires=['gym'],
