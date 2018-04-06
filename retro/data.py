@@ -55,6 +55,7 @@ def groom_rom(rom):
 def merge(*args, quiet=True):
     import retro
     known_hashes = {}
+    imported_games = 0
     for game in retro.list_games():
         shafile = os.path.join(retro.get_game_path(game), 'rom.sha')
         with open(shafile) as f:
@@ -75,3 +76,6 @@ def merge(*args, quiet=True):
                 print('Importing', game)
             with open(os.path.join(retro.get_game_path(game), 'rom%s' % ext), 'wb') as f:
                 f.write(data)
+            imported_games += 1
+    if not quiet:
+        print('Imported %i games' % imported_games)
