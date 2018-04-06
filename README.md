@@ -37,13 +37,13 @@ These wheels require macOS 10.11 or newer.
 Python 3.5:
 
 ```sh
-pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.2-cp35-cp35m-macosx_10_6_x86_64.whl
+pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp35-cp35m-macosx_10_6_x86_64.whl
 ```
 
 Python 3.6:
 
 ```sh
-pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.2-cp36-cp36m-macosx_10_7_x86_64.whl
+pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp36-cp36m-macosx_10_7_x86_64.whl
 ```
 
 ### Linux
@@ -53,13 +53,13 @@ These wheels require glibc 2.14 or newer.
 Python 3.5:
 
 ```sh
-pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.2-cp35-cp35m-linux_x86_64.whl
+pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp35-cp35m-linux_x86_64.whl
 ```
 
 Python 3.6:
 
 ```sh
-pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.2-cp36-cp36m-linux_x86_64.whl
+pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp36-cp36m-linux_x86_64.whl
 ```
 
 ### Windows
@@ -67,13 +67,13 @@ pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.2-cp36
 Python 3.5:
 
 ```sh
-pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.2-cp35-cp35m-win_amd64.whl
+pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp35-cp35m-win_amd64.whl
 ```
 
 Python 3.6:
 
 ```sh
-pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.2-cp36-cp36m-win_amd64.whl
+pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp36-cp36m-win_amd64.whl
 ```
 
 ## Install from source
