@@ -35,22 +35,26 @@ def main():
         tarball = tarfile.open(fileobj=io.BytesIO(r.content))
         tarball.extractall(dir)
 
-        command = ['%s/steamcmd.sh' % dir,
-                   '+login', username,
-                   '+force_install_dir', dir,
-                   '+@sSteamCmdForcePlatformType', 'windows',
-                   '+app_update', '34270', 'validate',
-                   '+quit']
+        # Steamcmd doesn't like to be used as the target of
+        # force_install_dir, and will instead install in the
+        # default steam directory
+        with tempfile.TemporaryDirectory() as rom_install_dir:
+            command = ['%s/steamcmd.sh' % dir,
+                       '+login', username,
+                       '+force_install_dir', rom_install_dir,
+                       '+@sSteamCmdForcePlatformType', 'windows',
+                       '+app_update', '34270', 'validate',
+                       '+quit']
 
-        print('Installing games...')
-        output = subprocess.run(command, input=password.encode('utf-8'), stdout=subprocess.PIPE)
-        if output.returncode != 0:
-            stdout = output.stdout.decode('utf-8').split('\n')
-            print(*stdout[-3:-1], sep='\n')
-            sys.exit(1)
-        romdir = os.path.join(dir, 'uncompressed ROMs')
-        roms = [os.path.join(romdir, rom) for rom in os.listdir(romdir)]
-        retro.data.merge(*roms, quiet=False)
+            print('Installing games...')
+            output = subprocess.run(command, input=password.encode('utf-8'), stdout=subprocess.PIPE)
+            if output.returncode != 0:
+                stdout = output.stdout.decode('utf-8').split('\n')
+                print(*stdout[-3:-1], sep='\n')
+                sys.exit(1)
+            romdir = os.path.join(rom_install_dir, 'uncompressed ROMs')
+            roms = [os.path.join(romdir, rom) for rom in os.listdir(romdir)]
+            retro.data.merge(*roms, quiet=False)
 
 
 if __name__ == '__main__':
