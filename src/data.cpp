@@ -389,7 +389,11 @@ bool Scenario::load(istream* file, const std::string& path) {
 		setActions(static_cast<const vector<vector<vector<string>>>&>(actions.value()));
 	}
 
+#ifndef _WIN32
 	size_t slash = path.find_last_of('/');
+#else
+	size_t slash = path.find_last_of("/\\");
+#endif
 	if (slash != string::npos) {
 		m_base = path.substr(0, slash);
 	}
