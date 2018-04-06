@@ -81,7 +81,7 @@ pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.2-cp36
 To build Gym Retro you must first install CMake.
 
 ```sh
-git clone --recursive git@github.com:openai/retro.git gym-retro
+git clone --recursive https://github.com/openai/retro.git gym-retro
 cd gym-retro
 pip install -e .
 ```
