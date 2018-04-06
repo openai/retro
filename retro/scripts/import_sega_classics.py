@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+import zipfile
 
 
 def main():
@@ -28,32 +29,45 @@ def main():
     with tempfile.TemporaryDirectory() as dir:
         if sys.platform.startswith('linux'):
             r = requests.get('https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz')
+            steamcmd = 'steamcmd.sh'
         elif sys.platform.startswith('darwin'):
             r = requests.get('https://steamcdn-a.akamaihd.net/client/installer/steamcmd_osx.tar.gz')
+            steamcmd = 'steamcmd.sh'
+        elif sys.platform.startswith('win'):
+            r = requests.get('https://steamcdn-a.akamaihd.net/client/installer/steamcmd.zip')
+            steamcmd = 'steamcmd.exe'
         else:
             raise RuntimeError('Unknown platform %s' % sys.platform)
-        tarball = tarfile.open(fileobj=io.BytesIO(r.content))
-        tarball.extractall(dir)
+        if sys.platform.startswith('win'):
+            zipf = zipfile.ZipFile(io.BytesIO(r.content))
+            zipf.extractall(dir)
+        else:
+            tarball = tarfile.open(fileobj=io.BytesIO(r.content))
+            tarball.extractall(dir)
 
         # Steamcmd doesn't like to be used as the target of
         # force_install_dir, and will instead install in the
         # default steam directory
         with tempfile.TemporaryDirectory() as rom_install_dir:
-            command = ['%s/steamcmd.sh' % dir,
+            command = [os.path.join(dir, steamcmd),
                        '+login', username,
                        '+force_install_dir', rom_install_dir,
                        '+@sSteamCmdForcePlatformType', 'windows',
                        '+app_update', '34270', 'validate',
                        '+quit']
 
-            print('Installing games...')
+            print('Downloading games...')
             output = subprocess.run(command, input=password.encode('utf-8'), stdout=subprocess.PIPE)
-            if output.returncode != 0:
+            if output.returncode not in (0, 7):
                 stdout = output.stdout.decode('utf-8').split('\n')
                 print(*stdout[-3:-1], sep='\n')
                 sys.exit(1)
-            romdir = os.path.join(rom_install_dir, 'uncompressed ROMs')
-            roms = [os.path.join(romdir, rom) for rom in os.listdir(romdir)]
+            roms = []
+            print('Installing games...')
+            for base, _, files in os.walk(rom_install_dir):
+                if not base.endswith('uncompressed ROMs'):
+                    continue
+                roms.extend([os.path.join(base, file) for file in files])
             retro.data.merge(*roms, quiet=False)
 
 
