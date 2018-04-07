@@ -212,3 +212,7 @@ class RetroEnv(gym.Env):
     def close(self):
         if hasattr(self, 'em'):
             del self.em
+
+        if self.viewer is not None:
+            self.viewer.close()
+            self.viewer = None
