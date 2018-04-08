@@ -37,8 +37,9 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=No
 
     def killprocs(*args, **kwargs):
         ffmpeg_proc.terminate()
-        viewer_proc.terminate()
-        viewer_proc.wait()
+        if viewer:
+            viewer_proc.terminate()
+            viewer_proc.wait()
         raise BrokenPipeError
 
     while movie.step():
