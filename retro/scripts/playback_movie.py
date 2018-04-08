@@ -20,7 +20,7 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=No
         input_vformat = ['-r', str(emulator.em.get_screen_rate()), '-s', '%dx%d' % emulator.observation_space.shape[1::-1], '-pix_fmt', 'rgb24', '-f', 'rawvideo']
         input_aformat = ['-ar', '%i' % emulator.em.get_audio_rate(), '-ac', '2', '-f', 's16le']
         if video_file:
-            output = ['-c:v', 'libx264', '-preset', 'fast', '-crf', '18', '-f', 'mp4', '-pix_fmt', 'yuv420p', video_file]
+            output = ['-c:v', 'libx264', '-preset', 'fast', '-crf', '18', '-f', 'mp4', '-pix_fmt', 'yuv420p','-strict', '-2', video_file]
         if viewer:
             stdout = subprocess.PIPE
             output = ['-c', 'copy', '-f', 'nut', 'pipe:1']
@@ -37,8 +37,9 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=No
 
     def killprocs(*args, **kwargs):
         ffmpeg_proc.terminate()
-        viewer_proc.terminate()
-        viewer_proc.wait()
+        if viewer:
+            viewer_proc.terminate()
+            viewer_proc.wait()
         raise BrokenPipeError
 
     while movie.step():
