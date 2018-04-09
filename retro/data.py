@@ -21,6 +21,10 @@ class GameData(GameDataGlue):
         variables = self.list_variables()
         return name in variables
 
+    @property
+    def memory(self):
+        return super(GameData, self).memory()
+
 
 def parse_smd(header, body):
     import numpy as np

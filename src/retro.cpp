@@ -110,32 +110,24 @@ struct PyRetroEmulator {
 };
 
 struct PyMemoryView {
-	Retro::MemoryView<> m_mem;
-	PyMemoryView(py::array_t<uint8_t>& mem) {
-		m_mem.open(static_cast<void*>(mem.mutable_data()), mem.size());
-		m_mem.clone();
+	Retro::AddressSpace& m_mem;
+	PyMemoryView(Retro::AddressSpace& mem) : m_mem(mem) {
 	}
 
-	int64_t extract(size_t address, const string& type, py::list ospec) {
-		MemoryOverlay overlay{
-			ospec.is_none() ? '=' : static_cast<string>(py::str(ospec[0]))[0],
-			ospec.is_none() ? '=' : static_cast<string>(py::str(ospec[1]))[0],
-			ospec.is_none() ? 1 : static_cast<size_t>(py::int_(ospec[2])),
-		};
-		return DataType(type)(m_mem.offset(0), address, overlay);
+	int64_t extract(size_t address, const string& type) {
+		return m_mem[Variable{ type, address }];
 	}
 
-	void assign(size_t address, const string& type, int64_t value, py::list ospec) {
-		MemoryOverlay overlay{
-			ospec.is_none() ? '=' : static_cast<string>(py::str(ospec[0]))[0],
-			ospec.is_none() ? '=' : static_cast<string>(py::str(ospec[1]))[0],
-			ospec.is_none() ? 1 : static_cast<size_t>(py::int_(ospec[2])),
-		};
-		DataType{ type }(m_mem.offset(0), address, overlay) = value;
+	void assign(size_t address, const string& type, int64_t value) {
+		m_mem[Variable{ type, address }] = value;
 	}
 
-	py::array_t<uint8_t> data() {
-		return py::array_t<uint8_t>(m_mem.size(), &m_mem[0]);
+	void setitem(py::dict item, int64_t value) {
+		return assign(py::int_(item["address"]), py::str(item["type"]), value);
+	}
+
+	int64_t getitem(py::dict item) {
+		return extract(py::int_(item["address"]), py::str(item["type"]));
 	}
 };
 
@@ -233,6 +225,10 @@ struct PyGameData {
 	bool isDone() const {
 		return m_scen.isDone();
 	}
+
+	PyMemoryView memory() {
+		return PyMemoryView(m_data.addressSpace());
+	}
 };
 
 void PyRetroEmulator::configureData(PyGameData& data) {
@@ -320,10 +316,11 @@ PYBIND11_MODULE(_retro, m) {
 		.def_static("load_core_info", &PyRetroEmulator::loadCoreInfo);
 
 	py::class_<PyMemoryView>(m, "Memory")
-		.def(py::init<py::array_t<uint8_t>&>())
-		.def("extract", &PyMemoryView::extract, py::arg("address"), py::arg("type"), py::arg("overlay") = py::none())
-		.def("assign", &PyMemoryView::assign, py::arg("address"), py::arg("type"), py::arg("value"), py::arg("overlay") = py::none())
-		.def("data", &PyMemoryView::data);
+		.def(py::init<Retro::AddressSpace&>())
+		.def("extract", &PyMemoryView::extract, py::arg("address"), py::arg("type"))
+		.def("assign", &PyMemoryView::assign, py::arg("address"), py::arg("type"), py::arg("value"))
+		.def("__setitem__", &PyMemoryView::setitem, py::arg("item"), py::arg("value"))
+		.def("__getitem__", &PyMemoryView::getitem, py::arg("item"));
 
 	py::class_<PyGameData>(m, "GameDataGlue")
 		.def(py::init<>())
@@ -339,7 +336,8 @@ PYBIND11_MODULE(_retro, m) {
 		.def("remove_variable", &PyGameData::removeVariable)
 		.def("list_variables", &PyGameData::listVariables)
 		.def("current_reward", &PyGameData::currentReward)
-		.def("is_done", &PyGameData::isDone);
+		.def("is_done", &PyGameData::isDone)
+		.def("memory", &PyGameData::memory);
 
 	py::class_<PyMovie>(m, "Movie")
 		.def(py::init<py::str, bool>(), py::arg("path"), py::arg("record") = false)
