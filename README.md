@@ -127,7 +127,7 @@ import retro
 movie = retro.Movie('SonicTheHedgehog-Genesis-GreenHillZone.Act1-0000.bk2')
 movie.step()
 
-env = retro.make(game=movie.get_game(), None, use_restricted_actions=retro.ACTIONS_ALL)
+env = retro.make(game=movie.get_game(), state=retro.STATE_NONE, use_restricted_actions=retro.ACTIONS_ALL)
 env.initial_state = movie.get_state()
 env.reset()
 
