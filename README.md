@@ -80,6 +80,31 @@ pip3.6 install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-c
 
 To build Gym Retro you must first install CMake.
 You can do this either through your package manager, download from the [official site](https://cmake.org/download/) or `pip3 install cmake`.
+If you're using the official installer on Windows, make sure to tell CMake to add itself to the system PATH.
+
+### Windows prerequisites
+
+If you are not on Windows, please skip to the next section.
+Otherwise, you will also need to download and install [Git](https://git-scm.com/downloads) and [MSYS2](http://www.msys2.org) x86_64.
+When you install git, choose to use Git from the Windows Command Prompt.
+
+After you have installed msys2 open an MSYS2 MinGW 64-bit prompt (under Start > MSYS2 64bit)  and run this command:
+
+```sh
+pacman -Sy make mingw-w64-x86_64-gcc
+```
+
+Once that's done, close the prompt and open a Git CMD prompt (under Start > Git) and run this command.
+If you installed MSYS2 into an alternate directory please use that instead of C:\msys64 in the comamnd.
+
+```sh
+path %PATH%;C:\msys64\mingw64\bin;C:\msys64\usr\bin
+```
+
+Then in the same prompt, without closing it first, continue with the steps in the next section.
+If you close the prompt you will need to rerun the last command before you can rebuild.
+
+### Building
 
 ```sh
 git clone --recursive https://github.com/openai/retro.git gym-retro
