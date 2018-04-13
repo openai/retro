@@ -116,11 +116,17 @@ function(add_core PLATFORM CORE_NAME)
     if(WIN32)
         set(LIBRETRO_PLATFORM platform=win)
     endif()
+    if(WIN32 AND NOT CMAKE_CROSSCOMPILING)
+        set(CORE_LDFLAGS LDFLAGS="-w ${STATIC_LDFLAGS}")
+    else()
+        set(CORE_LDFLAGS "LDFLAGS=-w ${STATIC_LDFLAGS}")
+    endif()
     add_custom_command(OUTPUT "${TARGET_PATH}"
-        COMMAND CFLAGS=-w CXXFLAGS=-w "LDFLAGS=-w ${STATIC_LDFLAGS}" $(MAKE) -f ${MAKEFILE} CC="${CMAKE_C_COMPILER}" CXX="${CMAKE_CXX_COMPILER}" ${LIBRETRO_PLATFORM}
+        COMMAND CFLAGS=-w CXXFLAGS=-w "${CORE_LDFLAGS}" $(MAKE) -f ${MAKEFILE} CC="${CMAKE_C_COMPILER}" CXX="${CMAKE_CXX_COMPILER}" ${LIBRETRO_PLATFORM}
         COMMAND ${CMAKE_COMMAND} -E copy "${CORE_NAME}_libretro*" "${TARGET_PATH}"
         WORKING_DIRECTORY "cores/${PLATFORM}/${SUBDIR}"
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
+    unset(CORE_LDFLAGS)
 
     add_custom_target(${PLATFORM} ALL DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version" "${TARGET_PATH}")
     list(APPEND CORE_TARGETS "${PLATFORM}")

@@ -36,7 +36,7 @@ class CMakeBuild(build_ext):
         if not self.inplace:
             pylib_dir = '-DPYLIB_DIRECTORY:PATH=%s' % self.build_lib
         python_executable = '-DPYTHON_EXECUTABLE:STRING=%s' % sys.executable
-        subprocess.check_call(['cmake', '.', pyext_suffix, pylib_dir, python_executable])
+        subprocess.check_call(['cmake', '.', '-G', 'Unix Makefiles', pyext_suffix, pylib_dir, python_executable])
         if self.parallel:
             jobs = ['-j%d' % self.parallel]
         else:
