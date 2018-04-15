@@ -167,6 +167,12 @@ ROM files contain the game itself. Each system has a unique file extension to de
 
 Sometime ROMs from these systems use different extensions, e.g. `.gen` for Genesis, `.bin` for Atari, etc. Please rename the ROMs to use the aforementioned extensions in these cases.
 
+You can import your ROMs using [`retro.import`](https://github.com/openai/retro/blob/master/scripts/import.py). 
+
+```
+python -m retro.import /path/to/your/ROMs/directory/
+```
+
 The following non-commerical ROMs are included with Gym Retro for testing purposes:
 
 - [Dekadrive](http://www.pouet.net/prod.php?which=67142) by Dekadence
