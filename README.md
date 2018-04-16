@@ -94,15 +94,16 @@ After you have installed msys2 open an MSYS2 MinGW 64-bit prompt (under Start > 
 pacman -Sy make mingw-w64-x86_64-gcc
 ```
 
-Once that's done, close the prompt and open a Git CMD prompt (under Start > Git) and run this command.
+Once that's done, close the prompt and open a Git CMD prompt (under Start > Git) and run these commands.
 If you installed MSYS2 into an alternate directory please use that instead of C:\msys64 in the comamnd.
 
 ```sh
 path %PATH%;C:\msys64\mingw64\bin;C:\msys64\usr\bin
+set MSYSTEM=MINGW64
 ```
 
 Then in the same prompt, without closing it first, continue with the steps in the next section.
-If you close the prompt you will need to rerun the last command before you can rebuild.
+If you close the prompt you will need to rerun the last commands before you can rebuild.
 
 ### Building
 
