@@ -4,11 +4,11 @@
       "address": 228,
       "type": "|u1"
     },
-    "score1": {
+    "score0": {
       "address": 238,
       "type": "|d1"
     },
-    "score2": {
+    "score1": {
       "address": 236,
       "type": "|d1"
     }

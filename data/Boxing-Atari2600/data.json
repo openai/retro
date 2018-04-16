@@ -7,11 +7,11 @@
     },
     "score1": {
       "address": 146,
-      "type": "|u1"
+      "type": "|d1"
     },
     "score2": {
       "address": 147,
-      "type": "|u1"
+      "type": "|d1"
     },
     "seconds": {
       "address": 145,

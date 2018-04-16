@@ -5,27 +5,27 @@
       "type": "|u1",
       "mask": 15
     },
-    "score1": {
+    "score0": {
       "address": 139,
       "mask": 120,
       "type": "|u1"
     },
-    "score2": {
+    "score1": {
       "address": 137,
       "mask": 120,
       "type": "|u1"
     },
-    "score3": {
+    "score2": {
       "address": 135,
       "mask": 120,
       "type": "|u1"
     },
-    "score4": {
+    "score3": {
       "address": 133,
       "mask": 120,
       "type": "|u1"
     },
-    "score5": {
+    "score4": {
       "address": 131,
       "mask": 120,
       "type": "|u1"
