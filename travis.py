@@ -3,6 +3,7 @@ import os
 import shlex
 import json
 import glob
+import sys
 
 
 class Fold:
@@ -56,11 +57,6 @@ def test():
     return not testdata.errors
 
 
-def plot_history():
-    import scripts.plot_history as plot
-    plot.main()
-
-
 def main():
     os_name = os.environ['TRAVIS_OS_NAME']
     cross = os.environ.get('CROSS')
@@ -75,9 +71,10 @@ def main():
             call(['brew', 'install', 'lua@5.1', 'ccache'])
             cmake_options = []
         elif os_name == 'linux':
-            cmake_options = []
+            cmake_options = ['-DBUILD_MANYLINUX=ON',
+                             '-DPYTHON_INCLUDE_DIR=%s/include/python%sm' % (sys.base_prefix, os.environ['PYVER'])]
             if cross in ('win32', 'win64'):
-                cmake_options = ['-DCMAKE_TOOLCHAIN_FILE=cmake/%s.cmake' % cross]
+                cmake_options = ['-DCMAKE_TOOLCHAIN_FILE=docker/cmake/%s.cmake' % cross]
             if cross == 'win32':
                 bdist_options = ['--plat-name', 'win32']
             if cross == 'win64':
@@ -100,6 +97,8 @@ def main():
                 upload_dir = 'builds'
             else:
                 upload_dir = 'builds/%s' % os.environ['TRAVIS_BRANCH']
+            if not cross and os_name == 'linux':
+                call(['auditwheel', 'repair', '-w', 'dist'] + glob.glob('dist/*.whl'))
 
             upload_to_gcs(['dist/*.whl'], upload_dir)
 

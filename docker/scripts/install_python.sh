@@ -26,4 +26,4 @@ function install_python {
 }
 
 install_python 3 5 4
-install_python 3 6 4
+install_python 3 6 5

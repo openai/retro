@@ -29,6 +29,12 @@ matrix:
 before_script:
   - mkdir -p $HOME/roms
 script:
+  - |
+    if [ -n "$CROSS" ]; then
+    TAG=$CROSS
+    else
+    TAG=$TRAVIS_OS_NAME
+    fi
   - >
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
     docker run
@@ -42,7 +48,7 @@ script:
     --volume /home/travis/build/openai/retro:/root/code/retro
     --volume /home/travis/.ccache:/root/.ccache
     --workdir /root/code/retro
-    openai/travis-build
+    openai/retro-build:$TAG
     python travis.py;
     fi
   - |

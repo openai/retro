@@ -1,16 +1,17 @@
 FROM ubuntu:xenial
 
 SHELL ["/bin/bash", "-c"]
+ARG ARCH=x86_64
+ARG BITS=64
 ENV PYVER=3.5
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        build-essential ccache cmake curl g++-multilib gcc-multilib git \
-        libffi-dev libz-mingw-w64-dev mingw-w64 p7zip-full pkg-config  \
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        build-essential ccache cmake curl g++-mingw-w64-`echo $ARCH | tr _ -` \
+        git libz-mingw-w64-dev p7zip-full pkg-config \
         software-properties-common unzip zip && \
     apt-get clean
 
 RUN apt-add-repository -y ppa:deadsnakes/ppa && \
-    apt-add-repository -y ppa:tobydox/mingw-w64 && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         libpython3.5-dev python3.5-venv \
@@ -30,15 +31,13 @@ RUN python3.5 -m venv ~/venv3.5 && \
     echo "source /root/venv\$PYVER/bin/activate" > ~/.bash_profile
 
 WORKDIR /root
-COPY scripts scripts
-COPY cmake cmake
+COPY docker/scripts scripts
+COPY docker/cmake cmake
+
+RUN CROSS=win${BITS} ROOT=/usr/${ARCH}-w64-mingw32 ./scripts/install_python.sh
+
 COPY third-party/libzip libzip
-
-RUN CROSS=win32 ROOT=/usr/i686-w64-mingw32 ./scripts/install_python.sh && \
-    CROSS=win64 ROOT=/usr/x86_64-w64-mingw32 ./scripts/install_python.sh
-
-RUN CROSS=win32 ROOT=/usr/i686-w64-mingw32 ./scripts/build_libzip.sh && \
-    CROSS=win64 ROOT=/usr/x86_64-w64-mingw32 ./scripts/build_libzip.sh && \
+RUN CROSS=win${BITS} ROOT=/usr/${ARCH}-w64-mingw32 ./scripts/build_libzip.sh && \
     rm -rf libzip
 
 ENTRYPOINT ["bash", "-lc", "exec $0 $@"]
