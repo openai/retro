@@ -22,7 +22,8 @@ Gym Retro requires Python 3.5 or 3.6. Please make sure to install the appropriat
 
 Building Gym Retro requires at least either gcc 5 or clang 3.4.
 
-Given that LuaJIT does not work properly on macOS you must first install Lua 5.1 from homebrew if running macOS:
+If you are on macOS, you need 10.11 or newer.
+Also, since LuaJIT does not work properly on macOS you must first install Lua 5.1 from homebrew:
 
 ```sh
 brew install pkg-config lua@5.1
@@ -30,50 +31,8 @@ brew install pkg-config lua@5.1
 
 ## Install from binary
 
-### macOS
-
-These wheels require macOS 10.11 or newer.
-
-Python 3.5:
-
 ```sh
-pip3.5 install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp35-cp35m-macosx_10_6_x86_64.whl
-```
-
-Python 3.6:
-
-```sh
-pip3.6 install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp36-cp36m-macosx_10_7_x86_64.whl
-```
-
-### Linux
-
-These wheels require glibc 2.14 or newer.
-
-Python 3.5:
-
-```sh
-pip3.5 install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp35-cp35m-linux_x86_64.whl
-```
-
-Python 3.6:
-
-```sh
-pip3.6 install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp36-cp36m-linux_x86_64.whl
-```
-
-### Windows
-
-Python 3.5:
-
-```sh
-pip3.5 install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp35-cp35m-win_amd64.whl
-```
-
-Python 3.6:
-
-```sh
-pip3.6 install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.3-cp36-cp36m-win_amd64.whl
+pip3 install gym-retro
 ```
 
 ## Install from source
