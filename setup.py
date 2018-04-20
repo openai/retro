@@ -1,3 +1,4 @@
+from distutils.spawn import find_executable
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
 import subprocess
@@ -36,7 +37,16 @@ class CMakeBuild(build_ext):
         if not self.inplace:
             pylib_dir = '-DPYLIB_DIRECTORY:PATH=%s' % self.build_lib
         python_executable = '-DPYTHON_EXECUTABLE:STRING=%s' % sys.executable
-        subprocess.check_call(['cmake', '.', '-G', 'Unix Makefiles', pyext_suffix, pylib_dir, python_executable])
+        cmake_exe = find_executable('cmake')
+        if not cmake_exe:
+            try:
+                import cmake
+            except ImportError:
+                import pip
+                pip.main(['install', 'cmake'])
+                import cmake
+            cmake_exe = os.path.join(cmake.CMAKE_BIN_DIR, 'cmake')
+        subprocess.check_call([cmake_exe, '.', '-G', 'Unix Makefiles', pyext_suffix, pylib_dir, python_executable])
         if self.parallel:
             jobs = ['-j%d' % self.parallel]
         else:
