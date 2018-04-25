@@ -5,6 +5,13 @@ import os
 import json
 import subprocess
 import sys
+
+try:
+    # Work around TensorFlow import issues
+    sys.setdlopenflags(os.RTLD_NOW | os.RTLD_GLOBAL)
+except AttributeError:
+    pass
+
 from retro._retro import Movie, RetroEmulator, core_path, data_path as _data_path
 
 ROOT_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
