@@ -143,6 +143,9 @@ class RetroEnv(gym.Env):
             self._close = self.close
 
     def step(self, a):
+        if self.img is None:
+            raise RuntimeError('Please call env.reset() before env.step()')
+
         action = 0
         if self.use_restricted_actions == retro.ACTIONS_DISCRETE:
             for combo in self.BUTTON_COMBOS:
