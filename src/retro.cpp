@@ -2,10 +2,10 @@
 #ifdef _WIN32
 // pyconfig.h doesn't seem to like hypot, so we need to work around it.
 namespace std {
-	template <typename T>
-	static inline T _hypot(T x, T y) {
-		return hypot(x, y);
-	}
+template<typename T>
+static inline T _hypot(T x, T y) {
+	return hypot(x, y);
+}
 }
 #endif
 #include <pybind11/pybind11.h>
@@ -120,7 +120,8 @@ struct PyRetroEmulator {
 
 struct PyMemoryView {
 	Retro::AddressSpace& m_mem;
-	PyMemoryView(Retro::AddressSpace& mem) : m_mem(mem) {
+	PyMemoryView(Retro::AddressSpace& mem)
+		: m_mem(mem) {
 	}
 
 	int64_t extract(size_t address, const string& type) {
