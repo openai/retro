@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.5 (unreleased)
+
+* allow Atari height to be different per game
+* update pybind11 dependency
+
 ## 0.5.4
 
 * improved Windows support
