@@ -304,7 +304,6 @@ void Emulator::fixScreenSize(const string& romName) {
 	} else if (!strcmp(systemInfo.library_name, "Stella")) {
 		// Stella gives confusing values to pretend the pixel width is 2x
 		m_avInfo.geometry.base_width = 160;
-		m_avInfo.geometry.base_height = 210;
 	}
 }
 
