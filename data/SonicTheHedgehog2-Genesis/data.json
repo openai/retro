@@ -32,6 +32,10 @@
       "address": 16772810,
       "type": ">u2"
     },
+    "screen_y": {
+      "address": 16772612,
+      "type": ">u2"
+    },
     "x": {
       "address": 16756744,
       "type": ">u2"

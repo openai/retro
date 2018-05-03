@@ -28,6 +28,10 @@
       "address": 16772630,
       "type": ">u2"
     },
+    "screen_y": {
+      "address": 16772732,
+      "type": ">u2"
+    },
     "special_stage": {
       "address": 16776776,
       "type": "|i1"
