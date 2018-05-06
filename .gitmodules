@@ -10,6 +10,10 @@
 	path = cores/atari2600
 	url = https://github.com/libretro/stella-libretro.git
         ignore = dirty
+[submodule "snes"]
+	path = cores/snes
+	url = https://github.com/libretro/snes9x.git
+        ignore = dirty
 [submodule "third-party/pybind11"]
 	path = third-party/pybind11
 	url = https://github.com/pybind/pybind11.git
@@ -22,3 +26,4 @@
 [submodule "third-party/libzip"]
 	path = third-party/libzip
 	url = https://github.com/nih-at/libzip.git
+
