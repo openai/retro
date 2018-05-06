@@ -1,47 +1,23 @@
 {
   "info": {
-    "act": {
-      "address": 16776721,
+    "module_index": {
+      "address": 8257552,
       "type": "|u1"
-    },
-    "level_end_bonus": {
-      "address": 16775126,
-      "type": "|u1"
-    },
-    "lives": {
-      "address": 16776722,
-      "type": "|u1"
-    },
-    "rings": {
-      "address": 16776736,
-      "type": ">u2"
-    },
-    "score": {
-      "address": 16776742,
-      "type": ">u4"
-    },
-    "screen_x": {
-      "address": 16774912,
-      "type": ">u2"
-    },
-    "screen_x_end": {
-      "address": 16774954,
-      "type": ">u2"
-    },
-    "screen_y": {
-      "address": 16774916,
-      "type": ">u2"
     },
     "x": {
-      "address": 16764936,
-      "type": ">i2"
-    },
-    "y": {
-      "address": 16764940,
+      "address": 8257568,
       "type": ">u2"
     },
-    "zone": {
-      "address": 16776720,
+    "y": {
+      "address": 8257570,
+      "type": ">u2"
+    },
+    "related_x": {
+      "address": 8257600,
+      "type": "|u1"
+    },
+    "related_y": {
+      "address": 8257601,
       "type": "|u1"
     }
   }
