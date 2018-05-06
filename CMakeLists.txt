@@ -141,6 +141,7 @@ endfunction()
 
 add_core(genesis genesis_plus_gx)
 add_core(atari2600 stella)
+add_core(snes snes9x)
 
 set(CLEAN_CORES)
 foreach(CORE IN LISTS CORE_TARGETS)

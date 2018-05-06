@@ -68,7 +68,7 @@ setup(
     packages=['retro', 'retro.data', 'retro.scripts', 'retro.import'],
     package_data={
         'retro': ['cores.json', 'cores/*_libretro*', 'VERSION.txt', 'README.md', 'LICENSES.md'],
-        'retro.data': ['*-%s/*' % plat for plat in ['Genesis', 'Atari2600']],
+        'retro.data': ['*-%s/*' % plat for plat in ['Genesis', 'Atari2600', 'Snes']],
     },
     package_dir={
         'retro.data': 'data'

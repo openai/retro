@@ -1,0 +1,24 @@
+{
+  "info": {
+    "module_index": {
+      "address": 8257552,
+      "type": "|u1"
+    },
+    "x": {
+      "address": 8257568,
+      "type": ">u2"
+    },
+    "y": {
+      "address": 8257570,
+      "type": ">u2"
+    },
+    "related_x": {
+      "address": 8257600,
+      "type": "|u1"
+    },
+    "related_y": {
+      "address": 8257601,
+      "type": "|u1"
+    }
+  }
+}

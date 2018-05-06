@@ -22,5 +22,16 @@
             [[], ["UP"], ["DOWN"], ["LEFT"], ["RIGHT"], ["UP", "LEFT"], ["UP", "RIGHT"], ["DOWN", "LEFT"], ["DOWN", "RIGHT"]],
             [[], ["BUTTON"]]
         ]
+    },
+    "Snes": {
+        "lib": "snes9x",
+        "ext": ["sfc"],
+        "rambase": 0,
+        "keybinds": ["Z", null, "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT"],
+        "buttons": ["BUTTON", null, "SELECT", "RESET", "UP", "DOWN", "LEFT", "RIGHT"],
+        "actions": [
+            [[], ["UP"], ["DOWN"], ["LEFT"], ["RIGHT"], ["UP", "LEFT"], ["UP", "RIGHT"], ["DOWN", "LEFT"], ["DOWN", "RIGHT"]],
+            [[], ["BUTTON"]]
+        ]
     }
 }
