@@ -39,9 +39,12 @@ class RetroEnv(gym.Env):
             path = os.getcwd()
         self.movie_path = path
 
-    def __init__(self, game, state=retro.STATE_DEFAULT, scenario=None, info=None, use_restricted_actions=retro.ACTIONS_FILTERED, record=False):
+    def __init__(self, game, state=retro.STATE_DEFAULT, scenario=None, info=None,
+      use_restricted_actions=retro.ACTIONS_FILTERED, record=False, obs_type='image'):
         if not hasattr(self, 'spec'):
             self.spec = None
+        assert obs_type in ('ram', 'image')
+        self._obs_type = obs_type
         self.img = None
         self.viewer = None
         self.gamename = game
@@ -124,7 +127,11 @@ class RetroEnv(gym.Env):
         kwargs = {}
         if gym_version >= (0, 9, 6):
             kwargs['dtype'] = np.uint8
-        self.observation_space = gym.spaces.Box(low=0, high=255, shape=img.shape, **kwargs)
+        if self._obs_type == 'ram':
+            shape = (len(self.em.get_state()),)
+        else:
+            shape = img.shape
+        self.observation_space = gym.spaces.Box(low=0, high=255, shape=shape, **kwargs)
 
         self.use_restricted_actions = use_restricted_actions
         self.movie = None
@@ -141,6 +148,14 @@ class RetroEnv(gym.Env):
             self._reset = self.reset
             self._render = self.render
             self._close = self.close
+
+    def _get_obs(self):
+        if self._obs_type == 'ram':
+            return self.data.memory
+        elif self._obs_type == 'image':
+            return self.img
+        else:
+            raise error.Error('Unrecognized observation type: {}'.format(self._obs_type))
 
     def step(self, a):
         if self.img is None:
@@ -170,8 +185,9 @@ class RetroEnv(gym.Env):
             self.movie.step()
         self.em.set_button_mask(a)
         self.em.step()
-        self.img = ob = self.em.get_screen()
+        self.img = self.em.get_screen()
         self.data.update_ram()
+        ob = self._get_obs()
         rew, done, info = self.compute_step(ob)
         return ob, float(rew), bool(done), dict(info)
 
@@ -185,9 +201,10 @@ class RetroEnv(gym.Env):
             self.movie_id += 1
         if self.movie:
             self.movie.step()
-        self.img = ob = self.em.get_screen()
+        self.img = self.em.get_screen()
         self.data.reset()
         self.data.update_ram()
+        ob = self._get_obs()
         return ob
 
     def seed(self, seed=None):
