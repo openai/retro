@@ -4,17 +4,21 @@ import csv
 import os
 import retro
 import signal
+import socket
 import subprocess
+import time
 
 
 def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=None, video_delay=0):
     ffmpeg_proc = None
     viewer_proc = None
-    vo = None
-    vi = None
     if viewer or video_file:
-        vr, video = os.pipe()
-        ar, audio = os.pipe()
+        video = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        video.bind(('127.0.0.1', 0))
+        audio.bind(('127.0.0.1', 0))
+        vr = video.getsockname()[1]
+        ar = audio.getsockname()[1]
         stdout = None
         output = []
         input_vformat = ['-r', str(emulator.em.get_screen_rate()), '-s', '%dx%d' % emulator.observation_space.shape[1::-1], '-pix_fmt', 'rgb24', '-f', 'rawvideo']
@@ -25,10 +29,18 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=No
             stdout = subprocess.PIPE
             output = ['-c', 'copy', '-f', 'nut', 'pipe:1']
         ffmpeg_proc = subprocess.Popen(['ffmpeg', '-y',
-                                        *input_vformat, '-probesize', '32', '-thread_queue_size', '10000', '-i', 'pipe:%i' % vr,  # Input params (video)
-                                        *input_aformat, '-probesize', '32', '-thread_queue_size', '60', '-i', 'pipe:%i' % ar,  # Input params (audio)
+                                        *input_vformat, '-probesize', '32', '-thread_queue_size', '10000', '-i', 'tcp://127.0.0.1:%i?listen' % vr,  # Input params (video)
+                                        *input_aformat, '-probesize', '32', '-thread_queue_size', '60', '-i', 'tcp://127.0.0.1:%i?listen' % ar,  # Input params (audio)
                                         *output],  # Output params
-                                       pass_fds=(vr, ar), stdout=stdout)
+                                       stdout=stdout)
+        video.close()
+        audio.close()
+        video = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        audio_connected = False
+
+        time.sleep(0.2)
+        video.connect(('127.0.0.1', vr))
         if viewer:
             viewer_proc = subprocess.Popen([viewer, '-'], stdin=ffmpeg_proc.stdout)
     frames = 0
@@ -50,29 +62,37 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=No
         score += reward
         frames += 1
         try:
-            signal.signal(signal.SIGCHLD, killprocs)
+            if hasattr(signal, 'SIGCHLD'):
+                signal.signal(signal.SIGCHLD, killprocs)
             if viewer_proc and viewer_proc.poll() is not None:
                 break
             if ffmpeg_proc and frames > video_delay:
                 sound = emulator.em.get_audio()
-                os.write(audio, bytes(sound))
-                os.write(video, bytes(display))
+                video.sendall(bytes(display))
+                if not audio_connected:
+                    time.sleep(0.2)
+                    audio.connect(('127.0.0.1', ar))
+                    audio_connected = True
+                if len(sound):
+                    audio.sendall(bytes(sound))
         except BrokenPipeError:
             break
         finally:
-            signal.signal(signal.SIGCHLD, signal.SIG_DFL)
+            if hasattr(signal, 'SIGCHLD'):
+                signal.signal(signal.SIGCHLD, signal.SIG_DFL)
         if done and not wasDone:
             if monitor_csv:
                 monitor_csv.writerow({'r': score, 'l': frames, 't': frames / 60.0})
             frames = 0
             score = 0
         wasDone = done
-    signal.signal(signal.SIGCHLD, signal.SIG_DFL)
+    if hasattr(signal, 'SIGCHLD'):
+        signal.signal(signal.SIGCHLD, signal.SIG_DFL)
     if monitor_csv and frames:
         monitor_csv.writerow({'r': score, 'l': frames, 't': frames / 60.0})
     if ffmpeg_proc:
-        os.close(video)
-        os.close(audio)
+        video.close()
+        audio.close()
         if not viewer_proc or viewer_proc.poll() is None:
             ffmpeg_proc.wait()
 
