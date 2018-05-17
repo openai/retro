@@ -22,12 +22,9 @@ void Zip::close() {
 	if (!m_zip) {
 		return;
 	}
-	for (auto& file : m_files) {
-		file->flush();
-	}
+	m_files.clear();
 	zip_close(m_zip);
 	m_zip = nullptr;
-	m_files.clear();
 }
 
 Zip::File* Zip::openFile(const std::string& name, bool write) {
@@ -52,6 +49,14 @@ Zip::File::File(zip_t* zip, const std::string& name, zip_file_t* file)
 	: m_zip(zip)
 	, m_file(file)
 	, m_name(name) {
+}
+
+Zip::File::~File() {
+	if (m_file) {
+		zip_fclose(m_file);
+	} else {
+		flush();
+	}
 }
 
 string Zip::File::readline() {

@@ -14,6 +14,7 @@ public:
 	public:
 		File(zip_t*, const std::string& name, zip_file_t* = nullptr);
 		File(File&) = delete;
+		~File();
 
 		std::string readline();
 		ssize_t read(void* buffer, size_t size);
