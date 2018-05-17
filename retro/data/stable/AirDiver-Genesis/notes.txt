@@ -1,0 +1,2 @@
+Energy is an unusual variable - 0 is optimal, however, lives alone going to 0 results in gameover, so it's not included in the scenario.
+Same w/ fuel - if fuel goes to 0, nothing will happen.

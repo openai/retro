@@ -1,0 +1,24 @@
+{
+  "default_state": "1Player.BottomLeftLevel",
+  "states": {
+    "1Player.BottomLeftLevel": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 2759.613603704295,
+            "first_10_mean": 2390.0,
+            "final_10_mean": 2465.0,
+            "median": 2400.0,
+            "max": 297160.0
+          }
+        }
+      ]
+    }
+  }
+}

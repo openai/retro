@@ -1,0 +1,35 @@
+{
+  "default_state": "Level1",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "Level1": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 9890.110253583242,
+            "first_10_mean": 520.0,
+            "final_10_mean": 14751.0,
+            "median": 9950.0,
+            "max": 20200.0
+          },
+          "tags": [
+            "not-done",
+            "stuck",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

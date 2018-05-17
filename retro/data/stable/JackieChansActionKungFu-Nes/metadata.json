@@ -1,0 +1,8 @@
+{
+  "default_state": "Level1",
+  "whitelist": {
+    "data.json": [
+      "suspicious type |u1 for score"
+    ]
+  }
+}

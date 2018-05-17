@@ -1,0 +1,24 @@
+{
+  "info": {
+    "lap": {
+      "address": 16715667,
+      "type": "|u1"
+    },
+    "rank": {
+      "address": 16715591,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16711712,
+      "type": ">u2"
+    },
+    "speed": {
+      "address": 16715864,
+      "type": ">u2"
+    },
+    "time": {
+      "address": 16727253,
+      "type": "|u1"
+    }
+  }
+}

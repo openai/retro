@@ -1,0 +1,12 @@
+{
+  "info": {
+    "continuetimer": {
+      "address": 16752831,
+      "type": "|d1"
+    },
+    "score": {
+      "address": 16752790,
+      "type": ">d4"
+    }
+  }
+}

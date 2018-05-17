@@ -1,0 +1,16 @@
+{
+  "info": {
+    "levelLo": {
+      "address": 16711907,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16711933,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16711920,
+      "type": ">d4"
+    }
+  }
+}

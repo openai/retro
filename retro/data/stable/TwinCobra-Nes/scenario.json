@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "equal",
+        "reference": 0
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:correct_score"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

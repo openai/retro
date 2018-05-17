@@ -1,0 +1,28 @@
+{
+  "info": {
+    "birds_hit": {
+      "address": 867,
+      "type": "|u1"
+    },
+    "bricks_hit": {
+      "address": 868,
+      "type": "|u1"
+    },
+    "eggplant_hit": {
+      "address": 865,
+      "type": "|u1"
+    },
+    "ice_hit": {
+      "address": 866,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 32,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 2032,
+      "type": ">d4"
+    }
+  }
+}

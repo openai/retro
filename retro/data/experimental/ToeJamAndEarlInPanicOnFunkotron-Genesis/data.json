@@ -1,0 +1,32 @@
+{
+  "info": {
+    "ammo": {
+      "address": 16754984,
+      "type": ">u2"
+    },
+    "coins": {
+      "address": 16754976,
+      "type": ">u4"
+    },
+    "health": {
+      "address": 16754987,
+      "type": "|u1"
+    },
+    "level": {
+      "address": 16745823,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16754981,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16754962,
+      "type": ">u4"
+    },
+    "x": {
+      "address": 16747996,
+      "type": ">i2"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "default_state": "1Player.CharacterInABikini.Level1",
+  "tags": [
+    "misaligned"
+  ],
+  "states": {
+    "1Player.CharacterInABikini.Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 9134.657039711192,
+            "first_10_mean": 690.0,
+            "final_10_mean": 10260.0,
+            "median": 10200.0,
+            "max": 11150.0
+          },
+          "tags": [
+            "farming",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

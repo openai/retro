@@ -1,16 +1,28 @@
 # Gym Retro
 
 Gym Retro is a wrapper for video game emulator cores using the Libretro API to turn them into Gym environments.
-It includes support for multiple classic game consoles and a dataset of different games.
+It includes support for several classic game consoles and a dataset of different games.
 It runs on Linux, macOS and Windows with Python 3.5 and 3.6 support.
 
 Each game has files listing memory locations for in-game variables, reward functions based on those variables, episode end conditions, savestates at the beginning of levels and a file containing hashes of ROMs that work with these files.
 Please note that ROMs are not included and you must obtain them yourself.
+Most ROM hashes are sourced from their respective No-Intro SHA-1 sums.
 
-Currently supported systems:
+Supported systems:
 
-- Atari 2600 (via Stella)
-- Sega Genesis/Mega Drive (via Genesis Plus GX)
+- Atari
+	- Atari2600 (via Stella)
+- NEC
+	- TurboGrafx-16/PC Engine (via Mednafen/Beetle PCE Fast)
+- Nintendo
+	- Game Boy/Game Boy Color (via gambatte)
+	- Game Boy Advance (via mGBA)
+	- Nintendo Entertainment System (via FCEUmm)
+	- Super Nintendo Entertainment System (via Snes9x)
+- Sega
+	- GameGear (via Genesis Plus GX)
+	- Genesis/Mega Drive (via Genesis Plus GX)
+	- Master System (via Genesis Plus GX)
 
 See [LICENSES.md](LICENSES.md) for information on the licenses of the individual cores.
 
@@ -89,7 +101,41 @@ import retro
 env = retro.make(game='SonicTheHedgehog-Genesis', state='GreenHillZone.Act1')
 ```
 
+# Integration User Interface
+
+The integration UI helps you easily find variables and see what is going on with the reward function.
+
+## Install from binary
+
+Binaries will be coming soon
+
+## Install from source
+
+### macOS
+
+```sh
+brew install pkg-config capnp lua@5.1 qt5
+cmake . -DCMAKE_PREFIX_PATH=/usr/local/opt/qt -DBUILD_UI=ON -UPYLIB_DIRECTORY
+make -j$(sysctl hw.ncpu | cut -d: -f2)
+open "Gym Retro Integration.app"
+```
+
+### Linux
+
+```sh
+sudo apt-get install libcapnp-dev libqt5opengl5-dev qtbase5-dev
+cmake . -DBUILD_UI=ON -UPYLIB_DIRECTORY
+make -j$(grep -c ^processor /proc/cpuinfo)
+./gym-retro-integration
+```
+
+### Windows
+
+Building from source on Windows is currently difficult to configure. Docker containers for cross-compiling are available at [openai/travis-build](https://hub.docker.com/r/openai/travis-build/).
+
 # Replay files
+
+You can create and view replay files using the UI (Game > Play Movie...).  If you want to manage replay files in a script it looks like this:
 
 ## Record
 
@@ -112,7 +158,7 @@ import retro
 movie = retro.Movie('SonicTheHedgehog-Genesis-GreenHillZone.Act1-0000.bk2')
 movie.step()
 
-env = retro.make(game=movie.get_game(), state=retro.STATE_NONE, use_restricted_actions=retro.ACTIONS_ALL)
+env = retro.make(game=movie.get_game(), None, use_restricted_actions=retro.ACTIONS_ALL)
 env.initial_state = movie.get_state()
 env.reset()
 
@@ -146,12 +192,23 @@ for game in retro.list_games():
     print(game, retro.list_states(game))
 ```
 
+# Changelog
+
+[See CHANGES.md](CHANGES.md)
+
 # Example scripts
 
 In the `examples` directory there are example scripts.
 
 1. `random_agent.py`, loads up a given game and state file and picks random actions every step. It will print the current reward and will exit when the scenario is done. Note that it will throw an exception if no reward or scenario data is defined for that game. This script is useful to see if a scenario is properly set up and that the reward function isn't too generous.
 
+# Add new ROMs
+
+- We prefer the USA version of ROMs denoted by one of `(USA)`, `(USA, Europe)`, `(Japan, USA)`, etc.
+- ROMs in the `sorted` folder are verified good versions of ROMs and are preferred over ROMs in the `reject` folder, though not every game has a verified good version.
+- The `unsorted` folder should be ignored, as that folder is the raw list of ROMs that get automatically sorted into either the `sorted` folder or the `reject` folder.
+- If the ROM has a `.bin` extension, rename it to have the [correct extension for that system](#rom-extensions).
+- Use the Gym Retro Integration application and select the Integrate option from the File menu to begin working on integrating it.
 
 # File formats
 
@@ -163,21 +220,37 @@ There are a handful of distinct file formats used.
 ROM files contain the game itself. Each system has a unique file extension to denote which system a given ROM runs on:
 
 - `.md`: Sega Genesis (also known as Mega Drive)
+- `.sfc`: Super Nintendo Entertainment System (also known as Super Famicom)
+- `.nes`: Nintendo Entertainment System (also known as Famicom)
 - `.a26`: Atari 2600
+- `.gb`: Nintendo Game Boy
+- `.gba`: Nintendo Game Boy Advance
+- `.gbc`: Nintendo Game Boy Color
+- `.gg`: Sega Game Gear
+- `.pce`: NEC TurboGrafx-16 (also known as PC Engine)
+- `.sms`: Sega Master System
 
-Sometime ROMs from these systems use different extensions, e.g. `.gen` for Genesis, `.bin` for Atari, etc. Please rename the ROMs to use the aforementioned extensions in these cases.
-
+Sometimes ROMs from these systems use different extensions, e.g. `.gen` for Genesis, `.bin` for Atari, etc. Please rename the ROMs to use the aforementioned extensions in these cases.
+ 
 You can import your ROMs using [`retro.import`](https://github.com/openai/retro/blob/master/scripts/import.py). 
 
+```sh
+python3 -m retro.import /path/to/your/ROMs/directory/
 ```
-python -m retro.import /path/to/your/ROMs/directory/
-```
+
 
 The following non-commerical ROMs are included with Gym Retro for testing purposes:
 
+- [the 128 sine-dot](http://www.pouet.net/prod.php?which=2762) by Anthrox
+- [Sega Tween](https://pdroms.de/files/gamegear/sega-tween) by Ben Ryves
+- [Happy 10!](http://www.pouet.net/prod.php?which=52716) by Blind IO
+- [512-Colour Test Demo](https://pdroms.de/files/pcengine/512-colour-test-demo) by Chris Covell
 - [Dekadrive](http://www.pouet.net/prod.php?which=67142) by Dekadence
 - [Automaton](https://pdroms.de/files/atari2600/automaton-minigame-compo-2003) by Derek Ledbetter
+- [Fire](http://privat.bahnhof.se/wb800787/gb/demo/64/) by dox
+- [FamiCON intro](http://www.pouet.net/prod.php?which=53497) by dr88
 - [Airstriker](https://pdroms.de/genesis/airstriker-v1-50-genesis-game) by Electrokinesis
+- [Lost Marbles](https://pdroms.de/files/gameboyadvance/lost-marbles) by Vantage
 
 ## States
 

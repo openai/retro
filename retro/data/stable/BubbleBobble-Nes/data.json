@@ -1,0 +1,20 @@
+{
+  "info": {
+    "enemies": {
+      "address": 1174,
+      "type": "|u1"
+    },
+    "level": {
+      "address": 1025,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 46,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 56,
+      "type": ">n6"
+    }
+  }
+}

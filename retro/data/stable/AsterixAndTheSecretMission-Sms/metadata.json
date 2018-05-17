@@ -1,0 +1,31 @@
+{
+  "default_state": "English.1Player.Asterix.Level1",
+  "tags": [
+    "misaligned"
+  ],
+  "states": {
+    "English.1Player.Asterix.Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 27693.45667870036,
+            "first_10_mean": 570.0,
+            "final_10_mean": 35050.0,
+            "median": 33000.0,
+            "max": 38700.0
+          },
+          "tags": [
+            "farming",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

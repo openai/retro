@@ -1,0 +1,24 @@
+{
+  "info": {
+    "continue": {
+      "address": 8259438,
+      "type": "|u1"
+    },
+    "health": {
+      "address": 8259392,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 8259416,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 8265236,
+      "type": "<u2"
+    },
+    "stagescore": {
+      "address": 8259444,
+      "type": "<u2"
+    }
+  }
+}

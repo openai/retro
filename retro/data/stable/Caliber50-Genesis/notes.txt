@@ -1,0 +1,1 @@
+continue_timer is the countdown timer that appears at the end of the game.

@@ -1,0 +1,31 @@
+{
+  "done": {
+    "nodes": {
+      "subnodeName": {
+        "condition": "all",
+        "variables": {
+          "time0": {
+            "op": "equal",
+            "reference": 1
+          },
+          "time1": {
+            "op": "equal",
+            "reference": 31
+          }
+        }
+      }
+    },
+    "variables": {
+      "lives": {
+        "op": "negative"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

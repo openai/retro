@@ -1,0 +1,29 @@
+{
+  "done": {
+    "condition": "all",
+    "nodes": {
+      "additional_end_conditions": {
+        "variables": {
+          "health": {
+            "op": "zero"
+          },
+          "time_minutes": {
+            "op": "negative"
+          }
+        }
+      }
+    },
+    "variables": {
+      "lives": {
+        "op": "equal"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 10.0
+      }
+    }
+  }
+}

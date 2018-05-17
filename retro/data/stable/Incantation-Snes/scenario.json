@@ -1,0 +1,25 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "health": {
+        "op": "zero"
+      },
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score0": {
+        "penalty": 0.100000001490116,
+        "reward": 0.100000001490116
+      },
+      "score1": {
+        "penalty": 10.0,
+        "reward": 10.0
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "default_state": "PilotHikaru.Level1",
+  "tags": [
+    "misaligned"
+  ],
+  "states": {
+    "PilotHikaru.Level1": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 11870.296336625963,
+            "first_10_mean": 1270.0,
+            "final_10_mean": 11360.0,
+            "median": 6500.0,
+            "max": 61400.0
+          },
+          "tags": [
+            "noisy",
+            "not-done",
+            "spikes",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "info": {
+    "frame": {
+      "address": 16775555,
+      "type": "|u1"
+    },
+    "opponent_final": {
+      "address": 16774924,
+      "type": ">u2"
+    },
+    "opponentf1": {
+      "address": 16774907,
+      "type": "|u1"
+    },
+    "opponentf2": {
+      "address": 16774909,
+      "type": "|u1"
+    },
+    "opponentf3": {
+      "address": 16774911,
+      "type": "|u1"
+    },
+    "opponentf4": {
+      "address": 16774913,
+      "type": "|u1"
+    },
+    "opponentf5": {
+      "address": 16774915,
+      "type": "|u1"
+    },
+    "opponentf6": {
+      "address": 16774917,
+      "type": "|u1"
+    },
+    "opponentf7": {
+      "address": 16774919,
+      "type": "|u1"
+    },
+    "opponentf8": {
+      "address": 16774921,
+      "type": "|u1"
+    },
+    "opponentf9": {
+      "address": 16774923,
+      "type": "|u1"
+    },
+    "p1_final": {
+      "address": 16775048,
+      "type": ">u2"
+    },
+    "p1f1": {
+      "address": 16775031,
+      "type": "|u1"
+    },
+    "p1f2": {
+      "address": 16775033,
+      "type": "|u1"
+    },
+    "p1f3": {
+      "address": 16775035,
+      "type": "|u1"
+    },
+    "p1f4": {
+      "address": 16775037,
+      "type": "|u1"
+    },
+    "p1f5": {
+      "address": 16775039,
+      "type": "|u1"
+    },
+    "p1f6": {
+      "address": 16775041,
+      "type": "|u1"
+    },
+    "p1f7": {
+      "address": 16775043,
+      "type": "|u1"
+    },
+    "p1f8": {
+      "address": 16775045,
+      "type": "|u1"
+    },
+    "p1f9": {
+      "address": 16775047,
+      "type": "|u1"
+    }
+  }
+}

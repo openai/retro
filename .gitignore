@@ -6,6 +6,7 @@ __pycache__/
 # C extensions
 *.so
 *.dylib
+*.dll
 *.o
 
 # Distribution / packaging
@@ -125,9 +126,14 @@ CPack*Config.cmake
 # Build products
 tests/test-*
 lib*.a
+*.app
+*_autogen
+*.capnp.*
 retro/cores/*-version
+retro/cores/*.json
 retro/VERSION.txt
 
 # Test stuff
 Temporary
 *.mkv
+*.search

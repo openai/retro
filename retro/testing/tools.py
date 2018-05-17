@@ -4,55 +4,58 @@ import json
 import os
 import re
 
-import retro
+import retro.data
 
-whitelist = {
-    'Airstriker-Genesis/data.json': {
-        'suspicious type >u2 for lives'
-    },
-    'Qbert-Atari2600/scenario.json': {
-        'suspicious variable in done condition: score'
-    },
-    'ColumnsIII-Genesis/data.json': {
-        'suspicious type |u1 for score'
-    }
-}
+
+def load_whitelist(game, inttype):
+    try:
+        with open(retro.data.get_file_path(game, 'metadata.json', inttype | retro.data.Integrations.STABLE)) as f:
+            whitelist = json.load(f).get('whitelist', {})
+    except json.JSONDecodeError:
+        return None, [(metadata_file, 'fail decode')]
+    except IOError:
+        return None, [(metadata_file, 'fail I/O')]
+    return whitelist, []
 
 
 def scan_missing():
     missing = []
-    for game in retro.list_games():
-        gamedir = retro.get_game_path(game)
-        if not os.path.isfile(os.path.join(gamedir, 'data.json')):
+    for game in retro.data.list_games(retro.data.Integrations.ALL):
+        if not retro.data.get_file_path(game, 'data.json', retro.data.Integrations.ALL):
             missing.append((game, 'data.json'))
-        if not os.path.isfile(os.path.join(gamedir, 'scenario.json')):
+        if not retro.data.get_file_path(game, 'scenario.json', retro.data.Integrations.ALL):
             missing.append((game, 'scenario.json'))
-        if not os.path.isfile(os.path.join(gamedir, 'metadata.json')):
+        if not retro.data.get_file_path(game, 'metadata.json', retro.data.Integrations.ALL):
             missing.append((game, 'metadata.json'))
-        if not retro.list_states(game):
+        if not retro.data.list_states(game, retro.data.Integrations.ALL):
             missing.append((game, '*.state'))
-        if not os.path.isfile(os.path.join(gamedir, 'rom.sha')):
+        if not retro.data.get_file_path(game, 'rom.sha', retro.data.Integrations.ALL):
             missing.append((game, 'rom.sha'))
     return missing
 
 
-def verify_data(game, raw=None):
-    file = os.path.join(game, 'data.json')
+def verify_data(game, inttype, raw=None):
+    file = os.path.join(str(inttype), game, 'data.json')
+    path = retro.data.get_file_path(game, 'data.json', inttype)
+    if not path:
+        return [], []
     try:
         if not raw:
-            with open(os.path.join(retro.get_game_path(file))) as f:
+            with open(path) as f:
                 data = json.load(f)
         else:
             data = json.loads(raw)
     except json.JSONDecodeError:
         return [], [(file, 'fail decode')]
     except IOError:
-        return [], []
+        return [], [(file, 'fail I/O')]
+
+    whitelist, errors = load_whitelist(game, inttype)
+    if errors:
+        return [], errors
+    warnings = []
 
     data = data.get('info')
-
-    warnings = []
-    errors = []
     if not data:
         return [], [(file, 'missing info')]
     for variable, definition in data.items():
@@ -70,33 +73,52 @@ def verify_data(game, raw=None):
     if 'score' in data and (data['score'].get('type', '??')[1:] in ('u1', 'd1', 'n1', 'n2') or 'i' in data['score'].get('type', '')):
         warnings.append((file, 'suspicious type %s for score' % data['score']['type']))
 
-    warnings = [(file, w) for (file, w) in warnings if w not in whitelist.get(file, [])]
+    whitelist = {(file, w) for w in whitelist.get('data.json', [])}
+    all_warnings = {(file, w) for (file, w) in warnings}
+    warnings = list(all_warnings - whitelist)
+    errors.extend(('metadata.json', 'missing warning "%s: %s"' % (file, w)) for (file, w) in whitelist - all_warnings)
     return warnings, errors
 
 
-def verify_scenario(game, scenario='scenario', raw=None, dataraw=None):
-    file = os.path.join(game, '%s.json' % 'scenario')
+def verify_scenario(game, inttype, scenario='scenario', raw=None, dataraw=None):
+    file = os.path.join(str(inttype), game, '%s.json' % scenario)
+    path = retro.data.get_file_path(game, '%s.json' % scenario, inttype)
+    if not path:
+        return [], []
     try:
         if not raw:
-            with open(retro.get_game_path(file)) as f:
+            with open(path) as f:
                 scen = json.load(f)
         else:
             scen = json.loads(raw)
     except json.JSONDecodeError:
         return [], [(file, 'fail decode')]
     except IOError:
-        return [], []
+        return [], [(file, 'fail I/O')]
 
+    whitelist, errors = load_whitelist(game, inttype)
+    if errors:
+        return [], errors
     warnings = []
-    errors = []
-    if 'reward' not in scen or ('variables' not in scen['reward'] and 'script' not in scen['reward']):
+    if 'rewards' in scen:
+        for i, r in enumerate(scen['rewards']):
+            if 'variables' not in r and 'script' not in r:
+                warnings.append((file, 'missing reward in rewards[%d]' % i))
+            elif 'variables' in r and 'script' in r:
+                warnings.append((file, 'both variables and script present in rewards[%d]' % i))
+        if 'reward' in scen:
+            warnings.append((file, 'reward and rewards both present'))
+    elif 'reward' not in scen or ('variables' not in scen['reward'] and 'script' not in scen['reward']):
         warnings.append((file, 'missing reward'))
+    elif 'variables' in scen['reward'] and 'script' in scen['reward']:
+        warnings.append((file, 'both variables and script present in reward'))
+
     if 'done' not in scen or ('variables' not in scen['done'] and 'script' not in scen['done'] and 'nodes' not in scen['done']):
         warnings.append((file, 'missing done'))
 
     try:
         if not dataraw:
-            datafile = os.path.join(retro.get_game_path(game), 'data.json')
+            datafile = retro.data.get_file_path(game, 'data.json', inttype=inttype | retro.data.Integrations.STABLE)
             with open(datafile) as f:
                 data = json.load(f)
         else:
@@ -143,15 +165,21 @@ def verify_scenario(game, scenario='scenario', raw=None, dataraw=None):
     except (json.JSONDecodeError, IOError):
         pass
 
-    warnings = [(file, w) for (file, w) in warnings if w not in whitelist.get(file, [])]
+    whitelist = {(file, w) for w in whitelist.get(os.path.split(file)[-1], [])}
+    all_warnings = {(file, w) for (file, w) in warnings}
+    warnings = list(all_warnings - whitelist)
+    errors.extend(('metadata.json', 'missing warning "%s: %s"' % (file, w)) for (file, w) in whitelist - all_warnings)
     return warnings, errors
 
 
-def verify_default_state(game, raw=None):
-    file = os.path.join(game, 'metadata.json')
+def verify_default_state(game, inttype, raw=None):
+    file = os.path.join(str(inttype), game, 'metadata.json')
+    path = retro.data.get_file_path(game, 'metadata.json', inttype)
+    if not path:
+        return [], []
     try:
         if not raw:
-            with open(retro.get_game_path(file)) as f:
+            with open(path) as f:
                 metadata = json.load(f)
         else:
             metadata = json.loads(raw)
@@ -164,33 +192,17 @@ def verify_default_state(game, raw=None):
     state = metadata.get('default_state')
     if not state:
         return [], [(file, 'default state missing')]
-    if state not in retro.list_states(game):
+    if state not in retro.data.list_states(game, inttype | retro.data.Integrations.STABLE):
         errors.append((file, 'invalid default state %s' % state))
 
     return [], errors
 
 
-def verify_json():
-    warnings = []
+def verify_hash(game, inttype):
     errors = []
-    for game in retro.list_games():
-        gamedir = retro.get_game_path(game)
-        w, e = verify_data(game)
-        warnings.extend(w)
-        errors.extend(e)
-
-        w, e = verify_scenario(game)
-        warnings.extend(w)
-        errors.extend(e)
-    return warnings, errors
-
-
-def verify_hash(game):
-    errors = []
-    gamedir = retro.get_game_path(game)
-    rom = retro.get_romfile_path(game)
+    rom = retro.data.get_romfile_path(game, inttype=inttype)
     system = retro.get_romfile_system(rom)
-    with open(os.path.join(gamedir, 'rom.sha')) as f:
+    with open(retro.data.get_file_path(game, 'rom.sha', inttype=inttype | retro.data.Integrations.STABLE)) as f:
         expected_shas = f.read().strip().split('\n')
     with open(rom, 'rb') as f:
         if system == 'Nes':
@@ -205,10 +217,10 @@ def verify_hash(game):
 def verify_hash_collisions():
     errors = []
     seen_hashes = {}
-    for game in retro.list_games():
-        gamedir = retro.get_game_path(game)
+    for game in retro.data.list_games(retro.data.Integrations.ALL):
+        shafile = retro.data.get_file_path(game, 'rom.sha', retro.data.Integrations.ALL)
         try:
-            with open(os.path.join(gamedir, 'rom.sha')) as f:
+            with open(os.path.join(shafile, 'rom.sha')) as f:
                 expected_shas = f.read().strip().split('\n')
         except IOError:
             continue
@@ -224,81 +236,46 @@ def verify_hash_collisions():
     return [], errors
 
 
-def verify_genesis(game):
+def verify_genesis(game, inttype):
+    whitelist, errors = load_whitelist(game, inttype)
+    if errors:
+        return [], errors
     warnings = []
-    errors = []
-    whitelist = {
-    }
-    rom = retro.get_romfile_path(game)
+
+    rom = retro.data.get_romfile_path(game, inttype=inttype)
     if not rom.endswith('.md'):
         errors.append((game, 'invalid extension for %s' % rom))
-    if game in whitelist:
+    if 'rom.md' in whitelist:
         return [], []
     with open(rom, 'rb') as f:
-        header = f.read(768)
+        header = f.read(512)
     if header[0x100:0x105] not in (b'SEGA ', b' SEGA'):
         errors.append((game, 'invalid genesis rom'))
     return warnings, errors
 
 
-def verify_rom(game):
+def verify_extension(game, inttype):
+    whitelist, errors = load_whitelist(game, inttype)
+    if errors:
+        return [], errors
+    warnings = []
+
+    rom = os.path.split(retro.data.get_romfile_path(game, inttype=inttype))[-1]
+    platform = retro.data.EMU_EXTENSIONS.get(os.path.splitext(rom)[-1])
+
+    if not platform or not game.endswith('-%s' % platform):
+        errors.append((game, 'invalid extension for %s' % rom))
+    if rom in whitelist:
+        return [], []
+    return warnings, errors
+
+
+def verify_rom(game, inttype):
     try:
-        rom = retro.get_romfile_path(game)
+        rom = retro.data.get_romfile_path(game, inttype=inttype)
     except FileNotFoundError:
         return [], [(game, 'ROM file missing')]
 
     if game.endswith('-Genesis'):
-        return verify_genesis(game)
-
-    return [], []
-
-
-def verify_roms():
-    warnings = []
-    errors = []
-
-    for game in retro.list_games():
-        w, e = verify_rom(game)
-        warnings.extend(w)
-        errors.extend(e)
-
-    return warnings, errors
-
-
-def main():
-    missing = scan_missing()
-    print('Files missing:')
-    for game, file in missing:
-        print('%s: %s' % (game, file))
-
-    warnings = []
-    errors = []
-
-    w, e = verify_json()
-    warnings.extend(w)
-    errors.extend(e)
-
-    w, e = verify_hash()
-    warnings.extend(w)
-    errors.extend(e)
-
-    w, e = verify_roms()
-    warnings.extend(w)
-    errors.extend(e)
-
-    print()
-    print('File errors:')
-    for file, error in errors:
-        print('%s: %s' % (file, error))
-
-    print()
-    print('File warnings:')
-    for file, warning in warnings:
-        print('%s: %s' % (file, warning))
-
-    return not errors
-
-
-if __name__ == '__main__':
-    if not main():
-        exit(1)
+        return verify_genesis(game, inttype)
+    return verify_extension(game, inttype)

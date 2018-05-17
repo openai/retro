@@ -1,0 +1,32 @@
+{
+  "info": {
+    "gameover": {
+      "address": 16715110,
+      "type": "|u1"
+    },
+    "level": {
+      "address": 16712446,
+      "type": "|u1"
+    },
+    "position": {
+      "address": 16712453,
+      "type": "|i1"
+    },
+    "score0": {
+      "address": 16713122,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 16713121,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 16713120,
+      "type": "|u1"
+    },
+    "speed": {
+      "address": 16713300,
+      "type": "|u1"
+    }
+  }
+}

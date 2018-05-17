@@ -1,7 +1,8 @@
 #pragma once
 
+#include "emulator.h"
 #include "memory.h"
-#include "utils.h"
+#include "search.h"
 
 #include <map>
 #include <memory>
@@ -24,6 +25,7 @@ public:
 	bool save(std::ostream* stream) const;
 
 	void reset();
+	void restart();
 
 	static std::string dataPath(const std::string& hint = ".");
 
@@ -40,9 +42,14 @@ public:
 	unsigned filterAction(unsigned) const;
 
 	Datum lookupValue(const std::string& name);
-	int64_t lookupValue(const std::string& name) const;
+	Variant lookupValue(const std::string& name) const;
+	Datum lookupValue(const TypedSearchResult&);
+	int64_t lookupValue(const TypedSearchResult&) const;
 	std::unordered_map<std::string, Datum> lookupAll();
 	std::unordered_map<std::string, int64_t> lookupAll() const;
+
+	void setValue(const std::string& name, int64_t);
+	void setValue(const std::string& name, const Variant&);
 
 	int64_t lookupDelta(const std::string& name) const;
 
@@ -52,6 +59,19 @@ public:
 
 	std::unordered_map<std::string, Variable> listVariables() const;
 	size_t numVariables() const;
+
+	void search(const std::string& name, int64_t value);
+	void deltaSearch(const std::string& name, Operation op, int64_t reference);
+	size_t numSearches() const;
+
+	std::vector<std::string> listSearches() const;
+	Search* getSearch(const std::string& name);
+	void removeSearch(const std::string& name);
+
+#ifdef USE_CAPNP
+	bool loadSearches(const std::string& filename);
+	bool saveSearches(const std::string& filename) const;
+#endif
 
 private:
 	AddressSpace m_mem;
@@ -63,11 +83,14 @@ private:
 	std::vector<std::string> m_buttons;
 
 	std::unordered_map<std::string, Variable> m_vars;
+	std::unordered_map<std::string, Search> m_searches;
+	std::unordered_map<std::string, AddressSpace> m_searchOldMem;
+	std::unordered_map<std::string, std::unique_ptr<Variant>> m_customVars;
 };
 
 class Scenario {
 public:
-	Scenario(const GameData& data);
+	Scenario(GameData& data);
 
 	bool load(const std::string& filename);
 	bool load(std::istream* stream, const std::string& path = {});
@@ -83,8 +106,14 @@ public:
 
 	const GameData* data() const { return &m_data; }
 
-	float currentReward() const;
+	void update();
+	void restart();
+
+	float currentReward(unsigned player = 0) const;
+	float totalReward(unsigned player = 0) const;
 	bool isDone() const;
+	uint64_t frame() const;
+	uint64_t timestep() const;
 
 	void setActions(const std::vector<std::vector<std::vector<std::string>>>& actions);
 	std::map<int, std::set<int>> validActions() const;
@@ -132,18 +161,19 @@ public:
 		DoneCondition condition = DoneCondition::ANY;
 	};
 
-	void setRewardVariable(const std::string& name, const RewardSpec&);
-	void setRewardFunction(const std::string& name, const std::string& scope = {});
+	void setRewardVariable(const std::string& name, const RewardSpec&, unsigned player = 0);
+	void setRewardFunction(const std::string& name, const std::string& scope = {}, unsigned player = 0);
+	void setRewardTime(const RewardSpec&, unsigned player = 0);
 	void setDoneVariable(const std::string& name, const DoneSpec&);
 	void setDoneNode(const std::string& name, std::shared_ptr<DoneNode>);
 	void setDoneCondition(DoneCondition);
 	void setDoneFunction(const std::string& name, const std::string& scope = {});
 
-	std::unordered_map<std::string, RewardSpec> listRewardVariables() const;
+	std::unordered_map<std::string, RewardSpec> listRewardVariables(unsigned player = 0) const;
 	std::unordered_map<std::string, DoneSpec> listDoneVariables() const;
 	std::unordered_map<std::string, std::shared_ptr<DoneNode>> listDoneNodes() const;
 
-	std::pair<std::string, std::string> rewardFunction() const { return m_rewardFunc; }
+	std::pair<std::string, std::string> rewardFunction(unsigned player = 0) const { return m_rewardFunc[player]; }
 	std::pair<std::string, std::string> doneFunction() const { return m_doneFunc; }
 
 	DoneCondition doneCondition() const { return m_doneCondition; }
@@ -151,14 +181,17 @@ public:
 private:
 	bool isDone(const DoneNode&) const;
 
-	const GameData& m_data;
+	float calculateReward(unsigned player) const;
+	bool calculateDone() const;
+
+	GameData& m_data;
 	std::string m_base;
 
 	std::vector<std::pair<std::string, std::string>> m_scripts;
 
-	std::unordered_map<std::string, RewardSpec> m_rewardVars;
-	RewardSpec m_rewardTime{ Measurement::DELTA };
-	std::pair<std::string, std::string> m_rewardFunc;
+	std::unordered_map<std::string, RewardSpec> m_rewardVars[MAX_PLAYERS];
+	RewardSpec m_rewardTime[MAX_PLAYERS];
+	std::pair<std::string, std::string> m_rewardFunc[MAX_PLAYERS];
 
 	std::unordered_map<std::string, DoneSpec> m_doneVars;
 	std::unordered_map<std::string, std::shared_ptr<DoneNode>> m_doneNodes;
@@ -166,5 +199,10 @@ private:
 	std::pair<std::string, std::string> m_doneFunc;
 
 	std::map<int, std::set<int>> m_actions;
+
+	float m_reward[MAX_PLAYERS] = { 0 };
+	float m_totalReward[MAX_PLAYERS] = { 0 };
+	bool m_done = false;
+	uint64_t m_frame = 0;
 };
 }

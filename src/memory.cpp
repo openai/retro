@@ -45,6 +45,10 @@ DataType::DataType(const char* type)
 	int halfLoc = -1;
 	int diff;
 
+	if (width > 8) {
+		throw std::out_of_range("Invalid DataType width");
+	}
+
 	switch (reduce(endian)) {
 	case Endian::LITTLE:
 	default:
@@ -178,6 +182,63 @@ void MemoryOverlay::unparse(void* out, size_t offset, const void* in, size_t siz
 	}
 }
 
+Variant::Variant(int64_t i)
+	: m_type(Type::INT)
+	, m_vi(i) {
+}
+
+Variant::Variant(double d)
+	: m_type(Type::FLOAT)
+	, m_vf(d) {
+}
+
+Variant::Variant(bool b)
+	: m_type(Type::BOOL)
+	, m_vb(b) {
+}
+
+Variant::operator int64_t() const {
+	return cast<int64_t>();
+}
+
+Variant::operator int() const {
+	return cast<int>();
+}
+
+Variant::operator float() const {
+	return cast<float>();
+}
+
+Variant::operator double() const {
+	return cast<double>();
+}
+
+Variant::operator bool() const {
+	return cast<bool>();
+}
+
+void Variant::clear() {
+	m_type = Type::VOID;
+}
+
+Variant& Variant::operator=(int64_t v) {
+	m_type = Type::INT;
+	m_vi = v;
+	return *this;
+}
+
+Variant& Variant::operator=(double v) {
+	m_type = Type::FLOAT;
+	m_vf = v;
+	return *this;
+}
+
+Variant& Variant::operator=(bool v) {
+	m_type = Type::BOOL;
+	m_vb = v;
+	return *this;
+}
+
 Datum::Datum(void* base, const DataType& type)
 	: m_base(base)
 	, m_type(type) {
@@ -198,6 +259,11 @@ Datum::Datum(void* base, const Variable& var, const MemoryOverlay& overlay)
 	, m_overlay(overlay) {
 }
 
+Datum::Datum(Variant* variant)
+	: m_type("=i8")
+	, m_variant(variant) {
+}
+
 Datum& Datum::operator=(int64_t value) {
 	if (m_base) {
 		if (m_overlay.width > 1 || m_offset) {
@@ -207,12 +273,17 @@ Datum& Datum::operator=(int64_t value) {
 		} else {
 			m_type.encode(m_base, value);
 		}
+	} else if (m_variant) {
+		*m_variant = value;
 	}
 	return *this;
 }
 
 Datum::operator int64_t() const {
 	if (!m_base) {
+		if (m_variant) {
+			return *m_variant;
+		}
 		return 0;
 	}
 	int64_t value;
@@ -223,6 +294,13 @@ Datum::operator int64_t() const {
 		value = m_type.decode(m_base);
 	}
 	return value & m_mask;
+}
+
+Datum::operator Variant() const {
+	if (m_variant) {
+		return *m_variant;
+	}
+	return static_cast<int64_t>(*this);
 }
 
 DynamicMemoryView::DynamicMemoryView(void* buffer, size_t bytes, const DataType& dtype, const MemoryOverlay& overlay)

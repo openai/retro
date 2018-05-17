@@ -1,0 +1,25 @@
+{
+  "default_state": "Level1",
+  "states": {
+    "Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [],
+          "rewards": {
+            "mean": 461.6226596255401,
+            "first_10_mean": 300.0,
+            "final_10_mean": 560.0,
+            "median": 500.0,
+            "max": 900.0
+          }
+        }
+      ]
+    }
+  }
+}

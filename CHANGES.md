@@ -1,6 +1,22 @@
 # Changelog
 
-## 0.5.5 (unreleased)
+## 0.6.0
+
+* add cores for GB/C, GBA, GG, NES, SMS, SNES, TurboGrafx
+* add integration UI and searching
+* add basic scenario access to Lua
+* improve testing tooling
+* multi-agent support
+* cleaned up API:
+  * everything involving data, e.g. game and state listing, file lookup and data path handling, has been moved into retro.data
+  * importing retro.data.experiment or retro.data.contrib includes additional games and data that may not be as well-tested
+  * retro.ACTIONS_* and retro.STATE_* have been replaced with retro.Actions.* and retro.State.* enums
+  * retro.data.GameData objects no longer need an associated RetroEmulator object, though some functionality will not work
+* added RetroEnv.get_action_meaning to describe the correlation between actions and buttons
+* fixed d-pad action filtering so e.g. UP+DOWN+LEFT reduces to LEFT instead of NOOP
+* add parallelism, lossless videos, info dict and numpy action dumping to playback_movies
+
+## 0.5.5
 
 * allow Atari height to be different per game
 * update pybind11 dependency

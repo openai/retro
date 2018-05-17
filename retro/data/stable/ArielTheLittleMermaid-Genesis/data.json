@@ -1,0 +1,24 @@
+{
+  "info": {
+    "health": {
+      "address": 16728141,
+      "type": "|u1"
+    },
+    "keys": {
+      "address": 16754190,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16754191,
+      "type": "|u1"
+    },
+    "money": {
+      "address": 16754188,
+      "type": ">u2"
+    },
+    "prisoners_remaining": {
+      "address": 16728057,
+      "type": "|u1"
+    }
+  }
+}

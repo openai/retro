@@ -1,0 +1,20 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "energy": {
+        "op": "equal"
+      },
+      "health": {
+        "op": "equal"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 100.0
+      }
+    }
+  }
+}

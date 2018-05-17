@@ -99,7 +99,7 @@ bool loadCoreInfo(const string& jsonData) {
 	istringstream jsonStream(jsonData);
 	try {
 		jsonStream >> coreInfo;
-		s_cores = coreInfo;
+		s_cores.update(coreInfo);
 	} catch (invalid_argument&) {
 		return false;
 	}

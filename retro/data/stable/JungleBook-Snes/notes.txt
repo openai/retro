@@ -1,0 +1,1 @@
+Score1 and Score0 are different items collected in-game, not digits in a multi-variable score.

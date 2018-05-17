@@ -1,0 +1,12 @@
+{
+  "info": {
+    "balloons": {
+      "address": 56896,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 56865,
+      "type": "|u1"
+    }
+  }
+}

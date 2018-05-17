@@ -14,9 +14,11 @@ public:
 
 	~ScriptLua();
 
-	void setData(const GameData*) override;
+	void setData(GameData*) override;
+	void setScenario(const Scenario*) override;
 	bool init() override;
 	bool load(const std::string&) override;
+	bool loadString(const std::string&) override;
 	Variant callFunction(const std::string&) override;
 	std::vector<std::string> listFunctions() override;
 

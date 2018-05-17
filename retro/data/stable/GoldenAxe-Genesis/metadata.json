@@ -1,0 +1,35 @@
+{
+  "default_state": "1Player.Arcade.DefaultCharacter.Level1",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "1Player.Arcade.DefaultCharacter.Level1": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 2.4193112761647537,
+            "first_10_mean": 1.0,
+            "final_10_mean": 3.3,
+            "median": 2.0,
+            "max": 7.0
+          },
+          "tags": [
+            "noisy",
+            "not-done",
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

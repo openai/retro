@@ -1,0 +1,16 @@
+{
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1
+      }
+    }
+  },
+  "done": {
+    "variables": {
+      "energy": {
+        "op": "zero"
+      }
+    }
+  }
+}

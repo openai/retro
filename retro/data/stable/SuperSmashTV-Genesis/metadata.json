@@ -1,0 +1,8 @@
+{
+  "default_state": "Arena1",
+  "whitelist": {
+    "data.json": [
+      "suspicious type >i2 for lives"
+    ]
+  }
+}

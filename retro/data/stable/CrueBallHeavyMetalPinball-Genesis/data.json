@@ -1,0 +1,12 @@
+{
+  "info": {
+    "ball": {
+      "address": 16745567,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16745555,
+      "type": ">d4"
+    }
+  }
+}

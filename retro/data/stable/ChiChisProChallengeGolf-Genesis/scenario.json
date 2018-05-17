@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "hole": {
+        "op": "equal",
+        "reference": 19
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "stroke": {
+        "reward": -1.0
+      }
+    }
+  }
+}

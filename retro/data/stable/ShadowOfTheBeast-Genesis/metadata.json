@@ -1,0 +1,151 @@
+{
+  "default_state": "Level1",
+  "states": {
+    "Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [],
+          "rewards": {
+            "mean": 2064.648014440433,
+            "first_10_mean": 1235.0,
+            "final_10_mean": 4489.0,
+            "median": 1730.0,
+            "max": 8700.0
+          }
+        }
+      ]
+    },
+    "Level2": {
+      "tags": [],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [],
+          "rewards": {
+            "mean": 7141.791516245487,
+            "first_10_mean": 6565.0,
+            "final_10_mean": 7473.0,
+            "median": 7180.0,
+            "max": 9740.0
+          }
+        }
+      ]
+    },
+    "Level3": {
+      "tags": [],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [],
+          "rewards": {
+            "mean": 1265.8322056833558,
+            "first_10_mean": 1681.0,
+            "final_10_mean": 1545.0,
+            "median": 1110.0,
+            "max": 4680.0
+          }
+        }
+      ]
+    },
+    "Level4": {
+      "tags": [],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [],
+          "rewards": {
+            "mean": 375.0571992110454,
+            "first_10_mean": 268.0,
+            "final_10_mean": 378.0,
+            "median": 370.0,
+            "max": 950.0
+          }
+        }
+      ]
+    },
+    "Level5": {
+      "tags": [],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [],
+          "rewards": {
+            "mean": 2031.0157303370786,
+            "first_10_mean": 1075.0,
+            "final_10_mean": 1944.0,
+            "median": 1920.0,
+            "max": 8040.0
+          }
+        }
+      ]
+    },
+    "Level6": {
+      "tags": [],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [],
+          "rewards": {
+            "mean": 0.0,
+            "first_10_mean": 0.0,
+            "final_10_mean": 0.0,
+            "median": 0.0,
+            "max": 0.0
+          }
+        }
+      ]
+    },
+    "Level7": {
+      "tags": [],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [],
+          "rewards": {
+            "mean": 0.0,
+            "first_10_mean": 0.0,
+            "final_10_mean": 0.0,
+            "median": 0.0,
+            "max": 0.0
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "info": {
+    "half": {
+      "address": 16719140,
+      "type": "|u1"
+    },
+    "opponent_score": {
+      "address": 16720900,
+      "type": ">u2"
+    },
+    "score": {
+      "address": 16720898,
+      "type": ">u2"
+    },
+    "time": {
+      "address": 16722441,
+      "type": "|u1"
+    }
+  }
+}

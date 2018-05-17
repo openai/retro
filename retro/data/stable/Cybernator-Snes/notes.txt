@@ -1,0 +1,1 @@
+Lives sometimes increases temporarily if mission failed, but will eventually be 0 if mission has failed as it will go to the gameover screen regardless.

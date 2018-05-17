@@ -1,0 +1,19 @@
+{
+  "done": {
+    "variables": {
+      "possible_moves": {
+        "op": "zero"
+      },
+      "tiles_remaining": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "possible_moves": {
+        "reward": 1.0
+      }
+    }
+  }
+}

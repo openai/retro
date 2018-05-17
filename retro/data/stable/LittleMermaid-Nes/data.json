@@ -1,0 +1,28 @@
+{
+  "info": {
+    "forks_found": {
+      "address": 178,
+      "type": "|u1"
+    },
+    "green_pearls_found": {
+      "address": 181,
+      "type": "|u1"
+    },
+    "health": {
+      "address": 177,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 176,
+      "type": "|i1"
+    },
+    "red_pearls_found": {
+      "address": 180,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 1279,
+      "type": ">n8"
+    }
+  }
+}

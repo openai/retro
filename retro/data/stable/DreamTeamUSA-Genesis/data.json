@@ -1,0 +1,24 @@
+{
+  "info": {
+    "USA_score": {
+      "address": 16754244,
+      "type": ">u2"
+    },
+    "WLD_score": {
+      "address": 16754242,
+      "type": ">u2"
+    },
+    "mins": {
+      "address": 16754255,
+      "type": "|u1"
+    },
+    "period": {
+      "address": 16754249,
+      "type": "|u1"
+    },
+    "seconds": {
+      "address": 16754253,
+      "type": "|i1"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "default_state": "Level1.CyborgVsLoader",
+  "states": {
+    "Level1.CyborgVsLoader": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 8382.415614910478,
+            "first_10_mean": 1923.0,
+            "final_10_mean": 12754.0,
+            "median": 9240.0,
+            "max": 18420.0
+          }
+        }
+      ]
+    }
+  }
+}

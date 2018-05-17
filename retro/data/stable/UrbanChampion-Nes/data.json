@@ -1,0 +1,20 @@
+{
+  "info": {
+    "enemy_lives": {
+      "address": 777,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 809,
+      "type": "|u1"
+    },
+    "stamina": {
+      "address": 201,
+      "type": ">d2"
+    },
+    "time": {
+      "address": 126,
+      "type": ">n4"
+    }
+  }
+}

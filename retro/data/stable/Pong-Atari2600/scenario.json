@@ -1,0 +1,36 @@
+{
+  "done": {
+    "variables": {
+      "score1": {
+        "op": "greater-than",
+        "reference": 20
+      },
+      "score2": {
+        "op": "greater-than",
+        "reference": 20
+      }
+    }
+  },
+  "rewards": [
+    {
+      "variables": {
+        "score1": {
+          "reward": -1.0
+        },
+        "score2": {
+          "reward": 1.0
+        }
+      }
+    },
+    {
+      "variables": {
+        "score1": {
+          "reward": 1.0
+        },
+        "score2": {
+          "reward": -1.0
+        }
+      }
+    }
+  ]
+}

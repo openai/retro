@@ -1,0 +1,24 @@
+{
+  "done": {
+    "variables": {
+      "games_won": {
+        "op": "equal",
+        "reference": 6
+      },
+      "opponent_games_won": {
+        "op": "equal",
+        "reference": 6
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "games_won": {
+        "reward": 10.0
+      },
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

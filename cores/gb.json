@@ -1,0 +1,26 @@
+{
+    "GameBoy": {
+        "lib": "gambatte",
+        "ext": ["gb"],
+        "rambase": 49152,
+        "keybinds": ["Z", null, "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "X"],
+        "buttons": ["B", null, "SELECT", "START", "UP", "DOWN", "LEFT", "RIGHT", "A"],
+        "actions": [
+            [[], ["UP"], ["DOWN"]],
+            [[], ["LEFT"], ["RIGHT"]],
+            [[], ["A"], ["B"], ["SELECT"], ["A", "B"], ["A", "SELECT"], ["B", "SELECT"], ["A", "B", "SELECT"]]
+        ]
+    },
+    "GbColor": {
+        "lib": "gambatte",
+        "ext": ["gbc"],
+        "rambase": 49152,
+        "keybinds": ["Z", null, "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "X"],
+        "buttons": ["B", null, "SELECT", "START", "UP", "DOWN", "LEFT", "RIGHT", "A"],
+        "actions": [
+            [[], ["UP"], ["DOWN"]],
+            [[], ["LEFT"], ["RIGHT"]],
+            [[], ["A"], ["B"], ["SELECT"], ["A", "B"], ["A", "SELECT"], ["B", "SELECT"], ["A", "B", "SELECT"]]
+        ]
+    }
+}

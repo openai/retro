@@ -1,0 +1,24 @@
+{
+  "info": {
+    "TKO": {
+      "address": 16733713,
+      "type": "|u1"
+    },
+    "punches_landed": {
+      "address": 16734810,
+      "type": ">u2"
+    },
+    "punches_thrown": {
+      "address": 16734808,
+      "type": ">u2"
+    },
+    "round": {
+      "address": 16724637,
+      "type": "|u1"
+    },
+    "time": {
+      "address": 16724606,
+      "type": ">n4"
+    }
+  }
+}

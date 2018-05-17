@@ -1,0 +1,20 @@
+{
+  "info": {
+    "ammo": {
+      "address": 16714036,
+      "type": ">d4"
+    },
+    "health": {
+      "address": 16714017,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16714155,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 16713916,
+      "type": ">d4"
+    }
+  }
+}

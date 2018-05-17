@@ -1,0 +1,28 @@
+{
+  "info": {
+    "opponent_set1": {
+      "address": 16758653,
+      "type": "|u1"
+    },
+    "opponent_set2": {
+      "address": 16758657,
+      "type": "|u1"
+    },
+    "opponent_set3": {
+      "address": 16758661,
+      "type": "|u1"
+    },
+    "player1_set1": {
+      "address": 16758651,
+      "type": "|u1"
+    },
+    "player1_set2": {
+      "address": 16758655,
+      "type": "|u1"
+    },
+    "player1_set3": {
+      "address": 16758659,
+      "type": "|u1"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "info": {
+    "health": {
+      "address": 8259841,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 8259835,
+      "type": "|i1"
+    },
+    "score0": {
+      "address": 8259933,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 8259935,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 8259937,
+      "type": "|u1"
+    },
+    "score3": {
+      "address": 8259939,
+      "type": "|u1"
+    },
+    "score4": {
+      "address": 8259941,
+      "type": "|u1"
+    },
+    "score5": {
+      "address": 8259943,
+      "type": "|u1"
+    },
+    "score6": {
+      "address": 8259945,
+      "type": "|u1"
+    },
+    "score7": {
+      "address": 8259947,
+      "type": "|u1"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "default_state": "Act1",
+  "states": {
+    "Act1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [],
+          "rewards": {
+            "mean": 47509.5044807591,
+            "first_10_mean": 5075.0,
+            "final_10_mean": 11755.0,
+            "median": 9300.0,
+            "max": 83919200.0
+          }
+        }
+      ]
+    }
+  }
+}

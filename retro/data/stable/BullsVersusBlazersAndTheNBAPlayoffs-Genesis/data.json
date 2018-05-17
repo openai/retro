@@ -1,0 +1,28 @@
+{
+  "info": {
+    "blazers_score": {
+      "address": 16754405,
+      "type": "|u1"
+    },
+    "bulls_score": {
+      "address": 16754403,
+      "type": "|u1"
+    },
+    "quarter": {
+      "address": 16754409,
+      "type": "|u1"
+    },
+    "time": {
+      "address": 16754419,
+      "type": "|u1"
+    },
+    "time_minutes": {
+      "address": 16754415,
+      "type": "|u1"
+    },
+    "time_seconds": {
+      "address": 16754413,
+      "type": "|u1"
+    }
+  }
+}

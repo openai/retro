@@ -7,7 +7,7 @@ ENV PYVER=3.5
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         build-essential ccache cmake curl g++-mingw-w64-`echo $ARCH | tr _ -` \
-        git libz-mingw-w64-dev p7zip-full pkg-config \
+        git libffi-dev libpng-dev libz-mingw-w64-dev p7zip-full pkg-config \
         software-properties-common unzip zip && \
     apt-get clean
 
@@ -39,5 +39,13 @@ RUN CROSS=win${BITS} ROOT=/usr/${ARCH}-w64-mingw32 ./scripts/install_python.sh
 COPY third-party/libzip libzip
 RUN CROSS=win${BITS} ROOT=/usr/${ARCH}-w64-mingw32 ./scripts/build_libzip.sh && \
     rm -rf libzip
+
+COPY third-party/capnproto capnproto
+RUN ROOT=/usr ./scripts/build_capnproto.sh && \
+    CROSS=win${BITS} ROOT=/usr/${ARCH}-w64-mingw32 ./scripts/build_capnproto.sh && \
+    rm -rf capnproto
+
+RUN CROSS=win${BITS} ROOT=/usr/${ARCH}-w64-mingw32 ./scripts/build_qt5.sh && \
+    rm -rf qt5
 
 ENTRYPOINT ["bash", "-lc", "exec $0 $@"]

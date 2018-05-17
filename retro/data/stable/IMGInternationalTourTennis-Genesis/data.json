@@ -1,0 +1,20 @@
+{
+  "info": {
+    "games_won": {
+      "address": 16748455,
+      "type": "|u1"
+    },
+    "opponent_games_won": {
+      "address": 16748471,
+      "type": "|u1"
+    },
+    "opponent_score": {
+      "address": 16748449,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 16748447,
+      "type": "|i1"
+    }
+  }
+}

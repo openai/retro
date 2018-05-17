@@ -11,7 +11,7 @@ namespace Retro {
 class MovieBK2 final : public Movie {
 public:
 	MovieBK2(std::unique_ptr<Zip>);
-	MovieBK2(const std::string& path, bool write = false);
+	MovieBK2(const std::string& path, bool write = false, unsigned players = 1);
 	~MovieBK2();
 
 	virtual std::string getGameName() const override;

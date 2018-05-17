@@ -1,0 +1,16 @@
+{
+  "info": {
+    "enemyHealth": {
+      "address": 16765440,
+      "type": "|i1"
+    },
+    "health": {
+      "address": 16765056,
+      "type": "|i1"
+    },
+    "time": {
+      "address": 16761104,
+      "type": "|d1"
+    }
+  }
+}

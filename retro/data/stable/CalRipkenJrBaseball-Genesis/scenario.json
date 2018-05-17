@@ -1,0 +1,54 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "at_bat_baltimore": {
+        "op": "equal",
+        "reference": 1
+      },
+      "inning": {
+        "op": "equal",
+        "reference": 9
+      },
+      "outs": {
+        "op": "equal",
+        "reference": 3
+      },
+      "strikes": {
+        "op": "equal",
+        "reference": 3
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "bal_score_inning1": {
+        "reward": 1.0
+      },
+      "bal_score_inning2": {
+        "reward": 1.0
+      },
+      "bal_score_inning3": {
+        "reward": 1.0
+      },
+      "bal_score_inning4": {
+        "reward": 1.0
+      },
+      "bal_score_inning5": {
+        "reward": 1.0
+      },
+      "bal_score_inning6": {
+        "reward": 1.0
+      },
+      "bal_score_inning7": {
+        "reward": 1.0
+      },
+      "bal_score_inning8": {
+        "reward": 1.0
+      },
+      "bal_score_inning9": {
+        "reward": 1.0
+      }
+    }
+  }
+}

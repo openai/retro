@@ -1,0 +1,26 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "force": {
+        "op": "zero"
+      },
+      "gameover": {
+        "op": "nonzero"
+      },
+      "health": {
+        "op": "zero"
+      },
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "enemy_lives": {
+        "penalty": -10.0
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "info": {
+    "damage": {
+      "address": 49,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 64,
+      "type": "<n8"
+    }
+  }
+}

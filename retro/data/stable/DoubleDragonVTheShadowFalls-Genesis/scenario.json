@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "opponent_rounds_won": {
+        "op": "equal",
+        "reference": 2
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:correct_score"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "done": {
+    "variables": {
+      "life": {
+        "op": "equal"
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:correct_score"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

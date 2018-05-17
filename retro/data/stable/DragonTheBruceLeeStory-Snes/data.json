@@ -1,0 +1,24 @@
+{
+  "info": {
+    "enemy_health": {
+      "address": 8258009,
+      "type": "<u2"
+    },
+    "health": {
+      "address": 8257753,
+      "type": "<u2"
+    },
+    "lives": {
+      "address": 8281375,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 8281381,
+      "type": "<d2"
+    },
+    "score2": {
+      "address": 8281387,
+      "type": "<d2"
+    }
+  }
+}

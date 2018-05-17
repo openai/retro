@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "time_total": {
+        "op": "nonzero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "distance": {
+        "reward": 1.0
+      }
+    }
+  }
+}

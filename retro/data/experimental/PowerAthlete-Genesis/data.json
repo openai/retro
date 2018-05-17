@@ -1,0 +1,24 @@
+{
+  "info": {
+    "enemy_health": {
+      "address": 16734075,
+      "type": "|i1"
+    },
+    "enemy_rounds_won": {
+      "address": 16734159,
+      "type": "|u1"
+    },
+    "health": {
+      "address": 16734074,
+      "type": "|i1"
+    },
+    "rounds_won": {
+      "address": 16734158,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16733868,
+      "type": "<n6"
+    }
+  }
+}

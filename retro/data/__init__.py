@@ -1,0 +1,344 @@
+from retro._retro import GameDataGlue, RetroEmulator, data_path as _data_path
+import glob
+import json
+import os
+import sys
+
+try:
+    import enum
+    from enum import Flag
+except ImportError:
+    # Python < 3.6 doesn't support Flag, so we polyfill it ourself
+    class Flag(enum.Enum):
+        def __and__(self, b):
+            value = self.value & b.value
+            try:
+                return Integrations(value)
+            except ValueError:
+                return value
+
+        def __or__(self, b):
+            value = self.value | b.value
+            try:
+                return Integrations(value)
+            except ValueError:
+                return value
+
+__all__ = ['GameData', 'path', 'get_file_path', 'get_romfile_path', 'list_games', 'list_states', 'merge']
+
+if sys.platform.startswith('linux'):
+    EXT = 'so'
+elif sys.platform == 'darwin':
+    EXT = 'dylib'
+elif sys.platform == 'win32':
+    EXT = 'dll'
+else:
+    raise RuntimeError('Unrecognized platform')
+
+DATA_PATH = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+
+EMU_CORES = {}
+EMU_INFO = {}
+EMU_EXTENSIONS = {}
+
+
+class DefaultIntegrations:
+    @classmethod
+    def _init(cls):
+        if not hasattr(cls, 'DEFAULT'):
+            cls.reset()
+
+    def __or__(self, b):
+        try:
+            self._init()
+        except NameError:
+            return False
+        return DefaultIntegrations.DEFAULT.value | b
+
+    def __and__(self, b):
+        try:
+            self._init()
+        except NameError:
+            return False
+        return DefaultIntegrations.DEFAULT.value & b
+
+    @classmethod
+    def add(cls, extra):
+        cls._init()
+        cls.DEFAULT |= extra
+
+    @classmethod
+    def reset(cls):
+        cls.DEFAULT = Integrations.STABLE
+
+
+class Integrations(Flag):
+    STABLE = 1
+    EXPERIMENTAL_ONLY = 2
+    CONTRIB_ONLY = 4
+    EXPERIMENTAL = EXPERIMENTAL_ONLY | STABLE
+    CONTRIB = CONTRIB_ONLY | STABLE
+    ALL = STABLE | EXPERIMENTAL_ONLY | CONTRIB_ONLY
+    DEFAULT = DefaultIntegrations()
+
+    @property
+    def paths(self):
+        p = []
+        if self & self.CONTRIB_ONLY:
+            p.append(str(self.CONTRIB_ONLY))
+        if self & self.EXPERIMENTAL_ONLY:
+            p.append(str(self.EXPERIMENTAL_ONLY))
+        if self & self.STABLE:
+            p.append('stable')
+        return p
+
+    def __str__(self):
+        if self == self.ALL:
+            return 'all'
+        if self == self.STABLE:
+            return ''
+        if self & self.CONTRIB_ONLY:
+            return 'contrib'
+        if self & self.EXPERIMENTAL_ONLY:
+            return 'experimental'
+        return '?'
+
+
+class GameData(GameDataGlue):
+    def __init__(self, game=None, data=None, scenario=None, inttype=Integrations.DEFAULT):
+        super(GameData, self).__init__()
+        if game:
+            if not data:
+                data = get_file_path(game, 'data.json', inttype)
+            if not data.endswith('.json'):
+                data += '.json'
+
+            if not os.path.isabs(data):
+                data = get_file_path(game, data, inttype)
+
+            if not scenario:
+                scenario = get_file_path(game, 'scenario.json', inttype)
+            if not scenario.endswith('.json'):
+                scenario += '.json'
+
+            if not os.path.isabs(scenario):
+                scenario = get_file_path(game, scenario, inttype)
+        if data:
+            self.load(data, scenario)
+
+    def __getitem__(self, name):
+        return self.lookup_value(name)
+
+    def __setitem__(self, name, value):
+        return self.set_value(name, value)
+
+    @property
+    def searches(self):
+        return SearchListHandle(self)
+
+    @property
+    def vars(self):
+        return Variables(self)
+
+
+class Variables(object):
+    def __init__(self, data):
+        super(Variables, self).__init__()
+        self.data = data
+
+    def __getitem__(self, name):
+        return self.data.get_variable(name)
+
+    def __setitem__(self, name, value):
+        return self.data.set_variable(name, value)
+
+    def __delitem__(self, name):
+        self.data.remove_variable(name)
+
+    def __iter__(self):
+        variables = self.data.list_variables()
+        for v in variables.items():
+            yield v
+
+    def __contains__(self, name):
+        variables = self.data.list_variables()
+        return name in variables
+
+
+class SearchListHandle(object):
+    def __init__(self, data):
+        self._data = data
+
+    def __getitem__(self, name):
+        return SearchHandle(self._data, name)
+
+    def __delitem__(self, name):
+        self._data.remove_search(name)
+
+    def __iter__(self):
+        searches = self._data.list_searches()
+        for search in searches.items():
+            yield search
+
+    def __contains__(self, name):
+        searches = self._data.list_searches()
+        return name in searches
+
+    def load(self, name):
+        self._data.load_searches(name)
+
+    def save(self, name):
+        self._data.save_searches(name)
+
+
+class SearchHandle(object):
+    def __init__(self, data, name):
+        self._data = data
+        self._name = name
+        self._search = None
+
+    def search(self, value):
+        self._data.search(self._name, value)
+
+    def delta(self, op, ref):
+        self._data.delta_search(self._name, op, ref)
+
+    def __getattr__(self, attr):
+        if not self._search:
+            self._search = self._data.get_search(self._name)
+        return getattr(self._search, attr)
+
+
+def init_core_info(path):
+    for fname in glob.glob(os.path.join(path, '*.json')):
+        with open(fname) as f:
+            core_info = f.read()
+            RetroEmulator.load_core_info(core_info)
+            EMU_INFO.update(json.loads(core_info))
+            for platform, core in EMU_INFO.items():
+                EMU_CORES[platform] = core['lib'] + '_libretro.' + EXT
+                for ext in core['ext']:
+                    EMU_EXTENSIONS['.' + ext] = platform
+
+
+def path(hint=DATA_PATH):
+    if hint == DATA_PATH and not os.path.exists(os.path.join(DATA_PATH, 'data', 'stable', 'Airstriker-Genesis')):
+        # Development installation
+        hint = os.path.join(hint, '..')
+    return _data_path(hint)
+
+
+def get_file_path(game, file, inttype=Integrations.DEFAULT):
+    """
+    Return the path to a given game's directory
+    """
+    base = path()
+    for t in inttype.paths:
+        possible_path = os.path.join(base, t, game, file)
+        if os.path.exists(possible_path):
+            return possible_path
+
+    return None
+
+
+def get_romfile_path(game, inttype=Integrations.DEFAULT):
+    """
+    Return the path to a given game's romfile
+    """
+    for extension in EMU_EXTENSIONS.keys():
+        possible_path = get_file_path(game, "rom" + extension, inttype)
+        if possible_path:
+            return possible_path
+
+    raise FileNotFoundError("No romfiles found for game: %s" % game)
+
+
+def list_games(inttype=Integrations.DEFAULT):
+    files = []
+    for curpath in inttype.paths:
+        files.extend(os.listdir(os.path.join(path(), curpath)))
+    possible_games = []
+    for file in files:
+        if get_file_path(file, "rom.sha", inttype):
+            possible_games.append(file)
+    return sorted(set(possible_games))
+
+
+def list_states(game, inttype=Integrations.DEFAULT):
+    paths = []
+    for curpath in inttype.paths:
+        paths.append(os.path.join(path(), curpath, game))
+    states = []
+    for curpath in paths:
+        local_states = glob.glob(os.path.join(curpath, "*.state"))
+        states.extend(local_states.split(os.sep)[-1][:-len(".state")] for local_states in local_states if not local_states.startswith("_"))
+    return sorted(set(states))
+
+
+def parse_smd(header, body):
+    import numpy as np
+    try:
+        if body[0x80] != b'E' or body[0x81] != b'A':
+            return header + body
+        body2 = b''
+        for i in range(len(body) / 0x4000):
+            block = body[i * 0x4000:(i + 1) * 0x4000]
+            if not block:
+                break
+            nb = np.fromstring(block, dtype=np.uint8)
+            nb = np.flipud(nb.reshape(2, 0x2000))
+            nb = nb.flatten(order='F')
+            body2 += nb.tostring()
+    except IndexError:
+        return header + body
+    return body2
+
+
+def groom_rom(rom):
+    import hashlib
+    with open(rom, 'rb') as r:
+        if rom.endswith('.md'):
+            # Read Super Magic Drive header
+            header = r.read(512)
+            body = r.read()
+            body = parse_smd(header, body)
+        elif rom.endswith('.nes'):
+            header = r.read(16)
+            body = r.read()
+            return header + body, hashlib.sha1(body).hexdigest()
+        else:
+            body = r.read()
+    return body, hashlib.sha1(body).hexdigest()
+
+
+def merge(*args, quiet=True):
+    import retro
+    known_hashes = {}
+    imported_games = 0
+    for game in list_games(Integrations.ALL):
+        for curpath in Integrations.ALL.paths:
+            shafile = os.path.join(path(), curpath, game, 'rom.sha')
+            try:
+                with open(shafile) as f:
+                    shas = f.read().strip().split('\n')
+            except FileNotFoundError:
+                continue
+            for ext, platform in EMU_EXTENSIONS.items():
+                if game.endswith('-' + platform):
+                    break
+            for sha in shas:
+                known_hashes[sha] = (game, ext, os.path.join(path(), curpath))
+    for rom in args:
+        try:
+            data, hash = groom_rom(rom)
+        except IOError:
+            continue
+        if hash in known_hashes:
+            game, ext, curpath = known_hashes[hash]
+            if not quiet:
+                print('Importing', game)
+            with open(os.path.join(curpath, game, 'rom%s' % ext), 'wb') as f:
+                f.write(data)
+            imported_games += 1
+    if not quiet:
+        print('Imported %i games' % imported_games)

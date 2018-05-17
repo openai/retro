@@ -1,0 +1,24 @@
+{
+  "info": {
+    "health": {
+      "address": 16768273,
+      "type": "|u1"
+    },
+    "opponent_health": {
+      "address": 16768785,
+      "type": "|u1"
+    },
+    "opponent_rounds_won": {
+      "address": 16768699,
+      "type": "|u1"
+    },
+    "rounds_won": {
+      "address": 16768187,
+      "type": "|u1"
+    },
+    "time": {
+      "address": 16712095,
+      "type": "|d1"
+    }
+  }
+}

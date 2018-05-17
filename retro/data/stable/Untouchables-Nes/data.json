@@ -1,0 +1,16 @@
+{
+  "info": {
+    "enemies_remaining": {
+      "address": 200,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 155,
+      "type": ">n6"
+    },
+    "time": {
+      "address": 151,
+      "type": ">n4"
+    }
+  }
+}

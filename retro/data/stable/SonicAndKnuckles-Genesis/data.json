@@ -1,0 +1,24 @@
+{
+  "info": {
+    "lives": {
+      "address": 16776722,
+      "type": "|u1"
+    },
+    "rings": {
+      "address": 16776736,
+      "type": ">u2"
+    },
+    "score": {
+      "address": 16776742,
+      "type": ">u4"
+    },
+    "x": {
+      "address": 16756752,
+      "type": ">u2"
+    },
+    "y": {
+      "address": 16756756,
+      "type": ">u2"
+    }
+  }
+}

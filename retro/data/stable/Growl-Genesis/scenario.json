@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "healthHi": {
+        "op": "equal",
+        "reference": 0
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1
+      }
+    }
+  }
+}

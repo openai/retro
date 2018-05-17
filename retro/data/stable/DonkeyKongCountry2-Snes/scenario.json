@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "negative",
+        "reference": -1
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "bananas": {
+        "reward": 1.0
+      }
+    }
+  }
+}

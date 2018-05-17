@@ -1,0 +1,8 @@
+{
+  "default_state": "Start",
+  "whitelist": {
+    "data.json": [
+      "suspicious type <d2 for lives"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "negative"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  },
+  "actions": [
+    [[], ["UP"], ["DOWN"]],
+    [[], ["LEFT"], ["RIGHT"]],
+    [[], ["A"], ["B"], ["A", "B"], ["SELECT"]]
+  ]
+}

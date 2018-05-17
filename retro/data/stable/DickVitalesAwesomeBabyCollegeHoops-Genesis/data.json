@@ -1,0 +1,20 @@
+{
+  "info": {
+    "california_score": {
+      "address": 16717620,
+      "type": ">d2"
+    },
+    "nevada_score": {
+      "address": 16717624,
+      "type": ">d2"
+    },
+    "quarter": {
+      "address": 16717605,
+      "type": "|u1"
+    },
+    "time": {
+      "address": 16717592,
+      "type": ">d2"
+    }
+  }
+}

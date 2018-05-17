@@ -1,0 +1,28 @@
+{
+  "info": {
+    "health": {
+      "address": 299,
+      "type": "|u1"
+    },
+    "score0": {
+      "address": 288,
+      "type": "|i1"
+    },
+    "score1": {
+      "address": 287,
+      "type": "|i1"
+    },
+    "score2": {
+      "address": 286,
+      "type": "|i1"
+    },
+    "score3": {
+      "address": 285,
+      "type": "|i1"
+    },
+    "score4": {
+      "address": 284,
+      "type": "|i1"
+    }
+  }
+}

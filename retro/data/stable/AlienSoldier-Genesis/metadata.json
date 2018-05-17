@@ -1,0 +1,489 @@
+{
+  "default_state": "DefaultSettings.Level1",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "DefaultSettings.Level1": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 2464.9090705987487,
+            "first_10_mean": 459.6,
+            "final_10_mean": 3615.8,
+            "median": 2336.0,
+            "max": 10794.0
+          },
+          "tags": [
+            "sub-human"
+          ]
+        }
+      ]
+    },
+    "DefaultSettings.Level10": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 666.7657356412274,
+            "first_10_mean": 16.8,
+            "final_10_mean": 815.1,
+            "median": 542.0,
+            "max": 4794.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level11": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 2812.689369915897,
+            "first_10_mean": 27.3,
+            "final_10_mean": 4564.4,
+            "median": 1151.0,
+            "max": 29663.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level12": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 2088.4917286022537,
+            "first_10_mean": 2.1,
+            "final_10_mean": 4705.6,
+            "median": 815.0,
+            "max": 24455.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level13": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 726.7828279933512,
+            "first_10_mean": 50.6,
+            "final_10_mean": 132.5,
+            "median": 165.0,
+            "max": 15143.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level14": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 569.7379545162534,
+            "first_10_mean": 32.2,
+            "final_10_mean": 870.7,
+            "median": 407.0,
+            "max": 4000.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level15": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 29.960241391551296,
+            "first_10_mean": 0.0,
+            "final_10_mean": 34.7,
+            "median": 0.0,
+            "max": 1252.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level16": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1598.7043326982023,
+            "first_10_mean": 6.4,
+            "final_10_mean": 1888.1,
+            "median": 1799.0,
+            "max": 8864.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level17": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 480.3412604821803,
+            "first_10_mean": 6.6,
+            "final_10_mean": 883.3,
+            "median": 396.0,
+            "max": 3531.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level18": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 11844.492860002669,
+            "first_10_mean": 2152.5,
+            "final_10_mean": 11857.5,
+            "median": 11521.0,
+            "max": 20189.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level19": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 517.4330712707466,
+            "first_10_mean": 56.3,
+            "final_10_mean": 1106.9,
+            "median": 153.0,
+            "max": 2728.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level2": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 880.02168356104,
+            "first_10_mean": 371.6,
+            "final_10_mean": 1296.6,
+            "median": 651.0,
+            "max": 11703.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level20": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 7731.104410992473,
+            "first_10_mean": 20.9,
+            "final_10_mean": 8505.2,
+            "median": 9207.0,
+            "max": 11968.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level21": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 67.0836693548387,
+            "first_10_mean": 50.0,
+            "final_10_mean": 0.0,
+            "median": 0.0,
+            "max": 2511.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level22": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 314.0457857095114,
+            "first_10_mean": 15.8,
+            "final_10_mean": 366.6,
+            "median": 84.0,
+            "max": 4368.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level23": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 5271.621812643993,
+            "first_10_mean": 3451.1,
+            "final_10_mean": 5502.2,
+            "median": 5500.0,
+            "max": 7511.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level24": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 119.95739582724563,
+            "first_10_mean": 9.6,
+            "final_10_mean": 447.5,
+            "median": 22.0,
+            "max": 787.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level25": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 30.40712468193384,
+            "first_10_mean": 0.0,
+            "final_10_mean": 0.0,
+            "median": 0.0,
+            "max": 3500.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level3": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1508.3349293471913,
+            "first_10_mean": 468.3,
+            "final_10_mean": 2020.0,
+            "median": 1521.0,
+            "max": 4943.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level4": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 397.3330223880597,
+            "first_10_mean": 273.1,
+            "final_10_mean": 396.8,
+            "median": 500.0,
+            "max": 2641.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level5": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1702.7859707446808,
+            "first_10_mean": 198.7,
+            "final_10_mean": 3062.0,
+            "median": 1710.0,
+            "max": 5638.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level6": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 7132.190061734642,
+            "first_10_mean": 358.3,
+            "final_10_mean": 9402.7,
+            "median": 8639.0,
+            "max": 14978.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level7": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1496.7996832101373,
+            "first_10_mean": 475.6,
+            "final_10_mean": 2026.3,
+            "median": 1596.0,
+            "max": 5160.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level8": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 261.06529597830996,
+            "first_10_mean": 183.0,
+            "final_10_mean": 219.9,
+            "median": 116.0,
+            "max": 2280.0
+          }
+        }
+      ]
+    },
+    "DefaultSettings.Level9": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 2356.7746399322227,
+            "first_10_mean": 496.7,
+            "final_10_mean": 4522.3,
+            "median": 2216.0,
+            "max": 7555.0
+          }
+        }
+      ]
+    }
+  }
+}

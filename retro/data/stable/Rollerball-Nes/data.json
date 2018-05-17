@@ -1,0 +1,12 @@
+{
+  "info": {
+    "lives": {
+      "address": 774,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 787,
+      "type": ">n8"
+    }
+  }
+}

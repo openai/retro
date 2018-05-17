@@ -1,0 +1,8 @@
+{
+  "default_state": "Exhibition.KinoAndAngstaVsNewtsAndTino.Level1",
+  "whitelist": {
+    "scenario.json": [
+      "suspicious variable in done condition: score"
+    ]
+  }
+}

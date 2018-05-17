@@ -1,0 +1,21 @@
+{
+  "done": {
+    "variables": {
+      "opponent_score": {
+        "op": "greater-or-equal",
+        "reference": 50
+      },
+      "score": {
+        "op": "greater-or-equal",
+        "reference": 50
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

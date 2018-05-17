@@ -1,0 +1,20 @@
+{
+  "info": {
+    "score": {
+      "address": 16715465,
+      "type": ">u3"
+    },
+    "scroll_found": {
+      "address": 16711692,
+      "type": "|u1"
+    },
+    "time": {
+      "address": 16715549,
+      "type": "|i1"
+    },
+    "waldo_found": {
+      "address": 16715483,
+      "type": "|u1"
+    }
+  }
+}

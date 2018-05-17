@@ -1,0 +1,1 @@
+Gameover can happen if time == 0 or if lives == 0 

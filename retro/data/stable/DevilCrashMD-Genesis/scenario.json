@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "ball": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 100.0
+      }
+    }
+  }
+}

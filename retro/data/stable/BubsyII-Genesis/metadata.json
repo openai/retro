@@ -1,0 +1,57 @@
+{
+  "default_state": "WestWing.FirstFloor.Easy.Level1",
+  "tags": [
+    "misaligned"
+  ],
+  "states": {
+    "WestWing.FirstFloor.Easy.Level1": {
+      "tags": [
+        "d-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1370.7920792079208,
+            "first_10_mean": 90.0,
+            "final_10_mean": 1390.0,
+            "median": 550.0,
+            "max": 9850.0
+          },
+          "tags": [
+            "stuck",
+            "trivial"
+          ]
+        }
+      ]
+    },
+    "WestWing.FirstFloor.Easy.Level1.KingOfDeNile": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1016.2003610108303,
+            "first_10_mean": 2755.0,
+            "final_10_mean": 1115.0,
+            "median": 350.0,
+            "max": 7950.0
+          },
+          "tags": [
+            "stuck",
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

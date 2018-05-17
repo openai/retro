@@ -1,0 +1,16 @@
+{
+  "info": {
+    "health": {
+      "address": 16712320,
+      "type": "|u1"
+    },
+    "matches_won": {
+      "address": 16711921,
+      "type": "|u1"
+    },
+    "opponent_health": {
+      "address": 16712576,
+      "type": "|u1"
+    }
+  }
+}

@@ -22,3 +22,18 @@ def test_env_basic(testenv):
     assert isinstance(done, bool)
     assert not done
     assert isinstance(info, dict)
+
+
+def test_env_data(testenv):
+    json_path = os.path.join(os.path.dirname(__file__), 'dummy.json')
+    env = testenv(info=json_path, scenario=json_path)
+    assert isinstance(env.data[env.system], int)
+
+    env.data['foo'] = 1
+    assert env.data['foo'] == 1
+    env.reset()
+    try:
+        a = env.data['foo']
+        assert a != 1
+    except KeyError:
+        pass

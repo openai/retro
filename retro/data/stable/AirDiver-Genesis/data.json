@@ -1,0 +1,20 @@
+{
+  "info": {
+    "energy": {
+      "address": 16744652,
+      "type": "|u1"
+    },
+    "fuel": {
+      "address": 16744646,
+      "type": ">u2"
+    },
+    "lives": {
+      "address": 16744648,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16718056,
+      "type": ">n8"
+    }
+  }
+}

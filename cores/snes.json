@@ -1,0 +1,16 @@
+{
+    "Snes": {
+        "lib": "snes9x",
+        "ext": ["sfc"],
+        "rambase": 8257536,
+        "keybinds": ["Z", "A", "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "X", "S", "Q", "W"],
+        "buttons": ["B", "Y", "SELECT", "START", "UP", "DOWN", "LEFT", "RIGHT", "A", "X", "L", "R"],
+        "types": ["|u1", "<u2", "<u4", "|i1", "<i2", "<i4", "|d1", "<d2", ">d4", "<d4", ">d6", ">d8", ">n4", ">n6", ">n8"],
+        "actions": [
+            [[], ["UP"], ["DOWN"]],
+            [[], ["LEFT"], ["RIGHT"]],
+            [[], ["A"], ["B"], ["X"], ["Y"], ["A", "B"], ["B", "Y"], ["Y", "X"], ["X", "A"], ["A", "B", "Y"], ["B", "Y", "X"], ["Y", "X", "A"], ["A", "B", "Y", "X"]],
+            [[], ["L"], ["R"], ["L", "R"]]
+        ]
+    }
+}

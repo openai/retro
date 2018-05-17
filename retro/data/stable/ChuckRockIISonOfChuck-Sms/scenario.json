@@ -1,0 +1,19 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      },
+      "score_in_progress": {
+        "reward": 1.0
+      }
+    }
+  }
+}
