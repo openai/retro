@@ -181,7 +181,8 @@ class RetroEnv(gym.Env):
         self.em.set_button_mask(np.zeros([16], np.uint8))
         self.em.step()
         if self.movie_path is not None:
-            self.record_movie(os.path.join(self.movie_path, '%s-%s-%04d.bk2' % (self.gamename, self.statename, self.movie_id)))
+            rel_statename = os.path.splitext(os.path.basename(self.statename))[0]
+            self.record_movie(os.path.join(self.movie_path, '%s-%s-%06d.bk2' % (self.gamename, rel_statename, self.movie_id)))
             self.movie_id += 1
         if self.movie:
             self.movie.step()
