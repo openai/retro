@@ -16,11 +16,11 @@ RUN yum install -y zlib-devel
 RUN /opt/python/cp35-cp35m/bin/python3.5 -m venv ~/venv3.5 && \
     . ~/venv3.5/bin/activate && \
     pip install wheel && \
-    pip install google-cloud google-resumable-media pytest requests && \
+    pip install google-auth google-cloud-storage pytest requests && \
     /opt/python/cp36-cp36m/bin/python3.6 -m venv ~/venv3.6 && \
     . ~/venv3.6/bin/activate && \
     pip install wheel && \
-    pip install google-cloud google-resumable-media pytest requests && \
+    pip install google-auth google-cloud-storage pytest requests && \
     rm -rf ~/.cache && \
     ln -s ~/venv3.5 ~/venv && \
     echo "source /root/venv\$PYVER/bin/activate" > ~/.bash_profile

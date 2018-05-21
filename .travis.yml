@@ -59,6 +59,6 @@ script:
     hash -r
     conda create -y -q -n venv python=$PYVER pip
     source activate venv
-    pip install wheel google-cloud pytest
+    pip install wheel google-auth google-cloud-storage pytest
     python travis.py
     fi
