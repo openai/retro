@@ -7,6 +7,7 @@ import numpy as np
 import os
 import retro
 from gym.utils import seeding
+from gym.envs.registration import EnvSpec
 from retro.data import GameData
 
 gym_version = tuple(int(x) for x in gym.__version__.split('.'))
@@ -41,7 +42,7 @@ class RetroEnv(gym.Env):
 
     def __init__(self, game, state=retro.STATE_DEFAULT, scenario=None, info=None, use_restricted_actions=retro.ACTIONS_FILTERED, record=False):
         if not hasattr(self, 'spec'):
-            self.spec = None
+            self.spec = EnvSpec(game + "-v0")
         self.img = None
         self.viewer = None
         self.gamename = game
