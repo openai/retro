@@ -9,7 +9,7 @@ import subprocess
 import time
 
 
-def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=None, video_delay=0):
+def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=None, video_delay=0, lossless=None):
     ffmpeg_proc = None
     viewer_proc = None
     if viewer or video_file:
@@ -24,7 +24,16 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=No
         input_vformat = ['-r', str(emulator.em.get_screen_rate()), '-s', '%dx%d' % emulator.observation_space.shape[1::-1], '-pix_fmt', 'rgb24', '-f', 'rawvideo']
         input_aformat = ['-ar', '%i' % emulator.em.get_audio_rate(), '-ac', '2', '-f', 's16le']
         if video_file:
-            output = ['-c:v', 'libx264', '-preset', 'fast', '-crf', '18', '-f', 'mp4', '-pix_fmt', 'yuv420p','-strict', '-2', video_file]
+            if not lossless:
+                output = ['-c:a', 'aac', '-b:a', '128k', '-strict', '-2', '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-f', 'mp4', '-pix_fmt', 'yuv420p', video_file]
+            elif lossless == 'mp4':
+                output = ['-c:a', 'aac', '-b:a', '192k', '-strict', '-2', '-c:v', 'libx264', '-preset', 'veryslow', '-crf', '0', '-f', 'mp4', '-pix_fmt', 'yuv444p', video_file]
+            elif lossless == 'mp4rgb':
+                output = ['-c:a', 'aac', '-b:a', '192k', '-strict', '-2', '-c:v', 'libx264rgb', '-preset', 'veryslow', '-crf', '0', '-f', 'mp4', '-pix_fmt', 'rgb24', video_file]
+            elif lossless == 'png':
+                output = ['-c:a', 'flac', '-c:v', 'png', '-pix_fmt', 'rgb24', '-f', 'matroska', video_file]
+            elif lossless == 'ffv1':
+                output = ['-c:a', 'flac', '-c:v', 'ffv1', '-pix_fmt', 'bgr0', '-f', 'matroska', video_file]
         if viewer:
             stdout = subprocess.PIPE
             output = ['-c', 'copy', '-f', 'nut', 'pipe:1']
@@ -117,7 +126,12 @@ def main():
     parser.add_argument('--csv-out', '-c', type=str)
     parser.add_argument('--ending', '-e', type=int)
     parser.add_argument('--viewer', '-v', type=str)
+    parser.add_argument('--lossless', '-L', type=str, choices=['mp4', 'mp4rgb', 'png', 'ffv1'])
     args = parser.parse_args()
+    if args.lossless in ('png', 'ffv1'):
+        ext = '.mkv'
+    else:
+        ext = '.mp4'
     monitor_csv = None
     monitor_file = None
     if args.csv_out:
@@ -132,7 +146,7 @@ def main():
             delay = duration - args.ending
         else:
             delay = 0
-        playback_movie(emulator, m, monitor_csv, movie.replace('.bk2', '.mp4'), args.viewer, delay)
+        playback_movie(emulator, m, monitor_csv, movie.replace('.bk2', ext), args.viewer, delay, args.lossless)
         del emulator
     if monitor_file:
         monitor_file.close()
