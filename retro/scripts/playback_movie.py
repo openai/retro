@@ -1,17 +1,20 @@
 #!/usr/bin/env python
 import argparse
 import csv
+import json
 import os
 import retro
 import signal
 import socket
 import subprocess
 import time
+from concurrent.futures import ProcessPoolExecutor as Executor
 
 
-def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=None, video_delay=0, lossless=None):
+def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file=None, viewer=None, video_delay=0, lossless=None):
     ffmpeg_proc = None
     viewer_proc = None
+    info_steps = []
     if viewer or video_file:
         video = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -67,7 +70,9 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=No
         keys = []
         for i in range(16):
             keys.append(movie.get_key(i))
-        display, reward, done, _ = emulator.step(keys)
+        display, reward, done, info = emulator.step(keys)
+        if info_file:
+            info_steps.append(info)
         score += reward
         frames += 1
         try:
@@ -99,6 +104,12 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, viewer=No
         signal.signal(signal.SIGCHLD, signal.SIG_DFL)
     if monitor_csv and frames:
         monitor_csv.writerow({'r': score, 'l': frames, 't': frames / 60.0})
+    if info_file:
+        try:
+            with open(info_file, 'w') as f:
+                json.dump(info_steps, f)
+        except IOError:
+            pass
     if ffmpeg_proc:
         video.close()
         audio.close()
@@ -120,18 +131,40 @@ def load_movie(movie_file):
     return emulator, movie, duration
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('movies', type=str, nargs='+')
-    parser.add_argument('--csv-out', '-c', type=str)
-    parser.add_argument('--ending', '-e', type=int)
-    parser.add_argument('--viewer', '-v', type=str)
-    parser.add_argument('--lossless', '-L', type=str, choices=['mp4', 'mp4rgb', 'png', 'ffv1'])
-    args = parser.parse_args()
+def _play(movie, args, monitor_csv):
+    video_file = None
+    info_file = None
     if args.lossless in ('png', 'ffv1'):
         ext = '.mkv'
     else:
         ext = '.mp4'
+
+    emulator, m, duration = load_movie(movie)
+    if args.ending is not None:
+        delay = duration - args.ending
+    else:
+        delay = 0
+    basename = os.path.splitext(movie)[0]
+    if not args.no_video:
+        video_file = basename + ext
+    if args.info_dict:
+        info_file = basename + '.json'
+    playback_movie(emulator, m, monitor_csv, video_file, info_file, args.viewer, delay, args.lossless)
+    del emulator
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('movies', type=str, nargs='+')
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--jobs', '-j', type=int, default=1)
+    group.add_argument('--csv-out', '-c', type=str)
+    parser.add_argument('--ending', '-e', type=int)
+    parser.add_argument('--viewer', '-v', type=str)
+    parser.add_argument('--no-video', '-V', action='store_true')
+    parser.add_argument('--info-dict', '-i', action='store_true')
+    parser.add_argument('--lossless', '-L', type=str, choices=['mp4', 'mp4rgb', 'png', 'ffv1'])
+    args = parser.parse_args()
     monitor_csv = None
     monitor_file = None
     if args.csv_out:
@@ -140,14 +173,9 @@ def main():
         monitor_file.write('#{"t_start": 0.0, "gym_version": "gym_retro", "env_id": "%s"}\n' % game)
         monitor_csv = csv.DictWriter(monitor_file, fieldnames=['r', 'l', 't'])
         monitor_csv.writeheader()
-    for movie in args.movies:
-        emulator, m, duration = load_movie(movie)
-        if args.ending is not None:
-            delay = duration - args.ending
-        else:
-            delay = 0
-        playback_movie(emulator, m, monitor_csv, movie.replace('.bk2', ext), args.viewer, delay, args.lossless)
-        del emulator
+
+    with Executor(args.jobs) as pool:
+        list(pool.map(_play, *zip(*[(movie, args, monitor_csv) for movie in args.movies])))
     if monitor_file:
         monitor_file.close()
 

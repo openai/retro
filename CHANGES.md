@@ -4,6 +4,7 @@
 
 * allow Atari height to be different per game
 * update pybind11 dependency
+* add parallelism, lossless videos, and info dict dumping to playback_movies
 
 ## 0.5.4
 
