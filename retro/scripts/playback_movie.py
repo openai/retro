@@ -2,6 +2,7 @@
 import argparse
 import csv
 import json
+import numpy as np
 import os
 import retro
 import signal
@@ -11,10 +12,11 @@ import time
 from concurrent.futures import ProcessPoolExecutor as Executor
 
 
-def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file=None, viewer=None, video_delay=0, lossless=None):
+def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file=None, npy_file=None, viewer=None, video_delay=0, lossless=None):
     ffmpeg_proc = None
     viewer_proc = None
     info_steps = []
+    actions = np.empty(shape=(0, emulator.NUM_BUTTONS), dtype=bool)
     if viewer or video_file:
         video = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -68,8 +70,10 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
 
     while movie.step():
         keys = []
-        for i in range(16):
+        for i in range(emulator.NUM_BUTTONS):
             keys.append(movie.get_key(i))
+        if npy_file:
+            actions = np.vstack((actions, (keys,)))
         display, reward, done, info = emulator.step(keys)
         if info_file:
             info_steps.append(info)
@@ -104,7 +108,17 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
         signal.signal(signal.SIGCHLD, signal.SIG_DFL)
     if monitor_csv and frames:
         monitor_csv.writerow({'r': score, 'l': frames, 't': frames / 60.0})
-    if info_file:
+    if npy_file:
+        kwargs = {
+            'actions': actions
+        }
+        if info_file:
+            kwargs['info'] = info_steps
+        try:
+            np.savez_compressed(npy_file, **kwargs)
+        except IOError:
+            pass
+    elif info_file:
         try:
             with open(info_file, 'w') as f:
                 json.dump(info_steps, f)
@@ -149,7 +163,9 @@ def _play(movie, args, monitor_csv):
         video_file = basename + ext
     if args.info_dict:
         info_file = basename + '.json'
-    playback_movie(emulator, m, monitor_csv, video_file, info_file, args.viewer, delay, args.lossless)
+    if args.npy_actions:
+        npy_file = basename + '.npz'
+    playback_movie(emulator, m, monitor_csv, video_file, info_file, npy_file, args.viewer, delay, args.lossless)
     del emulator
 
 
@@ -163,6 +179,7 @@ def main():
     parser.add_argument('--viewer', '-v', type=str)
     parser.add_argument('--no-video', '-V', action='store_true')
     parser.add_argument('--info-dict', '-i', action='store_true')
+    parser.add_argument('--npy-actions', '-a', action='store_true')
     parser.add_argument('--lossless', '-L', type=str, choices=['mp4', 'mp4rgb', 'png', 'ffv1'])
     args = parser.parse_args()
     monitor_csv = None
