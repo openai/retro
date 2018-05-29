@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1335</width>
-    <height>882</height>
+    <width>1055</width>
+    <height>650</height>
    </rect>
   </property>
   <property name="documentMode">
@@ -34,7 +34,7 @@
      <widget class="Screen" name="screen">
       <property name="sizePolicy">
        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-        <horstretch>0</horstretch>
+        <horstretch>1</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
@@ -47,7 +47,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1335</width>
+     <width>1055</width>
      <height>22</height>
     </rect>
    </property>
@@ -848,8 +848,8 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1147</x>
-     <y>708</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>1147</x>
