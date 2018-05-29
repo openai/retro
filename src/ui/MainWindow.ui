@@ -841,5 +841,133 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionShowVariables</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>variableView</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1147</x>
+     <y>708</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1147</x>
+     <y>117</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>variableView</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>actionShowVariables</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1147</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>scenarioView</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>actionShowScenario</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1147</x>
+     <y>282</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>searchView</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>actionShowSearch</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1147</x>
+     <y>492</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cheatView</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>actionShowCheats</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1147</x>
+     <y>757</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShowScenario</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>scenarioView</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1147</x>
+     <y>282</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShowSearch</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>searchView</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1147</x>
+     <y>492</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionShowCheats</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cheatView</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1147</x>
+     <y>757</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>

@@ -280,11 +280,6 @@ MainWindow::MainWindow(QWidget* parent)
 		m_settings.sync();
 	});
 
-	connect(m_ui->actionShowVariables, &QAction::triggered, m_ui->variableView, &QWidget::setVisible);
-	connect(m_ui->actionShowScenario, &QAction::triggered, m_ui->scenarioView, &QWidget::setVisible);
-	connect(m_ui->actionShowSearch, &QAction::triggered, m_ui->searchView, &QWidget::setVisible);
-	connect(m_ui->actionShowCheats, &QAction::triggered, m_ui->cheatView, &QWidget::setVisible);
-
 	connect(m_ui->actionControls, &QAction::triggered, [this]() {
 		if (!m_controller) {
 			return;
