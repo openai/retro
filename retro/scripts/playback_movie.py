@@ -155,6 +155,7 @@ def load_movie(movie_file):
 def _play(movie, args, monitor_csv):
     video_file = None
     info_file = None
+    npy_file = None
     if args.lossless in ('png', 'ffv1'):
         ext = '.mkv'
     else:
