@@ -297,17 +297,20 @@ def parse_smd(header, body):
 def groom_rom(rom):
     import hashlib
     with open(rom, 'rb') as r:
-        if rom.endswith('.md'):
+        if rom.lower().endswith('.smd'):
             # Read Super Magic Drive header
             header = r.read(512)
             body = r.read()
             body = parse_smd(header, body)
-        elif rom.endswith('.nes'):
+        elif rom.lower().endswith('.nes'):
             header = r.read(16)
             body = r.read()
             return header + body, hashlib.sha1(body).hexdigest()
         else:
-            body = r.read()
+            # Don't read more than 32 MiB, the largest game supported
+            body = r.read(0x2000000)
+            if r.read(1):
+                raise ValueError('ROM is too big')
     return body, hashlib.sha1(body).hexdigest()
 
 
@@ -321,7 +324,7 @@ def merge(*args, quiet=True):
             try:
                 with open(shafile) as f:
                     shas = f.read().strip().split('\n')
-            except FileNotFoundError:
+            except (FileNotFoundError, ValueError):
                 continue
             for ext, platform in EMU_EXTENSIONS.items():
                 if game.endswith('-' + platform):
