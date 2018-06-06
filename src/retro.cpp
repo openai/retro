@@ -59,8 +59,9 @@ struct PyRetroEmulator {
 	}
 
 	py::array_t<uint8_t> getScreen() {
+                // fooo
 		long w = m_re.getImageWidth();
-		long h = m_re.getImageHeight();
+		long h = m_re.getImageHeight()*2;
 		py::array_t<uint8_t> arr({ { h, w, 3 } });
 		uint8_t* data = arr.mutable_data();
 		Image out(Image::Format::RGB888, data, w, h, w);
