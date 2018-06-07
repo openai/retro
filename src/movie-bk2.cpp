@@ -238,7 +238,6 @@ void MovieBK2::close() {
 		if (!m_state.empty()) {
 			auto state = m_zip->openFile("Core.bin", true);
 			state->write(m_state.data(), m_state.size());
-			state->flush();
 		}
 	}
 	m_zip->close();
