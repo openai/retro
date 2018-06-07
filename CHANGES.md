@@ -1,10 +1,11 @@
 # Changelog
 
-## 0.5.5 (unreleased)
+## 0.5.5
 
 * allow Atari height to be different per game
 * update pybind11 dependency
 * add parallelism, lossless videos, info dict and numpy action dumping to playback_movies
+* fix crashes with TensorFlow
 
 ## 0.5.4
 
