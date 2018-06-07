@@ -36,12 +36,10 @@ def callback(lcl, _glb):
     is_solved = lcl['t'] > 100 and sum(lcl['episode_rewards'][-101:-1]) / 100 >= 1000000
     return is_solved
 
-output_string = 'Saving model to {0} {1}'.format(args.game, args.state)
+output_string = '{0}_{1}.pkl'.format(args.game, args.state)
 
-print(output_string)
+print('Saving model to {0}'.format(output_string))
 act.save(output_string)
-
-
 
 while True:
     obs, done = env.reset(), False
