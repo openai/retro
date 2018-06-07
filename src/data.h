@@ -115,6 +115,9 @@ public:
 	uint64_t frame() const;
 	uint64_t timestep() const;
 
+	void setCrop(size_t x, size_t y, size_t width, size_t height, unsigned player = 0);
+	void getCrop(size_t* x, size_t* y, size_t* width, size_t* height, unsigned player = 0) const;
+
 	void setActions(const std::vector<std::vector<std::vector<std::string>>>& actions);
 	std::map<int, std::set<int>> validActions() const;
 	unsigned filterAction(unsigned) const;
@@ -161,6 +164,20 @@ public:
 		DoneCondition condition = DoneCondition::ANY;
 	};
 
+	struct CropInfo {
+		size_t x = 0;
+		size_t y = 0;
+		size_t width = 0;
+		size_t height = 0;
+
+		bool operator==(const CropInfo& other) const {
+			return x == other.x && y == other.y && width == other.width && height == other.height;
+		}
+		bool operator!=(const CropInfo& other) const {
+			return !(*this == other);
+		}
+	};
+
 	void setRewardVariable(const std::string& name, const RewardSpec&, unsigned player = 0);
 	void setRewardFunction(const std::string& name, const std::string& scope = {}, unsigned player = 0);
 	void setRewardTime(const RewardSpec&, unsigned player = 0);
@@ -203,6 +220,7 @@ private:
 	float m_reward[MAX_PLAYERS] = { 0 };
 	float m_totalReward[MAX_PLAYERS] = { 0 };
 	bool m_done = false;
+	CropInfo m_crops[MAX_PLAYERS]{};
 	uint64_t m_frame = 0;
 };
 }

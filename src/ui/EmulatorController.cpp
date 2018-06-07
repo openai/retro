@@ -467,7 +467,19 @@ void EmulatorController::runOnce() {
 		runOneStep();
 		runOneStep();
 	}
-	if (m_screen.constBits() != static_cast<const uchar*>(m_re.getImageData())) {
+	size_t x;
+	size_t y;
+	size_t width;
+	size_t height;
+	m_scen->getCrop(&x, &y, &width, &height);
+	QRect crop{
+		static_cast<int>(x),
+		static_cast<int>(y),
+		static_cast<int>(width),
+		static_cast<int>(height)
+	};
+
+	if (m_screen.constBits() != static_cast<const uchar*>(m_re.getImageData()) || m_crop != crop) {
 		QImage::Format format = QImage::Format_RGB16;
 		switch (m_re.getImageDepth()) {
 		case 32:
@@ -481,6 +493,14 @@ void EmulatorController::runOnce() {
 			break;
 		}
 		m_screen = QImage(static_cast<const uchar*>(m_re.getImageData()), m_re.getImageWidth(), m_re.getImageHeight(), m_re.getImagePitch(), format);
+		m_crop = crop;
+		if (crop.x() + crop.width() > m_re.getImageWidth() || crop.width() == 0) {
+			crop.setWidth(m_re.getImageWidth() - x);
+		}
+		if (crop.y() + crop.height() > m_re.getImageHeight() || crop.height() == 0) {
+			crop.setHeight(m_re.getImageHeight() - y);
+		}
+		m_screen = m_screen.copy(crop);
 	}
 
 	emit frameAvailable(m_screen);

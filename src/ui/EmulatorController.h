@@ -110,6 +110,7 @@ private:
 	bool m_recording = false;
 
 	QImage m_screen;
+	QRect m_crop;
 	QTimer m_scheduler;
 	QList<int> m_keybinds[Retro::MAX_PLAYERS];
 	bool m_running = false;

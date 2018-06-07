@@ -537,6 +537,26 @@ bool Scenario::load(istream* file, const std::string& path) {
 		}
 	}
 
+	const auto& crop = const_cast<const json&>(manifest).find("crop");
+	if (crop != manifest.cend()) {
+		CropInfo cropInfo{ (*crop)[0], (*crop)[1], (*crop)[2], (*crop)[3] };
+		for (size_t i = 0; i < MAX_PLAYERS; ++i) {
+			m_crops[i] = cropInfo;
+		}
+	}
+
+	const auto& crops = const_cast<const json&>(manifest).find("crops");
+	if (crops != manifest.cend()) {
+		for (unsigned i = 0; i < MAX_PLAYERS; ++i) {
+			if (i < crops->size()) {
+				CropInfo cropInfo{ crops[i][0], crop[i][1], crop[i][2], crop[i][3] };
+				m_crops[i] = cropInfo;
+			} else {
+				m_crops[i] = {};
+			}
+		}
+	}
+
 	return true;
 }
 
@@ -709,6 +729,34 @@ bool Scenario::save(ostream* file) const {
 		manifest["scripts"] = scripts;
 	}
 
+	CropInfo firstCrop = m_crops[0];
+	unsigned nCrops = 1;
+	for (unsigned i = MAX_PLAYERS - 1; i > 0; ++i) {
+		if (m_crops[i] != firstCrop && m_crops[i] != CropInfo{}) {
+			nCrops = i + 1;
+			break;
+		}
+	}
+	if (nCrops == 1) {
+		json crop;
+		crop.push_back(m_crops[0].x);
+		crop.push_back(m_crops[0].y);
+		crop.push_back(m_crops[0].width);
+		crop.push_back(m_crops[0].height);
+		manifest["crop"] = crop;
+	} else {
+		json crops;
+		for (unsigned i = 0; i < nCrops; ++i) {
+			json crop;
+			crop.push_back(m_crops[i].x);
+			crop.push_back(m_crops[i].y);
+			crop.push_back(m_crops[i].width);
+			crop.push_back(m_crops[i].height);
+			crops.push_back(crop);
+		}
+		manifest["crops"] = crops;
+	}
+
 	try {
 		file->width(2);
 		*file << manifest;
@@ -824,6 +872,23 @@ uint64_t Scenario::frame() const {
 
 uint64_t Scenario::timestep() const {
 	return m_frame / 4;
+}
+
+void Scenario::setCrop(size_t x, size_t y, size_t width, size_t height, unsigned player) {
+	if (player >= MAX_PLAYERS) {
+		throw range_error("requested player is out of bounds");
+	}
+	m_crops[player] = { x, y, width, height };
+}
+
+void Scenario::getCrop(size_t* x, size_t* y, size_t* width, size_t* height, unsigned player) const {
+	if (player >= MAX_PLAYERS) {
+		throw range_error("requested player is out of bounds");
+	}
+	*x = m_crops[player].x;
+	*y = m_crops[player].y;
+	*width = m_crops[player].width;
+	*height = m_crops[player].height;
 }
 
 float Scenario::calculateReward(unsigned player) const {

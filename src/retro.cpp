@@ -351,6 +351,15 @@ struct PyGameData {
 		return m_scen.isDone();
 	}
 
+	py::tuple cropInfo(unsigned player = 0) {
+		size_t x = 0;
+		size_t y = 0;
+		size_t width = 0;
+		size_t height = 0;
+		m_scen.getCrop(&x, &y, &width, &height, player);
+		return py::make_tuple(x, y, width, height);
+	}
+
 	PyMemoryView memory() {
 		return PyMemoryView(m_data.addressSpace());
 	}
@@ -507,6 +516,7 @@ PYBIND11_MODULE(_retro, m) {
 		.def("current_reward", &PyGameData::currentReward, py::arg("player") = 0)
 		.def("total_reward", &PyGameData::totalReward, py::arg("player") = 0)
 		.def("is_done", &PyGameData::isDone)
+		.def("crop_info", &PyGameData::cropInfo, py::arg("player") = 0)
 		.def_property_readonly("memory", &PyGameData::memory);
 
 	py::class_<PyMovie>(m, "Movie")

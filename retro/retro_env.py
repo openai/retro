@@ -111,7 +111,6 @@ class RetroEnv(gym.Env):
         self.em = retro.RetroEmulator(rom_path)
         self.em.configure_data(self.data)
         self.em.step()
-        img = self.em.get_screen()
 
         core = retro.get_system_info(self.system)
         self.buttons = core['buttons']
@@ -123,6 +122,8 @@ class RetroEnv(gym.Env):
         except Exception:
             del self.em
             raise
+
+        img = [self.get_screen(p) for p in range(players)]
 
         if use_restricted_actions == retro.Actions.DISCRETE:
             combos = 1
@@ -137,7 +138,7 @@ class RetroEnv(gym.Env):
         kwargs = {}
         if gym_version >= (0, 9, 6):
             kwargs['dtype'] = np.uint8
-        self.observation_space = gym.spaces.Box(low=0, high=255, shape=img.shape, **kwargs)
+        self.observation_space = gym.spaces.Box(low=0, high=255, shape=img[0].shape, **kwargs)
 
         self.use_restricted_actions = use_restricted_actions
         self.movie = None
@@ -194,7 +195,7 @@ class RetroEnv(gym.Env):
         if self.movie:
             self.movie.step()
         self.em.step()
-        self.img = ob = self.em.get_screen()
+        self.img = ob = self.get_screen()
         self.data.update_ram()
         rew, done, info = self.compute_step()
         return ob, rew, bool(done), dict(info)
@@ -211,7 +212,7 @@ class RetroEnv(gym.Env):
             self.movie_id += 1
         if self.movie:
             self.movie.step()
-        self.img = ob = self.em.get_screen()
+        self.img = ob = self.get_screen()
         self.data.reset()
         self.data.update_ram()
         return ob
@@ -230,7 +231,7 @@ class RetroEnv(gym.Env):
                 self.viewer.close()
             return
         if mode == "rgb_array":
-            return self.em.get_screen() if self.img is None else self.img
+            return self.get_screen() if self.img is None else self.img
         elif mode == "human":
             if self.viewer is None:
                 from gym.envs.classic_control.rendering import SimpleImageViewer
@@ -249,3 +250,18 @@ class RetroEnv(gym.Env):
         if self.players == 1:
             return actions[0]
         return actions
+
+    def get_screen(self, player=0):
+        img = self.em.get_screen()
+        x, y, w, h = self.data.crop_info(player)
+        if not w or x + w > img.shape[1]:
+            w = img.shape[1]
+        else:
+            w += x
+        if not h or y + h > img.shape[0]:
+            h = img.shape[0]
+        else:
+            h += y
+        if x == 0 and y == 0 and w == img.shape[1] and h == img.shape[0]:
+            return img
+        return img[y:h, x:w]
