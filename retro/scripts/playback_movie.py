@@ -8,6 +8,7 @@ import retro
 import signal
 import socket
 import subprocess
+import sys
 import time
 from concurrent.futures import ProcessPoolExecutor as Executor
 
@@ -170,7 +171,7 @@ def _play(movie, args, monitor_csv):
     del emulator
 
 
-def main():
+def main(argv=sys.argv[1:]):
     parser = argparse.ArgumentParser()
     parser.add_argument('movies', type=str, nargs='+')
     group = parser.add_mutually_exclusive_group()
@@ -182,7 +183,7 @@ def main():
     parser.add_argument('--info-dict', '-i', action='store_true')
     parser.add_argument('--npy-actions', '-a', action='store_true')
     parser.add_argument('--lossless', '-L', type=str, choices=['mp4', 'mp4rgb', 'png', 'ffv1'])
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     monitor_csv = None
     monitor_file = None
     if args.csv_out:
@@ -192,7 +193,7 @@ def main():
         monitor_csv = csv.DictWriter(monitor_file, fieldnames=['r', 'l', 't'])
         monitor_csv.writeheader()
 
-    with Executor(args.jobs) as pool:
+    with Executor(args.jobs or None) as pool:
         list(pool.map(_play, *zip(*[(movie, args, monitor_csv) for movie in args.movies])))
     if monitor_file:
         monitor_file.close()
