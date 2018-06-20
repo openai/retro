@@ -55,8 +55,14 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
         audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         audio_connected = False
 
-        time.sleep(0.2)
-        video.connect(('127.0.0.1', vr))
+        time.sleep(0.3)
+        try:
+            video.connect(('127.0.0.1', vr))
+        except ConnectionRefusedError:
+            video.close()
+            audio.close()
+            ffmpeg_proc.terminate()
+            raise
         if viewer:
             viewer_proc = subprocess.Popen([viewer, '-'], stdin=ffmpeg_proc.stdout)
     frames = 0
@@ -71,13 +77,25 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
             viewer_proc.wait()
         raise BrokenPipeError
 
-    while movie.step():
-        keys = []
-        for p in range(movie.players):
-            for i in range(emulator.num_buttons):
-                keys.append(movie.get_key(i, p))
-        if npy_file:
-            actions = np.vstack((actions, (keys,)))
+    def waitprocs():
+        if ffmpeg_proc:
+            video.close()
+            audio.close()
+            if not viewer_proc or viewer_proc.poll() is None:
+                ffmpeg_proc.wait()
+
+    while True:
+        if movie.step():
+            keys = []
+            for p in range(movie.players):
+                for i in range(emulator.num_buttons):
+                    keys.append(movie.get_key(i, p))
+            if npy_file:
+                actions = np.vstack((actions, (keys,)))
+        elif video_delay < 0 and frames < -video_delay:
+            keys = [0] * emulator.num_buttons
+        else:
+            break
         display, reward, done, info = emulator.step(keys)
         if info_file:
             info_steps.append(info)
@@ -102,7 +120,8 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
                 if len(sound):
                     audio.sendall(bytes(sound))
         except BrokenPipeError:
-            break
+            waitprocs()
+            raise
         finally:
             if hasattr(signal, 'SIGCHLD'):
                 signal.signal(signal.SIGCHLD, signal.SIG_DFL)
@@ -132,11 +151,7 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
                 json.dump(info_steps, f)
         except IOError:
             pass
-    if ffmpeg_proc:
-        video.close()
-        audio.close()
-        if not viewer_proc or viewer_proc.poll() is None:
-            ffmpeg_proc.wait()
+    waitprocs()
 
 
 def load_movie(movie_file):
@@ -162,11 +177,6 @@ def _play(movie, args, monitor_csv):
     else:
         ext = '.mp4'
 
-    emulator, m, duration = load_movie(movie)
-    if args.ending is not None:
-        delay = duration - args.ending
-    else:
-        delay = 0
     basename = os.path.splitext(movie)[0]
     if not args.no_video:
         video_file = basename + ext
@@ -174,8 +184,22 @@ def _play(movie, args, monitor_csv):
         info_file = basename + '.json'
     if args.npy_actions:
         npy_file = basename + '.npz'
-    playback_movie(emulator, m, monitor_csv, video_file, info_file, npy_file, args.viewer, delay, args.lossless)
-    del emulator
+    while True:
+        try:
+            emulator, m, duration = load_movie(movie)
+            if args.ending is not None:
+                if args.ending < 0:
+                    delay = duration + args.ending
+                else:
+                    delay = -(duration + args.ending)
+            else:
+                delay = 0
+            playback_movie(emulator, m, monitor_csv, video_file, info_file, npy_file, args.viewer, delay, args.lossless)
+            break
+        except ConnectionRefusedError:
+            pass
+        finally:
+            del emulator
 
 
 def main(argv=sys.argv[1:]):
