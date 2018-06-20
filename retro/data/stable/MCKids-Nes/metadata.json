@@ -21,9 +21,20 @@
             "final_10_mean": 14.3,
             "median": 17.0,
             "max": 37.0
-          }
+          },
+          "tags": [
+            "simple",
+            "stuck",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned"
+  ]
 }

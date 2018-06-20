@@ -16,8 +16,15 @@
             "final_10_mean": 49.5,
             "median": 45.0,
             "max": 80.0
-          }
+          },
+          "tags": [
+            "stuck",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     }
   }

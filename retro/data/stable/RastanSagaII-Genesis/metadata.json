@@ -16,9 +16,20 @@
             "final_10_mean": 6240.0,
             "median": 5000.0,
             "max": 8800.0
-          }
+          },
+          "tags": [
+            "not-done",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned",
+    "platformer"
+  ]
 }

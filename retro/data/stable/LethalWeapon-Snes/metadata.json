@@ -16,8 +16,15 @@
             "final_10_mean": 0.0,
             "median": 0.0,
             "max": 1070.0
-          }
+          },
+          "tags": [
+            "spikes",
+            "trivial"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     },
     "Level1.Mission1": {
@@ -39,5 +46,8 @@
         }
       ]
     }
-  }
+  },
+  "tags": [
+    "aligned"
+  ]
 }

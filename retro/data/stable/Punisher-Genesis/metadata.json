@@ -16,9 +16,19 @@
             "final_10_mean": 16010.0,
             "median": 19100.0,
             "max": 200200.0
-          }
+          },
+          "tags": [
+            "trivial"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "aligned",
+    "brawler"
+  ]
 }

@@ -16,9 +16,19 @@
             "final_10_mean": 3090.0,
             "median": 2050.0,
             "max": 6740.0
-          }
+          },
+          "tags": [
+            "almost-human",
+            "not-done"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "aligned"
+  ]
 }

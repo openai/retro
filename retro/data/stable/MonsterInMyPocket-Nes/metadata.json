@@ -16,9 +16,20 @@
             "final_10_mean": 333.5,
             "median": 270.0,
             "max": 540.0
-          }
+          },
+          "tags": [
+            "bad-end",
+            "not-done",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned"
+  ]
 }

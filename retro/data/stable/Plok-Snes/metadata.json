@@ -16,9 +16,19 @@
             "final_10_mean": 19152.0,
             "median": 16970.0,
             "max": 32600.0
-          }
+          },
+          "tags": [
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "aligned",
+    "menus"
+  ]
 }

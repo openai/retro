@@ -16,9 +16,20 @@
             "final_10_mean": 7875.0,
             "median": 4700.0,
             "max": 10350.0
-          }
+          },
+          "tags": [
+            "almost-human",
+            "bad-end",
+            "die-loop"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned"
+  ]
 }

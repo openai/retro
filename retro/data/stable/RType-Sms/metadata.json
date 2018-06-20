@@ -16,9 +16,20 @@
             "final_10_mean": 26790.0,
             "median": 23100.0,
             "max": 36000.0
-          }
+          },
+          "tags": [
+            "die-loop",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "aligned",
+    "shmup"
+  ]
 }

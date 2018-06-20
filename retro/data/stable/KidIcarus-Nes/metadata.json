@@ -16,9 +16,19 @@
             "final_10_mean": 1600.0,
             "median": 1600.0,
             "max": 1600.0
-          }
+          },
+          "tags": [
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "aligned",
+    "wrapping"
+  ]
 }

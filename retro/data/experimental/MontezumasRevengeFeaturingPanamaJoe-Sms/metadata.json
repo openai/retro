@@ -16,9 +16,19 @@
             "final_10_mean": 0.0,
             "median": 0.0,
             "max": 20000.0
-          }
+          },
+          "tags": [
+            "spikes",
+            "trivial"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "aligned"
+  ]
 }

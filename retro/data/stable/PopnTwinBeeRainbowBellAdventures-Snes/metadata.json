@@ -16,9 +16,21 @@
             "final_10_mean": 24.9,
             "median": 21.0,
             "max": 82.0
-          }
+          },
+          "tags": [
+            "stuck",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore",
+        "s-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned",
+    "platformer"
+  ]
 }

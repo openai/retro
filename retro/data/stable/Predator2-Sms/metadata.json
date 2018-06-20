@@ -16,8 +16,16 @@
             "final_10_mean": 36152.5,
             "median": 18357.5,
             "max": 44520.0
-          }
+          },
+          "tags": [
+            "die-loop",
+            "not-done",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     },
     "Level10": {
@@ -221,5 +229,8 @@
     "_LevelSelect": {
       "tags": []
     }
-  }
+  },
+  "tags": [
+    "shmup"
+  ]
 }

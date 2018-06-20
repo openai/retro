@@ -16,9 +16,19 @@
             "final_10_mean": 2390.0,
             "median": 2200.0,
             "max": 2760.0
-          }
+          },
+          "tags": [
+            "farming",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned"
+  ]
 }

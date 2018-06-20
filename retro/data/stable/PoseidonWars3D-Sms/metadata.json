@@ -16,9 +16,19 @@
             "final_10_mean": 6375.0,
             "median": 4770.0,
             "max": 17130.0
-          }
+          },
+          "tags": [
+            "noisy",
+            "trivial"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "aligned"
+  ]
 }

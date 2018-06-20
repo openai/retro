@@ -16,9 +16,22 @@
             "final_10_mean": 7116.0,
             "median": 2340.0,
             "max": 8700.0
-          }
+          },
+          "tags": [
+            "die-loop",
+            "farming",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned",
+    "platformer",
+    "shmup"
+  ]
 }

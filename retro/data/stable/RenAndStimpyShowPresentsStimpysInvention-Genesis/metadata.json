@@ -16,7 +16,11 @@
             "final_10_mean": 3375.0,
             "median": 2250.0,
             "max": 5250.0
-          }
+          },
+          "tags": [
+            "stuck",
+            "sub-human"
+          ]
         }
       ]
     }

@@ -16,9 +16,20 @@
             "final_10_mean": 0.0,
             "median": 0.0,
             "max": 20.0
-          }
+          },
+          "tags": [
+            "spikes",
+            "trivial"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned",
+    "platformer"
+  ]
 }

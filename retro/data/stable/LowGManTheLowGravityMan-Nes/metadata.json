@@ -16,8 +16,15 @@
             "final_10_mean": 2990.0,
             "median": 1600.0,
             "max": 44800.0
-          }
+          },
+          "tags": [
+            "not-done",
+            "trivial"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     },
     "Level10": {
@@ -224,5 +231,8 @@
     "_LevelSelect": {
       "tags": []
     }
-  }
+  },
+  "tags": [
+    "aligned"
+  ]
 }

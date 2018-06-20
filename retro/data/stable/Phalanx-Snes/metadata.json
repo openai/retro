@@ -16,8 +16,15 @@
             "final_10_mean": 5442.0,
             "median": 3930.0,
             "max": 18620.0
-          }
+          },
+          "tags": [
+            "noisy",
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "e-explore"
       ]
     }
   }

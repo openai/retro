@@ -16,9 +16,18 @@
             "final_10_mean": 6135.0,
             "median": 5550.0,
             "max": 7500.0
-          }
+          },
+          "tags": [
+            "sub-human"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned"
+  ]
 }

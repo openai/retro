@@ -16,9 +16,19 @@
             "final_10_mean": 30.0,
             "median": 5.0,
             "max": 60.0
-          }
+          },
+          "tags": [
+            "die-loop",
+            "not-done"
+          ]
         }
+      ],
+      "tags": [
+        "d-explore"
       ]
     }
-  }
+  },
+  "tags": [
+    "misaligned"
+  ]
 }
