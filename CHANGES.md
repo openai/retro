@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.6
+
+* fix generating corrupted bk2s
+* reliabilty fixes and minor enhancements to playback_movies
+
 ## 0.5.5
 
 * allow Atari height to be different per game
