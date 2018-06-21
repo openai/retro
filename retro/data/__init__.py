@@ -271,8 +271,26 @@ def list_states(game, inttype=Integrations.DEFAULT):
     states = []
     for curpath in paths:
         local_states = glob.glob(os.path.join(curpath, "*.state"))
-        states.extend(local_states.split(os.sep)[-1][:-len(".state")] for local_states in local_states if not local_states.startswith("_"))
+        states.extend(os.path.split(local_state)[-1][:-len(".state")] for local_state in local_states if not local_state.startswith("_"))
     return sorted(set(states))
+
+
+def list_scenarios(game, inttype=Integrations.DEFAULT):
+    paths = []
+    for curpath in inttype.paths:
+        paths.append(os.path.join(path(), curpath, game))
+    scens = []
+    for curpath in paths:
+        local_json = glob.glob(os.path.join(curpath, "*.json"))
+        for j in local_json:
+            try:
+                with open(j) as f:
+                    scen = json.load(f)
+            except (json.JSONDecodeError, IOError):
+                continue
+            if scen.get('reward') is not None or scen.get('rewards') is not None or scen.get('done') is not None:
+                scens.append(os.path.split(j)[-1][:-len(".json")])
+    return sorted(set(scens))
 
 
 def parse_smd(header, body):
