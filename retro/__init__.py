@@ -7,8 +7,9 @@ try:
     # Work around TensorFlow import issues
     dlopenflags = None
     dlopenflags = sys.getdlopenflags()
-    sys.setdlopenflags(os.RTLD_NOW | os.RTLD_GLOBAL)
-except AttributeError:
+    import tensorflow
+    sys.setdlopenflags(os.RTLD_LAZY | os.RTLD_LOCAL)
+except (AttributeError, ImportError):
     pass
 
 from retro._retro import Movie, RetroEmulator, core_path
