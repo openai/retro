@@ -1,22 +1,9 @@
 import os
+import retro.data
 import sys
 
 from enum import Enum
-
-try:
-    # Work around TensorFlow import issues
-    dlopenflags = None
-    dlopenflags = sys.getdlopenflags()
-    import tensorflow
-    sys.setdlopenflags(os.RTLD_LAZY | os.RTLD_LOCAL)
-except (AttributeError, ImportError):
-    pass
-
 from retro._retro import Movie, RetroEmulator, core_path
-import retro.data
-
-if dlopenflags:
-    sys.setdlopenflags(dlopenflags)
 
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
