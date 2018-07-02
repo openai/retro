@@ -8,6 +8,7 @@ language: cpp # Needed for ccache
 env:
   - PYVER=3.5
   - PYVER=3.6
+  - PYVER=3.7
 os:
   - linux
   - osx
@@ -25,6 +26,10 @@ matrix:
       env:
         - CROSS=win64
         - PYVER=3.6
+    - os: linux
+      env:
+        - CROSS=win64
+        - PYVER=3.7
 
 before_script:
   - mkdir -p $HOME/roms

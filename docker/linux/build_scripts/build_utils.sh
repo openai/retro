@@ -19,6 +19,15 @@ function lex_pyver {
 }
 
 
+function pyver_dist_dir {
+    # Echoes the dist directory name of given pyver, removing alpha/beta prerelease
+    # Thus:
+    # 3.2.1   -> 3.2.1
+    # 3.7.0b4 -> 3.7.0
+    echo $1 | awk -F "." '{printf "%d.%d.%d", $1, $2, $3}'
+}
+
+
 function do_cpython_build {
     local py_ver=$1
     check_var $py_ver
@@ -45,7 +54,10 @@ function do_cpython_build {
     if [ -e ${prefix}/bin/python3 ]; then
         ln -s python3 ${prefix}/bin/python
     fi
-    ${prefix}/bin/python get-pip.py
+    # --force-reinstall is to work around:
+    #   https://github.com/pypa/pip/issues/5220
+    #   https://github.com/pypa/get-pip/issues/19
+    ${prefix}/bin/python get-pip.py --force-reinstall
     if [ -e ${prefix}/bin/pip3 ] && [ ! -e ${prefix}/bin/pip ]; then
         ln -s pip3 ${prefix}/bin/pip
     fi
@@ -61,8 +73,9 @@ function build_cpython {
     local py_ver=$1
     check_var $py_ver
     check_var $PYTHON_DOWNLOAD_URL
-    curl -fsSLO $PYTHON_DOWNLOAD_URL/$py_ver/Python-$py_ver.tgz
-    curl -fsSLO $PYTHON_DOWNLOAD_URL/$py_ver/Python-$py_ver.tgz.asc
+    local py_dist_dir=$(pyver_dist_dir $py_ver)
+    curl -fsSLO $PYTHON_DOWNLOAD_URL/$py_dist_dir/Python-$py_ver.tgz
+    curl -fsSLO $PYTHON_DOWNLOAD_URL/$py_dist_dir/Python-$py_ver.tgz.asc
     gpg --verify Python-$py_ver.tgz.asc
     if [ $(lex_pyver $py_ver) -lt $(lex_pyver 3.3) ]; then
         do_cpython_build $py_ver ucs2
