@@ -11,7 +11,7 @@ MY_DIR=$(dirname "${BASH_SOURCE[0]}")
 # Dependencies for compiling Python that we want to remove from
 # the final image after compiling Python
 # GPG installed to verify signatures on Python source tarballs.
-PYTHON_COMPILE_DEPS="zlib-devel bzip2-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel gpg"
+PYTHON_COMPILE_DEPS="zlib-devel bzip2-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel gpg libffi-devel"
 
 # Libraries that are allowed as part of the manylinux1 profile
 MANYLINUX1_DEPS="glibc-devel libstdc++-devel glib2-devel libX11-devel libXext-devel libXrender-devel  mesa-libGL-devel libICE-devel libSM-devel ncurses-devel"
@@ -55,16 +55,30 @@ rpm -Uvh --replacepkgs epel-release-5*.rpm
 rm -f epel-release-5*.rpm
 
 # Development tools and libraries
-yum -y install bzip2 make patch unzip bison yasm diffutils \
-    automake which file cmake28 \
+yum -y install \
+    automake \
+    bison \
+    bzip2 \
+    cmake28 \
+    devtoolset-2-binutils \
+    devtoolset-2-gcc \
+    devtoolset-2-gcc-c++ \
+    devtoolset-2-gcc-gfortran \
+    diffutils \
+    expat-devel \
+    gettext \
     kernel-devel-`uname -r` \
-    expat-devel gettext \
-    devtoolset-2-binutils devtoolset-2-gcc \
-    devtoolset-2-gcc-c++ devtoolset-2-gcc-gfortran \
+    file \
+    make \
+    patch \
+    unzip \
+    which \
+    yasm \
     ${PYTHON_COMPILE_DEPS}
 
 # Build an OpenSSL for both curl and the Pythons. We'll delete this at the end.
 build_openssl $OPENSSL_ROOT $OPENSSL_HASH
+
 # Install curl so we can have TLS 1.2 in this ancient container.
 build_curl $CURL_ROOT $CURL_HASH
 hash -r
@@ -88,12 +102,11 @@ build_libtool $LIBTOOL_ROOT $LIBTOOL_HASH
 libtool --version
 
 # Install a more recent SQLite3
-curl -fsSLO https://sqlite.org/2017/$SQLITE_AUTOCONF_VERSION.tar.gz
+curl -fsSLO $SQLITE_AUTOCONF_DOWNLOAD_URL/$SQLITE_AUTOCONF_VERSION.tar.gz
 check_sha256sum $SQLITE_AUTOCONF_VERSION.tar.gz $SQLITE_AUTOCONF_HASH
 tar xfz $SQLITE_AUTOCONF_VERSION.tar.gz
 cd $SQLITE_AUTOCONF_VERSION
-./configure
-make install
+do_standard_install
 cd ..
 rm -rf $SQLITE_AUTOCONF_VERSION*
 
@@ -126,26 +139,34 @@ rm -rf /usr/local/ssl
 curl -fsSL -o patchelf.tar.gz https://github.com/NixOS/patchelf/archive/$PATCHELF_VERSION.tar.gz
 check_sha256sum patchelf.tar.gz $PATCHELF_HASH
 tar -xzf patchelf.tar.gz
-(cd patchelf-$PATCHELF_VERSION && ./bootstrap.sh && ./configure && make && make install)
+(cd patchelf-$PATCHELF_VERSION && ./bootstrap.sh && do_standard_install)
 rm -rf patchelf.tar.gz patchelf-$PATCHELF_VERSION
 
 ln -s $PY36_BIN/auditwheel /usr/local/bin/auditwheel
 
 # Clean up development headers and other unnecessary stuff for
 # final image
-yum -y erase wireless-tools gtk2 libX11 hicolor-icon-theme \
-    avahi freetype bitstream-vera-fonts \
-    expat-devel gettext \
+yum -y erase \
+    avahi \
+    bitstream-vera-fonts \
+    freetype \
+    gtk2 \
+    hicolor-icon-theme \
+    libX11 \
+    wireless-tools \
     ${PYTHON_COMPILE_DEPS}  > /dev/null 2>&1
 yum -y install ${MANYLINUX1_DEPS}
 yum -y clean all > /dev/null 2>&1
 yum list installed
+
 # we don't need libpython*.a, and they're many megabytes
 find /opt/_internal -name '*.a' -print0 | xargs -0 rm -f
+
 # Strip what we can -- and ignore errors, because this just attempts to strip
 # *everything*, including non-ELF files:
 find /opt/_internal -type f -print0 \
     | xargs -0 -n1 strip --strip-unneeded 2>/dev/null || true
+
 # We do not need the Python test suites, or indeed the precompiled .pyc and
 # .pyo files. Partially cribbed from:
 #    https://github.com/docker-library/python/blob/master/3.4/slim/Dockerfile
