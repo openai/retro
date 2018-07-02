@@ -178,6 +178,7 @@ def _play(movie, args, monitor_csv):
     if args.npy_actions:
         npy_file = basename + '.npz'
     while True:
+        emulator = None
         try:
             emulator, m, duration = load_movie(movie)
             if args.ending is not None:
@@ -191,6 +192,10 @@ def _play(movie, args, monitor_csv):
             break
         except ConnectionRefusedError:
             pass
+        except RuntimeError:
+            if not os.path.exists(movie):
+                raise FileNotFoundError(movie)
+            raise
         finally:
             del emulator
 
