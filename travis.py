@@ -62,8 +62,6 @@ def main():
     cross = os.environ.get('CROSS')
     bdist_options = []
     with Fold('script.build', 'Building'):
-        if os_name != 'osx':
-            os.environ['PATH'] = '/usr/lib/ccache:' + os.environ['PATH']
         if os_name == 'osx':
             cmake_options = ['-DCMAKE_PREFIX_PATH=/usr/local/opt/qt', '-DBUILD_UI=ON']
         elif os_name == 'linux':

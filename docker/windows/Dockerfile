@@ -53,4 +53,9 @@ RUN ROOT=/usr ./scripts/build_capnproto.sh && \
 RUN CROSS=win${BITS} ROOT=/usr/${ARCH}-w64-mingw32 ./scripts/build_qt5.sh && \
     rm -rf qt5
 
+RUN ./scripts/build_ccache.sh && (cd /usr/local/libexec/ccache && \
+    ln -s /usr/local/bin/ccache ${ARCH}-w64-mingw32-gcc && \
+    ln -s /usr/local/bin/ccache ${ARCH}-w64-mingw32-g++)
+ENV PATH /usr/local/libexec/ccache:$PATH
+
 ENTRYPOINT ["bash", "-lc", "exec $0 $@"]
