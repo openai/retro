@@ -2,7 +2,7 @@
 
 Gym Retro is a wrapper for video game emulator cores using the Libretro API to turn them into Gym environments.
 It includes support for multiple classic game consoles and a dataset of different games.
-It runs on Linux, macOS and Windows with Python 3.5 and 3.6 support.
+It runs on Linux, macOS and Windows with Python 3.5, 3.6 and 3.7 support.
 
 Each game has files listing memory locations for in-game variables, reward functions based on those variables, episode end conditions, savestates at the beginning of levels and a file containing hashes of ROMs that work with these files.
 Please note that ROMs are not included and you must obtain them yourself.
