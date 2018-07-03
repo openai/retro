@@ -1,0 +1,29 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "luck": {
+        "op": "zero"
+      },
+      "vitality": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "bravery": {
+        "reward": 1.0
+      },
+      "kindness": {
+        "reward": 1.0
+      },
+      "luck": {
+        "reward": 1.0
+      },
+      "wealth": {
+        "reward": 1.0
+      }
+    }
+  }
+}

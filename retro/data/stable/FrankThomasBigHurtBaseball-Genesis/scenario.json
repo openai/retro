@@ -1,0 +1,36 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "at_bat": {
+        "op": "equal",
+        "reference": 1
+      },
+      "inning": {
+        "op": "equal",
+        "reference": 9
+      },
+      "outs": {
+        "op": "equal",
+        "reference": 3
+      },
+      "strikes": {
+        "op": "equal",
+        "reference": 3
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "hits": {
+        "reward": 1.0
+      },
+      "outs": {
+        "reward": -1.0
+      },
+      "runs": {
+        "reward": 1.0
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "info": {
+    "lives": {
+      "address": 228,
+      "type": "|u1"
+    },
+    "score0": {
+      "address": 242,
+      "type": "|n1"
+    },
+    "score1": {
+      "address": 240,
+      "type": "|n1"
+    },
+    "score2": {
+      "address": 238,
+      "type": "|n1"
+    },
+    "score3": {
+      "address": 236,
+      "type": "|n1"
+    },
+    "score4": {
+      "address": 234,
+      "type": "|n1"
+    },
+    "score5": {
+      "address": 232,
+      "type": "|n1"
+    },
+    "score6": {
+      "address": 230,
+      "type": "|n1"
+    }
+  }
+}

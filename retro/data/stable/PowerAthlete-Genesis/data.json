@@ -1,0 +1,12 @@
+{
+  "info": {
+    "enemy_rounds_won": {
+      "address": 16734159,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16733868,
+      "type": "<n6"
+    }
+  }
+}

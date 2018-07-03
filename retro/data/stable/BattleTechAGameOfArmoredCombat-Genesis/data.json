@@ -1,0 +1,20 @@
+{
+  "info": {
+    "buildings_destroyed": {
+      "address": 16763520,
+      "type": ">u2"
+    },
+    "enemies_destroyed": {
+      "address": 16763517,
+      "type": "|u1"
+    },
+    "enemy_mechs_destroyed": {
+      "address": 16763519,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16763591,
+      "type": "|u1"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "default_state": "1Player.LakeOrangtanga.Limbo.Level1",
+  "whitelist": {
+    "data.json": [
+      "suspicious type |d1 for score"
+    ]
+  }
+}

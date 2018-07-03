@@ -1,0 +1,20 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "soldiers_left": {
+        "op": "zero"
+      },
+      "soldiers_on_field": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "enemies_killed": {
+        "reward": 1.0
+      }
+    }
+  }
+}

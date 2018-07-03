@@ -1,0 +1,35 @@
+{
+  "default_state": "Level1.KingPhut",
+  "states": {
+    "Level1.KingPhut": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 0.025806451612903226,
+            "first_10_mean": 0.0,
+            "final_10_mean": 0.0,
+            "median": 0.0,
+            "max": 20.0
+          },
+          "tags": [
+            "spikes",
+            "trivial"
+          ]
+        }
+      ],
+      "tags": [
+        "d-explore"
+      ]
+    }
+  },
+  "tags": [
+    "misaligned",
+    "platformer"
+  ]
+}

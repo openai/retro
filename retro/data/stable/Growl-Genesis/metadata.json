@@ -1,0 +1,33 @@
+{
+  "default_state": "1Player.DefaultSettings.Gen.Level1",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "1Player.DefaultSettings.Gen.Level1": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 26186.193619361937,
+            "first_10_mean": 17850.0,
+            "final_10_mean": 26650.0,
+            "median": 26000.0,
+            "max": 43500.0
+          },
+          "tags": [
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

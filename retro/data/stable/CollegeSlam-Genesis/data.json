@@ -1,0 +1,32 @@
+{
+  "info": {
+    "alabama_score0": {
+      "address": 16727524,
+      "type": "|u1"
+    },
+    "alabama_score1": {
+      "address": 16727523,
+      "type": "|d1"
+    },
+    "half": {
+      "address": 16727483,
+      "type": "|u1"
+    },
+    "penn_state_score0": {
+      "address": 16727527,
+      "type": "|d1"
+    },
+    "penn_state_score1": {
+      "address": 16727526,
+      "type": "|d1"
+    },
+    "time_minutes": {
+      "address": 16728567,
+      "type": "|u1"
+    },
+    "time_seconds": {
+      "address": 16728565,
+      "type": "|u1"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "reward": {
+    "variables": {
+      "time": {
+        "penalty": -1
+      }
+    }
+  },
+  "done": {
+    "variables": {
+      "health": {
+        "op": "zero"
+      }
+    }
+  }
+}

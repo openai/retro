@@ -38,6 +38,9 @@ COPY third-party/libzip libzip
 RUN ROOT=/usr ./scripts/build_libzip.sh && \
     rm -rf libzip
 
+RUN ./scripts/build_ccache.sh
+ENV PATH /usr/local/libexec/ccache:$PATH
+
 ENV SSL_CERT_FILE=/opt/_internal/certs.pem
 
 ENTRYPOINT ["/bin/bash", "-lc", "exec $0 $@"]

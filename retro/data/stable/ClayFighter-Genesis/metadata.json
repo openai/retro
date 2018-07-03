@@ -1,0 +1,8 @@
+{
+  "default_state": "Level1.BadMrFrostyVsHelga",
+  "whitelist": {
+    "data.json": [
+      "suspicious type >d5 for score"
+    ]
+  }
+}

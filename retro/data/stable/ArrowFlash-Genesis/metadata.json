@@ -1,0 +1,28 @@
+{
+  "default_state": "Stage1",
+  "states": {
+    "Stage1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [
+            "farming",
+            "sub-human"
+          ],
+          "rewards": {
+            "mean": 6321.747747747748,
+            "first_10_mean": 944.0,
+            "final_10_mean": 8998.0,
+            "median": 7500.0,
+            "max": 10400.0
+          }
+        }
+      ]
+    }
+  }
+}

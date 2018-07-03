@@ -1,0 +1,16 @@
+{
+  "info": {
+    "lives": {
+      "address": 1814,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 67,
+      "type": "<n6"
+    },
+    "time": {
+      "address": 84,
+      "type": "<n3"
+    }
+  }
+}

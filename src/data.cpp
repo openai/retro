@@ -26,7 +26,7 @@ T find(json::const_reference j, const string& key) {
 	try {
 		T t = *iter;
 		return t;
-	} catch (domain_error) {
+	} catch (json::exception&) {
 		return T();
 	}
 }
@@ -80,7 +80,7 @@ bool GameData::load(istream* file) {
 	json manifest;
 	try {
 		*file >> manifest;
-	} catch (invalid_argument&) {
+	} catch (json::exception&) {
 		return false;
 	}
 
@@ -97,8 +97,15 @@ bool GameData::load(istream* file) {
 			return false;
 		}
 		string dtype = var->at("type");
-		Variable v(dtype, var->at("address"), var->value("mask", UINT64_MAX));
-		setVariable(var.key(), v);
+		if (dtype.size() < 3) {
+			continue;
+		}
+		try {
+			Variable v(dtype, var->at("address"), var->value("mask", UINT64_MAX));
+			setVariable(var.key(), v);
+		} catch (std::out_of_range) {
+			continue;
+		}
 	}
 	return true;
 }
@@ -127,7 +134,7 @@ bool GameData::save(ostream* file) const {
 		file->width(2);
 		*file << manifest;
 		*file << endl;
-	} catch (invalid_argument&) {
+	} catch (json::exception&) {
 		return false;
 	}
 	return true;
@@ -141,15 +148,22 @@ string GameData::dataPath(const string& hint) {
 	if (envDir) {
 		s_dataDirectory = envDir;
 	} else {
-		s_dataDirectory = drillUp({ "data" }, ".", hint);
+		s_dataDirectory = drillUp({ "retro/data", "data" }, ".", hint);
 	}
 	return s_dataDirectory;
 }
 
 void GameData::reset() {
+	restart();
 	m_lastMem.reset();
 	m_cloneMem.reset();
 	m_vars.clear();
+	m_searches.clear();
+	m_searchOldMem.clear();
+}
+
+void GameData::restart() {
+	m_customVars.clear();
 }
 
 void GameData::updateRam() {
@@ -182,6 +196,10 @@ unsigned GameData::filterAction(unsigned action) const {
 }
 
 Datum GameData::lookupValue(const string& name) {
+	auto variant = m_customVars.find(name);
+	if (variant != m_customVars.end()) {
+		return Datum(variant->second.get());
+	}
 	auto v = m_vars.find(name);
 	if (v == m_vars.end()) {
 		throw invalid_argument(name);
@@ -189,12 +207,24 @@ Datum GameData::lookupValue(const string& name) {
 	return m_mem[v->second];
 }
 
-int64_t GameData::lookupValue(const string& name) const {
+Variant GameData::lookupValue(const string& name) const {
+	auto variant = m_customVars.find(name);
+	if (variant != m_customVars.end()) {
+		return *variant->second;
+	}
 	auto v = m_vars.find(name);
 	if (v == m_vars.end()) {
 		throw invalid_argument(name);
 	}
 	return m_mem[v->second];
+}
+
+Datum GameData::lookupValue(const TypedSearchResult& result) {
+	return m_mem[Variable{ result.type, result.address }];
+}
+
+int64_t GameData::lookupValue(const TypedSearchResult& result) const {
+	return m_mem[Variable{ result.type, result.address }];
 }
 
 int64_t GameData::lookupDelta(const string& name) const {
@@ -234,6 +264,34 @@ unordered_map<string, int64_t> GameData::lookupAll() const {
 	return data;
 }
 
+void GameData::setValue(const std::string& name, int64_t v) {
+	auto variant = m_customVars.find(name);
+	if (variant != m_customVars.end()) {
+		*variant->second = v;
+		return;
+	}
+	auto var = m_vars.find(name);
+	if (var != m_vars.end()) {
+		m_mem[var->second] = v;
+		return;
+	}
+	m_customVars.emplace(name, std::make_unique<Variant>(v));
+}
+
+void GameData::setValue(const std::string& name, const Variant& v) {
+	auto variant = m_customVars.find(name);
+	if (variant != m_customVars.end()) {
+		*variant->second = v;
+		return;
+	}
+	auto var = m_vars.find(name);
+	if (var != m_vars.end()) {
+		m_mem[var->second] = v;
+		return;
+	}
+	m_customVars.emplace(name, std::make_unique<Variant>(v));
+}
+
 Variable GameData::getVariable(const string& name) const {
 	const auto& v = m_vars.find(name);
 	if (v == m_vars.end()) {
@@ -262,8 +320,65 @@ size_t GameData::numVariables() const {
 	return m_vars.size();
 }
 
-Scenario::Scenario(const GameData& data)
+void GameData::search(const std::string& name, int64_t value) {
+	if (m_searches.find(name) == m_searches.cend()) {
+		if (m_types.size()) {
+			m_searches.emplace(name, Search{ m_types });
+		} else {
+			m_searches.emplace(name, Search{});
+		}
+	}
+	Search* search = &m_searches[name];
+	search->search(m_mem, value);
+	m_searchOldMem[name].clone(m_mem);
+}
+
+void GameData::deltaSearch(const std::string& name, Operation op, int64_t reference) {
+	if (m_searches.find(name) == m_searches.cend()) {
+		if (m_types.size()) {
+			m_searches.emplace(name, Search{ m_types });
+		} else {
+			m_searches.emplace(name, Search{});
+		}
+	}
+	if (m_searchOldMem.find(name) == m_searchOldMem.cend()) {
+		m_searchOldMem[name].clone(m_mem);
+	}
+	Search* search = &m_searches[name];
+	search->delta(m_mem, m_searchOldMem[name], op, reference);
+	m_searchOldMem[name].clone(m_mem);
+}
+
+size_t GameData::numSearches() const {
+	return m_searches.size();
+}
+
+vector<string> GameData::listSearches() const {
+	vector<string> names;
+	for (const auto& search : m_searches) {
+		names.emplace_back(search.first);
+	}
+	return names;
+}
+
+Search* GameData::getSearch(const string& name) {
+	auto iter = m_searches.find(name);
+	if (iter != m_searches.end()) {
+		return &iter->second;
+	}
+	return nullptr;
+}
+
+void GameData::removeSearch(const string& name) {
+	auto iter = m_searches.find(name);
+	if (iter != m_searches.end()) {
+		m_searches.erase(iter);
+	}
+}
+
+Scenario::Scenario(GameData& data)
 	: m_data(data) {
+	reset();
 }
 
 bool Scenario::load(const string& filename) {
@@ -300,11 +415,46 @@ static shared_ptr<Scenario::DoneNode> loadNode(const json& nodeinfo) {
 	return node;
 }
 
+void loadReward(const json& reward, Scenario& scen, int player) {
+	const auto& vars = reward.find("variables");
+	if (vars != reward.cend()) {
+		for (auto var = vars->cbegin(); var != vars->cend(); ++var) {
+			scen.setRewardVariable(var.key(), { Scenario::measurement(find<string>(*var, "measurement"), Scenario::Measurement::DELTA),
+											 Scenario::op(find<string>(*var, "op")),
+											 find<int64_t>(*var, "reference"),
+											 find<float>(*var, "reward"),
+											 find<float>(*var, "penalty") }, player);
+		}
+	}
+
+	const auto& time = reward.find("time");
+	if (time != reward.cend()) {
+		scen.setRewardTime({
+			Scenario::measurement(find<string>(*time, "measurement"), Scenario::Measurement::DELTA),
+			Scenario::op(find<string>(*time, "op")),
+			find<int64_t>(*time, "reference"),
+			find<float>(*time, "reward"),
+			find<float>(*time, "penalty")
+		}, player);
+	}
+
+	const auto& script = reward.find("script");
+	if (script != reward.cend()) {
+		string func = *script;
+		size_t colon = func.find(':');
+		if (colon == string::npos) {
+			scen.setRewardFunction(func, {}, player);
+		} else {
+			scen.setRewardFunction(func.substr(colon + 1), func.substr(0, colon), player);
+		}
+	}
+}
+
 bool Scenario::load(istream* file, const std::string& path) {
 	json manifest;
 	try {
 		*file >> manifest;
-	} catch (invalid_argument&) {
+	} catch (json::exception&) {
 		return false;
 	}
 
@@ -312,37 +462,13 @@ bool Scenario::load(istream* file, const std::string& path) {
 
 	const auto& reward = const_cast<const json&>(manifest).find("reward");
 	if (reward != manifest.cend()) {
-		const auto& vars = reward->find("variables");
-		if (vars != reward->cend()) {
-			for (auto var = vars->cbegin(); var != vars->cend(); ++var) {
-				setRewardVariable(var.key(), { measurement(find<string>(*var, "measurement"), Measurement::DELTA),
-												 op(find<string>(*var, "op")),
-												 find<int64_t>(*var, "reference"),
-												 find<float>(*var, "reward"),
-												 find<float>(*var, "penalty") });
-			}
-		}
+		loadReward(*reward, *this, 0);
+	}
 
-		const auto& time = reward->find("time");
-		if (time != reward->cend()) {
-			m_rewardTime = {
-				measurement(find<string>(*time, "measurement"), Measurement::DELTA),
-				op(find<string>(*time, "op")),
-				find<int64_t>(*time, "reference"),
-				find<float>(*time, "reward"),
-				find<float>(*time, "penalty")
-			};
-		}
-
-		const auto& script = reward->find("script");
-		if (script != reward->cend()) {
-			string func = *script;
-			size_t colon = func.find(':');
-			if (colon == string::npos) {
-				setRewardFunction(func);
-			} else {
-				setRewardFunction(func.substr(colon + 1), func.substr(0, colon));
-			}
+	const auto& rewards = const_cast<const json&>(manifest).find("rewards");
+	if (rewards != manifest.cend()) {
+		for (unsigned i = 0; i < MAX_PLAYERS && i < rewards->size(); ++i) {
+			loadReward((*rewards)[i], *this, i);
 		}
 	}
 
@@ -408,6 +534,26 @@ bool Scenario::load(istream* file, const std::string& path) {
 				extName = scriptfile.substr(dot + 1);
 			}
 			loadScript(scriptfile, extName);
+		}
+	}
+
+	const auto& crop = const_cast<const json&>(manifest).find("crop");
+	if (crop != manifest.cend()) {
+		CropInfo cropInfo{ (*crop)[0], (*crop)[1], (*crop)[2], (*crop)[3] };
+		for (size_t i = 0; i < MAX_PLAYERS; ++i) {
+			m_crops[i] = cropInfo;
+		}
+	}
+
+	const auto& crops = const_cast<const json&>(manifest).find("crops");
+	if (crops != manifest.cend()) {
+		for (unsigned i = 0; i < MAX_PLAYERS; ++i) {
+			if (i < crops->size()) {
+				CropInfo cropInfo{ crops[i][0], crop[i][1], crop[i][2], crop[i][3] };
+				m_crops[i] = cropInfo;
+			} else {
+				m_crops[i] = {};
+			}
 		}
 	}
 
@@ -484,26 +630,36 @@ static bool saveNode(json& nodelist, const string& key, const Scenario::DoneNode
 bool Scenario::save(ostream* file) const {
 	json manifest;
 
-	json reward;
-	json rewardVars;
-	for (const auto& var : m_rewardVars) {
-		rewardVars[var.first] = specToJson(var.second);
-	}
-	if (rewardVars.size()) {
-		reward["variables"] = rewardVars;
-	}
-	if (m_rewardTime.penalty || m_rewardTime.reward) {
-		reward["time"] = specToJson(m_rewardTime);
-	}
-	if (m_rewardFunc.first.size()) {
-		if (m_rewardFunc.second.size()) {
-			reward["script"] = m_rewardFunc.second + ":" + m_rewardFunc.first;
+	json rewards;
+	for (unsigned i = 0; i < MAX_PLAYERS; ++i) {
+		json reward;
+		json rewardVars;
+		for (const auto& var : m_rewardVars[i]) {
+			rewardVars[var.first] = specToJson(var.second);
+		}
+		if (rewardVars.size()) {
+			reward["variables"] = rewardVars;
+		}
+		if (m_rewardTime[i].penalty || m_rewardTime[i].reward) {
+			reward["time"] = specToJson(m_rewardTime[i]);
+		}
+		if (m_rewardFunc[i].first.size()) {
+			if (m_rewardFunc[i].second.size()) {
+				reward["script"] = m_rewardFunc[i].second + ":" + m_rewardFunc[i].first;
+			} else {
+				reward["script"] = m_rewardFunc[i].first;
+			}
+		}
+		if (reward.size()) {
+			rewards.push_back(reward);
 		} else {
-			reward["script"] = m_rewardFunc.first;
+			break;
 		}
 	}
-	if (reward.size()) {
-		manifest["reward"] = reward;
+	if (rewards.size() > 1) {
+		manifest["rewards"] = rewards;
+	} else if (rewards.size() == 1) {
+		manifest["reward"] = rewards[0];
 	}
 
 	json done;
@@ -573,19 +729,49 @@ bool Scenario::save(ostream* file) const {
 		manifest["scripts"] = scripts;
 	}
 
+	CropInfo firstCrop = m_crops[0];
+	unsigned nCrops = 1;
+	for (unsigned i = MAX_PLAYERS - 1; i > 0; ++i) {
+		if (m_crops[i] != firstCrop && m_crops[i] != CropInfo{}) {
+			nCrops = i + 1;
+			break;
+		}
+	}
+	if (nCrops == 1) {
+		json crop;
+		crop.push_back(m_crops[0].x);
+		crop.push_back(m_crops[0].y);
+		crop.push_back(m_crops[0].width);
+		crop.push_back(m_crops[0].height);
+		manifest["crop"] = crop;
+	} else {
+		json crops;
+		for (unsigned i = 0; i < nCrops; ++i) {
+			json crop;
+			crop.push_back(m_crops[i].x);
+			crop.push_back(m_crops[i].y);
+			crop.push_back(m_crops[i].width);
+			crop.push_back(m_crops[i].height);
+			crops.push_back(crop);
+		}
+		manifest["crops"] = crops;
+	}
+
 	try {
 		file->width(2);
 		*file << manifest;
 		*file << endl;
-	} catch (invalid_argument&) {
+	} catch (json::exception&) {
 		return false;
 	}
 	return true;
 }
 
 void Scenario::reset() {
-	m_rewardVars.clear();
-	m_rewardTime = { Measurement::DELTA };
+	for (int i = 0; i < MAX_PLAYERS; ++i) {
+		m_rewardVars[i].clear();
+		m_rewardTime[i] = { Measurement::DELTA };
+	}
 	m_doneVars.clear();
 	m_doneCondition = DoneCondition::ANY;
 }
@@ -596,6 +782,7 @@ bool Scenario::loadScript(const string& filename, const string& scope) {
 		return false;
 	}
 	context->setData(&m_data);
+	context->setScenario(this);
 	string path = filename;
 	if (filename[0] == '/') {
 		size_t prefixLength;
@@ -633,6 +820,7 @@ void Scenario::reloadScripts() {
 			continue;
 		}
 		context->setData(&m_data);
+		context->setScenario(this);
 		context->load(m_base + "/" + script.first);
 	}
 }
@@ -641,35 +829,91 @@ vector<pair<string, string>> Scenario::scripts() const {
 	return m_scripts;
 }
 
-float Scenario::currentReward() const {
-	if (m_rewardFunc.first.size()) {
-		return ScriptContext::get(m_rewardFunc.second)->callFunction(m_rewardFunc.first);
+void Scenario::restart() {
+	m_data.restart();
+	for (unsigned i = 0; i < MAX_PLAYERS; ++i) {
+		m_reward[i] = 0;
+		m_totalReward[i] = 0;
+	}
+	m_done = false;
+	m_frame = 0;
+}
+
+void Scenario::update() {
+	m_done = calculateDone();
+	for (unsigned i = 0; i < MAX_PLAYERS; ++i) {
+		m_reward[i] = calculateReward(i);
+		m_totalReward[i] += m_reward[i];
+	}
+	++m_frame;
+}
+
+float Scenario::currentReward(unsigned player) const {
+	if (player >= MAX_PLAYERS) {
+		throw range_error("requested player is out of bounds");
+	}
+	return m_reward[player];
+}
+
+float Scenario::totalReward(unsigned player) const {
+	if (player >= MAX_PLAYERS) {
+		throw range_error("requested player is out of bounds");
+	}
+	return m_totalReward[player];
+}
+
+bool Scenario::isDone() const {
+	return m_done;
+}
+
+uint64_t Scenario::frame() const {
+	return m_frame;
+}
+
+uint64_t Scenario::timestep() const {
+	return m_frame / 4;
+}
+
+void Scenario::setCrop(size_t x, size_t y, size_t width, size_t height, unsigned player) {
+	if (player >= MAX_PLAYERS) {
+		throw range_error("requested player is out of bounds");
+	}
+	m_crops[player] = { x, y, width, height };
+}
+
+void Scenario::getCrop(size_t* x, size_t* y, size_t* width, size_t* height, unsigned player) const {
+	if (player >= MAX_PLAYERS) {
+		throw range_error("requested player is out of bounds");
+	}
+	*x = m_crops[player].x;
+	*y = m_crops[player].y;
+	*width = m_crops[player].width;
+	*height = m_crops[player].height;
+}
+
+float Scenario::calculateReward(unsigned player) const {
+	if (m_rewardFunc[player].first.size()) {
+		return ScriptContext::get(m_rewardFunc[player].second)->callFunction(m_rewardFunc[player].first);
 	}
 
-	float reward = m_rewardTime.calculate(1, 1);
-	for (auto var = m_rewardVars.cbegin(); var != m_rewardVars.cend(); ++var) {
-		try {
-			reward += var->second.calculate(m_data.lookupValue(var->first), m_data.lookupDelta(var->first));
-		} catch (...) {
-		}
+	float reward = m_rewardTime[player].calculate(1, 1);
+	for (auto var = m_rewardVars[player].cbegin(); var != m_rewardVars[player].cend(); ++var) {
+		reward += var->second.calculate(m_data.lookupValue(var->first), m_data.lookupDelta(var->first));
 	}
 	return reward;
 }
 
-bool Scenario::isDone() const {
+bool Scenario::calculateDone() const {
 	if (m_doneFunc.first.size()) {
 		return ScriptContext::get(m_doneFunc.second)->callFunction(m_doneFunc.first);
 	}
 	for (auto var = m_doneVars.cbegin(); var != m_doneVars.cend(); ++var) {
-		try {
-			int done = var->second.test(m_data.lookupValue(var->first), m_data.lookupDelta(var->first));
-			if (done > 0 && m_doneCondition == DoneCondition::ANY) {
-				return true;
-			}
-			if (done <= 0 && m_doneCondition == DoneCondition::ALL) {
-				return false;
-			}
-		} catch (...) {
+		int done = var->second.test(m_data.lookupValue(var->first), m_data.lookupDelta(var->first));
+		if (done > 0 && m_doneCondition == DoneCondition::ANY) {
+			return true;
+		}
+		if (done <= 0 && m_doneCondition == DoneCondition::ALL) {
+			return false;
 		}
 	}
 	for (auto node = m_doneNodes.cbegin(); node != m_doneNodes.cend(); ++node) {
@@ -686,15 +930,12 @@ bool Scenario::isDone() const {
 
 bool Scenario::isDone(const DoneNode& subnode) const {
 	for (auto var = subnode.vars.cbegin(); var != subnode.vars.cend(); ++var) {
-		try {
-			int done = var->second.test(m_data.lookupValue(var->first), m_data.lookupDelta(var->first));
-			if (done > 0 && subnode.condition == DoneCondition::ANY) {
-				return true;
-			}
-			if (done <= 0 && subnode.condition == DoneCondition::ALL) {
-				return false;
-			}
-		} catch (...) {
+		int done = var->second.test(m_data.lookupValue(var->first), m_data.lookupDelta(var->first));
+		if (done > 0 && subnode.condition == DoneCondition::ANY) {
+			return true;
+		}
+		if (done <= 0 && subnode.condition == DoneCondition::ALL) {
+			return false;
 		}
 	}
 	for (auto node = subnode.nodes.cbegin(); node != subnode.nodes.cend(); ++node) {
@@ -793,12 +1034,16 @@ string Scenario::name(Operation op) {
 	return name->second;
 }
 
-void Scenario::setRewardVariable(const string& name, const RewardSpec& var) {
-	m_rewardVars.emplace(name, var);
+void Scenario::setRewardVariable(const string& name, const RewardSpec& var, unsigned player) {
+	m_rewardVars[player].emplace(name, var);
 }
 
-void Scenario::setRewardFunction(const string& name, const string& scope) {
-	m_rewardFunc = make_pair(name, scope);
+void Scenario::setRewardFunction(const string& name, const string& scope, unsigned player) {
+	m_rewardFunc[player] = make_pair(name, scope);
+}
+
+void Scenario::setRewardTime(const RewardSpec& spec, unsigned player) {
+	m_rewardTime[player] = spec;
 }
 
 void Scenario::setDoneVariable(const string& name, const DoneSpec& var) {
@@ -817,8 +1062,8 @@ void Scenario::setDoneFunction(const string& name, const string& scope) {
 	m_doneFunc = make_pair(name, scope);
 }
 
-unordered_map<string, Scenario::RewardSpec> Scenario::listRewardVariables() const {
-	return m_rewardVars;
+unordered_map<string, Scenario::RewardSpec> Scenario::listRewardVariables(unsigned player) const {
+	return m_rewardVars[player];
 }
 
 unordered_map<string, Scenario::DoneSpec> Scenario::listDoneVariables() const {

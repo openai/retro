@@ -1,0 +1,28 @@
+{
+  "default_state": "Level1",
+  "states": {
+    "Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "tags": [
+            "farming",
+            "stuck"
+          ],
+          "rewards": {
+            "mean": 39863.50924672982,
+            "first_10_mean": 15380.0,
+            "final_10_mean": 88640.0,
+            "median": 37600.0,
+            "max": 106700.0
+          }
+        }
+      ]
+    }
+  }
+}

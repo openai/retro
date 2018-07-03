@@ -1,0 +1,18 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "equal",
+        "reference": 0
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "xpos": {
+        "penalty": 1,
+        "reward": 1
+      }
+    }
+  }
+}

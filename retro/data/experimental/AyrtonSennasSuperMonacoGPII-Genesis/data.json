@@ -1,0 +1,24 @@
+{
+  "info": {
+    "distance": {
+      "address": 16776384,
+      "type": ">u2"
+    },
+    "position": {
+      "address": 16777046,
+      "type": ">u2"
+    },
+    "time": {
+      "address": 16776456,
+      "type": ">d4"
+    },
+    "time_to_first": {
+      "address": 16776924,
+      "type": ">d4"
+    },
+    "time_total": {
+      "address": 16776449,
+      "type": ">d3"
+    }
+  }
+}

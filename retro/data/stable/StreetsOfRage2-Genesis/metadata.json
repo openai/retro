@@ -1,0 +1,157 @@
+{
+  "default_state": "1Player.Axel.Level1",
+  "states": {
+    "1Player.Axel.Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 4462.117647058823,
+            "first_10_mean": 2281.0,
+            "final_10_mean": 5034.0,
+            "median": 4100.0,
+            "max": 26850.0
+          }
+        }
+      ]
+    },
+    "1Player.Axel.Level2": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 5861.852159468439,
+            "first_10_mean": 5089.0,
+            "final_10_mean": 7937.0,
+            "median": 7180.0,
+            "max": 18860.0
+          }
+        }
+      ]
+    },
+    "1Player.Axel.Level3": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 8829.714814814815,
+            "first_10_mean": 6078.0,
+            "final_10_mean": 12474.0,
+            "median": 3820.0,
+            "max": 34380.0
+          }
+        }
+      ]
+    },
+    "1Player.Axel.Level4": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 3845.629891441555,
+            "first_10_mean": 2835.0,
+            "final_10_mean": 4266.0,
+            "median": 3110.0,
+            "max": 16590.0
+          }
+        }
+      ]
+    },
+    "1Player.Axel.Level5": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 3714.3406389301635,
+            "first_10_mean": 2633.0,
+            "final_10_mean": 3545.0,
+            "median": 3690.0,
+            "max": 12610.0
+          }
+        }
+      ]
+    },
+    "1Player.Axel.Level6": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 3942.5096624581292,
+            "first_10_mean": 3654.0,
+            "final_10_mean": 4154.0,
+            "median": 4090.0,
+            "max": 8610.0
+          }
+        }
+      ]
+    },
+    "1Player.Axel.Level7": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 2554.380269058296,
+            "first_10_mean": 1625.0,
+            "final_10_mean": 2565.0,
+            "median": 2170.0,
+            "max": 10020.0
+          }
+        }
+      ]
+    },
+    "1Player.Axel.Level8": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 2469.835092348285,
+            "first_10_mean": 1807.0,
+            "final_10_mean": 2190.0,
+            "median": 2850.0,
+            "max": 9940.0
+          }
+        }
+      ]
+    }
+  }
+}

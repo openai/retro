@@ -1,0 +1,36 @@
+{
+  "info": {
+    "lives": {
+      "address": 16734681,
+      "type": "|i1"
+    },
+    "score0": {
+      "address": 16734781,
+      "type": "|n1"
+    },
+    "score1": {
+      "address": 16734779,
+      "type": "|n1"
+    },
+    "score2": {
+      "address": 16734777,
+      "type": "|n1"
+    },
+    "score3": {
+      "address": 16734775,
+      "type": "|n1"
+    },
+    "score4": {
+      "address": 16734773,
+      "type": "|n1"
+    },
+    "score5": {
+      "address": 16734771,
+      "type": "|n1"
+    },
+    "score6": {
+      "address": 16734769,
+      "type": "|n1"
+    }
+  }
+}

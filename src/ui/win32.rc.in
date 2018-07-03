@@ -1,0 +1,24 @@
+IDI_ICON1 ICON DISCARDABLE "${CMAKE_CURRENT_SOURCE_DIR}/logo.ico"
+
+#include <windows.h>
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION ${WIN32_VERSION},${GIT_REV}
+PRODUCTVERSION ${WIN32_VERSION},${GIT_REV}
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4"
+        BEGIN
+            VALUE "CompanyName",      "OpenAI"
+            VALUE "FileDescription",  "Gym Retro Integration"
+            VALUE "FileVersion",      "${PROJECT_VERSION}"
+            VALUE "InternalName",     "gym-retro-integration"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1252
+    END
+END

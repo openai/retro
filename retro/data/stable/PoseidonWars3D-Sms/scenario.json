@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "health": {
+        "op": "less-or-equal"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 10.0
+      }
+    }
+  }
+}

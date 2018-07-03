@@ -11,6 +11,7 @@ public:
 		RGB565,
 		RGB888,
 		RGBX888,
+		G8
 	};
 
 	Image() {}
@@ -19,6 +20,12 @@ public:
 	Image(const Image&) = default;
 
 	void copyTo(Image* other);
+	void halveTo(Image* other);
+	void halveToInterlace(Image* other, const Image* old);
+	void quarterTo(Image* other);
+	void quarterToInterlace(Image* other, const Image* old);
+	void divideTo(int divisor, Image* other);
+	void divideToInterlace(int divisor, Image* other, const Image* old);
 
 private:
 	void copyDirectlyTo(Image* other);

@@ -1,0 +1,32 @@
+{
+  "default_state": "Round1",
+  "states": {
+    "Round1": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 89821.2776744972,
+            "first_10_mean": 600.0,
+            "final_10_mean": 127200.0,
+            "median": 101000.0,
+            "max": 163000.0
+          },
+          "tags": [
+            "almost-human",
+            "bad-end",
+            "stuck"
+          ]
+        }
+      ]
+    }
+  }
+}

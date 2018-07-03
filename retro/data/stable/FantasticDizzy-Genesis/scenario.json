@@ -1,0 +1,21 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "damage": {
+        "op": "equal",
+        "reference": 64
+      },
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 10.0
+      }
+    }
+  }
+}

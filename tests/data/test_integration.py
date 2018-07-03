@@ -3,12 +3,12 @@ import retro.testing.tools
 
 
 def test_data(game):
-    warnings, errors = retro.testing.tools.verify_data(game)
+    warnings, errors = retro.testing.tools.verify_data(*game)
     handle(warnings, errors)
 
 
 def test_scenario(game):
-    warnings, errors = retro.testing.tools.verify_scenario(game)
+    warnings, errors = retro.testing.tools.verify_scenario(*game)
     handle(warnings, errors)
 
 
@@ -18,5 +18,5 @@ def test_missing():
 
 
 def test_default_states(game):
-    warnings, errors = retro.testing.tools.verify_default_state(game)
+    warnings, errors = retro.testing.tools.verify_default_state(*game)
     handle(warnings, errors)

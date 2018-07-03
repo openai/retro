@@ -1,0 +1,20 @@
+{
+  "info": {
+    "health": {
+      "address": 8262644,
+      "type": "<u2"
+    },
+    "lives": {
+      "address": 8257660,
+      "type": "<d2"
+    },
+    "magic": {
+      "address": 8262642,
+      "type": "<d2"
+    },
+    "score": {
+      "address": 8265536,
+      "type": "<d4"
+    }
+  }
+}

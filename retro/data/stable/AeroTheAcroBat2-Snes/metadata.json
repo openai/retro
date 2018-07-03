@@ -1,0 +1,31 @@
+{
+  "default_state": "Level1.BellCastle",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "Level1.BellCastle": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 267.64666064981947,
+            "first_10_mean": 200.0,
+            "final_10_mean": 516.0,
+            "median": 255.0,
+            "max": 1945.0
+          },
+          "tags": [
+            "stuck",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

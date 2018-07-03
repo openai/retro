@@ -1,0 +1,24 @@
+{
+  "info": {
+    "bravery": {
+      "address": 16773567,
+      "type": "|u1"
+    },
+    "kindness": {
+      "address": 16773571,
+      "type": "|u1"
+    },
+    "luck": {
+      "address": 16773569,
+      "type": "|i1"
+    },
+    "vitality": {
+      "address": 16754063,
+      "type": "|u1"
+    },
+    "wealth": {
+      "address": 16773572,
+      "type": ">u2"
+    }
+  }
+}

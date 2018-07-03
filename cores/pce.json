@@ -1,0 +1,14 @@
+{
+    "PCEngine": {
+        "lib": "mednafen_pce_fast",
+        "ext": ["pce"],
+        "rambase": 16252928,
+        "keybinds": ["X", "C", "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "Z", "A", "S", "D"],
+        "buttons": ["II", "III", "SELECT", "RUN", "UP", "DOWN", "LEFT", "RIGHT", "I", "IV", "V", "VI"],
+        "actions": [
+            [[], ["UP"], ["DOWN"]],
+            [[], ["LEFT"], ["RIGHT"]],
+            [[], ["I"], ["II"], ["III"], ["IV"], ["IV"], ["V"], ["I", "II"], ["II", "III"], ["I", "IV"], ["II", "V"], ["III", "VI"], ["IV", "V"], ["V", "VI"]]
+        ]
+    }
+}

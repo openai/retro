@@ -1,0 +1,22 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "buildings_destroyed": {
+        "reward": 1.0
+      },
+      "enemies_destroyed": {
+        "reward": 1.0
+      },
+      "enemy_mechs_destroyed": {
+        "reward": 1.0
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "health": {
+        "op": "less-or-equal",
+        "reference": 30
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:correct_score"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

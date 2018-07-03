@@ -1,0 +1,36 @@
+{
+  "info": {
+    "at_bat": {
+      "address": 16720241,
+      "type": "|u1"
+    },
+    "hits": {
+      "address": 16720899,
+      "type": "|u1"
+    },
+    "hits_opponent": {
+      "address": 16720901,
+      "type": "|u1"
+    },
+    "inning": {
+      "address": 16720934,
+      "type": "|u1"
+    },
+    "outs": {
+      "address": 16720599,
+      "type": "|u1"
+    },
+    "runs": {
+      "address": 16720891,
+      "type": "|u1"
+    },
+    "runs_opponent": {
+      "address": 16720893,
+      "type": "|u1"
+    },
+    "strikes": {
+      "address": 16720600,
+      "type": "|u1"
+    }
+  }
+}

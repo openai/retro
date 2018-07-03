@@ -1,0 +1,28 @@
+{
+  "info": {
+    "enemies_destroyed": {
+      "address": 214,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 128,
+      "type": "|u1"
+    },
+    "pieces_found": {
+      "address": 211,
+      "type": ">u2"
+    },
+    "pieces_remaining": {
+      "address": 62,
+      "type": ">d2"
+    },
+    "score": {
+      "address": 33,
+      "type": ">d3"
+    },
+    "time": {
+      "address": 46,
+      "type": ">d2"
+    }
+  }
+}

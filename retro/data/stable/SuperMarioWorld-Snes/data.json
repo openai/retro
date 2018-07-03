@@ -1,0 +1,16 @@
+{
+  "info": {
+    "score": {
+      "type": "<u4",
+      "address": 8261428
+    },
+    "lives": {
+      "type": "|u1",
+      "address": 8261399
+    },
+    "coins": {
+      "type": "|u1",
+      "address": 8261055
+    }
+  }
+}

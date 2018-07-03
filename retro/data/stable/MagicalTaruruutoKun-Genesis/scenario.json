@@ -1,0 +1,31 @@
+{
+  "reward": {
+    "variables": {
+      "lives": {
+        "reward": 300,
+        "penalty": 500
+      },
+      "level": {
+        "reward": 200
+      },
+      "score": {
+        "reward": 10
+      },
+      "health": {
+        "reward": 50,
+        "penalty": 50
+      }
+    }
+  },
+  "done": {
+    "condition": "all",
+    "variables": {
+      "lives": {
+        "op": "zero"
+      },
+      "health": {
+        "op": "zero"
+      }
+    }
+  }
+}

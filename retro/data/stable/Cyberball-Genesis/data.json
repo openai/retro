@@ -1,0 +1,20 @@
+{
+  "info": {
+    "opponent_score": {
+      "address": 16774703,
+      "type": "|d1"
+    },
+    "period": {
+      "address": 16774424,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16774683,
+      "type": "|d1"
+    },
+    "time": {
+      "address": 16774508,
+      "type": ">d2"
+    }
+  }
+}

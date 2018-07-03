@@ -1,0 +1,16 @@
+{
+  "info": {
+    "health": {
+      "address": 8258085,
+      "type": "|d1"
+    },
+    "lives": {
+      "address": 8258089,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 8258079,
+      "type": "<d4"
+    }
+  }
+}

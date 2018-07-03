@@ -1,0 +1,34 @@
+{
+  "default_state": "Level1.Mode1.Shield",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "Level1.Mode1.Shield": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 9216.88262195122,
+            "first_10_mean": 250.0,
+            "final_10_mean": 11630.0,
+            "median": 9500.0,
+            "max": 19200.0
+          },
+          "tags": [
+            "almost-human",
+            "not-done"
+          ]
+        }
+      ]
+    }
+  }
+}

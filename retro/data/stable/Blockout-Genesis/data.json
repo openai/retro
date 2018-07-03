@@ -1,0 +1,12 @@
+{
+  "info": {
+    "layers": {
+      "address": 16712191,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16752231,
+      "type": ">u3"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "default_state": "Start",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "Start": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1741.7547254055662,
+            "first_10_mean": 880.0,
+            "final_10_mean": 1880.0,
+            "median": 1500.0,
+            "max": 7400.0
+          },
+          "tags": [
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

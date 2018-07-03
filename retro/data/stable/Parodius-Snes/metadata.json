@@ -1,0 +1,33 @@
+{
+  "default_state": "1Player.VicViper.AutoPowerUp",
+  "states": {
+    "1Player.VicViper.AutoPowerUp": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 6831.817313204663,
+            "first_10_mean": 160.0,
+            "final_10_mean": 9360.0,
+            "median": 6800.0,
+            "max": 15200.0
+          },
+          "tags": [
+            "sub-human"
+          ]
+        }
+      ],
+      "tags": [
+        "e-explore"
+      ]
+    }
+  },
+  "tags": [
+    "aligned"
+  ]
+}

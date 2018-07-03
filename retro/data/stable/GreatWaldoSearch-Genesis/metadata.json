@@ -1,0 +1,34 @@
+{
+  "default_state": "Normal.FlyingCarpetLevel",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "Normal.FlyingCarpetLevel": {
+      "tags": [
+        "d-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1108.0089213300892,
+            "first_10_mean": 215.0,
+            "final_10_mean": 1150.0,
+            "median": 1150.0,
+            "max": 8675.0
+          },
+          "tags": [
+            "spikes",
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "info": {
+    "lives": {
+      "address": 53912,
+      "type": "|u1"
+    },
+    "rings": {
+      "address": 53913,
+      "type": "<u2"
+    },
+    "score": {
+      "address": 53919,
+      "type": "<d3"
+    },
+    "time": {
+      "address": 53945,
+      "type": "<d2"
+    }
+  }
+}

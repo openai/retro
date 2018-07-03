@@ -1,0 +1,31 @@
+{
+  "default_state": "MainGame.Level1",
+  "states": {
+    "MainGame.Level1": {
+      "tags": [
+        "d-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1901.4623955431755,
+            "first_10_mean": 985.0,
+            "final_10_mean": 1940.0,
+            "median": 1950.0,
+            "max": 2350.0
+          },
+          "tags": [
+            "stuck",
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

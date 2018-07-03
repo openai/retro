@@ -48,12 +48,14 @@ class CMakeBuild(build_ext):
             cmake_exe = os.path.join(cmake.CMAKE_BIN_DIR, 'cmake')
         subprocess.check_call([cmake_exe, '.', '-G', 'Unix Makefiles', pyext_suffix, pylib_dir, python_executable])
         if self.parallel:
-            jobs = ['-j%d' % self.parallel]
+            jobs = '-j%d' % self.parallel
         else:
             import multiprocessing
-            jobs = ['-j%d' % multiprocessing.cpu_count()]
-        subprocess.check_call(['make'] + jobs + ['retro'])
+            jobs = '-j%d' % multiprocessing.cpu_count()
+        subprocess.check_call(['make', jobs, 'retro'])
 
+
+platform_globs = ['*-%s/*' % plat for plat in ['Nes', 'Snes', 'Genesis', 'Atari2600', 'GameBoy', 'Sms', 'GameGear', 'PCEngine', 'GbColor', 'GbAdvance']]
 
 setup(
     name='gym-retro',
@@ -65,13 +67,12 @@ setup(
     install_requires=['gym'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
     cmdclass={'build_ext': CMakeBuild},
-    packages=['retro', 'retro.data', 'retro.scripts', 'retro.import'],
+    packages=['retro', 'retro.data', 'retro.data.stable', 'retro.data.experimental', 'retro.data.contrib', 'retro.scripts', 'retro.import'],
     package_data={
-        'retro': ['cores.json', 'cores/*_libretro*', 'VERSION.txt', 'README.md', 'LICENSES.md'],
-        'retro.data': ['*-%s/*' % plat for plat in ['Genesis', 'Atari2600']],
-    },
-    package_dir={
-        'retro.data': 'data'
+        'retro': ['cores/*.json', 'cores/*_libretro*', 'VERSION.txt', 'README.md', 'LICENSES.md'],
+        'retro.data.stable': platform_globs,
+        'retro.data.experimental': platform_globs,
+        'retro.data.contrib': platform_globs,
     },
     setup_requires=['setuptools_scm'],
     use_scm_version=use_scm_version

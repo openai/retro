@@ -1,0 +1,33 @@
+{
+  "default_state": "Level1.BlockTown",
+  "states": {
+    "Level1.BlockTown": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 7234.321090244308,
+            "first_10_mean": 1032.0,
+            "final_10_mean": 8048.0,
+            "median": 7200.0,
+            "max": 19910.0
+          },
+          "tags": [
+            "sub-human"
+          ]
+        }
+      ],
+      "tags": [
+        "e-explore"
+      ]
+    }
+  },
+  "tags": [
+    "aligned"
+  ]
+}

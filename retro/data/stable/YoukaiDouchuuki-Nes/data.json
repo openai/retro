@@ -1,0 +1,12 @@
+{
+  "info": {
+    "health": {
+      "address": 963,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 984,
+      "type": "<n4"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "default_state": "StageHydra",
+  "states": {
+    "StageHydra": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 5841.658365485794,
+            "first_10_mean": 162.0,
+            "final_10_mean": 7003.0,
+            "median": 6100.0,
+            "max": 11060.0
+          }
+        }
+      ]
+    }
+  }
+}

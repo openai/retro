@@ -1,0 +1,23 @@
+{
+  "default_state": "Level1",
+  "states": {
+    "Level2": {
+      "tags": []
+    },
+    "Level3": {
+      "tags": []
+    },
+    "Level4": {
+      "tags": []
+    },
+    "Level5": {
+      "tags": []
+    },
+    "Level6": {
+      "tags": []
+    },
+    "Level7": {
+      "tags": []
+    }
+  }
+}

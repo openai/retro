@@ -1,0 +1,16 @@
+{
+  "info": {
+    "hostages_remaining": {
+      "address": 49269,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 49236,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 49196,
+      "type": ">n7"
+    }
+  }
+}

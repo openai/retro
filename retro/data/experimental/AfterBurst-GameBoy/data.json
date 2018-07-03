@@ -1,0 +1,16 @@
+{
+  "info": {
+    "lives": {
+      "address": 51889,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 51500,
+      "type": "<u2"
+    },
+    "continue_timer": {
+      "address": 51346,
+      "type": "|i1"
+    }
+  }
+}

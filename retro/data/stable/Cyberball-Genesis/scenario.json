@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "period": {
+        "op": "equal",
+        "reference": 6
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

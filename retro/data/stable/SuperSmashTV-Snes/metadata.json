@@ -1,0 +1,24 @@
+{
+  "default_state": "Arena1",
+  "states": {
+    "Arena1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 58772.757390417944,
+            "first_10_mean": 53452.0,
+            "final_10_mean": 59162.0,
+            "median": 58060.0,
+            "max": 124430.0
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "info": {
+    "enemy_matches_won": {
+      "address": 16767181,
+      "type": "|u1"
+    },
+    "health": {
+      "address": 16766998,
+      "type": "|u1"
+    },
+    "health_enemy": {
+      "address": 16767126,
+      "type": "|u1"
+    },
+    "matches_won": {
+      "address": 16767053,
+      "type": "|u1"
+    },
+    "time": {
+      "address": 16711871,
+      "type": "|d1"
+    }
+  }
+}

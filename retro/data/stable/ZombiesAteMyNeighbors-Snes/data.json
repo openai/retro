@@ -1,0 +1,24 @@
+{
+  "info": {
+    "ammo": {
+      "type": "<d2",
+      "address": 8264908
+    },
+    "lives": {
+      "type": "|i1",
+      "address": 8265036
+    },
+    "healthPack": {
+      "type": "<u2",
+      "address": 8264986
+    },
+    "health": {
+      "type": "|i1",
+      "address": 8264888
+    },
+    "score": {
+      "type": "<d4",
+      "address": 8265330
+    }
+  }
+}

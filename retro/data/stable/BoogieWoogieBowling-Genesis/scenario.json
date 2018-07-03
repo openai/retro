@@ -1,0 +1,21 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "frame": {
+        "op": "equal",
+        "reference": 9
+      },
+      "p1_final": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "p1_final": {
+        "reward": 1.0
+      }
+    }
+  }
+}

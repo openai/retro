@@ -1,0 +1,34 @@
+{
+  "default_state": "Novice.Chapter1",
+  "states": {
+    "Novice.Chapter1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 91888.28983516483,
+            "first_10_mean": 9990.0,
+            "final_10_mean": 145140.0,
+            "median": 97400.0,
+            "max": 159100.0
+          },
+          "tags": [
+            "die-loop",
+            "sub-human"
+          ]
+        }
+      ],
+      "tags": [
+        "e-explore"
+      ]
+    }
+  },
+  "tags": [
+    "aligned"
+  ]
+}

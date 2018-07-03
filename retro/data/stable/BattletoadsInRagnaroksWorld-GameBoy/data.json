@@ -1,0 +1,40 @@
+{
+  "info": {
+    "health": {
+      "address": 50701,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 50702,
+      "type": "|u1"
+    },
+    "score0": {
+      "address": 65513,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 65512,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 65511,
+      "type": "|u1"
+    },
+    "score3": {
+      "address": 65510,
+      "type": "|u1"
+    },
+    "score4": {
+      "address": 65509,
+      "type": "|u1"
+    },
+    "score5": {
+      "address": 65508,
+      "type": "|u1"
+    },
+    "score6": {
+      "address": 65507,
+      "type": "|u1"
+    }
+  }
+}

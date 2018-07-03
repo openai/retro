@@ -1,0 +1,20 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "equal"
+      },
+      "screen": {
+        "op": "equal",
+        "reference": 64
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 100.0
+      }
+    }
+  }
+}

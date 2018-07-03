@@ -18,6 +18,7 @@ MATCHER_P(ValuesAreMatcher, b, "") {
 
 // Sugar so that we don't have to cast always
 #define ValuesAre(VALUES) ValuesAreMatcher(vector<pair<string, int64_t>> VALUES)
+#define EXPECT_EQI(A, B) EXPECT_EQ(static_cast<int64_t>(A), B)
 
 namespace Retro {
 
@@ -41,8 +42,8 @@ TEST(GameData, Manual1) {
 	data.updateRam();
 	data.setVariable("foo", {"|u1", 0});
 	EXPECT_EQ(data.getVariable("foo"), Variable("|u1", 0));
-	EXPECT_EQ(data.lookupValue("foo"), 1);
-	EXPECT_EQ(const_cast<const GameData&>(data).lookupValue("foo"), 1);
+	EXPECT_EQI(data.lookupValue("foo"), 1);
+	EXPECT_EQI(const_cast<const GameData&>(data).lookupValue("foo"), 1);
 	EXPECT_THAT(data.lookupAll(), ValuesAre(({make_pair("foo", 1)})));
 	EXPECT_THAT(data.listVariables(), UnorderedElementsAre(make_pair("foo", Variable("|u1", 0))));
 }
@@ -55,11 +56,11 @@ TEST(GameData, Manual2) {
 	data.setVariable("foo", {">n2", 0});
 	data.setVariable("bar", {">n1", 1});
 	EXPECT_EQ(data.getVariable("foo"), Variable(">n2", 0));
-	EXPECT_EQ(data.lookupValue("foo"), 12);
-	EXPECT_EQ(const_cast<const GameData&>(data).lookupValue("foo"), 12);
+	EXPECT_EQI(data.lookupValue("foo"), 12);
+	EXPECT_EQI(const_cast<const GameData&>(data).lookupValue("foo"), 12);
 	EXPECT_EQ(data.getVariable("bar"), Variable(">n1", 1));
-	EXPECT_EQ(data.lookupValue("bar"), 2);
-	EXPECT_EQ(const_cast<const GameData&>(data).lookupValue("bar"), 2);
+	EXPECT_EQI(data.lookupValue("bar"), 2);
+	EXPECT_EQI(const_cast<const GameData&>(data).lookupValue("bar"), 2);
 	EXPECT_THAT(data.lookupAll(), ValuesAre(({make_pair("foo", 12), make_pair("bar", 2)})));
 	EXPECT_THAT(data.listVariables(), UnorderedElementsAre(make_pair("foo", Variable(">n2", 0)), make_pair("bar", Variable(">n1", 1))));
 }
@@ -79,8 +80,8 @@ TEST(GameData, Load) {
 	})");
 	EXPECT_TRUE(data.load(&manifest));
 	EXPECT_EQ(data.getVariable("foo"), Variable("|u1", 0));
-	EXPECT_EQ(data.lookupValue("foo"), 1);
-	EXPECT_EQ(const_cast<const GameData&>(data).lookupValue("foo"), 1);
+	EXPECT_EQI(data.lookupValue("foo"), 1);
+	EXPECT_EQI(const_cast<const GameData&>(data).lookupValue("foo"), 1);
 	EXPECT_THAT(data.lookupAll(), ValuesAre(({make_pair("foo", 1)})));
 	EXPECT_THAT(data.listVariables(), UnorderedElementsAre(make_pair("foo", Variable("|u1", 0))));
 }
@@ -100,12 +101,12 @@ TEST(GameData, Update) {
 	data.addressSpace().addBlock(0, sizeof(ram), ram);
 	data.updateRam();
 	data.setVariable("foo", {"|u1", 0});
-	EXPECT_EQ(data.lookupValue("foo"), 1);
+	EXPECT_EQI(data.lookupValue("foo"), 1);
 	ram[0] = 2;
-	EXPECT_EQ(data.lookupValue("foo"), 2);
+	EXPECT_EQI(data.lookupValue("foo"), 2);
 
 	data.updateRam();
-	EXPECT_EQ(data.lookupValue("foo"), 2);
+	EXPECT_EQI(data.lookupValue("foo"), 2);
 }
 
 TEST(GameData, Delta) {
@@ -114,12 +115,12 @@ TEST(GameData, Delta) {
 	data.addressSpace().addBlock(0, sizeof(ram), ram);
 	data.updateRam();
 	data.setVariable("foo", {"|u1", 0});
-	EXPECT_EQ(data.lookupValue("foo"), 1);
+	EXPECT_EQI(data.lookupValue("foo"), 1);
 
 	ram[0] = 2;
 	data.updateRam();
-	EXPECT_EQ(data.lookupValue("foo"), 2);
-	EXPECT_EQ(data.lookupDelta("foo"), 1);
+	EXPECT_EQI(data.lookupValue("foo"), 2);
+	EXPECT_EQI(data.lookupDelta("foo"), 1);
 }
 
 TEST(Scenario, Measurement) {
@@ -321,10 +322,12 @@ TEST(Scenario, ManualReward) {
 	scen.setRewardVariable("foo", { M::ABSOLUTE, O::NOOP, 0, 1, 0 });
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 1);
 
 	ram[0] = 2;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 2);
 }
 
@@ -339,10 +342,12 @@ TEST(Scenario, ManualDeltaReward) {
 	scen.setRewardVariable("foo", { M::DELTA, O::NOOP, 0, 1, 0 });
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 0);
 
 	ram[0] = 2;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 1);
 }
 
@@ -357,10 +362,12 @@ TEST(Scenario, ManualDone) {
 	scen.setDoneVariable("foo", { M::ABSOLUTE, O::ZERO, 0 });
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FALSE(scen.isDone());
 
 	ram[0] = 0;
 	data.updateRam();
+	scen.update();
 	EXPECT_TRUE(scen.isDone());
 }
 
@@ -377,11 +384,13 @@ TEST(Scenario, MultipleReward) {
 	scen.setRewardVariable("bar", { M::ABSOLUTE, O::NOOP, 0, 1, 0 });
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 4);
 
 	ram[0] = 2;
 	ram[1] = 0;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 4);
 }
 
@@ -405,10 +414,12 @@ TEST(Scenario, LoadReward) {
 	data.setVariable("foo", {"|u1", 0});
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 0);
 
 	ram[0] = 2;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 1);
 }
 
@@ -432,10 +443,12 @@ TEST(Scenario, LoadPenalty) {
 	data.setVariable("foo", {"|i1", 0});
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 0);
 
 	ram[0] = 0;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), -1);
 }
 
@@ -463,16 +476,19 @@ TEST(Scenario, LoadRewardMultiple) {
 	data.setVariable("bar", {"|i1", 1});
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 0);
 
 	ram[0] = 1;
 	ram[1] = 1;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 1);
 
 	ram[0] = 2;
 	ram[1] = 0;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 0);
 }
 
@@ -497,10 +513,12 @@ TEST(Scenario, LoadRewardAbsolute) {
 	data.setVariable("foo", {"|u1", 0});
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 1);
 
 	ram[0] = 2;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 2);
 }
 
@@ -527,10 +545,12 @@ TEST(Scenario, LoadRewardOp) {
 	data.setVariable("foo", {"|u1", 0});
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 0);
 
 	ram[0] = 2;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 1);
 }
 
@@ -551,10 +571,12 @@ TEST(Scenario, LoadTimeReward) {
 	data.addressSpace().addBlock(0, sizeof(ram), ram);
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 1);
 
 	ram[0] = 2;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 1);
 }
 
@@ -578,10 +600,12 @@ TEST(Scenario, LoadDone) {
 	data.setVariable("foo", {"|u1", 0});
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FALSE(scen.isDone());
 
 	ram[0] = 1;
 	data.updateRam();
+	scen.update();
 	EXPECT_TRUE(scen.isDone());
 }
 
@@ -610,18 +634,22 @@ TEST(Scenario, LoadDoneAny) {
 	data.setVariable("bar", {"|u1", 1});
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FALSE(scen.isDone());
 
 	ram[0] = 1;
 	data.updateRam();
+	scen.update();
 	EXPECT_TRUE(scen.isDone());
 
 	ram[1] = 1;
 	data.updateRam();
+	scen.update();
 	EXPECT_TRUE(scen.isDone());
 
 	ram[0] = 0;
 	data.updateRam();
+	scen.update();
 	EXPECT_TRUE(scen.isDone());
 }
 
@@ -650,18 +678,22 @@ TEST(Scenario, LoadDoneAll) {
 	data.setVariable("bar", {"|u1", 1});
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FALSE(scen.isDone());
 
 	ram[0] = 1;
 	data.updateRam();
+	scen.update();
 	EXPECT_FALSE(scen.isDone());
 
 	ram[1] = 1;
 	data.updateRam();
+	scen.update();
 	EXPECT_TRUE(scen.isDone());
 
 	ram[0] = 0;
 	data.updateRam();
+	scen.update();
 	EXPECT_FALSE(scen.isDone());
 }
 
@@ -701,18 +733,93 @@ TEST(Scenario, LoadEverything) {
 	data.addressSpace().addBlock(0, sizeof(ram), ram);
 
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 0);
 	EXPECT_FALSE(scen.isDone());
 
 	ram[0] = 2;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 1);
 	EXPECT_FALSE(scen.isDone());
 
 	ram[0] = 0;
 	data.updateRam();
+	scen.update();
 	EXPECT_FLOAT_EQ(scen.currentReward(), 0);
 	EXPECT_TRUE(scen.isDone());
+}
+
+TEST(Scenario, ManualReward2P) {
+	GameData data;
+	Scenario scen(data);
+
+	uint8_t ram[] = { 1, 2 };
+	data.addressSpace().addBlock(0, sizeof(ram), ram);
+	data.setVariable("foo", {"|u1", 0});
+	data.setVariable("bar", {"|u1", 1});
+
+	scen.setRewardVariable("foo", { M::ABSOLUTE, O::NOOP, 0, 1, 0 }, 0);
+	scen.setRewardVariable("bar", { M::ABSOLUTE, O::NOOP, 0, 1, 0 }, 1);
+
+	data.updateRam();
+	scen.update();
+	EXPECT_FLOAT_EQ(scen.currentReward(0), 1);
+	EXPECT_FLOAT_EQ(scen.currentReward(1), 2);
+
+	ram[0] = 2;
+	ram[1] = 1;
+	data.updateRam();
+	scen.update();
+	EXPECT_FLOAT_EQ(scen.currentReward(0), 2);
+	EXPECT_FLOAT_EQ(scen.currentReward(1), 1);
+}
+
+TEST(Scenario, LoadReward2P) {
+	GameData data;
+	Scenario scen(data);
+
+	istringstream manifest(R"({
+		"rewards": [
+			{
+				"variables": {
+					"foo": {
+						"reward": 1
+					}
+				}
+			},
+			{
+				"variables": {
+					"bar": {
+						"reward": 1
+					}
+				}
+			}
+		]
+	})");
+	EXPECT_TRUE(scen.load(&manifest));
+
+	uint8_t ram[] = { 1, 1 };
+	data.addressSpace().addBlock(0, sizeof(ram), ram);
+	data.setVariable("foo", {"|u1", 0});
+	data.setVariable("bar", {"|u1", 1});
+
+	data.updateRam();
+	scen.update();
+	EXPECT_FLOAT_EQ(scen.currentReward(0), 0);
+	EXPECT_FLOAT_EQ(scen.currentReward(1), 0);
+
+	ram[0] = 2;
+	data.updateRam();
+	scen.update();
+	EXPECT_FLOAT_EQ(scen.currentReward(0), 1);
+	EXPECT_FLOAT_EQ(scen.currentReward(1), 0);
+
+	ram[1] = 2;
+	data.updateRam();
+	scen.update();
+	EXPECT_FLOAT_EQ(scen.currentReward(0), 0);
+	EXPECT_FLOAT_EQ(scen.currentReward(1), 1);
 }
 
 }

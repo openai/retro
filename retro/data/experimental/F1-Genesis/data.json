@@ -1,0 +1,32 @@
+{
+  "info": {
+    "cars_overtaken": {
+      "address": 16770047,
+      "type": "|u1"
+    },
+    "gameover": {
+      "address": 16770057,
+      "type": "|i1"
+    },
+    "lap": {
+      "address": 16774389,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16769712,
+      "type": ">u4"
+    },
+    "speed0": {
+      "address": 16770023,
+      "type": "|n1"
+    },
+    "speed1": {
+      "address": 16770021,
+      "type": "|n1"
+    },
+    "speed2": {
+      "address": 16770019,
+      "type": "|n1"
+    }
+  }
+}

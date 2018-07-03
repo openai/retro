@@ -1,0 +1,24 @@
+{
+  "default_state": "Level1.ShaqVsLavaMonster",
+  "states": {
+    "Level1.ShaqVsLavaMonster": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 6806.552747023188,
+            "first_10_mean": 2272.0,
+            "final_10_mean": 14354.3,
+            "median": 4640.0,
+            "max": 44947.0
+          }
+        }
+      ]
+    }
+  }
+}

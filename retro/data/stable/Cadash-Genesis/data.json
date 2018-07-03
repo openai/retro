@@ -1,0 +1,20 @@
+{
+  "info": {
+    "exp": {
+      "address": 16715339,
+      "type": "|u1"
+    },
+    "gold": {
+      "address": 16715406,
+      "type": ">u2"
+    },
+    "hp": {
+      "address": 16715345,
+      "type": "|u1"
+    },
+    "level": {
+      "address": 16715341,
+      "type": "|u1"
+    }
+  }
+}

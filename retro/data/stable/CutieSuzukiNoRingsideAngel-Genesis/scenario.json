@@ -1,0 +1,23 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "opponenthealth": {
+        "op": "zero"
+      },
+      "player1health": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "opponenthealth": {
+        "reward": -1.0
+      },
+      "player1health": {
+        "reward": 1.0
+      }
+    }
+  }
+}

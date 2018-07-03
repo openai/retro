@@ -1,0 +1,24 @@
+{
+  "info": {
+    "bulls_score": {
+      "address": 16753869,
+      "type": "|u1"
+    },
+    "lakers_score": {
+      "address": 16753867,
+      "type": "|u1"
+    },
+    "period": {
+      "address": 16753871,
+      "type": "|u1"
+    },
+    "time_minutes": {
+      "address": 16753877,
+      "type": "|u1"
+    },
+    "time_seconds": {
+      "address": 16753873,
+      "type": "|u1"
+    }
+  }
+}

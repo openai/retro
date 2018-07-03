@@ -1,0 +1,32 @@
+{
+  "done": {
+    "nodes": {
+      "time": {
+        "condition": "all",
+        "variables": {
+          "time_ones": {
+            "op": "zero"
+          },
+          "time_minutes": {
+            "op": "zero"
+          },
+          "time_tens": {
+            "op": "zero"
+          }
+        }
+      }
+    },
+    "variables": {
+      "lives": {
+        "op": "zero"
+      }  
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

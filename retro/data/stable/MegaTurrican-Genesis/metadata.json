@@ -1,0 +1,8 @@
+{
+  "default_state": "Level1",
+  "states": {
+    "Level1.AfterYouCanShootThings": {
+      "tags": []
+    }
+  }
+}

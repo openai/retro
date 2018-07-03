@@ -1,0 +1,24 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "quarter": {
+        "op": "equal",
+        "reference": 2
+      },
+      "time": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "california_score": {
+        "reward": 1.0
+      },
+      "nevada_score": {
+        "reward": -1.0
+      }
+    }
+  }
+}

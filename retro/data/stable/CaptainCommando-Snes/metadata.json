@@ -1,0 +1,30 @@
+{
+  "default_state": "1Player.Mummy.City",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "1Player.Mummy.City": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1996.6705951679435,
+            "first_10_mean": 945.0,
+            "final_10_mean": 1974.0,
+            "median": 1980.0,
+            "max": 3260.0
+          },
+          "tags": [
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

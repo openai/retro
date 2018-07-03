@@ -1,0 +1,1 @@
+Score decreases when you die, but it doesn't reset to the original score - it just decreases.

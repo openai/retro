@@ -1,0 +1,1 @@
+By jumping too much and hitting your head on the stone ceiling (C), your character can lose health and die by its actions. This might be something to limit when setting up experiments.

@@ -5,6 +5,7 @@ import json
 import numpy as np
 import os
 import retro
+import retro.data.all
 import signal
 import socket
 import subprocess
@@ -17,7 +18,7 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
     ffmpeg_proc = None
     viewer_proc = None
     info_steps = []
-    actions = np.empty(shape=(0, emulator.NUM_BUTTONS), dtype=bool)
+    actions = np.empty(shape=(0, emulator.num_buttons * movie.players), dtype=bool)
     if viewer or video_file:
         video = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -65,7 +66,8 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
         if viewer:
             viewer_proc = subprocess.Popen([viewer, '-'], stdin=ffmpeg_proc.stdout)
     frames = 0
-    score = 0
+    score = [0] * movie.players
+    reward_fields = ['r'] if movie.players == 1 else ['r%d' % i for i in range(movie.players)]
     wasDone = False
 
     def killprocs(*args, **kwargs):
@@ -85,8 +87,9 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
     while True:
         if movie.step():
             keys = []
-            for i in range(emulator.NUM_BUTTONS):
-                keys.append(movie.get_key(i))
+            for p in range(movie.players):
+                for i in range(emulator.num_buttons):
+                    keys.append(movie.get_key(i, p))
             if npy_file:
                 actions = np.vstack((actions, (keys,)))
         elif video_delay < 0 and frames < -video_delay:
@@ -96,7 +99,11 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
         display, reward, done, info = emulator.step(keys)
         if info_file:
             info_steps.append(info)
-        score += reward
+        if movie.players > 1:
+            for p in range(movie.players):
+                score[p] += reward[p]
+        else:
+            score[0] += reward
         frames += 1
         try:
             if hasattr(signal, 'SIGCHLD'):
@@ -120,14 +127,14 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
                 signal.signal(signal.SIGCHLD, signal.SIG_DFL)
         if done and not wasDone:
             if monitor_csv:
-                monitor_csv.writerow({'r': score, 'l': frames, 't': frames / 60.0})
+                monitor_csv.writerow({**dict(zip(reward_fields, score)), 'l': frames, 't': frames / 60.0})
             frames = 0
-            score = 0
+            score = [0] * movie.players
         wasDone = done
     if hasattr(signal, 'SIGCHLD'):
         signal.signal(signal.SIGCHLD, signal.SIG_DFL)
     if monitor_csv and frames:
-        monitor_csv.writerow({'r': score, 'l': frames, 't': frames / 60.0})
+        monitor_csv.writerow({**dict(zip(reward_fields, score)), 'l': frames, 't': frames / 60.0})
     if npy_file:
         kwargs = {
             'actions': actions
@@ -154,7 +161,7 @@ def load_movie(movie_file):
         duration += 1
     movie = retro.Movie(movie_file)
     movie.step()
-    emulator = retro.make(game=movie.get_game(), state=retro.STATE_NONE, use_restricted_actions=retro.ACTIONS_ALL)
+    emulator = retro.make(game=movie.get_game(), state=retro.State.NONE, use_restricted_actions=retro.Actions.ALL, players=movie.players)
     data = movie.get_state()
     emulator.initial_state = data
     emulator.reset()
@@ -216,10 +223,12 @@ def main(argv=sys.argv[1:]):
     monitor_csv = None
     monitor_file = None
     if args.csv_out:
-        game = retro.Movie(args.movies[0]).get_game()
+        m0 = retro.Movie(args.movies[0])
+        game = m0.get_game()
+        reward_fields = ['r'] if m0.players == 1 else ['r%d' % i for i in range(m0.players)]
         monitor_file = open(args.csv_out, 'w')
         monitor_file.write('#{"t_start": 0.0, "gym_version": "gym_retro", "env_id": "%s"}\n' % game)
-        monitor_csv = csv.DictWriter(monitor_file, fieldnames=['r', 'l', 't'])
+        monitor_csv = csv.DictWriter(monitor_file, fieldnames=reward_fields + ['l', 't'])
         monitor_csv.writeheader()
 
     with Executor(args.jobs or None) as pool:

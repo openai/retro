@@ -1,0 +1,20 @@
+{
+  "info": {
+    "best_lap": {
+      "address": 16752843,
+      "type": ">d3"
+    },
+    "time": {
+      "address": 16752835,
+      "type": ">d3"
+    },
+    "lap": {
+      "address": 16752847,
+      "type": "|u1"
+    },
+    "speed": {
+      "address": 16752802,
+      "type": ">u2"
+    }
+  }
+}

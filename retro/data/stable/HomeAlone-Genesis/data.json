@@ -1,0 +1,16 @@
+{
+  "info": {
+    "eta": {
+      "address": 16774549,
+      "type": ">n8"
+    },
+    "loot_taken_from_house": {
+      "address": 16774472,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16773130,
+      "type": ">u4"
+    }
+  }
+}

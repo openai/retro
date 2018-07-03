@@ -1,0 +1,30 @@
+{
+  "default_state": "Level1",
+  "states": {
+    "Level1": {
+      "tags": [
+        "d-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 4180.361958836054,
+            "first_10_mean": 811.0,
+            "final_10_mean": 3798.0,
+            "median": 3970.0,
+            "max": 10970.0
+          },
+          "tags": [
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

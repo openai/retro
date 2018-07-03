@@ -1,0 +1,16 @@
+{
+  "info": {
+    "countdown": {
+      "address": 8258908,
+      "type": "|d1"
+    },
+    "health": {
+      "address": 8261428,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 8258916,
+      "type": "<d4"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "info": {
+    "minnesota_score": {
+      "address": 16752086,
+      "type": ">u2"
+    },
+    "quarter": {
+      "address": 16765189,
+      "type": "|u1"
+    },
+    "time": {
+      "address": 16751769,
+      "type": ">d2"
+    },
+    "utah_score": {
+      "address": 16751830,
+      "type": ">u2"
+    }
+  }
+}

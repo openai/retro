@@ -1,0 +1,40 @@
+{
+  "default_state": "1Player.Level1",
+  "whitelist": {
+    "data.json": [
+      "suspicious type |d1 for score"
+    ]
+  },
+  "states": {
+    "1Player.Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 15.563628158844764,
+            "first_10_mean": 5.3,
+            "final_10_mean": 14.3,
+            "median": 17.0,
+            "max": 37.0
+          },
+          "tags": [
+            "simple",
+            "stuck",
+            "sub-human"
+          ]
+        }
+      ],
+      "tags": [
+        "d-explore"
+      ]
+    }
+  },
+  "tags": [
+    "misaligned"
+  ]
+}

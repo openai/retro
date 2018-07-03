@@ -1,0 +1,19 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "health": {
+        "op": "zero"
+      },
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:correct_score"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

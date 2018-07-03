@@ -1,0 +1,31 @@
+{
+  "default_state": "Warrior.Level1",
+  "states": {
+    "Warrior.Level1": {
+      "tags": [
+        "d-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 351.45038892050843,
+            "first_10_mean": 0.0,
+            "final_10_mean": 400.0,
+            "median": 400.0,
+            "max": 410.0
+          },
+          "tags": [
+            "die-loop",
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -16,6 +16,7 @@ static inline T _hypot(T x, T y) {
 #include "emulator.h"
 #include "imageops.h"
 #include "memory.h"
+#include "search.h"
 #include "script.h"
 #include "movie.h"
 #include "movie-bk2.h"
@@ -93,9 +94,12 @@ struct PyRetroEmulator {
 		return py::make_tuple(m_re.getImageWidth(), m_re.getImageHeight());
 	}
 
-	void setButtonMask(py::array_t<uint8_t> mask, int player) {
+	void setButtonMask(py::array_t<uint8_t> mask, unsigned player) {
 		if (mask.size() > N_BUTTONS) {
 			throw std::runtime_error("mask.size() > N_BUTTONS");
+		}
+		if (player >= MAX_PLAYERS) {
+			throw std::runtime_error("player >= MAX_PLAYERS");
 		}
 		for (int key = 0; key < mask.size(); ++key) {
 			m_re.setKey(player, key, mask.data()[key]);
@@ -139,6 +143,77 @@ struct PyMemoryView {
 	int64_t getitem(py::dict item) {
 		return extract(py::int_(item["address"]), py::str(item["type"]));
 	}
+
+	py::dict blocks() {
+		py::dict obj;
+		for (const auto& iter : m_mem.blocks()) {
+			obj[py::int_(iter.first)] = py::bytes(static_cast<const char*>(iter.second.offset(0)), iter.second.size());
+		}
+		return obj;
+	}
+};
+
+struct PySearch {
+	Retro::Search* m_search;
+	bool m_managed = true;
+	PySearch(py::handle types) {
+		if (!types.is_none()) {
+			std::vector<Retro::DataType> dtypes;
+			for (const auto& type : types) {
+				dtypes.emplace_back(py::str(type));
+			}
+			m_search = new Retro::Search(dtypes);
+		}
+	}
+
+	PySearch(Retro::Search* search) {
+		m_search = search;
+		m_managed = false;
+	}
+
+	~PySearch() {
+		if (m_managed) {
+			delete m_search;
+		}
+	}
+
+	int numResults() const {
+		return m_search->numResults();
+	}
+
+	bool hasUniqueResult() const {
+		return m_search->hasUniqueResult();
+	}
+
+	py::dict uniqueResult() const {
+		TypedSearchResult result = m_search->uniqueResult();
+		py::dict obj;
+		obj["address"] = result.address;
+		obj["type"] = result.type.type;
+		return obj;
+	}
+
+	py::list typedResults() const {
+		std::map<SearchResult, std::unordered_set<DataType>> results;
+		for (const auto& result : m_search->typedResults()) {
+			results[static_cast<const SearchResult&>(result)].emplace(result.type);
+		}
+		py::list flattedResults;
+		for (const auto& result : results) {
+			py::list typeStrings;
+			for (const auto& type : result.second) {
+				typeStrings.append(py::str(type.type));
+			}
+			flattedResults.append(py::make_tuple(
+				py::make_tuple(
+					result.first.address,
+					result.first.mult,
+					result.first.div,
+					result.first.bias),
+				typeStrings));
+		}
+		return flattedResults;
+	}
 };
 
 struct PyGameData {
@@ -171,6 +246,7 @@ struct PyGameData {
 
 	void reset() {
 		m_scen.reloadScripts();
+		m_scen.restart();
 	}
 
 	uint16_t filterAction(uint16_t action) const {
@@ -191,6 +267,41 @@ struct PyGameData {
 
 	void updateRam() {
 		m_data.updateRam();
+		m_scen.update();
+	}
+
+	py::object lookupValue(py::str name) const {
+		try {
+			Variant data = m_data.lookupValue(name);
+			switch (data.type()) {
+			case Variant::Type::BOOL:
+				return static_cast<py::bool_>(data);
+			case Variant::Type::INT:
+				return static_cast<py::int_>(static_cast<int64_t>(data));
+			case Variant::Type::FLOAT:
+				return static_cast<py::float_>(static_cast<double>(data));
+			case Variant::Type::VOID:
+				return py::none();
+			}
+		} catch (std::invalid_argument e) {
+			throw pybind11::key_error(e.what());
+		}
+	}
+
+	py::object setValue(py::str name, py::object value) {
+		if (py::isinstance<py::bool_>(value)) {
+			m_data.setValue(name, Variant(static_cast<bool>(py::bool_(value))));
+		}
+		if (py::isinstance<py::int_>(value)) {
+			m_data.setValue(name, Variant(static_cast<int64_t>(py::int_(value))));
+		}
+		if (py::isinstance<py::float_>(value)) {
+			m_data.setValue(name, Variant(static_cast<double>(py::float_(value))));
+		}
+		if (value.is_none()) {
+			m_data.setValue(name, Variant());
+		}
+		return value;
 	}
 
 	py::dict lookupAll() const {
@@ -228,16 +339,54 @@ struct PyGameData {
 		return vdict;
 	}
 
-	float currentReward() const {
-		return m_scen.currentReward();
+	float currentReward(unsigned player = 0) const {
+		return m_scen.currentReward(player);
+	}
+
+	float totalReward(unsigned player = 0) const {
+		return m_scen.totalReward(player);
 	}
 
 	bool isDone() const {
 		return m_scen.isDone();
 	}
 
+	py::tuple cropInfo(unsigned player = 0) {
+		size_t x = 0;
+		size_t y = 0;
+		size_t width = 0;
+		size_t height = 0;
+		m_scen.getCrop(&x, &y, &width, &height, player);
+		return py::make_tuple(x, y, width, height);
+	}
+
 	PyMemoryView memory() {
 		return PyMemoryView(m_data.addressSpace());
+	}
+
+	void search(py::str name, int64_t value) {
+		m_data.search(name, value);
+	}
+
+	void deltaSearch(py::str name, py::str op, int64_t ref) {
+		m_data.deltaSearch(name, Retro::Scenario::op(op), ref);
+	}
+
+	PySearch getSearch(py::str name) {
+		return m_data.getSearch(name);
+	}
+
+	void removeSearch(py::str name) {
+		m_data.removeSearch(name);
+	}
+
+	py::dict listSearches() {
+		const auto& names = m_data.listSearches();
+		py::dict searches;
+		for (const auto& name : names) {
+			searches[py::str(name)] = PySearch(m_data.getSearch(name));
+		}
+		return searches;
 	}
 };
 
@@ -248,10 +397,10 @@ void PyRetroEmulator::configureData(PyGameData& data) {
 struct PyMovie {
 	std::unique_ptr<Retro::Movie> m_movie;
 	bool recording = false;
-	PyMovie(py::str name, bool record) {
+	PyMovie(py::str name, bool record, unsigned players) {
 		recording = record;
 		if (record) {
-			m_movie = std::make_unique<MovieBK2>(name, true);
+			m_movie = std::make_unique<MovieBK2>(name, true, players);
 		} else {
 			m_movie = Movie::load(name);
 		}
@@ -279,12 +428,16 @@ struct PyMovie {
 		m_movie->close();
 	}
 
-	bool getKey(int key) {
-		return m_movie->getKey(key);
+	unsigned players() {
+		return m_movie->players();
 	}
 
-	void setKey(int key, bool set) {
-		return m_movie->setKey(key, set);
+	bool getKey(int key, unsigned player = 0) {
+		return m_movie->getKey(key, player);
+	}
+
+	void setKey(int key, bool set, unsigned player = 0) {
+		return m_movie->setKey(key, set, player);
 	}
 
 	py::bytes getState() {
@@ -329,8 +482,16 @@ PYBIND11_MODULE(_retro, m) {
 		.def(py::init<Retro::AddressSpace&>())
 		.def("extract", &PyMemoryView::extract, py::arg("address"), py::arg("type"))
 		.def("assign", &PyMemoryView::assign, py::arg("address"), py::arg("type"), py::arg("value"))
+		.def_property_readonly("blocks", &PyMemoryView::blocks)
 		.def("__setitem__", &PyMemoryView::setitem, py::arg("item"), py::arg("value"))
 		.def("__getitem__", &PyMemoryView::getitem, py::arg("item"));
+
+	py::class_<PySearch>(m, "Search")
+		.def(py::init<py::handle>(), py::arg("types") = py::none())
+		.def("num_results", &PySearch::numResults)
+		.def("has_unique_result", &PySearch::hasUniqueResult)
+		.def("unique_result", &PySearch::uniqueResult)
+		.def("typed_results", &PySearch::typedResults);
 
 	py::class_<PyGameData>(m, "GameDataGlue")
 		.def(py::init<>())
@@ -340,21 +501,31 @@ PYBIND11_MODULE(_retro, m) {
 		.def("filter_action", &PyGameData::filterAction)
 		.def("valid_actions", &PyGameData::validActions)
 		.def("update_ram", &PyGameData::updateRam)
+		.def("lookup_value", &PyGameData::lookupValue)
+		.def("set_value", &PyGameData::setValue)
 		.def("lookup_all", &PyGameData::lookupAll)
 		.def("get_variable", &PyGameData::getVariable)
 		.def("set_variable", &PyGameData::setVariable)
 		.def("remove_variable", &PyGameData::removeVariable)
 		.def("list_variables", &PyGameData::listVariables)
-		.def("current_reward", &PyGameData::currentReward)
+		.def("search", &PyGameData::search)
+		.def("delta_search", &PyGameData::deltaSearch)
+		.def("get_search", &PyGameData::getSearch)
+		.def("remove_search", &PyGameData::removeSearch)
+		.def("list_searches", &PyGameData::listSearches)
+		.def("current_reward", &PyGameData::currentReward, py::arg("player") = 0)
+		.def("total_reward", &PyGameData::totalReward, py::arg("player") = 0)
 		.def("is_done", &PyGameData::isDone)
-		.def("memory", &PyGameData::memory);
+		.def("crop_info", &PyGameData::cropInfo, py::arg("player") = 0)
+		.def_property_readonly("memory", &PyGameData::memory);
 
 	py::class_<PyMovie>(m, "Movie")
-		.def(py::init<py::str, bool>(), py::arg("path"), py::arg("record") = false)
+		.def(py::init<py::str, bool, unsigned>(), py::arg("path"), py::arg("record") = false, py::arg("players") = 1)
 		.def("configure", &PyMovie::configure)
 		.def("get_game", &PyMovie::getGameName)
 		.def("step", &PyMovie::step)
 		.def("close", &PyMovie::close)
+		.def_property_readonly("players", &PyMovie::players)
 		.def("get_key", &PyMovie::getKey)
 		.def("set_key", &PyMovie::setKey)
 		.def("get_state", &PyMovie::getState)

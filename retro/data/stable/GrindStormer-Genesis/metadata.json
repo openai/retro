@@ -1,0 +1,35 @@
+{
+  "default_state": "1Player.Level1",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "1Player.Level1": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 9632.87449008633,
+            "first_10_mean": 5000.0,
+            "final_10_mean": 14998.0,
+            "median": 9600.0,
+            "max": 41870.0
+          },
+          "tags": [
+            "die-loop",
+            "not-done",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

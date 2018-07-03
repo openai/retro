@@ -1,0 +1,55 @@
+{
+  "default_state": "Level0.DefaultOptions",
+  "tags": [
+    "aligned",
+    "not-fun"
+  ],
+  "states": {
+    "Level0.DefaultOptions": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 843169.358018114,
+            "first_10_mean": 356941.0,
+            "final_10_mean": 812226.0,
+            "median": 822440.0,
+            "max": 1544030.0
+          },
+          "tags": [
+            "simple",
+            "sub-human"
+          ]
+        }
+      ]
+    },
+    "Level1.DefaultOptions": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 848834.9259306969,
+            "first_10_mean": 400437.0,
+            "final_10_mean": 815957.0,
+            "median": 809760.0,
+            "max": 1494130.0
+          },
+          "tags": [
+            "simple",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

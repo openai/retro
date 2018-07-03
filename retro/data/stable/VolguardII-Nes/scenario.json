@@ -1,0 +1,21 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "damage0": {
+        "op": "equal",
+        "reference": 10
+      },
+      "damage1": {
+        "op": "equal",
+        "reference": 10
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:reward"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

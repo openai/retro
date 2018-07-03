@@ -1,0 +1,16 @@
+{
+  "info": {
+    "energy": {
+      "address": 454,
+      "type": "|u1"
+    },
+    "health": {
+      "address": 455,
+      "type": "|n1"
+    },
+    "score": {
+      "address": 69,
+      "type": ">n5"
+    }
+  }
+}

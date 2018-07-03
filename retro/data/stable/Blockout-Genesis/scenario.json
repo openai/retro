@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "layers": {
+        "op": "equal",
+        "reference": 11
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "default_state": "Level1.EasyStreet",
+  "states": {
+    "Level1.EasyStreet": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 7830.413714610898,
+            "first_10_mean": 435.0,
+            "final_10_mean": 14545.0,
+            "median": 7950.0,
+            "max": 28300.0
+          },
+          "tags": [
+            "die-loop",
+            "not-done",
+            "sub-human"
+          ]
+        }
+      ],
+      "tags": [
+        "e-explore"
+      ]
+    }
+  },
+  "tags": [
+    "aligned"
+  ]
+}

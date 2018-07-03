@@ -1,0 +1,1 @@
+Score resets to 0 after dying - script saves the highest total score and prevents accumulation of extra points.

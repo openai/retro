@@ -1,0 +1,32 @@
+{
+  "info": {
+    "gems": {
+      "address": 16775950,
+      "type": "|d1"
+    },
+    "health": {
+      "address": 16751633,
+      "type": "|u1"
+    },
+    "levelHi": {
+      "address": 16775759,
+      "type": "|u1"
+    },
+    "levelLo": {
+      "address": 16775765,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16775983,
+      "type": "|u1"
+    },
+    "map": {
+      "address": 16748830,
+      "type": ">u2"
+    },
+    "score": {
+      "address": 16775940,
+      "type": ">u4"
+    }
+  }
+}

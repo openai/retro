@@ -1,0 +1,35 @@
+{
+  "default_state": "SailorMoon.Level1",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "SailorMoon.Level1": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 1943.7670068027212,
+            "first_10_mean": 409.0,
+            "final_10_mean": 2151.0,
+            "median": 1910.0,
+            "max": 4710.0
+          },
+          "tags": [
+            "noisy",
+            "not-done",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

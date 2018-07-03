@@ -1,0 +1,24 @@
+{
+  "info": {
+    "gems": {
+      "address": 16768201,
+      "type": "|u1"
+    },
+    "health_total": {
+      "address": 16768164,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 16768161,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16768122,
+      "type": ">u2"
+    },
+    "time": {
+      "address": 16768102,
+      "type": ">u2"
+    }
+  }
+}

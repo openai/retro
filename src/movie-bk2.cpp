@@ -77,6 +77,10 @@ MovieBK2::MovieBK2(unique_ptr<Zip> zip)
 			platform = headerLine.substr(9);
 			if (platform == "GEN") {
 				platform = "Genesis";
+			} else if (platform == "SNES") {
+				platform = "Snes";
+			} else if (platform == "NES") {
+				platform = "Nes";
 			} else if (platform == "A26") {
 				platform = "Atari2600";
 			}
@@ -87,12 +91,27 @@ MovieBK2::MovieBK2(unique_ptr<Zip> zip)
 		}
 	}
 
+	string tmp = m_log->readline();
+	if (tmp == "[Input]") {
+		tmp = m_log->readline();
+		size_t pos = 0;
+		string token;
+		while ((pos = tmp.find('|')) != std::string::npos) {
+			unsigned player = stoul(tmp.substr(1, 2));
+			if (player > m_players) {
+				m_players = player;
+			}
+			tmp.erase(0, pos + 1);
+		}
+	}
+
 	loadState();
 }
 
-MovieBK2::MovieBK2(const std::string& path, bool write)
+MovieBK2::MovieBK2(const std::string& path, bool write, unsigned players)
 	: m_zip(make_unique<Zip>(path))
 	, m_write(write) {
+	m_players = players;
 	m_zip->open(write);
 	m_log = m_zip->openFile("Input Log.txt", write);
 	if (write) {
@@ -125,6 +144,10 @@ void MovieBK2::loadKeymap(const string& platform) {
 		string realPlatform = platform;
 		if (platform == "Genesis") {
 			realPlatform = "GEN";
+		} else if (platform == "Snes") {
+			realPlatform = "SNES";
+		} else if (platform == "Nes") {
+			realPlatform = "NES";
 		} else if (platform == "Atari2600") {
 			realPlatform = "A26";
 		}
@@ -154,15 +177,17 @@ void MovieBK2::writeHeader() {
 	header->write(static_cast<const void*>(headerText.str().c_str()), headerText.str().size());
 
 	headerText.str("LogKey:#Reset|Power|#");
-	for (const auto& key : m_buttonmap) {
-		if (s_platformButtonNames.find(m_coreName) != s_platformButtonNames.end()) {
-			const auto& platformButtons = s_platformButtonNames.at(m_coreName);
-			if (platformButtons.find(key.second) != platformButtons.end()) {
-				headerText << "P1 " << platformButtons.at(key.second) << "|";
-				continue;
+	for (unsigned p = 1; p < m_players + 1; ++p) {
+		for (const auto& key : m_buttonmap) {
+			if (s_platformButtonNames.find(m_coreName) != s_platformButtonNames.end()) {
+				const auto& platformButtons = s_platformButtonNames.at(m_coreName);
+				if (platformButtons.find(key.second) != platformButtons.end()) {
+					headerText << "P" << p << " " << platformButtons.at(key.second) << "|";
+					continue;
+				}
 			}
+			headerText << "P" << p << " " << s_buttonNames.at(key.second) << "|";
 		}
-		headerText << "P1 " << s_buttonNames.at(key.second) << "|";
 	}
 	headerText << endl;
 	m_headerWritten = true;
@@ -179,17 +204,19 @@ bool MovieBK2::step() {
 		}
 		stringstream line;
 		line << "|..|";
-		for (const auto& key : m_buttonmap) {
-			if (m_keys & (1 << key.first)) {
-				line << key.second;
-			} else {
-				line << '.';
+		for (unsigned i = 0; i < m_players; ++i) {
+			for (const auto& key : m_buttonmap) {
+				if (m_keys[i] & (1 << key.first)) {
+					line << key.second;
+				} else {
+					line << '.';
+				}
 			}
+			m_keys[i] = 0;
+			line << '|';
 		}
-		line << '|';
 		line << endl;
 		m_log->write(static_cast<const void*>(line.str().c_str()), line.str().size());
-		m_keys = 0;
 		return true;
 	} else {
 		string tmp = m_log->readline();
@@ -199,7 +226,6 @@ bool MovieBK2::step() {
 		if (!tmp.size()) {
 			return false;
 		}
-		m_keys = 0;
 		auto iter = tmp.begin();
 		if (*iter == '|') {
 			++iter;
@@ -210,17 +236,20 @@ bool MovieBK2::step() {
 			if (iter == tmp.end()) {
 				return false;
 			}
-			++iter;
-			while (iter != tmp.end() && *iter != '|') {
-				if (*iter == '.') {
-					++iter;
-					continue;
-				}
-				auto found = m_keymap.find(*iter);
-				if (found != m_keymap.end()) {
-					m_keys |= 1 << found->second;
-				}
+			for (unsigned i = 0; i < m_players; ++i) {
+				m_keys[i] = 0;
 				++iter;
+				while (iter != tmp.end() && *iter != '|') {
+					if (*iter == '.') {
+						++iter;
+						continue;
+					}
+					auto found = m_keymap.find(*iter);
+					if (found != m_keymap.end()) {
+						m_keys[i] |= 1 << found->second;
+					}
+					++iter;
+				}
 			}
 			return true;
 		}

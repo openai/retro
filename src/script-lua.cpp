@@ -16,7 +16,9 @@ ScriptLua::~ScriptLua() {
 }
 
 static int _getData(lua_State* L) {
-	const GameData* data = static_cast<const GameData*>(lua_touserdata(L, 1));
+	lua_pushstring(L, "__ptr");
+	lua_gettable(L, 1);
+	const GameData* data = static_cast<const GameData*>(lua_touserdata(L, -1));
 	int64_t datum;
 	if (lua_isnumber(L, 2)) {
 		int64_t address = lua_tonumber(L, 2);
@@ -35,26 +37,97 @@ static int _getData(lua_State* L) {
 	return 1;
 }
 
+static int _setData(lua_State* L) {
+	lua_pushstring(L, "__ptr");
+	lua_gettable(L, 1);
+	GameData* data = static_cast<GameData*>(lua_touserdata(L, -1));
+	if (!lua_isstring(L, 2)) {
+		lua_pushstring(L, "Invalid variable name");
+		lua_error(L);
+	} else {
+		const char* name = lua_tostring(L, 2);
+		switch (lua_type(L, 3)) {
+		case LUA_TNIL:
+			data->setValue(name, Variant());
+			break;
+		case LUA_TNUMBER:
+			data->setValue(name, Variant(lua_tonumber(L, 3)));
+			break;
+		case LUA_TBOOLEAN:
+			data->setValue(name, Variant(static_cast<bool>(lua_toboolean(L, 3))));
+			break;
+		default:
+			lua_pushstring(L, "Invalid variable type");
+			lua_error(L);
+		}
+	}
+
+	return 0;
+}
+
+static int _getScen(lua_State* L) {
+	lua_pushstring(L, "__ptr");
+	lua_gettable(L, 1);
+	const Scenario* scen = static_cast<const Scenario*>(lua_touserdata(L, -1));
+	int64_t datum = 0;
+	const char* name = lua_tostring(L, 2);
+	if (strcmp(name, "frame") == 0) {
+		datum = scen->frame();
+	} else if (strcmp(name, "timestep") == 0) {
+		datum = scen->timestep();
+	} else {
+		lua_pushstring(L, "Unknown scenario property");
+		lua_error(L);
+	}
+
+	lua_pushnumber(L, datum);
+	return 1;
+}
+
 static int _noop(lua_State*) {
 	return 0;
 }
 
-void ScriptLua::setData(const GameData* data) {
+void ScriptLua::setData(GameData* data) {
 	ScriptContext::setData(data);
 
-	// Make "table"
+	// Make table
+	lua_createtable(m_L, 0, 1);
+
 	lua_pushlightuserdata(m_L, const_cast<void*>(static_cast<const void*>(data)));
+	lua_setfield(m_L, -2, "__ptr");
+
+	// Make metatable
+	lua_createtable(m_L, 0, 3);
+	lua_pushcfunction(m_L, _getData);
+	lua_setfield(m_L, -2, "__index");
+
+	lua_pushcfunction(m_L, _setData);
+	lua_setfield(m_L, -2, "__newindex");
+
+	lua_setmetatable(m_L, -2);
+	lua_setglobal(m_L, "data");
+};
+
+void ScriptLua::setScenario(const Scenario* scen) {
+	ScriptContext::setScenario(scen);
+
+	// Make table
+	lua_createtable(m_L, 0, 1);
+
+	lua_pushlightuserdata(m_L, const_cast<void*>(static_cast<const void*>(scen)));
+	lua_setfield(m_L, -2, "__ptr");
 
 	// Make metatable
 	lua_createtable(m_L, 0, 2);
-	lua_pushcfunction(m_L, _getData);
+	lua_pushcfunction(m_L, _getScen);
 	lua_setfield(m_L, -2, "__index");
 
 	lua_pushcfunction(m_L, _noop);
 	lua_setfield(m_L, -2, "__newindex");
 
 	lua_setmetatable(m_L, -2);
-	lua_setglobal(m_L, "data");
+	lua_setglobal(m_L, "scenario");
 };
 
 bool ScriptLua::init() {
@@ -74,6 +147,10 @@ bool ScriptLua::init() {
 
 bool ScriptLua::load(const string& filename) {
 	return luaL_dofile(m_L, filename.c_str()) == 0;
+}
+
+bool ScriptLua::loadString(const string& script) {
+	return luaL_dostring(m_L, script.c_str()) == 0;
 }
 
 Variant ScriptLua::callFunction(const string& funcName) {

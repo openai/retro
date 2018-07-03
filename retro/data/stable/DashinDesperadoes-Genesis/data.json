@@ -1,0 +1,20 @@
+{
+  "info": {
+    "continue_timer": {
+      "address": 16766185,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 16776728,
+      "type": ">d3"
+    },
+    "time": {
+      "address": 16746822,
+      "type": ">d2"
+    },
+    "total_score": {
+      "address": 16776723,
+      "type": ">d4"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "info": {
+    "enemies_remaining": {
+      "address": 50998,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 51246,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 51233,
+      "type": "<d4"
+    }
+  }
+}

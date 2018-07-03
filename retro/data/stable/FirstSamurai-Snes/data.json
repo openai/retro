@@ -1,0 +1,24 @@
+{
+  "info": {
+    "force": {
+      "address": 8257648,
+      "type": "|u1"
+    },
+    "gameover": {
+      "address": 8257582,
+      "type": "|u1"
+    },
+    "health": {
+      "address": 8257646,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 8257650,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 8257659,
+      "type": ">d3"
+    }
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "default_state": "Level1",
+  "states": {
+    "Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 20040.3447861605,
+            "first_10_mean": 13483.0,
+            "final_10_mean": 36152.5,
+            "median": 18357.5,
+            "max": 44520.0
+          },
+          "tags": [
+            "die-loop",
+            "not-done",
+            "sub-human"
+          ]
+        }
+      ],
+      "tags": [
+        "e-explore"
+      ]
+    },
+    "Level10": {
+      "tags": []
+    },
+    "Level11": {
+      "tags": []
+    },
+    "Level12": {
+      "tags": []
+    },
+    "Level13": {
+      "tags": []
+    },
+    "Level14": {
+      "tags": []
+    },
+    "Level15": {
+      "tags": []
+    },
+    "Level16": {
+      "tags": []
+    },
+    "Level17": {
+      "tags": []
+    },
+    "Level18": {
+      "tags": []
+    },
+    "Level19": {
+      "tags": []
+    },
+    "Level2": {
+      "tags": []
+    },
+    "Level20": {
+      "tags": []
+    },
+    "Level21": {
+      "tags": []
+    },
+    "Level22": {
+      "tags": []
+    },
+    "Level23": {
+      "tags": []
+    },
+    "Level24": {
+      "tags": []
+    },
+    "Level25": {
+      "tags": []
+    },
+    "Level26": {
+      "tags": []
+    },
+    "Level27": {
+      "tags": []
+    },
+    "Level28": {
+      "tags": []
+    },
+    "Level29": {
+      "tags": []
+    },
+    "Level3": {
+      "tags": []
+    },
+    "Level30": {
+      "tags": []
+    },
+    "Level31": {
+      "tags": []
+    },
+    "Level32": {
+      "tags": []
+    },
+    "Level33": {
+      "tags": []
+    },
+    "Level34": {
+      "tags": []
+    },
+    "Level35": {
+      "tags": []
+    },
+    "Level36": {
+      "tags": []
+    },
+    "Level37": {
+      "tags": []
+    },
+    "Level38": {
+      "tags": []
+    },
+    "Level39": {
+      "tags": []
+    },
+    "Level4": {
+      "tags": []
+    },
+    "Level40": {
+      "tags": []
+    },
+    "Level41": {
+      "tags": []
+    },
+    "Level42": {
+      "tags": []
+    },
+    "Level43": {
+      "tags": []
+    },
+    "Level44": {
+      "tags": []
+    },
+    "Level45": {
+      "tags": []
+    },
+    "Level46": {
+      "tags": []
+    },
+    "Level47": {
+      "tags": []
+    },
+    "Level48": {
+      "tags": []
+    },
+    "Level49": {
+      "tags": []
+    },
+    "Level5": {
+      "tags": []
+    },
+    "Level50": {
+      "tags": []
+    },
+    "Level51": {
+      "tags": []
+    },
+    "Level52": {
+      "tags": []
+    },
+    "Level53": {
+      "tags": []
+    },
+    "Level54": {
+      "tags": []
+    },
+    "Level55": {
+      "tags": []
+    },
+    "Level56": {
+      "tags": []
+    },
+    "Level57": {
+      "tags": []
+    },
+    "Level58": {
+      "tags": []
+    },
+    "Level59": {
+      "tags": []
+    },
+    "Level6": {
+      "tags": []
+    },
+    "Level60": {
+      "tags": []
+    },
+    "Level61": {
+      "tags": []
+    },
+    "Level62": {
+      "tags": []
+    },
+    "Level63": {
+      "tags": []
+    },
+    "Level64": {
+      "tags": []
+    },
+    "Level65": {
+      "tags": []
+    },
+    "Level66": {
+      "tags": []
+    },
+    "Level67": {
+      "tags": []
+    },
+    "Level7": {
+      "tags": []
+    },
+    "Level8": {
+      "tags": []
+    },
+    "Level9": {
+      "tags": []
+    },
+    "_LevelSelect": {
+      "tags": []
+    }
+  },
+  "tags": [
+    "shmup"
+  ]
+}

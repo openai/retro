@@ -1,0 +1,36 @@
+{
+  "default_state": "1Player.TwinBee.Level1",
+  "states": {
+    "1Player.TwinBee.Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 20.17343336275375,
+            "first_10_mean": 9.6,
+            "final_10_mean": 24.9,
+            "median": 21.0,
+            "max": 82.0
+          },
+          "tags": [
+            "stuck",
+            "sub-human"
+          ]
+        }
+      ],
+      "tags": [
+        "e-explore",
+        "s-explore"
+      ]
+    }
+  },
+  "tags": [
+    "misaligned",
+    "platformer"
+  ]
+}

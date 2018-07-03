@@ -1,0 +1,29 @@
+{
+  "done": {
+    "nodes": {
+      "doneconditionals": {
+        "variables": {
+          "health": {
+            "op": "zero"
+          },
+          "time": {
+            "op": "zero"
+          }
+        }
+      }
+    },
+    "variables": {
+      "gameover": {
+        "op": "equal",
+        "reference": 1
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

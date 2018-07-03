@@ -1,0 +1,12 @@
+{
+  "info": {
+    "opponenthealth": {
+      "address": 16745405,
+      "type": "|u1"
+    },
+    "player1health": {
+      "address": 16745341,
+      "type": "|u1"
+    }
+  }
+}

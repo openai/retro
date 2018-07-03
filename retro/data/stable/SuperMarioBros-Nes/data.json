@@ -1,0 +1,40 @@
+{
+  "info": {
+    "coins": {
+      "address": 1886,
+      "type": "|u1"
+    },
+    "levelHi": {
+      "address": 1887,
+      "type": "|i1"
+    },
+    "levelLo": {
+      "address": 1884,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 1882,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 2013,
+      "type": ">n6"
+    },
+    "scrolling": {
+      "address": 1912,
+      "type": "|i1"
+    },
+    "time": {
+      "address": 2040,
+      "type": ">n3"
+    },
+    "xscrollHi": {
+      "address": 1818,
+      "type": "|u1"
+    },
+    "xscrollLo": {
+      "address": 1820,
+      "type": "|u1"
+    }
+  }
+}

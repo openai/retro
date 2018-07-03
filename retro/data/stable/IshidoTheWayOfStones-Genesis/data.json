@@ -1,0 +1,16 @@
+{
+  "info": {
+    "possible_moves": {
+      "address": 16775081,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16775013,
+      "type": ">u3"
+    },
+    "tiles_remaining": {
+      "address": 16775061,
+      "type": "|u1"
+    }
+  }
+}

@@ -33,6 +33,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 option(BUILD_TESTS "Should tests be built" ON)
+option(BUILD_UI "Should integration UI be built" OFF)
 option(BUILD_MANYLINUX "Should use static libraries compatible with manylinux1" OFF)
 
 set(BUILD_PYTHON ON CACHE BOOL "Build Python module")
@@ -46,6 +47,10 @@ if(WIN32 OR BUILD_MANYLINUX)
 endif()
 find_package(ZLIB REQUIRED)
 find_package(PkgConfig)
+if(NOT BUILD_MANYLINUX)
+    # CapnProto requires a newer kernel than manylinux1 provides
+    find_package(CapnProto QUIET)
+endif()
 
 pkg_search_module(LIBZIP QUIET libzip)
 
@@ -82,6 +87,7 @@ set(PYLIB_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "Build directory th
 file(MAKE_DIRECTORY "${PYLIB_DIRECTORY}/retro/cores")
 
 set(CORES)
+set(COREINFO)
 set(CORE_TARGETS)
 
 function(add_core PLATFORM CORE_NAME)
@@ -93,7 +99,9 @@ function(add_core PLATFORM CORE_NAME)
     set(TARGET_NAME ${CORE_NAME}_libretro${CMAKE_SHARED_LIBRARY_SUFFIX})
     get_filename_component(TARGET_PATH "${PYLIB_DIRECTORY}/retro/cores/${TARGET_NAME}" ABSOLUTE)
     list(APPEND CORES "${TARGET_PATH}")
+    list(APPEND COREINFO "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}.json")
     set(CORES "${CORES}" PARENT_SCOPE)
+    set(COREINFO "${COREINFO}" PARENT_SCOPE)
     set(SUBDIR)
     if(EXISTS "cores/${PLATFORM}/Makefile.libretro")
         set(MAKEFILE Makefile.libretro)
@@ -128,8 +136,11 @@ function(add_core PLATFORM CORE_NAME)
         WORKING_DIRECTORY "cores/${PLATFORM}/${SUBDIR}"
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
     unset(CORE_LDFLAGS)
+    add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}.json"
+        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/cores/${PLATFORM}.json" "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}.json"
+        DEPENDS ${PLATFORM}-submodule)
 
-    add_custom_target(${PLATFORM} ALL DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version" "${TARGET_PATH}")
+    add_custom_target(${PLATFORM} ALL DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version" "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}.json" "${TARGET_PATH}")
     list(APPEND CORE_TARGETS "${PLATFORM}")
     set(CORE_TARGETS "${CORE_TARGETS}" PARENT_SCOPE)
 
@@ -139,8 +150,13 @@ function(add_core PLATFORM CORE_NAME)
         WORKING_DIRECTORY "cores/${PLATFORM}/${SUBDIR}")
 endfunction()
 
+add_core(snes snes9x)
 add_core(genesis genesis_plus_gx)
+add_core(nes fceumm)
 add_core(atari2600 stella)
+add_core(gb gambatte)
+add_core(gba mgba)
+add_core(pce mednafen_pce_fast)
 
 set(CLEAN_CORES)
 foreach(CORE IN LISTS CORE_TARGETS)
@@ -150,6 +166,44 @@ endforeach()
 add_custom_target(clean-cores DEPENDS ${CLEAN_CORES})
 add_custom_target(cores DEPENDS ${CORE_TARGETS})
 unset(CLEAN_CORES)
+
+if(CMAKE_CROSSCOMPILING)
+    find_program(CAPNP_EXECUTABLE capnp)
+    find_program(CAPNPC_CXX_EXECUTABLE capnpc-c++)
+endif()
+
+if(NOT CapnProto_FOUND AND NOT BUILD_MANYLINUX)
+    if (NOT CMAKE_CROSSCOMPILING OR CAPNP_EXECUTABLE)
+        set(CapnProto_FOUND ON)
+        set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+        if(CAPNP_EXECUTABLE)
+            set(CAPNP_LITE ON)
+        endif()
+        set(CAPNP_INCLUDE_DIRECTORY third-party/capnproto/c++/src)
+        add_subdirectory(third-party/capnproto/c++)
+    endif()
+endif()
+if(CapnProto_FOUND)
+    add_definitions(-DUSE_CAPNP)
+    if(CAPNP_LIB_CAPNP)
+        add_library(CapnProto::capnp SHARED IMPORTED)
+        add_library(CapnProto::kj SHARED IMPORTED)
+        set_target_properties(CapnProto::kj PROPERTIES IMPORTED_LOCATION "${CAPNP_LIB_KJ}")
+        set_target_properties(CapnProto::capnp PROPERTIES
+            IMPORTED_LOCATION "${CAPNP_LIB_CAPNP}"
+            INTERFACE_LINK_LIBRARIES CapnProto::kj)
+    endif()
+    if(CMAKE_CROSSCOMPILING)
+        if(TARGET CapnProto::capnp_tool)
+            set_target_properties(CapnProto::capnp_tool PROPERTIES IMPORTED_LOCATION "${CAPNP_EXECUTABLE}")
+        endif()
+        if(TARGET CapnProto::capnpc_cpp)
+            set_target_properties(CapnProto::capnpc_cpp PROPERTIES IMPORTED_LOCATION "${CAPNPC_CXX_EXECUTABLE}")
+        endif()
+    endif()
+else()
+    message(WARNING "Could not find CapnProto, disabling search save/load")
+endif()
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 set(BUILD_STATIC_LIBS ON CACHE BOOL "" FORCE)
@@ -173,8 +227,10 @@ add_library(retro-base STATIC
     src/memory.cpp
     src/movie.cpp
     src/movie-bk2.cpp
+    src/movie-fm2.cpp
     src/script.cpp
     src/script-lua.cpp
+    src/search.cpp
     src/utils.cpp
     src/zipfile.cpp
     ${LUA_LIBRARY})
@@ -182,6 +238,12 @@ target_link_libraries(retro-base ${ZLIB_LIBRARY} ${LIBZIP_LIBRARIES} ${LUA_LIBRA
 add_dependencies(retro-base ${CORE_TARGETS})
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_link_libraries(retro-base dl)
+endif()
+
+if(CapnProto_FOUND)
+    capnp_generate_cpp(CAPNP_SRC CAPNP_H src/serialize.capnp)
+    add_library(retro-capnp STATIC ${CAPNP_SRC} src/data-capnp.cpp)
+    target_link_libraries(retro-capnp retro-base CapnProto::capnp)
 endif()
 
 include_directories(src retro third-party/pybind11/include third-party third-party/gtest/googletest/include ${PYTHON_INCLUDE_DIRS})
@@ -209,3 +271,18 @@ if(BUILD_TESTS)
     add_subdirectory(third-party/gtest/googlemock)
     add_subdirectory(tests)
 endif()
+
+if(BUILD_UI)
+    add_subdirectory(src/ui)
+endif()
+
+execute_process(COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/setup.py --version OUTPUT_VARIABLE CPACK_PACKAGE_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+set(CPACK_PACKAGE_VENDOR OpenAI)
+set(CPACK_ZIP_COMPONENT_INSTALL ON)
+if(APPLE)
+    set(CPACK_GENERATOR DragNDrop)
+elseif(WIN32)
+    set(CPACK_GENERATOR ZIP)
+endif()
+set(CPACK_COMPONENTS_ALL gym-retro-integration)
+include(CPack)

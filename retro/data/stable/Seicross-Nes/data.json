@@ -1,0 +1,16 @@
+{
+  "info": {
+    "energy": {
+      "address": 119,
+      "type": ">i2"
+    },
+    "lives": {
+      "address": 1557,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 1552,
+      "type": "<n5"
+    }
+  }
+}

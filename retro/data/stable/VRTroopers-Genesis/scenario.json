@@ -1,0 +1,23 @@
+{
+  "done": {
+    "variables": {
+      "enemy_rounds_won": {
+        "op": "equal",
+        "reference": 2
+      },
+      "health": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "enemy_health": {
+        "penalty": -1.0
+      },
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

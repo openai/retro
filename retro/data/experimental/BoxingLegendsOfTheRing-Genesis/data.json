@@ -1,0 +1,36 @@
+{
+  "info": {
+    "gameover": {
+      "address": 16760909,
+      "type": "|u1"
+    },
+    "knockdowns": {
+      "address": 16760667,
+      "type": "|u1"
+    },
+    "punches_given": {
+      "address": 16760660,
+      "type": ">u2"
+    },
+    "punches_landed": {
+      "address": 16760664,
+      "type": ">u2"
+    },
+    "round": {
+      "address": 16758197,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16757857,
+      "type": "|u1"
+    },
+    "total_punches": {
+      "address": 16760898,
+      "type": ">u2"
+    },
+    "total_punches_landed": {
+      "address": 16760902,
+      "type": ">u2"
+    }
+  }
+}

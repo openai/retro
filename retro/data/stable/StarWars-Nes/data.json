@@ -1,0 +1,16 @@
+{
+  "info": {
+    "health": {
+      "address": 1833,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 1759,
+      "type": "|i1"
+    },
+    "percent_complete": {
+      "address": 1851,
+      "type": "|u1"
+    }
+  }
+}

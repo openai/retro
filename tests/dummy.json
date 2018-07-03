@@ -1,1 +1,44 @@
-{"info": {}}
+{
+	"info": {
+		"Atari2600": {
+			"address": 128,
+			"type": "|u1"
+		},
+		"GameBoy": {
+			"address": 49152,
+			"type": "|u1"
+		},
+		"GameGear": {
+			"address": 49152,
+			"type": "|u1"
+		},
+		"GbAdvance": {
+			"address": 33554432,
+			"type": "|u1"
+		},
+		"GbColor": {
+			"address": 49152,
+			"type": "|u1"
+		},
+		"Genesis": {
+			"address": 16711680,
+			"type": "|u1"
+		},
+		"Nes": {
+			"address": 0,
+			"type": "|u1"
+		},
+		"PCEngine": {
+			"address": 16252928,
+			"type": "|u1"
+		},
+		"Sms": {
+			"address": 49152,
+			"type": "|u1"
+		},
+		"Snes": {
+			"address": 8257536,
+			"type": "|u1"
+		}
+	}
+}
