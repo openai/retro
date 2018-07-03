@@ -1,4 +1,5 @@
 # ROM files
+*.a26
 *.gb
 *.gba
 *.gbc
