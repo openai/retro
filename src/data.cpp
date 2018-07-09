@@ -250,6 +250,9 @@ unordered_map<string, Datum> GameData::lookupAll() {
 		} catch (...) {
 		}
 	}
+	for (auto var = m_customVars.cbegin(); var != m_customVars.cend(); ++var) {
+		data.emplace(var->first, var->second.get());
+	}
 	return data;
 }
 
@@ -260,6 +263,9 @@ unordered_map<string, int64_t> GameData::lookupAll() const {
 			data.emplace(var->first, m_mem[var->second]);
 		} catch (...) {
 		}
+	}
+	for (auto var = m_customVars.cbegin(); var != m_customVars.cend(); ++var) {
+		data.emplace(var->first, *var->second);
 	}
 	return data;
 }
