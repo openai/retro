@@ -90,7 +90,7 @@ function contest_reward()
 
     -- bonus for beating level
     if progress >= 1 then
-        reward = reward + (1 - clip(scenario.frames / frame_limit, 0, 1)) * 1000
+        reward = reward + (1 - clip(scenario.frame / frame_limit, 0, 1)) * 1000
     end
     return reward
 end
