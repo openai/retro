@@ -47,6 +47,10 @@ level_max_x = {
     ["zone=11,act=1"] = 0x359F,
 }
 
+function level_key()
+    return string.format("zone=%d,act=%d", data.zone, data.act)
+end
+
 function clip(v, min, max)
     if v < min then
         return min
@@ -86,8 +90,7 @@ function calc_progress(data)
         data.offset_x = -data.x
         data.prev_act = data.act
         data.prev_screen_x = data.screen_x
-        local key = string.format("zone=%d,act=%d", data.zone, data.act)
-        end_x = level_max_x[key] - data.x
+        end_x = level_max_x[level_key()] - data.x
     end
 
     -- when the act changes in the middle of a level, adjust offset_x to compensate
@@ -116,4 +119,43 @@ function contest_reward()
         reward = reward + (1 - clip(scenario.frame / frame_limit, 0, 1)) * 1000
     end
     return reward
+end
+
+data.xpos_last_x = nil
+
+function xpos_done()
+    -- Some levels change act mid-way through.
+    -- This should not be allowed by the max x, but we
+    -- still have a fallback.
+    level_max_x["zone=0,act=0"] = 0x2f20
+    if data.prev_act == nil then
+        data.prev_act = data.act
+    end
+    if data.act ~= data.prev_act then
+        return true
+    end
+
+    if data.special_stage ~= 0 then
+        return true
+    end
+
+    if data.lives < data.prev_lives then
+        return true
+    end
+    data.prev_lives = data.lives
+
+    if scenario.frame >= frame_limit then
+        return true
+    end
+
+    return data.x > level_max_x[level_key()]
+end
+
+function xpos_rew()
+    if data.xpos_last_x == nil then
+        data.xpos_last_x = data.x
+    end
+    local result = data.x - data.xpos_last_x
+    data.xpos_last_x = data.x
+    return result
 end

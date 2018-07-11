@@ -36,6 +36,10 @@ level_max_x = {
     ["zone=6,act=0"] = 0x29D9,
 }
 
+function level_key()
+    return string.format("zone=%d,act=%d", data.zone, data.act)
+end
+
 function clip(v, min, max)
     if v < min then
         return min
@@ -72,8 +76,7 @@ end_x = nil
 function calc_progress(data)
     if data.offset_x == nil then
         data.offset_x = -data.x
-        local key = string.format("zone=%d,act=%d", data.zone, data.act)
-        end_x = level_max_x[key] - data.x
+        end_x = level_max_x[level_key()] - data.x
     end
 
     local cur_x = clip(data.x + data.offset_x, 0, end_x)
@@ -93,4 +96,32 @@ function contest_reward()
         reward = reward + (1 - clip(scenario.frame / frame_limit, 0, 1)) * 1000
     end
     return reward
+end
+
+data.xpos_last_x = nil
+
+function xpos_done()
+    if data.lives < data.prev_lives then
+        return true
+    end
+    data.prev_lives = data.lives
+
+    if scenario.frame >= frame_limit then
+        return true
+    end
+
+    if data.game_mode == 16 then
+        return true
+    end
+
+    return data.x > level_max_x[level_key()]
+end
+
+function xpos_rew()
+    if data.xpos_last_x == nil then
+        data.xpos_last_x = data.x
+    end
+    local result = data.x - data.xpos_last_x
+    data.xpos_last_x = data.x
+    return result
 end
