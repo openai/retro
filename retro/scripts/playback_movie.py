@@ -14,22 +14,42 @@ import time
 from concurrent.futures import ProcessPoolExecutor as Executor
 
 
-def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file=None, npy_file=None, viewer=None, video_delay=0, lossless=None):
+def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file=None, npy_file=None, viewer=None, video_delay=0, lossless=None, record_audio=True):
     ffmpeg_proc = None
     viewer_proc = None
     info_steps = []
     actions = np.empty(shape=(0, emulator.num_buttons * movie.players), dtype=bool)
     if viewer or video_file:
         video = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         video.bind(('127.0.0.1', 0))
-        audio.bind(('127.0.0.1', 0))
         vr = video.getsockname()[1]
-        ar = audio.getsockname()[1]
+        input_vformat = [
+            '-r', str(emulator.em.get_screen_rate()),
+            '-s', '%dx%d' % emulator.observation_space.shape[1::-1],
+            '-pix_fmt', 'rgb24',
+            '-f', 'rawvideo',
+            '-probesize', '32',
+            '-thread_queue_size', '10000',
+            '-i', 'tcp://127.0.0.1:%i?listen' % vr
+        ]
+        if record_audio:
+            audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            audio.bind(('127.0.0.1', 0))
+            ar = audio.getsockname()[1]
+            input_aformat = [
+                '-ar', '%i' % emulator.em.get_audio_rate(),
+                '-ac', '2',
+                '-f', 's16le',
+                '-probesize', '32',
+                '-thread_queue_size', '60',
+                '-i', 'tcp://127.0.0.1:%i?listen' % ar
+            ]
+        else:
+            audio = None
+            ar = None
+            input_aformat = ['-an']
         stdout = None
         output = []
-        input_vformat = ['-r', str(emulator.em.get_screen_rate()), '-s', '%dx%d' % emulator.observation_space.shape[1::-1], '-pix_fmt', 'rgb24', '-f', 'rawvideo']
-        input_aformat = ['-ar', '%i' % emulator.em.get_audio_rate(), '-ac', '2', '-f', 's16le']
         if video_file:
             if not lossless:
                 output = ['-c:a', 'aac', '-b:a', '128k', '-strict', '-2', '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-f', 'mp4', '-pix_fmt', 'yuv420p', video_file]
@@ -45,14 +65,15 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
             stdout = subprocess.PIPE
             output = ['-c', 'copy', '-f', 'nut', 'pipe:1']
         ffmpeg_proc = subprocess.Popen(['ffmpeg', '-y',
-                                        *input_vformat, '-probesize', '32', '-thread_queue_size', '10000', '-i', 'tcp://127.0.0.1:%i?listen' % vr,  # Input params (video)
-                                        *input_aformat, '-probesize', '32', '-thread_queue_size', '60', '-i', 'tcp://127.0.0.1:%i?listen' % ar,  # Input params (audio)
+                                        *input_vformat,  # Input params (video)
+                                        *input_aformat,  # Input params (audio)
                                         *output],  # Output params
                                        stdout=stdout)
         video.close()
-        audio.close()
         video = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        if audio:
+            audio.close()
+            audio = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         audio_connected = False
 
         time.sleep(0.3)
@@ -60,7 +81,8 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
             video.connect(('127.0.0.1', vr))
         except ConnectionRefusedError:
             video.close()
-            audio.close()
+            if audio:
+                audio.close()
             ffmpeg_proc.terminate()
             raise
         if viewer:
@@ -80,7 +102,8 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
     def waitprocs():
         if ffmpeg_proc:
             video.close()
-            audio.close()
+            if audio:
+                audio.close()
             if not viewer_proc or viewer_proc.poll() is None:
                 ffmpeg_proc.wait()
 
@@ -111,14 +134,15 @@ def playback_movie(emulator, movie, monitor_csv=None, video_file=None, info_file
             if viewer_proc and viewer_proc.poll() is not None:
                 break
             if ffmpeg_proc and frames > video_delay:
-                sound = emulator.em.get_audio()
                 video.sendall(bytes(display))
-                if not audio_connected:
-                    time.sleep(0.2)
-                    audio.connect(('127.0.0.1', ar))
-                    audio_connected = True
-                if len(sound):
-                    audio.sendall(bytes(sound))
+                if audio:
+                    sound = emulator.em.get_audio()
+                    if not audio_connected:
+                        time.sleep(0.2)
+                        audio.connect(('127.0.0.1', ar))
+                        audio_connected = True
+                    if len(sound):
+                        audio.sendall(bytes(sound))
         except BrokenPipeError:
             waitprocs()
             raise
@@ -195,7 +219,7 @@ def _play(movie, args, monitor_csv):
                     delay = -(duration + args.ending)
             else:
                 delay = 0
-            playback_movie(emulator, m, monitor_csv, video_file, info_file, npy_file, args.viewer, delay, args.lossless)
+            playback_movie(emulator, m, monitor_csv, video_file, info_file, npy_file, args.viewer, delay, args.lossless, not args.no_audio)
             break
         except ConnectionRefusedError:
             pass
@@ -215,6 +239,7 @@ def main(argv=sys.argv[1:]):
     group.add_argument('--csv-out', '-c', type=str)
     parser.add_argument('--ending', '-e', type=int)
     parser.add_argument('--viewer', '-v', type=str)
+    parser.add_argument('--no-audio', '-A', action='store_true')
     parser.add_argument('--no-video', '-V', action='store_true')
     parser.add_argument('--info-dict', '-i', action='store_true')
     parser.add_argument('--npy-actions', '-a', action='store_true')
