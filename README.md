@@ -123,7 +123,7 @@ open "Gym Retro Integration.app"
 ### Linux
 
 ```sh
-sudo apt-get install libcapnp-dev libqt5opengl5-dev qtbase5-dev
+sudo apt-get install capnproto libcapnp-dev libqt5opengl5-dev qtbase5-dev
 cmake . -DBUILD_UI=ON -UPYLIB_DIRECTORY
 make -j$(grep -c ^processor /proc/cpuinfo)
 ./gym-retro-integration
