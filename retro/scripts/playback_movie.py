@@ -5,7 +5,6 @@ import json
 import numpy as np
 import os
 import retro
-import retro.data.all
 import signal
 import socket
 import subprocess
@@ -247,6 +246,9 @@ def main(argv=sys.argv[1:]):
     args = parser.parse_args(argv)
     monitor_csv = None
     monitor_file = None
+
+    retro.data.add_integrations(retro.data.Integrations.ALL)
+
     if args.csv_out:
         m0 = retro.Movie(args.movies[0])
         game = m0.get_game()

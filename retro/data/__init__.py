@@ -24,7 +24,7 @@ except ImportError:
             except ValueError:
                 return value
 
-__all__ = ['GameData', 'path', 'get_file_path', 'get_romfile_path', 'list_games', 'list_states', 'merge']
+__all__ = ['GameData', 'Integrations', 'add_integrations', 'path', 'get_file_path', 'get_romfile_path', 'list_games', 'list_states', 'merge']
 
 if sys.platform.startswith('linux'):
     EXT = 'so'
@@ -207,6 +207,10 @@ class SearchHandle(object):
         if not self._search:
             self._search = self._data.get_search(self._name)
         return getattr(self._search, attr)
+
+
+def add_integrations(integrations):
+    DefaultIntegrations.add(integrations)
 
 
 def init_core_info(path):
