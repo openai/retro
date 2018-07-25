@@ -181,15 +181,15 @@ What environments are there?
 
 ```python
 import retro
-retro.list_games()
+retro.data.list_games()
 ```
 
 What initial states are there?
 
 ```python
 import retro
-for game in retro.list_games():
-    print(game, retro.list_states(game))
+for game in retro.data.list_games():
+    print(game, retro.data.list_states(game))
 ```
 
 # Changelog
