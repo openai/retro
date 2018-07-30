@@ -52,7 +52,10 @@ class CMakeBuild(build_ext):
         else:
             import multiprocessing
             jobs = '-j%d' % multiprocessing.cpu_count()
-        subprocess.check_call(['make', jobs, 'retro'])
+        make_exe = find_executable('make')
+        if not make_exe:
+            raise RuntimeError('Could not find Make executable. Is it installed?')
+        subprocess.check_call([make_exe, jobs, 'retro'])
 
 
 platform_globs = ['*-%s/*' % plat for plat in ['Nes', 'Snes', 'Genesis', 'Atari2600', 'GameBoy', 'Sms', 'GameGear', 'PCEngine', 'GbColor', 'GbAdvance']]
@@ -63,6 +66,7 @@ setup(
     author_email='vickipfau@openai.com',
     url='https://github.com/openai/retro',
     version=open(VERSION_PATH, 'r').read(),
+    python_requires='>=3.5.0',
     license='MIT',
     install_requires=['gym'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
