@@ -138,7 +138,7 @@ function(add_core PLATFORM CORE_NAME)
     unset(CORE_LDFLAGS)
     add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}.json"
         COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/cores/${PLATFORM}.json" "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}.json"
-        DEPENDS ${PLATFORM}-submodule)
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
 
     add_custom_target(${PLATFORM} ALL DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version" "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}.json" "${TARGET_PATH}")
     list(APPEND CORE_TARGETS "${PLATFORM}")
