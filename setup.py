@@ -1,5 +1,5 @@
 from distutils.spawn import find_executable
-from setuptools import setup, Extension
+from setuptools import setup, Extension, __version__ as setuptools_version
 from setuptools.command.build_ext import build_ext
 import subprocess
 import sys
@@ -64,13 +64,16 @@ class CMakeBuild(build_ext):
 
 platform_globs = ['*-%s/*' % plat for plat in ['Nes', 'Snes', 'Genesis', 'Atari2600', 'GameBoy', 'Sms', 'GameGear', 'PCEngine', 'GbColor', 'GbAdvance']]
 
+kwargs = {}
+if tuple(int(v) for v in setuptools_version.split('.')) >= (24, 2, 0):
+    kwargs['python_requires'] = '>=3.5.0'
+
 setup(
     name='gym-retro',
     author='OpenAI',
     author_email='vickipfau@openai.com',
     url='https://github.com/openai/retro',
     version=open(VERSION_PATH, 'r').read(),
-    python_requires='>=3.5.0',
     license='MIT',
     install_requires=['gym'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
@@ -83,5 +86,6 @@ setup(
         'retro.data.contrib': platform_globs,
     },
     setup_requires=['setuptools_scm'],
-    use_scm_version=use_scm_version
+    use_scm_version=use_scm_version,
+    **kwargs
 )
