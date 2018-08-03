@@ -36,6 +36,10 @@ class CMakeBuild(build_ext):
         pylib_dir = ''
         if not self.inplace:
             pylib_dir = '-DPYLIB_DIRECTORY:PATH=%s' % self.build_lib
+        if self.debug:
+            build_type = '-DCMAKE_BUILD_TYPE=Debug'
+        else:
+            build_type = ''
         python_executable = '-DPYTHON_EXECUTABLE:STRING=%s' % sys.executable
         cmake_exe = find_executable('cmake')
         if not cmake_exe:
@@ -46,7 +50,7 @@ class CMakeBuild(build_ext):
                 pip.main(['install', 'cmake'])
                 import cmake
             cmake_exe = os.path.join(cmake.CMAKE_BIN_DIR, 'cmake')
-        subprocess.check_call([cmake_exe, '.', '-G', 'Unix Makefiles', pyext_suffix, pylib_dir, python_executable])
+        subprocess.check_call([cmake_exe, '.', '-G', 'Unix Makefiles', build_type, pyext_suffix, pylib_dir, python_executable])
         if self.parallel:
             jobs = '-j%d' % self.parallel
         else:
