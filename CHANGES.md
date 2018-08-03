@@ -16,6 +16,7 @@
 * added RetroEnv.get_action_meaning to describe the correlation between actions and buttons
 * fixed d-pad action filtering so e.g. UP+DOWN+LEFT reduces to LEFT instead of NOOP
 * add parallelism, lossless videos, info dict, disabling audio and numpy action dumping to playback_movies
+* update LuaJIT to 2.1.0-beta3
 
 ## 0.5.6
 

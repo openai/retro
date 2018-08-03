@@ -34,6 +34,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 option(BUILD_TESTS "Should tests be built" ON)
 option(BUILD_UI "Should integration UI be built" OFF)
+option(BUILD_LUAJIT "Should static LuaJIT be used instead of system Lua" ON)
 option(BUILD_MANYLINUX "Should use static libraries compatible with manylinux1" OFF)
 
 set(BUILD_PYTHON ON CACHE BOOL "Build Python module")
@@ -54,22 +55,25 @@ endif()
 
 pkg_search_module(LIBZIP QUIET libzip)
 
-if(APPLE)
+if(NOT BUILD_LUAJIT)
     find_package(Lua 5.1 EXACT REQUIRED)
     set(LUA_INCLUDE_DIRS "${LUA_INCLUDE_DIR}")
 else()
     set(LUA_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/third-party/luajit/src")
+    if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
+        set(LUA_FLAGS "CFLAGS=-fPIC -DLUAJIT_ENABLE_GC64")
+    endif()
     if(CMAKE_CROSSCOMPILING)
         if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
             set(BITS 64)
         else()
             set(BITS 32)
         endif()
-        set(LUA_FLAGS "HOST_CC=gcc -m${BITS}" CROSS="${cross_prefix}" TARGET_SYS="${CMAKE_SYSTEM_NAME}")
+        set(LUA_FLAGS ${LUA_FLAGS} "HOST_CC=gcc -m${BITS}" CROSS="${cross_prefix}" TARGET_SYS="${CMAKE_SYSTEM_NAME}")
     endif()
     set(LUA_LIBRARY "${LUA_INCLUDE_DIRS}/libluajit.a")
     add_custom_command(OUTPUT "${LUA_LIBRARY}"
-        COMMAND $(MAKE) CFLAGS=-fPIC libluajit.a ${LUA_FLAGS}
+        COMMAND $(MAKE) ${LUA_FLAGS} libluajit.a
         WORKING_DIRECTORY "${LUA_INCLUDE_DIRS}")
 endif()
 
