@@ -275,7 +275,9 @@ def list_states(game, inttype=Integrations.DEFAULT):
     states = []
     for curpath in paths:
         local_states = glob.glob(os.path.join(curpath, "*.state"))
-        states.extend(os.path.split(local_state)[-1][:-len(".state")] for local_state in local_states if not local_state.startswith("_"))
+        states.extend(os.path.split(local_state)[-1][:-len(".state")]
+                      for local_state in local_states
+                      if not os.path.split(local_state)[-1].startswith("_"))
     return sorted(set(states))
 
 
