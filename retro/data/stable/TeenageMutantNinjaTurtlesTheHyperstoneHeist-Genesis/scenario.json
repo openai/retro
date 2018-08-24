@@ -2,8 +2,7 @@
   "done": {
     "variables": {
       "lives": {
-        "op": "equal",
-        "reference": 0
+        "op": "zero"
       }
     }
   },
@@ -13,5 +12,6 @@
         "reward": 1
       }
     }
-  }
+  },
+  "crop": [0, 0, 256, 0]
 }
