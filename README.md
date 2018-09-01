@@ -205,8 +205,6 @@ In the `examples` directory there are example scripts.
 # Add new ROMs
 
 - We prefer the USA version of ROMs denoted by one of `(USA)`, `(USA, Europe)`, `(Japan, USA)`, etc.
-- ROMs in the `sorted` folder are verified good versions of ROMs and are preferred over ROMs in the `reject` folder, though not every game has a verified good version.
-- The `unsorted` folder should be ignored, as that folder is the raw list of ROMs that get automatically sorted into either the `sorted` folder or the `reject` folder.
 - If the ROM has a `.bin` extension, rename it to have the [correct extension for that system](#rom-extensions).
 - Use the Gym Retro Integration application and select the Integrate option from the File menu to begin working on integrating it.
 
