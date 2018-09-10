@@ -1,5 +1,6 @@
 from retro._retro import GameDataGlue, RetroEmulator, data_path as _data_path
 import glob
+import hashlib
 import json
 import os
 import sys
@@ -349,7 +350,6 @@ def parse_smd(header, body):
 
 
 def groom_rom(rom):
-    import hashlib
     with open(rom, 'rb') as r:
         if rom.lower().endswith('.smd'):
             # Read Super Magic Drive header
@@ -366,6 +366,23 @@ def groom_rom(rom):
             if r.read(1):
                 raise ValueError('ROM is too big')
     return body, hashlib.sha1(body).hexdigest()
+
+
+def verify_hash(game, inttype=Integrations.DEFAULT):
+    import retro
+    errors = []
+    rom = get_romfile_path(game, inttype=inttype)
+    system = retro.get_romfile_system(rom)
+    with open(retro.data.get_file_path(game, 'rom.sha', inttype=inttype | retro.data.Integrations.STABLE)) as f:
+        expected_shas = f.read().strip().split('\n')
+    with open(rom, 'rb') as f:
+        if system == 'Nes':
+            # Chop off header for checksum
+            f.read(16)
+        real_sha = hashlib.sha1(f.read()).hexdigest()
+    if real_sha not in expected_shas:
+        errors.append((game, 'sha mismatch'))
+    return errors
 
 
 def merge(*args, quiet=True):
