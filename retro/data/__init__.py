@@ -25,7 +25,7 @@ except ImportError:
             except ValueError:
                 return value
 
-__all__ = ['GameData', 'Integrations', 'add_integrations', 'path', 'get_file_path', 'get_romfile_path', 'list_games', 'list_states', 'merge']
+__all__ = ['GameData', 'Integrations', 'add_integrations', 'add_custom_integration', 'path', 'get_file_path', 'get_romfile_path', 'list_games', 'list_states', 'merge']
 
 if sys.platform.startswith('linux'):
     EXT = 'so'
