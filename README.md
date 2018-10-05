@@ -66,7 +66,7 @@ pacman -Sy make mingw-w64-x86_64-gcc
 ```
 
 Once that's done, close the prompt and open a Git CMD prompt (under Start > Git) and run these commands.
-If you installed MSYS2 into an alternate directory please use that instead of C:\msys64 in the comamnd.
+If you installed MSYS2 into an alternate directory please use that instead of C:\msys64 in the command.
 
 ```sh
 path %PATH%;C:\msys64\mingw64\bin;C:\msys64\usr\bin
@@ -237,7 +237,7 @@ python3 -m retro.import /path/to/your/ROMs/directory/
 ```
 
 
-The following non-commerical ROMs are included with Gym Retro for testing purposes:
+The following non-commercial ROMs are included with Gym Retro for testing purposes:
 
 - [the 128 sine-dot](http://www.pouet.net/prod.php?which=2762) by Anthrox
 - [Sega Tween](https://pdroms.de/files/gamegear/sega-tween) by Ben Ryves
