@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+* integration UI searches for current Python's Gym Retro data directory
+
 ## 0.6.0
 
 * add cores for GB/C, GBA, GG, NES, SMS, SNES, TurboGrafx
