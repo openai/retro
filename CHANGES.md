@@ -2,6 +2,7 @@
 
 ## 0.6.1
 
+* add ability to use arbitrary additional integration directories
 * integration UI searches for current Python's Gym Retro data directory
 
 ## 0.6.0
