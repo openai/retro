@@ -6,7 +6,8 @@ import sys
 
 def main():
     potential_roms = []
-    for path in sys.argv[1:]:
+    paths = sys.argv[1:] or ['.']
+    for path in paths:
         if os.path.isdir(path):
             for base, _, files in os.walk(path):
                 potential_roms.extend(os.path.join(base, file) for file in files)
