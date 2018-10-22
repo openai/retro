@@ -75,6 +75,9 @@ else()
     add_custom_command(OUTPUT "${LUA_LIBRARY}"
         COMMAND $(MAKE) ${LUA_FLAGS} libluajit.a
         WORKING_DIRECTORY "${LUA_INCLUDE_DIRS}")
+    add_custom_target(clean-luajit
+        COMMAND $(MAKE) clean
+        WORKING_DIRECTORY "${LUA_INCLUDE_DIRS}")
 endif()
 
 if(NOT WIN32)
