@@ -54,6 +54,9 @@ mv devtools-2.repo /etc/yum.repos.d/devtools-2.repo
 rpm -Uvh --replacepkgs epel-release-5*.rpm
 rm -f epel-release-5*.rpm
 
+# from now on, we shall only use curl to retrieve files
+yum -y erase wget
+
 # Development tools and libraries
 yum -y install \
     automake \
@@ -170,10 +173,9 @@ find /opt/_internal -type f -print0 \
 # We do not need the Python test suites, or indeed the precompiled .pyc and
 # .pyo files. Partially cribbed from:
 #    https://github.com/docker-library/python/blob/master/3.4/slim/Dockerfile
-find /opt/_internal \
+find /opt/_internal -depth \
      \( -type d -a -name test -o -name tests \) \
-  -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
-  -print0 | xargs -0 rm -f
+  -o \( -type f -a -name '*.pyc' -o -name '*.pyo' \) | xargs rm -rf
 
 for PYTHON in /opt/python/*/bin/python; do
     # Smoke test to make sure that our Pythons work, and do indeed detect as

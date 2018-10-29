@@ -90,10 +90,7 @@ function build_cpython {
 
 function build_cpythons {
     check_var $GET_PIP_URL
-    # CentOS 5 curl uses such an old OpenSSL that it doesn't support the TLS
-    # versions used by the get-pip server. Keep trying though, because we'll
-    # want to go back using $GET_PIP_URL when we upgrade to a newer CentOS...
-    curl -sSLO $GET_PIP_URL || cp ${MY_DIR}/get-pip.py .
+    curl -fsSLO $GET_PIP_URL
     # Import public keys used to verify downloaded Python source tarballs.
     # https://www.python.org/static/files/pubkeys.txt
     gpg --import ${MY_DIR}/cpython-pubkeys.txt
