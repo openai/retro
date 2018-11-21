@@ -19,7 +19,7 @@ static int _getData(lua_State* L) {
 	lua_pushstring(L, "__ptr");
 	lua_gettable(L, 1);
 	const GameData* data = static_cast<const GameData*>(lua_touserdata(L, -1));
-	int64_t datum;
+	Variant datum;
 	if (lua_isnumber(L, 2)) {
 		int64_t address = lua_tonumber(L, 2);
 		const AddressSpace& as = data->addressSpace();
@@ -27,13 +27,26 @@ static int _getData(lua_State* L) {
 			lua_pushstring(L, "Out of bounds access");
 			lua_error(L);
 		}
-		datum = as[address];
+		datum = static_cast<int64_t>(as[address]);
 	} else {
 		const char* name = lua_tostring(L, 2);
 		datum = data->lookupValue(name);
 	}
 
-	lua_pushnumber(L, datum);
+	switch (datum.type()) {
+	case Variant::Type::INT:
+		lua_pushnumber(L, static_cast<int64_t>(datum));
+		break;
+	case Variant::Type::FLOAT:
+		lua_pushnumber(L, static_cast<double>(datum));
+		break;
+	case Variant::Type::BOOL:
+		lua_pushboolean(L, static_cast<bool>(datum));
+		break;
+	case Variant::Type::VOID:
+		lua_pushnil(L);
+		break;
+	}
 	return 1;
 }
 

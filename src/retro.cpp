@@ -245,8 +245,8 @@ struct PyGameData {
 	}
 
 	void reset() {
-		m_scen.reloadScripts();
 		m_scen.restart();
+		m_scen.reloadScripts();
 	}
 
 	uint16_t filterAction(uint16_t action) const {

@@ -11,6 +11,10 @@
     "score": {
       "address": 16736306,
       "type": ">u2"
+    },
+    "time": {
+      "address": 16730176,
+      "type": ">u2"
     }
   }
 }

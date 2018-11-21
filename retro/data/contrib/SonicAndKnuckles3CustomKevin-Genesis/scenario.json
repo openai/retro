@@ -1,10 +1,6 @@
 {
   "done": {
-    "condition": "all",
     "variables": {
-      "health": {
-        "op": "zero"
-      },
       "lives": {
         "op": "zero"
       }
@@ -13,7 +9,7 @@
   "reward": {
     "variables": {
       "score": {
-        "reward": 1.0
+        "reward": 10.0
       }
     }
   }

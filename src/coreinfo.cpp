@@ -100,7 +100,7 @@ bool loadCoreInfo(const string& jsonData) {
 	try {
 		jsonStream >> coreInfo;
 		s_cores.update(coreInfo);
-	} catch (invalid_argument&) {
+	} catch (json::exception&) {
 		return false;
 	}
 

@@ -250,6 +250,9 @@ unordered_map<string, Datum> GameData::lookupAll() {
 		} catch (...) {
 		}
 	}
+	for (auto var = m_customVars.cbegin(); var != m_customVars.cend(); ++var) {
+		data.emplace(var->first, var->second.get());
+	}
 	return data;
 }
 
@@ -260,6 +263,9 @@ unordered_map<string, int64_t> GameData::lookupAll() const {
 			data.emplace(var->first, m_mem[var->second]);
 		} catch (...) {
 		}
+	}
+	for (auto var = m_customVars.cbegin(); var != m_customVars.cend(); ++var) {
+		data.emplace(var->first, *var->second);
 	}
 	return data;
 }
@@ -731,7 +737,7 @@ bool Scenario::save(ostream* file) const {
 
 	CropInfo firstCrop = m_crops[0];
 	unsigned nCrops = 1;
-	for (unsigned i = MAX_PLAYERS - 1; i > 0; ++i) {
+	for (unsigned i = MAX_PLAYERS - 1; i > 0; --i) {
 		if (m_crops[i] != firstCrop && m_crops[i] != CropInfo{}) {
 			nCrops = i + 1;
 			break;
@@ -771,6 +777,7 @@ void Scenario::reset() {
 	for (int i = 0; i < MAX_PLAYERS; ++i) {
 		m_rewardVars[i].clear();
 		m_rewardTime[i] = { Measurement::DELTA };
+		m_crops[i] = {};
 	}
 	m_doneVars.clear();
 	m_doneCondition = DoneCondition::ANY;

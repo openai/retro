@@ -9,12 +9,16 @@
 #include <QJsonObject>
 #include <QKeyEvent>
 #include <QMap>
+#include <QProcess>
 #include <QSettings>
 
 #include "coreinfo.h"
 #include "movie-bk2.h"
 
 #include "zlib.h"
+
+QSettings EmulatorController::s_settings;
+QString EmulatorController::s_path;
 
 EmulatorController::EmulatorController(QObject* parent)
 	: QObject(parent) {
@@ -74,10 +78,10 @@ bool EmulatorController::loadGame(const QString& path) {
 			m_keybinds[p].append(-1);
 		}
 	}
-	m_settings.beginGroup(QString("bindings/%2").arg(platform()));
-	const auto& keys = m_settings.childKeys();
+	s_settings.beginGroup(QString("bindings/%2").arg(platform()));
+	const auto& keys = s_settings.childKeys();
 	for (const auto& key : keys) {
-		QVariant value = m_settings.value(key);
+		QVariant value = s_settings.value(key);
 		if (value.isNull()) {
 			continue;
 		}
@@ -90,7 +94,7 @@ bool EmulatorController::loadGame(const QString& path) {
 			setKeyBind(keyparts[0], value.toInt(), player);
 		}
 	}
-	m_settings.endGroup();
+	s_settings.endGroup();
 
 	QDir dir = info.dir();
 
@@ -156,12 +160,12 @@ void EmulatorController::setKeyBind(const QString& key, int binding, unsigned pl
 	if (iter != bindings.end()) {
 		m_keybinds[player][iter - bindings.begin()] = binding;
 		if (player > 0) {
-			m_settings.setValue(QString("bindings/%1/%2-%3").arg(platform()).arg(key).arg(player + 1), binding);
+			s_settings.setValue(QString("bindings/%1/%2-%3").arg(platform()).arg(key).arg(player + 1), binding);
 		} else {
-			m_settings.setValue(QString("bindings/%1/%2").arg(platform()).arg(key), binding);
+			s_settings.setValue(QString("bindings/%1/%2").arg(platform()).arg(key), binding);
 		}
 	}
-	m_settings.sync();
+	s_settings.sync();
 }
 
 Retro::GameData* EmulatorController::data() {
@@ -322,12 +326,31 @@ QString EmulatorController::coreForFile(const QString& path) {
 }
 
 QString EmulatorController::dataPath() {
-	QVariant path = QSettings().value("paths/data");
-	if (path.isNull()) {
-		return QString::fromStdString(Retro::GameData::dataPath());
-	} else {
-		return path.toString();
+	if (s_path.isNull() || !QDir(s_path).exists()) {
+		s_path = s_settings.value("paths/data").toString();
 	}
+	if (s_path.isNull() || !QDir(s_path).exists()) {
+		s_path = QString::fromStdString(Retro::GameData::dataPath());
+	}
+	if (s_path.isNull() || !QDir(s_path).exists()) {
+		QProcess* subproc = new QProcess;
+		connect(subproc, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), subproc, [subproc](int, QProcess::ExitStatus) {
+			subproc->deleteLater();
+		});
+		subproc->start("python3", {"-c", "import retro; print(retro.data.path())"});
+		subproc->waitForStarted();
+		while (subproc->state() != QProcess::NotRunning) {
+			subproc->waitForFinished(10);
+			if (subproc->canReadLine()) {
+				s_path = QString::fromUtf8(subproc->readLine()).trimmed();
+				break;
+			}
+		}
+		if (s_path.isEmpty() || subproc->exitStatus() != QProcess::NormalExit || subproc->exitCode() != 0) {
+			s_path = QString();
+		}
+	}
+	return s_path;
 }
 
 QList<Cheat> EmulatorController::cheats() const {

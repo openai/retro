@@ -11,5 +11,6 @@
   },
   "scripts": [
     "script.lua"
-  ]
+  ],
+  "crop": [ 0, 0, 256, 0 ]
 }

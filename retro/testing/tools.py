@@ -198,22 +198,6 @@ def verify_default_state(game, inttype, raw=None):
     return [], errors
 
 
-def verify_hash(game, inttype):
-    errors = []
-    rom = retro.data.get_romfile_path(game, inttype=inttype)
-    system = retro.get_romfile_system(rom)
-    with open(retro.data.get_file_path(game, 'rom.sha', inttype=inttype | retro.data.Integrations.STABLE)) as f:
-        expected_shas = f.read().strip().split('\n')
-    with open(rom, 'rb') as f:
-        if system == 'Nes':
-            # Chop off header for checksum
-            f.read(16)
-        real_sha = hashlib.sha1(f.read()).hexdigest()
-    if real_sha not in expected_shas:
-        errors.append((game, 'sha mismatch'))
-    return [], errors
-
-
 def verify_hash_collisions():
     errors = []
     seen_hashes = {}

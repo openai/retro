@@ -77,11 +77,7 @@ class RetroEnv(gym.Env):
                 pass
 
         if self.statename:
-            if not self.statename.endswith('.state'):
-                self.statename += '.state'
-
-            with gzip.open(retro.data.get_file_path(game, self.statename, inttype), 'rb') as fh:
-                self.initial_state = fh.read()
+            self.load_state(self.statename, inttype)
 
         self.data = retro.data.GameData()
 
@@ -265,3 +261,12 @@ class RetroEnv(gym.Env):
         if x == 0 and y == 0 and w == img.shape[1] and h == img.shape[0]:
             return img
         return img[y:h, x:w]
+
+    def load_state(self, statename, inttype=retro.data.Integrations.DEFAULT):
+        if not statename.endswith('.state'):
+                statename += '.state'
+
+        with gzip.open(retro.data.get_file_path(self.gamename, statename, inttype), 'rb') as fh:
+            self.initial_state = fh.read()
+
+        self.statename = statename

@@ -1,0 +1,11 @@
+{
+  "done": {
+    "script": "lua:xpos_done"
+  },
+  "reward": {
+    "script": "lua:xpos_rew"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

@@ -66,7 +66,7 @@ pacman -Sy make mingw-w64-x86_64-gcc
 ```
 
 Once that's done, close the prompt and open a Git CMD prompt (under Start > Git) and run these commands.
-If you installed MSYS2 into an alternate directory please use that instead of C:\msys64 in the comamnd.
+If you installed MSYS2 into an alternate directory please use that instead of C:\msys64 in the command.
 
 ```sh
 path %PATH%;C:\msys64\mingw64\bin;C:\msys64\usr\bin
@@ -123,7 +123,7 @@ open "Gym Retro Integration.app"
 ### Linux
 
 ```sh
-sudo apt-get install libcapnp-dev libqt5opengl5-dev qtbase5-dev
+sudo apt-get install capnproto libcapnp-dev libqt5opengl5-dev qtbase5-dev
 cmake . -DBUILD_UI=ON -UPYLIB_DIRECTORY
 make -j$(grep -c ^processor /proc/cpuinfo)
 ./gym-retro-integration
@@ -183,15 +183,15 @@ What environments are there?
 
 ```python
 import retro
-retro.list_games()
+retro.data.list_games()
 ```
 
 What initial states are there?
 
 ```python
 import retro
-for game in retro.list_games():
-    print(game, retro.list_states(game))
+for game in retro.data.list_games():
+    print(game, retro.data.list_states(game))
 ```
 
 # Changelog
@@ -207,8 +207,6 @@ In the `examples` directory there are example scripts.
 # Add new ROMs
 
 - We prefer the USA version of ROMs denoted by one of `(USA)`, `(USA, Europe)`, `(Japan, USA)`, etc.
-- ROMs in the `sorted` folder are verified good versions of ROMs and are preferred over ROMs in the `reject` folder, though not every game has a verified good version.
-- The `unsorted` folder should be ignored, as that folder is the raw list of ROMs that get automatically sorted into either the `sorted` folder or the `reject` folder.
 - If the ROM has a `.bin` extension, rename it to have the [correct extension for that system](#rom-extensions).
 - Use the Gym Retro Integration application and select the Integrate option from the File menu to begin working on integrating it.
 
@@ -241,7 +239,7 @@ python3 -m retro.import /path/to/your/ROMs/directory/
 ```
 
 
-The following non-commerical ROMs are included with Gym Retro for testing purposes:
+The following non-commercial ROMs are included with Gym Retro for testing purposes:
 
 - [the 128 sine-dot](http://www.pouet.net/prod.php?which=2762) by Anthrox
 - [Sega Tween](https://pdroms.de/files/gamegear/sega-tween) by Ben Ryves

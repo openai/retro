@@ -1,11 +1,11 @@
 # pip requirements for all cpythons
 # NOTE: pip has GPG signatures; could download and verify independently.
-pip==10.0.1 \
-    --hash=sha256:717cdffb2833be8409433a93746744b59505f42146e8d37de6c62b430e25d6d7 \
-    --hash=sha256:f2bd08e0cd1b06e10218feaf6fef299f473ba706582eb3bd9d52203fdbd7ee68
+pip==18.1 \
+    --hash=sha256:7909d0a0932e88ea53a7014dfd14522ffef91a464daaaf5c573343852ef98550 \
+    --hash=sha256:c0a292bd977ef590379a3f05d7b7f65135487b67470f6281289a94e015650ea1
 wheel==0.31.1 \
     --hash=sha256:80044e51ec5bbf6c894ba0bc48d26a8c20a9ba629f4ca19ea26ecfcf87685f5f \
     --hash=sha256:0a2e54558a0628f2145d2fc822137e322412115173e8a2ddbe1c9024338ae83c
-setuptools==39.2.0 \
-    --hash=sha256:8fca9275c89964f13da985c3656cb00ba029d7f3916b37990927ffdf264e7926 \
-    --hash=sha256:f7cddbb5f5c640311eb00eab6e849f7701fa70bf6a183fc8a2c33dd1d1672fb2
+setuptools==40.5.0 \
+    --hash=sha256:e329a5c458c6acb5edc2b5c4ad44280c053ba827dc82fd5e84a83e22bb05460d \
+    --hash=sha256:2a2a200f4a760adbded23a091a00be2eca4e28efed65c6120ea275f7e89a1eab

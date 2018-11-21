@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.1
+
+* add ability to use arbitrary additional integration directories
+* integration UI searches for current Python's Gym Retro data directory
+* import script can now accept files in addition to directories
+
 ## 0.6.0
 
 * add cores for GB/C, GBA, GG, NES, SMS, SNES, TurboGrafx
@@ -15,13 +21,20 @@
 * add screen cropping
 * added RetroEnv.get_action_meaning to describe the correlation between actions and buttons
 * fixed d-pad action filtering so e.g. UP+DOWN+LEFT reduces to LEFT instead of NOOP
-* add parallelism, lossless videos, info dict and numpy action dumping to playback_movies
+* add parallelism, lossless videos, info dict, disabling audio and numpy action dumping to playback_movies
+* update LuaJIT to 2.1.0-beta3
+
+## 0.5.6
+
+* fix generating corrupted bk2s
+* reliabilty fixes and minor enhancements to playback_movies
 
 ## 0.5.5
 
 * allow Atari height to be different per game
 * update pybind11 dependency
 * add parallelism, lossless videos, info dict and numpy action dumping to playback_movies
+* fix crashes with TensorFlow
 
 ## 0.5.4
 

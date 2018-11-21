@@ -126,5 +126,6 @@ private:
 	bool m_autosaveScen = false;
 	bool m_autosaveSearches = false;
 
-	QSettings m_settings;
+	static QSettings s_settings;
+	static QString s_path;
 };

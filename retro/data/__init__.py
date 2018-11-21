@@ -1,5 +1,6 @@
 from retro._retro import GameDataGlue, RetroEmulator, data_path as _data_path
 import glob
+import hashlib
 import json
 import os
 import sys
@@ -24,7 +25,7 @@ except ImportError:
             except ValueError:
                 return value
 
-__all__ = ['GameData', 'path', 'get_file_path', 'get_romfile_path', 'list_games', 'list_states', 'merge']
+__all__ = ['GameData', 'Integrations', 'add_integrations', 'add_custom_integration', 'path', 'get_file_path', 'get_romfile_path', 'list_games', 'list_states', 'merge']
 
 if sys.platform.startswith('linux'):
     EXT = 'so'
@@ -76,10 +77,17 @@ class Integrations(Flag):
     STABLE = 1
     EXPERIMENTAL_ONLY = 2
     CONTRIB_ONLY = 4
+    CUSTOM_ONLY = 8
     EXPERIMENTAL = EXPERIMENTAL_ONLY | STABLE
     CONTRIB = CONTRIB_ONLY | STABLE
-    ALL = STABLE | EXPERIMENTAL_ONLY | CONTRIB_ONLY
+    CUSTOM = CUSTOM_ONLY | STABLE
+    ALL = STABLE | EXPERIMENTAL_ONLY | CONTRIB_ONLY | CUSTOM_ONLY
     DEFAULT = DefaultIntegrations()
+
+    @classmethod
+    def _init(cls):
+        if not hasattr(cls, 'CUSTOM_PATHS'):
+            cls.CUSTOM_PATHS = []
 
     @property
     def paths(self):
@@ -88,20 +96,38 @@ class Integrations(Flag):
             p.append(str(self.CONTRIB_ONLY))
         if self & self.EXPERIMENTAL_ONLY:
             p.append(str(self.EXPERIMENTAL_ONLY))
+        if self & self.CUSTOM_ONLY:
+            Integrations._init()
+            p.extend(self.CUSTOM_PATHS)
         if self & self.STABLE:
             p.append('stable')
         return p
+
+    @classmethod
+    def add_custom_path(cls, path):
+        cls._init()
+        cls.CUSTOM_PATHS.append(path)
+
+    @classmethod
+    def clear_custom_paths(cls):
+        cls._init()
+        del cls.CUSTOM_PATHS[:]
 
     def __str__(self):
         if self == self.ALL:
             return 'all'
         if self == self.STABLE:
             return ''
+        names = []
+        if self & self.STABLE:
+            names.append('stable')
         if self & self.CONTRIB_ONLY:
-            return 'contrib'
+            names.append('contrib')
         if self & self.EXPERIMENTAL_ONLY:
-            return 'experimental'
-        return '?'
+            names.append('experimental')
+        if self & self.CUSTOM_ONLY:
+            names.append('custom')
+        return '|'.join(names)
 
 
 class GameData(GameDataGlue):
@@ -209,6 +235,15 @@ class SearchHandle(object):
         return getattr(self._search, attr)
 
 
+def add_integrations(integrations):
+    DefaultIntegrations.add(integrations)
+
+
+def add_custom_integration(path):
+    DefaultIntegrations.add(Integrations.CUSTOM_ONLY)
+    Integrations.add_custom_path(path)
+
+
 def init_core_info(path):
     for fname in glob.glob(os.path.join(path, '*.json')):
         with open(fname) as f:
@@ -271,7 +306,9 @@ def list_states(game, inttype=Integrations.DEFAULT):
     states = []
     for curpath in paths:
         local_states = glob.glob(os.path.join(curpath, "*.state"))
-        states.extend(os.path.split(local_state)[-1][:-len(".state")] for local_state in local_states if not local_state.startswith("_"))
+        states.extend(os.path.split(local_state)[-1][:-len(".state")]
+                      for local_state in local_states
+                      if not os.path.split(local_state)[-1].startswith("_"))
     return sorted(set(states))
 
 
@@ -313,7 +350,6 @@ def parse_smd(header, body):
 
 
 def groom_rom(rom):
-    import hashlib
     with open(rom, 'rb') as r:
         if rom.lower().endswith('.smd'):
             # Read Super Magic Drive header
@@ -330,6 +366,23 @@ def groom_rom(rom):
             if r.read(1):
                 raise ValueError('ROM is too big')
     return body, hashlib.sha1(body).hexdigest()
+
+
+def verify_hash(game, inttype=Integrations.DEFAULT):
+    import retro
+    errors = []
+    rom = get_romfile_path(game, inttype=inttype)
+    system = retro.get_romfile_system(rom)
+    with open(retro.data.get_file_path(game, 'rom.sha', inttype=inttype | retro.data.Integrations.STABLE)) as f:
+        expected_shas = f.read().strip().split('\n')
+    with open(rom, 'rb') as f:
+        if system == 'Nes':
+            # Chop off header for checksum
+            f.read(16)
+        real_sha = hashlib.sha1(f.read()).hexdigest()
+    if real_sha not in expected_shas:
+        errors.append((game, 'sha mismatch'))
+    return errors
 
 
 def merge(*args, quiet=True):
