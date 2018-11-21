@@ -1,3 +1,5 @@
+**Status:** Maintenance (expect bug fixes and minor updates)
+
 # Gym Retro
 
 Gym Retro is a wrapper for video game emulator cores using the Libretro API to turn them into Gym environments.
