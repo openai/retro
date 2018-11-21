@@ -85,7 +85,7 @@ import retro
 movie = retro.Movie('AirStriker-Genesis-Level1-000000.bk2')
 movie.step()
 
-env = retro.make(game=movie.get_game(), state=None, use_restricted_actions=retro.Actions.ALL)
+env = retro.make(game=movie.get_game(), state=None, use_restricted_actions=retro.Actions.ALL, players=movie.players)
 env.initial_state = movie.get_state()
 env.reset()
 
