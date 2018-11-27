@@ -71,7 +71,7 @@ if tuple(int(v) for v in setuptools_version.split('.')) >= (24, 2, 0):
 setup(
     name='gym-retro',
     author='OpenAI',
-    author_email='vickipfau@openai.com',
+    author_email='csh@openai.com',
     url='https://github.com/openai/retro',
     version=open(VERSION_PATH, 'r').read(),
     license='MIT',
