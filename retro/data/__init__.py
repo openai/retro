@@ -405,7 +405,7 @@ def merge(*args, quiet=True):
     for rom in args:
         try:
             data, hash = groom_rom(rom)
-        except IOError:
+        except (IOError, ValueError):
             continue
         if hash in known_hashes:
             game, ext, curpath = known_hashes[hash]
