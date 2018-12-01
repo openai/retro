@@ -14,7 +14,7 @@ os:
   - osx
 services:
   - docker
-osx_image: xcode8
+osx_image: xcode8.3 # OS X 10.12
 
 matrix:
   include:
