@@ -41,7 +41,7 @@ See [LICENSES.md](LICENSES.md) for information on the licenses of the individual
 
 # Installation
 
-Gym Retro requires one of the supported versions of Python. Please make sure to install the appropriate distribution for your OS beforehand. Please note that due to compatibility issues with some of the cores 32-bit operating systems are not supported.
+Gym Retro requires one of the supported versions of Python. Please make sure to install the appropriate distribution for your OS beforehand. Please note that due to compatibility issues with some of the cores, 32-bit operating systems are not supported.
 
 ```sh
 pip3 install gym-retro
