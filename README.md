@@ -4,13 +4,24 @@
 
 Gym Retro is a wrapper for video game emulator cores using the Libretro API to turn them into Gym environments.
 It includes support for several classic game consoles and a dataset of different games.
-It runs on Linux, macOS and Windows with Python 3.5, 3.6 and 3.7 support.
+
+Supported platforms:
+
+- Windows
+- macOS 10.12 (Sierra), 10.13 (High Sierra), 10.14 (Mojave)
+- Linux
+
+Supported Pythons:
+
+- 3.5
+- 3.6
+- 3.7
 
 Each game has files listing memory locations for in-game variables, reward functions based on those variables, episode end conditions, savestates at the beginning of levels and a file containing hashes of ROMs that work with these files.
 Please note that ROMs are not included and you must obtain them yourself.
 Most ROM hashes are sourced from their respective No-Intro SHA-1 sums.
 
-Supported systems:
+Supported emulated systems:
 
 - Atari
 	- Atari2600 (via Stella)
@@ -30,7 +41,7 @@ See [LICENSES.md](LICENSES.md) for information on the licenses of the individual
 
 # Installation
 
-Gym Retro requires Python 3.5 or 3.6. Please make sure to install the appropriate distribution for your OS beforehand. Please note that due to compatibility issues with some of the cores 32-bit operating systems are not supported.
+Gym Retro requires one of the supported versions of Python. Please make sure to install the appropriate distribution for your OS beforehand. Please note that due to compatibility issues with some of the cores, 32-bit operating systems are not supported.
 
 ```sh
 pip3 install gym-retro
@@ -125,8 +136,7 @@ If you're using the official installer on Windows, make sure to tell CMake to ad
 
 ### Mac prerequisites
 
-If you are on macOS, you need 10.11 or newer.
-Also, since LuaJIT does not work properly on macOS you must first install Lua 5.1 from homebrew:
+Since LuaJIT does not work properly on macOS you must first install Lua 5.1 from homebrew:
 
 ```sh
 brew install pkg-config lua@5.1
@@ -178,6 +188,8 @@ git submodule update --init
 First make sure you can install Retro from source, after that follow the instructions for your platform:
 
 ### macOS
+
+Note that for Mojave (10.14) you may need to install `/Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg`
 
 ```sh
 brew install pkg-config capnp lua@5.1 qt5
