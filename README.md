@@ -7,7 +7,7 @@ It includes support for several classic game consoles and a dataset of different
 
 Supported platforms:
 
-- Windows
+- Windows 7, 8, 10
 - macOS 10.12 (Sierra), 10.13 (High Sierra), 10.14 (Mojave)
 - Linux
 
