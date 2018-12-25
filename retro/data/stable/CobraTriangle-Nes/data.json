@@ -1,0 +1,28 @@
+{
+  "info": {
+    "lives": {
+      "address": 1848,
+      "type": "|i1"
+    },
+    "score0": {
+      "address": 1797,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 1796,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 1795,
+      "type": "|u1"
+    },
+    "time": {
+      "address": 1812,
+      "type": "|u1"
+    },
+    "time_mins": {
+      "address": 1811,
+      "type": "|u1"
+    }
+  }
+}

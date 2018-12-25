@@ -1,0 +1,20 @@
+{
+  "info": {
+    "lives": {
+      "address": 16770828,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 16770817,
+      "type": ">u3"
+    },
+    "t_mins": {
+      "address": 16770820,
+      "type": "|u1"
+    },
+    "t_seconds": {
+      "address": 16770821,
+      "type": "|u1"
+    }
+  }
+}

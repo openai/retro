@@ -1,0 +1,34 @@
+{
+  "default_state": "Level1",
+  "tags": [
+    "misaligned"
+  ],
+  "states": {
+    "Level1": {
+      "tags": [
+        "d-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 39863.50924672982,
+            "first_10_mean": 15380.0,
+            "final_10_mean": 88640.0,
+            "median": 37600.0,
+            "max": 106700.0
+          },
+          "tags": [
+            "farming",
+            "stuck"
+          ]
+        }
+      ]
+    }
+  }
+}

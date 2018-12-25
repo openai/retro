@@ -1,0 +1,20 @@
+{
+  "info": {
+    "casualties": {
+      "address": 16770411,
+      "type": "|u1"
+    },
+    "casualties_inflicted": {
+      "address": 16770387,
+      "type": "|u1"
+    },
+    "gameover": {
+      "address": 16712446,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16770396,
+      "type": ">u4"
+    }
+  }
+}

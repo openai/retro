@@ -1,0 +1,40 @@
+{
+    "Genesis": {
+        "lib": "genesis_plus_gx",
+        "ext": ["md"],
+        "rambase": 16711680,
+        "keybinds": ["X", "Z", "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "C", "A", "S", "D"],
+        "buttons": ["B", "A", "MODE", "START", "UP", "DOWN", "LEFT", "RIGHT", "C", "Y", "X", "Z"],
+        "types": ["|u1", ">u2", ">u4", "|i1", ">i2", ">i4", "|d1", ">d2", ">d4", "<d4", ">d6", ">d8", ">n4", ">n6", ">n8"],
+        "overlay": ["=", ">", 2],
+        "actions": [
+            [[], ["UP"], ["DOWN"]],
+            [[], ["LEFT"], ["RIGHT"]],
+            [[], ["A"], ["B"], ["C"], ["X"], ["Y"], ["Z"], ["A", "B"], ["B", "C"], ["A", "X"], ["B", "Y"], ["C", "Z"], ["X", "Y"], ["Y", "Z"]]
+        ]
+    },
+    "Sms": {
+        "lib": "genesis_plus_gx",
+        "ext": ["sms"],
+        "rambase": 49152,
+        "keybinds": ["Z", null, null, "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "X"],
+        "buttons": ["B", null, null, "PAUSE", "UP", "DOWN", "LEFT", "RIGHT", "A"],
+        "actions": [
+            [[], ["UP"], ["DOWN"]],
+            [[], ["LEFT"], ["RIGHT"]],
+            [[], ["A"], ["B"], ["A", "B"]]
+        ]
+    },
+    "GameGear": {
+        "lib": "genesis_plus_gx",
+        "ext": ["gg"],
+        "rambase": 49152,
+        "keybinds": ["Z", null, null, "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "X"],
+        "buttons": ["B", null, null, "START", "UP", "DOWN", "LEFT", "RIGHT", "A"],
+        "actions": [
+            [[], ["UP"], ["DOWN"]],
+            [[], ["LEFT"], ["RIGHT"]],
+            [[], ["A"], ["B"], ["A", "B"]]
+        ]
+    }
+}

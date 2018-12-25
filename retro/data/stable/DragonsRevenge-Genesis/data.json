@@ -1,0 +1,40 @@
+{
+  "info": {
+    "balls_left": {
+      "address": 16766767,
+      "type": "|i1"
+    },
+    "score0": {
+      "address": 16766763,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 16766761,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 16766759,
+      "type": "|u1"
+    },
+    "score3": {
+      "address": 16766757,
+      "type": "|u1"
+    },
+    "score4": {
+      "address": 16766755,
+      "type": "|u1"
+    },
+    "score5": {
+      "address": 16766753,
+      "type": "|u1"
+    },
+    "score6": {
+      "address": 16766751,
+      "type": "|u1"
+    },
+    "score7": {
+      "address": 16766749,
+      "type": "|u1"
+    }
+  }
+}

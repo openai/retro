@@ -8,12 +8,13 @@ language: cpp # Needed for ccache
 env:
   - PYVER=3.5
   - PYVER=3.6
+  - PYVER=3.7
 os:
   - linux
   - osx
 services:
   - docker
-osx_image: xcode8
+osx_image: xcode8.3 # OS X 10.12
 
 matrix:
   include:
@@ -25,6 +26,10 @@ matrix:
       env:
         - CROSS=win64
         - PYVER=3.6
+    - os: linux
+      env:
+        - CROSS=win64
+        - PYVER=3.7
 
 before_script:
   - mkdir -p $HOME/roms
@@ -53,12 +58,14 @@ script:
     fi
   - |
     if [ "$TRAVIS_OS_NAME" == "osx" ]; then
+    brew update > /dev/null
+    brew install qt5 capnp lua@5.1 ccache
     curl -o miniconda.sh https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
     bash miniconda.sh -b
     export PATH=/usr/local/opt/ccache/libexec:$HOME/miniconda3/bin:$PATH
     hash -r
     conda create -y -q -n venv python=$PYVER pip
     source activate venv
-    pip install wheel google-cloud pytest
+    pip install wheel google-auth google-cloud-storage pytest
     python travis.py
     fi

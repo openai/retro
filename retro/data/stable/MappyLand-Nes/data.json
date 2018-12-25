@@ -1,0 +1,16 @@
+{
+  "info": {
+    "lives": {
+      "address": 80,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 23,
+      "type": "<u2"
+    },
+    "toys": {
+      "address": 1444,
+      "type": "|u1"
+    }
+  }
+}

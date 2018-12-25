@@ -27,15 +27,17 @@ struct EmulatorTestParamName {
 };
 
 void EmulatorTest::SetUp() {
-	ifstream in("../retro/cores.json");
-	ostringstream out;
-	Retro::corePath("../retro/cores");
-	while (!in.eof()) {
-		string line;
-		in >> line;
-		out << line;
+	for (const string& core : { "fceumm", "gambatte", "genesis_plus_gx", "mednafen_pce_fast", "mgba", "snes9x", "stella" }) {
+		ifstream in("../retro/cores/" + core + ".json");
+		ostringstream out;
+		Retro::corePath("../retro/cores");
+		while (!in.eof()) {
+			string line;
+			in >> line;
+			out << line;
+		}
+		Retro::loadCoreInfo(out.str().c_str());
 	}
-	Retro::loadCoreInfo(out.str().c_str());
 }
 
 namespace Retro {
@@ -128,8 +130,15 @@ TEST_P(EmulatorTest, States) {
 }
 
 vector<EmulatorTestParam> s_systems{
+	{ "Nes", "Dr88-FamiconIntro.nes" },
+	{ "Snes", "Anthrox-SineDotDemo.sfc" },
 	{ "Genesis", "Dekadence-Dekadrive.md" },
 	{ "Atari2600", "automaton.a26" },
+	{ "GameBoy", "dox-fire.gb" },
+	{ "GbAdvance", "Vantage-LostMarbles.gba" },
+	{ "PCEngine", "chrisc-512_Colours.pce" },
+	{ "GameGear", "benryves-SegaTween.gg" },
+	{ "Sms", "blind-happy10.sms" },
 };
 
 INSTANTIATE_TEST_CASE_P(EmulatorCore, EmulatorTest, ValuesIn(s_systems), EmulatorTestParamName());

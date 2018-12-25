@@ -1,0 +1,2 @@
+The default settings scenario has standard-length basketball periods, the 2MinutePeriod scenario has a much shorter 2-minute period.
+The "time" variable counts down the time remaining in the current period; "time_minutes" and "time_seconds" count total time in the game.

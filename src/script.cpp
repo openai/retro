@@ -7,41 +7,6 @@
 using namespace Retro;
 using namespace std;
 
-Variant::Variant(int64_t i)
-	: m_type(Type::INT)
-	, m_vi(i) {
-}
-
-Variant::Variant(double d)
-	: m_type(Type::FLOAT)
-	, m_vf(d) {
-}
-
-Variant::Variant(bool b)
-	: m_type(Type::BOOL)
-	, m_vb(b) {
-}
-
-Variant::operator int64_t() const {
-	return cast<int64_t>();
-}
-
-Variant::operator int() const {
-	return cast<int>();
-}
-
-Variant::operator float() const {
-	return cast<float>();
-}
-
-Variant::operator double() const {
-	return cast<double>();
-}
-
-Variant::operator bool() const {
-	return cast<bool>();
-}
-
 static unordered_map<string, function<shared_ptr<ScriptContext>()>> s_scriptTypes{
 	make_pair("lua", ScriptLua::create),
 };
@@ -81,10 +46,18 @@ void ScriptContext::reset() {
 	s_scriptContexts.clear();
 }
 
-void ScriptContext::setData(const GameData* data) {
+void ScriptContext::setData(GameData* data) {
 	m_data = data;
 }
 
-const GameData* ScriptContext::data() {
+GameData* ScriptContext::data() {
 	return m_data;
+}
+
+void ScriptContext::setScenario(const Scenario* scen) {
+	m_scen = scen;
+}
+
+const Scenario* ScriptContext::scenario() {
+	return m_scen;
 }

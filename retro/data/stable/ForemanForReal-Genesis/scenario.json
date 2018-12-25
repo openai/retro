@@ -1,0 +1,40 @@
+{
+  "done": {
+    "nodes": {
+      "round": {
+        "condition": "all",
+        "variables": {
+          "round": {
+            "op": "equal",
+            "reference": 3
+          }
+        }
+      },
+      "time": {
+        "variables": {
+          "time": {
+            "op": "zero"
+          }
+        }
+      }
+    },
+    "variables": {
+      "TKO": {
+        "op": "equal",
+        "reference": 1
+      },
+      "round": {
+        "op": "equal",
+        "reference": 3
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "punches_landed": {
+        "reward": 1.0
+      }
+    }
+  },
+  "crop": [0, 8, 256, 200]
+}

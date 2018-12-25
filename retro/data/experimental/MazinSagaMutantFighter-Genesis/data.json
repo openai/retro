@@ -1,0 +1,32 @@
+{
+  "info": {
+    "enemy_health": {
+      "address": 16764593,
+      "type": "|u1"
+    },
+    "fight_health": {
+      "address": 16773767,
+      "type": "|i1"
+    },
+    "health": {
+      "address": 16764397,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16772057,
+      "type": "|u1"
+    },
+    "round": {
+      "address": 16773778,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16773770,
+      "type": ">u4"
+    },
+    "subround": {
+      "address": 16773779,
+      "type": "|i1"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "info": {
+    "matches_won": {
+      "address": 211,
+      "type": "|u1"
+    },
+    "opponent_matches_won": {
+      "address": 212,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 1328,
+      "type": ">d4"
+    }
+  }
+}

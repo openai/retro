@@ -1,0 +1,20 @@
+{
+  "done": {
+    "variables": {
+      "level": {
+        "op": "equal",
+        "reference": 4
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "kids_found_total": {
+        "reward": 1.0
+      },
+      "toys_found": {
+        "reward": 1.0
+      }
+    }
+  }
+}

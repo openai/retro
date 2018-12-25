@@ -1,0 +1,16 @@
+{
+  "info": {
+    "health": {
+      "address": 8260559,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 8265600,
+      "type": "|u1"
+    },
+    "xpos": {
+      "address": 8257720,
+      "type": "<u2"
+    }
+  }
+}

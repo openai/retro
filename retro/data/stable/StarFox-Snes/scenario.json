@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "equal"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "kills": {
+        "reward": 1.0
+      }
+    }
+  }
+}

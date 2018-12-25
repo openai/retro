@@ -10,14 +10,289 @@
 using namespace Retro;
 using namespace std;
 
+static void imageHalve565ToGray(const uint16_t* in, uint8_t* out, size_t w, size_t h, size_t stride);
+static void imageHalve565ToGrayInterlace(const uint16_t* in, const uint16_t* oldin, uint16_t* out, size_t w, size_t h, size_t stride);
+static void imageQuarter565ToGray(const uint16_t* in, uint8_t* out, size_t w, size_t h, size_t stride);
+static void imageQuarter565ToGrayInterlace(const uint16_t* in, const uint16_t* oldin, uint16_t* out, size_t w, size_t h, size_t stride);
 static void image565To888(const uint16_t* in, uint8_t* out, size_t w, size_t h, size_t stride);
+static void imageHalveX888ToGray(const uint32_t* in, uint8_t* out, size_t w, size_t h, size_t stride);
+static void imageHalveX888ToGrayInterlace(const uint32_t* in, const uint16_t* oldin, uint16_t* out, size_t w, size_t h, size_t stride);
+static void imageQuarterX888ToGray(const uint32_t* in, uint8_t* out, size_t w, size_t h, size_t stride);
+static void imageQuarterX888ToGrayInterlace(const uint32_t* in, const uint16_t* oldin, uint16_t* out, size_t w, size_t h, size_t stride);
 static void imageX888To888(const uint32_t* in, uint8_t* out, size_t w, size_t h, size_t stride);
 
 #ifdef __SSSE3__
 const static __m128i maskR16 = _mm_set1_epi16(0xF800);
 const static __m128i maskG16 = _mm_set1_epi16(0x07E0);
 const static __m128i maskB16 = _mm_set1_epi16(0x001F);
+const static __m128i maskR32 = _mm_set_epi8(0x80, 0x80, 0x80, 0x0E, 0x80, 0x80, 0x80, 0x0A, 0x80, 0x80, 0x80, 0x06, 0x80, 0x80, 0x80, 0x02);
+const static __m128i maskG32 = _mm_set_epi8(0x80, 0x80, 0x80, 0x0D, 0x80, 0x80, 0x80, 0x09, 0x80, 0x80, 0x80, 0x05, 0x80, 0x80, 0x80, 0x01);
+const static __m128i maskB32 = _mm_set_epi8(0x80, 0x80, 0x80, 0x0C, 0x80, 0x80, 0x80, 0x08, 0x80, 0x80, 0x80, 0x04, 0x80, 0x80, 0x80, 0x00);
 
+static inline __m128i _convert565ToGray(__m128i pix) {
+	/* Mask out channels */
+	__m128i r = _mm_and_si128(pix, maskR16);
+	__m128i g = _mm_and_si128(pix, maskG16);
+	__m128i b = _mm_and_si128(pix, maskB16);
+	/* Normalize channels */
+	r = _mm_srli_epi16(r, 10);
+	g = _mm_srli_epi16(g, 5);
+	b = _mm_slli_epi16(b, 1);
+	/* Combine channels */
+	r = _mm_add_epi16(r, g);
+	r = _mm_add_epi16(r, b);
+	return r;
+}
+#endif
+
+static inline uint8_t _convert565ToGray(uint16_t a, uint16_t b) {
+	uint32_t ab = a | (b << 16);
+	uint32_t r0 = ab & 0xF800F800;
+	uint32_t g0 = ab & 0x07E007E0;
+	uint32_t b0 = ab & 0x001F001F;
+	r0 >>= 10;
+	g0 >>= 5;
+	b0 <<= 1;
+	ab = r0 + g0 + b0;
+	ab += ab >> 16;
+	return ab / 2;
+}
+
+#ifdef __SSSE3__
+static inline __m128i _convertX888ToGray(__m128i pix) {
+	/* Mask out channels */
+	__m128i r = _mm_shuffle_epi8(pix, maskR32);
+	__m128i g = _mm_shuffle_epi8(pix, maskG32);
+	__m128i b = _mm_shuffle_epi8(pix, maskB32);
+	/* Combine channels */
+	r = _mm_add_epi32(r, g);
+	r = _mm_add_epi32(r, b);
+	r = _mm_srli_epi16(r, 2);
+	return r;
+}
+#endif
+
+static inline uint8_t _convertX888ToGray(uint32_t a, uint32_t b) {
+	uint32_t r0 = a & 0x00FF0000;
+	uint32_t g0 = a & 0x0000FF00;
+	uint32_t b0 = a & 0x000000FF;
+	uint32_t r1 = b & 0x00FF0000;
+	uint32_t g1 = b & 0x0000FF00;
+	uint32_t b1 = b & 0x000000FF;
+	r0 += r1;
+	g0 += g1;
+	b0 += b1;
+	r0 >>= 16;
+	g0 >>= 8;
+	r0 = r0 + g0 + b0;
+	return r0 / 8;
+}
+
+#ifdef __SSSE3__
+static inline __m128i _halveW16(__m128i a, __m128i b) {
+	/* Swizzle ABCDEFGH IJKLMNOP to ACEGIKMO BDFHJLNP */
+	__m128i tmp0;
+	tmp0 = _mm_shufflelo_epi16(a, 0xD8); /* ABCDEFGH -> ACBDEFGH */
+	tmp0 = _mm_shufflehi_epi16(tmp0, 0xD8); /* ACBDEFGH -> ACBDEGFH */
+	tmp0 = _mm_shuffle_epi32(tmp0, 0xD8); /* ACBDEGFH -> ACEGBDFH */
+	__m128i tmp1;
+	tmp1 = _mm_shufflelo_epi16(b, 0xD8); /* IJKLMNOP -> IKJLMNOP */
+	tmp1 = _mm_shufflehi_epi16(tmp1, 0xD8); /* IKJLMNOP -> IKJLMONP */
+	tmp1 = _mm_shuffle_epi32(tmp1, 0xD8); /* IKJLMONP -> IKMOJLNP */
+	__m128i tmp2 = _mm_unpacklo_epi64(tmp0, tmp1); /* ACEGBDFH IKMOJLNP -> ACEGIKMO */
+	__m128i tmp3 = _mm_unpackhi_epi64(tmp0, tmp1); /* ACEGBDFH IKMOJLNP -> BDFHJLNP */
+	/* Halve width */
+	return _mm_avg_epu16(tmp2, tmp3);
+}
+
+static inline __m128i _halveWNeighbor16(__m128i a, __m128i b) {
+	/* Swizzle ABCDEFGH IJKLMNOP to ACEGIKMO */
+	__m128i tmp0;
+	tmp0 = _mm_shufflelo_epi16(a, 0xD8); /* ABCDEFGH -> ACBDEFGH */
+	tmp0 = _mm_shufflehi_epi16(tmp0, 0xD8); /* ACBDEFGH -> ACBDEGFH */
+	tmp0 = _mm_shuffle_epi32(tmp0, 0xD8); /* ACBDEGFH -> ACEGBDFH */
+	__m128i tmp1;
+	tmp1 = _mm_shufflelo_epi16(b, 0xD8); /* IJKLMNOP -> IKJLMNOP */
+	tmp1 = _mm_shufflehi_epi16(tmp1, 0xD8); /* IKJLMNOP -> IKJLMONP */
+	tmp1 = _mm_shuffle_epi32(tmp1, 0xD8); /* IKJLMONP -> IKMOJLNP */
+	return _mm_unpacklo_epi64(tmp0, tmp1); /* ACEGBDFH IKMOJLNP -> ACEGIKMO */
+}
+
+static inline __m128i _halveW32(__m128i a, __m128i b) {
+	/* Swizzle ABCD EFGH to ACEG EFGH */
+	__m128i tmp0 = _mm_shuffle_epi32(a, 0xD8); /* ABCD -> ACBD */
+	__m128i tmp1 = _mm_shuffle_epi32(b, 0xD8); /* EFGH -> EGFH */
+	__m128i tmp2 = _mm_unpacklo_epi64(tmp0, tmp1); /* ACBD EGFH -> ACEG */
+	__m128i tmp3 = _mm_unpackhi_epi64(tmp0, tmp1); /* ACBD EFGH -> BDFH */
+	/* Halve width */
+	return _mm_avg_epu16(tmp2, tmp3);
+}
+
+static inline __m128i _halveWNeighbor32(__m128i a, __m128i b) {
+	/* Swizzle ABCD EFGH to ACEG */
+	__m128i tmp0 = _mm_shuffle_epi32(a, 0xD8); /* ABCD -> ACBD */
+	__m128i tmp1 = _mm_shuffle_epi32(b, 0xD8); /* EFGH -> EGFH */
+	return _mm_unpacklo_epi64(tmp0, tmp1); /* ACBD EGFH -> ACEG */
+}
+#endif
+
+void imageHalve565ToGray(const uint16_t* in, uint8_t* out, size_t w, size_t h, size_t stride) {
+	for (size_t y = 0; y + 1 < h; y += 2) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x + 15 < w; x += 16) {
+			__m128i gray0;
+			__m128i gray1;
+
+			gray0 = _convert565ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x])));
+			gray1 = _convert565ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8])));
+			__m128i out0 = _halveW16(gray0, gray1);
+
+			gray0 = _convert565ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + stride / 2])));
+			gray1 = _convert565ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8 + stride / 2])));
+			__m128i out1 = _halveW16(gray0, gray1);
+
+			// Halve height
+			out0 = _mm_avg_epu16(out0, out1);
+			out0 = _mm_packus_epi16(out0, _mm_undefined_si128());
+			_mm_storel_epi64(reinterpret_cast<__m128i*>(out), out0);
+			out += 8;
+		}
+#endif
+		for (; x < w; x += 2) {
+			unsigned gray0 = _convert565ToGray(in[x], in[x + 1]);
+			unsigned gray1 = _convert565ToGray(in[x + stride / 2], in[x + stride / 2 + 1]);
+			*out = (gray0 + gray1) / 2;
+			++out;
+		}
+		in += stride;
+	}
+}
+
+void imageHalve565ToGrayInterlace(const uint16_t* in, const uint16_t* oldin, uint16_t* out, size_t w, size_t h, size_t stride) {
+	for (size_t y = 0; y + 1 < h; y += 2) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x + 15 < w; x += 16) {
+			__m128i gray0;
+			__m128i gray1;
+
+			gray0 = _convert565ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x])));
+			gray1 = _convert565ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8])));
+			__m128i out0 = _halveW16(gray0, gray1);
+
+			gray0 = _convert565ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + stride / 2])));
+			gray1 = _convert565ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8 + stride / 2])));
+			__m128i out1 = _halveW16(gray0, gray1);
+
+			// Halve height
+			out0 = _mm_avg_epu16(out0, out1);
+
+			// Interlace with old data
+			out1 = _mm_load_si128(reinterpret_cast<const __m128i*>(oldin));
+			out1 = _mm_slli_epi16(out1, 8);
+			out0 = _mm_add_epi8(out0, out1);
+			_mm_store_si128(reinterpret_cast<__m128i*>(out), out0);
+			oldin += 8;
+			out += 8;
+		}
+#endif
+		for (; x < w; x += 2) {
+			unsigned gray0 = _convert565ToGray(in[x], in[x + 1]);
+			unsigned gray1 = _convert565ToGray(in[x + stride / 2], in[x + stride / 2 + 1]);
+			gray0 = (gray0 + gray1) / 2;
+			gray0 |= *oldin << 8;
+			*out = gray0;
+			++oldin;
+			++out;
+		}
+		in += stride;
+	}
+}
+
+void imageQuarter565ToGray(const uint16_t* in, uint8_t* out, size_t w, size_t h, size_t stride) {
+	for (size_t y = 0; y + 3 < h; y += 4) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x + 31 < w; x += 32) {
+			__m128i gray0;
+			__m128i gray1;
+
+			gray0 = _halveWNeighbor16(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8])));
+			gray1 = _halveWNeighbor16(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 16])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 24])));
+			gray0 = _convert565ToGray(gray0);
+			gray1 = _convert565ToGray(gray1);
+			__m128i out0 = _halveW16(gray0, gray1);
+
+			gray0 = _halveWNeighbor16(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + stride])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8 + stride])));
+			gray1 = _halveWNeighbor16(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 16 + stride])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 24 + stride])));
+			gray0 = _convert565ToGray(gray0);
+			gray1 = _convert565ToGray(gray1);
+			__m128i out1 = _halveW16(gray0, gray1);
+
+			// Halve height
+			out0 = _mm_avg_epu16(out0, out1);
+			out0 = _mm_packus_epi16(out0, _mm_undefined_si128());
+			_mm_storel_epi64(reinterpret_cast<__m128i*>(out), out0);
+			out += 8;
+		}
+#endif
+		for (; x + 3 < w; x += 4) {
+			unsigned gray0 = _convert565ToGray(in[x], in[x + 2]);
+			unsigned gray1 = _convert565ToGray(in[x + stride], in[x + stride + 2]);
+			*out = (gray0 + gray1) / 2;
+			++out;
+		}
+		in += stride * 2;
+	}
+}
+
+void imageQuarter565ToGrayInterlace(const uint16_t* in, const uint16_t* oldin, uint16_t* out, size_t w, size_t h, size_t stride) {
+	for (size_t y = 0; y + 3 < h; y += 4) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x + 31 < w; x += 32) {
+			__m128i gray0;
+			__m128i gray1;
+
+			gray0 = _halveWNeighbor16(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8])));
+			gray1 = _halveWNeighbor16(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 16])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 24])));
+			gray0 = _convert565ToGray(gray0);
+			gray1 = _convert565ToGray(gray1);
+			__m128i out0 = _halveW16(gray0, gray1);
+
+			gray0 = _halveWNeighbor16(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + stride])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8 + stride])));
+			gray1 = _halveWNeighbor16(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 16 + stride])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 24 + stride])));
+			gray0 = _convert565ToGray(gray0);
+			gray1 = _convert565ToGray(gray1);
+			__m128i out1 = _halveW16(gray0, gray1);
+
+			// Halve height
+			out0 = _mm_avg_epu16(out0, out1);
+
+			// Interlace with old data
+			out1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(oldin));
+			out1 = _mm_slli_epi16(out1, 8);
+			out0 = _mm_add_epi8(out0, out1);
+			_mm_storeu_si128(reinterpret_cast<__m128i*>(out), out0);
+			oldin += 8;
+			out += 8;
+		}
+#endif
+		for (; x + 3 < w; x += 4) {
+			unsigned gray0 = _convert565ToGray(in[x], in[x + 2]);
+			unsigned gray1 = _convert565ToGray(in[x + stride], in[x + stride + 2]);
+			gray0 = (gray0 + gray1) / 2;
+			gray0 |= *oldin << 8;
+			*out = gray0;
+			++oldin;
+			++out;
+		}
+		in += stride * 2;
+	}
+}
+
+#ifdef __SSSE3__
 static inline void _convert565To888(const __m128i* in, __m128i* out) {
 	/* 00 R0 00 R1 00 R2 00 R3 00 R4 00 R5 00 R6 00 R7 -> R0 00 00 R1 00 00 R2 00 00 R3 00 00 R4 00 00 R5 */
 	const static __m128i rblend00 = _mm_set_epi8(0x0A, 0x80, 0x80, 0x08, 0x80, 0x80, 0x06, 0x80, 0x80, 0x04, 0x80, 0x80, 0x02, 0x80, 0x80, 0x00);
@@ -113,6 +388,164 @@ void image565To888(const uint16_t* in, uint8_t* out, size_t w, size_t h, size_t 
 			out += 3;
 		}
 		in += stride / 2;
+	}
+}
+
+void imageHalveX888ToGray(const uint32_t* in, uint8_t* out, size_t w, size_t h, size_t stride) {
+	for (size_t y = 0; y + 1 < h; y += 2) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x + 7 < w; x += 8) {
+			__m128i gray0;
+			__m128i gray1;
+
+			gray0 = _convertX888ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x])));
+			gray1 = _convertX888ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 4])));
+			__m128i out0 = _halveW32(gray0, gray1);
+
+			gray0 = _convertX888ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + stride / 2])));
+			gray1 = _convertX888ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 4 + stride / 2])));
+			__m128i out1 = _halveW32(gray0, gray1);
+
+			// Halve height
+			out0 = _mm_avg_epu16(out0, out1);
+			out0 = _mm_packus_epi16(out0, _mm_undefined_si128());
+			out0 = _mm_packus_epi16(out0, _mm_undefined_si128());
+			unsigned outx = _mm_cvtsi128_si32(out0);
+			*reinterpret_cast<uint32_t*>(out) = outx;
+			out += 4;
+		}
+#endif
+		for (; x + 1 < w; x += 2) {
+			*out = _convertX888ToGray(in[x], in[x + 1]);
+			++out;
+		}
+		in += stride / 2;
+	}
+}
+
+void imageHalveX888ToGrayInterlace(const uint32_t* in, const uint16_t* oldin, uint16_t* out, size_t w, size_t h, size_t stride) {
+	for (size_t y = 0; y + 1 < h; y += 2) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x + 7 < w; x += 8) {
+			__m128i gray0;
+			__m128i gray1;
+
+			gray0 = _convertX888ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x])));
+			gray1 = _convertX888ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 4])));
+			__m128i out0 = _halveW32(gray0, gray1);
+
+			gray0 = _convertX888ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + stride / 2])));
+			gray1 = _convertX888ToGray(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 4 + stride / 2])));
+			__m128i out1 = _halveW32(gray0, gray1);
+
+			// Halve height
+			out0 = _mm_avg_epu16(out0, out1);
+			out0 = _mm_packus_epi16(out0, _mm_undefined_si128());
+
+			// Interlace with old data
+			out1 = _mm_loadl_epi64(reinterpret_cast<const __m128i*>(oldin));
+			out1 = _mm_slli_epi16(out1, 8);
+			out0 = _mm_add_epi8(out0, out1);
+			_mm_storel_epi64(reinterpret_cast<__m128i*>(out), out0);
+			oldin += 4;
+			out += 4;
+		}
+#endif
+		for (; x + 1 < w; x += 2) {
+			unsigned gray0 = _convertX888ToGray(in[x], in[x + 1]);
+			gray0 |= *oldin << 8;
+			*out = gray0;
+			++oldin;
+			++out;
+		}
+		in += stride / 2;
+	}
+}
+
+void imageQuarterX888ToGray(const uint32_t* in, uint8_t* out, size_t w, size_t h, size_t stride) {
+	for (size_t y = 0; y + 3 < h; y += 4) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x + 15 < w; x += 16) {
+			__m128i gray0;
+			__m128i gray1;
+
+			gray0 = _halveWNeighbor32(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 4])));
+			gray1 = _halveWNeighbor32(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 12])));
+			gray0 = _convertX888ToGray(gray0);
+			gray1 = _convertX888ToGray(gray1);
+			__m128i out0 = _halveW32(gray0, gray1);
+
+			gray0 = _halveWNeighbor32(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + stride / 2])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 4 + stride / 2])));
+			gray1 = _halveWNeighbor32(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8 + stride / 2])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 12 + stride / 2])));
+			gray0 = _convertX888ToGray(gray0);
+			gray1 = _convertX888ToGray(gray1);
+			__m128i out1 = _halveW32(gray0, gray1);
+
+			// Halve height
+			out0 = _mm_avg_epu16(out0, out1);
+			out0 = _mm_packus_epi16(out0, _mm_undefined_si128());
+			out0 = _mm_packus_epi16(out0, _mm_undefined_si128());
+			unsigned outx = _mm_cvtsi128_si32(out0);
+			*reinterpret_cast<uint32_t*>(out) = outx;
+			out += 4;
+		}
+#endif
+		for (; x + 3 < w; x += 4) {
+			unsigned gray0 = _convertX888ToGray(in[x], in[x + 2]);
+			unsigned gray1 = _convertX888ToGray(in[x + stride / 2], in[x + stride / 2 + 2]);
+			*out = (gray0 + gray1) / 2;
+			++out;
+		}
+		in += stride;
+	}
+}
+
+void imageQuarterX888ToGrayInterlace(const uint32_t* in, const uint16_t* oldin, uint16_t* out, size_t w, size_t h, size_t stride) {
+	for (size_t y = 0; y + 3 < h; y += 4) {
+		size_t x = 0;
+#ifdef __SSSE3__
+		for (; x + 15 < w; x += 16) {
+			__m128i gray0;
+			__m128i gray1;
+
+			gray0 = _halveWNeighbor32(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 4])));
+			gray1 = _halveWNeighbor32(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 12])));
+			gray0 = _convertX888ToGray(gray0);
+			gray1 = _convertX888ToGray(gray1);
+			__m128i out0 = _halveW32(gray0, gray1);
+
+			gray0 = _halveWNeighbor32(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + stride / 2])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 4 + stride / 2])));
+			gray1 = _halveWNeighbor32(_mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 8 + stride / 2])), _mm_loadu_si128(reinterpret_cast<const __m128i*>(&in[x + 12 + stride / 2])));
+			gray0 = _convertX888ToGray(gray0);
+			gray1 = _convertX888ToGray(gray1);
+			__m128i out1 = _halveW32(gray0, gray1);
+
+			// Halve height
+			out0 = _mm_avg_epu16(out0, out1);
+			out0 = _mm_packus_epi16(out0, _mm_undefined_si128());
+
+			// Interlace with old data
+			out1 = _mm_loadl_epi64(reinterpret_cast<const __m128i*>(oldin));
+			out1 = _mm_slli_epi16(out1, 8);
+			out0 = _mm_add_epi8(out0, out1);
+			_mm_storel_epi64(reinterpret_cast<__m128i*>(out), out0);
+			oldin += 4;
+			out += 4;
+		}
+#endif
+		for (; x + 3 < w; x += 4) {
+			unsigned gray0 = _convertX888ToGray(in[x], in[x + 2]);
+			unsigned gray1 = _convertX888ToGray(in[x + stride / 2], in[x + stride / 2 + 2]);
+			gray0 = (gray0 + gray1) / 2;
+			gray0 |= *oldin << 8;
+			*out = gray0;
+			++oldin;
+			++out;
+		}
+		in += stride;
 	}
 }
 
@@ -224,6 +657,180 @@ void Image::copyTo(Image* other) {
 			throw logic_error("unimplemented conversion");
 		}
 		break;
+	case Image::Format::G8:
+		switch (other->m_format) {
+		case Image::Format::G8:
+			copyDirectlyTo(other);
+		default:
+			throw logic_error("unimplemented conversion");
+		}
+		break;
+	}
+}
+
+void Image::halveTo(Image* other) {
+	if (m_w / 2 != other->m_w || m_h / 2 != other->m_h) {
+		throw invalid_argument("Image dimensions don't match");
+	}
+	switch (m_format) {
+	case Image::Format::RGB565:
+		switch (other->m_format) {
+		case Image::Format::G8:
+			imageHalve565ToGray(static_cast<const uint16_t*>(m_constBuffer), static_cast<uint8_t*>(other->m_buffer), m_w, m_h, m_stride);
+			break;
+		default:
+			throw logic_error("unimplemented conversion");
+		}
+		break;
+	case Image::Format::RGB888:
+		throw logic_error("unimplemented conversion");
+	case Image::Format::RGBX888:
+		switch (other->m_format) {
+		case Image::Format::G8:
+			imageHalveX888ToGray(static_cast<const uint32_t*>(m_constBuffer), static_cast<uint8_t*>(other->m_buffer), m_w, m_h, m_stride);
+			break;
+		default:
+			throw logic_error("unimplemented conversion");
+		}
+		break;
+	case Image::Format::G8:
+		throw logic_error("unimplemented conversion");
+	}
+}
+
+void Image::halveToInterlace(Image* other, const Image* old) {
+	if (m_w / 2 != other->m_w / 2 || m_h / 2 != other->m_h) {
+		throw invalid_argument("Image dimensions don't match");
+	}
+	if (old->m_w != other->m_w || old->m_h != other->m_h) {
+		throw invalid_argument("Image dimensions don't match");
+	}
+	switch (m_format) {
+	case Image::Format::RGB565:
+		switch (other->m_format) {
+		case Image::Format::G8:
+			imageHalve565ToGrayInterlace(static_cast<const uint16_t*>(m_constBuffer), static_cast<const uint16_t*>(old->m_constBuffer), static_cast<uint16_t*>(other->m_buffer), m_w, m_h, m_stride);
+			break;
+		default:
+			throw logic_error("unimplemented conversion");
+		}
+		break;
+	case Image::Format::RGB888:
+		throw logic_error("unimplemented conversion");
+	case Image::Format::RGBX888:
+		switch (other->m_format) {
+		case Image::Format::G8:
+			imageHalveX888ToGrayInterlace(static_cast<const uint32_t*>(m_constBuffer), static_cast<const uint16_t*>(old->m_constBuffer), static_cast<uint16_t*>(other->m_buffer), m_w, m_h, m_stride);
+			break;
+		default:
+			throw logic_error("unimplemented conversion");
+		}
+		break;
+	case Image::Format::G8:
+		throw logic_error("unimplemented conversion");
+	}
+}
+
+void Image::quarterTo(Image* other) {
+	if (m_w / 4 != other->m_w || m_h / 4 != other->m_h) {
+		throw invalid_argument("Image dimensions don't match");
+	}
+	switch (m_format) {
+	case Image::Format::RGB565:
+		switch (other->m_format) {
+		case Image::Format::G8:
+			imageQuarter565ToGray(static_cast<const uint16_t*>(m_constBuffer), static_cast<uint8_t*>(other->m_buffer), m_w, m_h, m_stride);
+			break;
+		default:
+			throw logic_error("unimplemented conversion");
+		}
+		break;
+	case Image::Format::RGB888:
+		throw logic_error("unimplemented conversion");
+	case Image::Format::RGBX888:
+		switch (other->m_format) {
+		case Image::Format::G8:
+			imageQuarterX888ToGray(static_cast<const uint32_t*>(m_constBuffer), static_cast<uint8_t*>(other->m_buffer), m_w, m_h, m_stride);
+			break;
+		default:
+			throw logic_error("unimplemented conversion");
+		}
+		break;
+	case Image::Format::G8:
+		throw logic_error("unimplemented conversion");
+	}
+}
+
+void Image::quarterToInterlace(Image* other, const Image* old) {
+	if (m_w / 4 != other->m_w / 2 || m_h / 4 != other->m_h) {
+		throw invalid_argument("Image dimensions don't match");
+	}
+	if (old->m_w != other->m_w || old->m_h != other->m_h) {
+		throw invalid_argument("Image dimensions don't match");
+	}
+	if (old->m_format != other->m_format || old->m_format != other->m_format) {
+		throw invalid_argument("Image formats don't match");
+	}
+	switch (m_format) {
+	case Image::Format::RGB565:
+		switch (other->m_format) {
+		case Image::Format::G8:
+			imageQuarter565ToGrayInterlace(static_cast<const uint16_t*>(m_constBuffer), static_cast<const uint16_t*>(old->m_constBuffer), static_cast<uint16_t*>(other->m_buffer), m_w, m_h, m_stride);
+			break;
+		default:
+			throw logic_error("unimplemented conversion");
+		}
+		break;
+	case Image::Format::RGB888:
+		throw logic_error("unimplemented conversion");
+	case Image::Format::RGBX888:
+		switch (other->m_format) {
+		case Image::Format::G8:
+			imageQuarterX888ToGrayInterlace(static_cast<const uint32_t*>(m_constBuffer), static_cast<const uint16_t*>(old->m_constBuffer), static_cast<uint16_t*>(other->m_buffer), m_w, m_h, m_stride);
+			break;
+		default:
+			throw logic_error("unimplemented conversion");
+		}
+		break;
+	case Image::Format::G8:
+		throw logic_error("unimplemented conversion");
+	}
+}
+
+void Image::divideTo(int divisor, Image* other) {
+	switch (divisor) {
+	case 0:
+		throw invalid_argument("Cannot divide by zero");
+		break;
+	case 1:
+		copyTo(other);
+		break;
+	case 2:
+		halveTo(other);
+		break;
+	case 4:
+		quarterTo(other);
+		break;
+	default:
+		throw logic_error("unimplemented conversion");
+		break;
+	}
+}
+
+void Image::divideToInterlace(int divisor, Image* other, const Image* old) {
+	switch (divisor) {
+	case 0:
+		throw invalid_argument("Cannot divide by zero");
+		break;
+	case 2:
+		halveToInterlace(other, old);
+		break;
+	case 4:
+		quarterToInterlace(other, old);
+		break;
+	default:
+		throw logic_error("unimplemented conversion");
+		break;
 	}
 }
 
@@ -238,6 +845,8 @@ void Image::copyDirectlyTo(Image* other) {
 		break;
 	case Image::Format::RGBX888:
 		depth = 4;
+		break;
+	case Image::Format::G8:
 		break;
 	}
 	if (m_stride == other->m_stride) {

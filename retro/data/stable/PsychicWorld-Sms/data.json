@@ -1,0 +1,40 @@
+{
+  "info": {
+    "esp_health": {
+      "address": 57106,
+      "type": "|u1"
+    },
+    "health": {
+      "address": 57105,
+      "type": "|u1"
+    },
+    "score0": {
+      "address": 49459,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 49460,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 49461,
+      "type": "|u1"
+    },
+    "score3": {
+      "address": 49462,
+      "type": "|u1"
+    },
+    "score4": {
+      "address": 49463,
+      "type": "|u1"
+    },
+    "score5": {
+      "address": 49464,
+      "type": "|u1"
+    },
+    "score6": {
+      "address": 49465,
+      "type": "|u1"
+    }
+  }
+}

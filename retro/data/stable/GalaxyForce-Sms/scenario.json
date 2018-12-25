@@ -1,0 +1,21 @@
+{
+  "done": {
+    "variables": {
+      "health": {
+        "op": "negative"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "penalty": 1.0,
+        "reward": 1.0
+      },
+      "scoreinprogress": {
+        "penalty": 200.0,
+        "reward": 200.0
+      }
+    }
+  }
+}

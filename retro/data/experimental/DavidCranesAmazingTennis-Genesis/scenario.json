@@ -1,0 +1,48 @@
+{
+  "done": {
+    "nodes": {
+      "player1_score": {
+        "condition": "all",
+        "variables": {
+          "player1_set2": {
+            "op": "less-or-equal",
+            "reference": 6
+          }
+        }
+      },
+      "player1_score2": {
+        "condition": "all",
+        "variables": {
+          "player1_set3": {
+            "op": "less-than",
+            "reference": 6
+          }
+        }
+      }
+    },
+    "variables": {
+      "opponent_set2": {
+        "op": "greater-or-equal",
+        "reference": 6
+      },
+      "opponent_set3": {
+        "op": "greater-or-equal",
+        "reference": 6
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "player1_set1": {
+        "reward": 1.0
+      },
+      "player1_set2": {
+        "reward": 1.0
+      },
+      "player1_set3": {
+        "reward": 1.0
+      }
+    }
+  },
+  "crop": [ 0, 0, 256, 0 ]
+}

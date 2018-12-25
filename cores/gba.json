@@ -1,0 +1,14 @@
+{
+    "GbAdvance": {
+        "lib": "mgba",
+        "ext": ["gba"],
+        "keybinds": ["Z", null, "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "X", null, "A", "S"],
+        "buttons": ["B", null, "SELECT", "START", "UP", "DOWN", "LEFT", "RIGHT", "A", null, "L", "R"],
+        "actions": [
+            [[], ["UP"], ["DOWN"]],
+            [[], ["LEFT"], ["RIGHT"]],
+            [[], ["A"], ["B"], ["SELECT"], ["A", "B"], ["A", "SELECT"], ["B", "SELECT"], ["A", "B", "SELECT"]],
+            [[], ["L"], ["R"], ["L", "R"]]
+        ]
+    }
+}

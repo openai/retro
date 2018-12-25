@@ -1,0 +1,34 @@
+{
+  "default_state": "Level1.Buzz",
+  "states": {
+    "Level1.Buzz": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 2655.3487592219985,
+            "first_10_mean": 1088.0,
+            "final_10_mean": 4566.0,
+            "median": 2030.0,
+            "max": 7870.0
+          },
+          "tags": [
+            "not-done",
+            "sub-human"
+          ]
+        }
+      ],
+      "tags": [
+        "e-explore"
+      ]
+    }
+  },
+  "tags": [
+    "aligned"
+  ]
+}

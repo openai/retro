@@ -23,7 +23,7 @@ void Zip::close() {
 		return;
 	}
 	for (auto& file : m_files) {
-		file->flush();
+		file->close();
 	}
 	zip_close(m_zip);
 	m_zip = nullptr;
@@ -92,17 +92,17 @@ ssize_t Zip::File::write(const void* buffer, size_t size) {
 	return size;
 }
 
-bool Zip::File::flush() {
-	if (!m_buffer.size()) {
-		return false;
+void Zip::File::close() {
+	if (m_file) {
+		zip_fclose(m_file);
+	} else if (m_buffer.size()) {
+		zip_source_t* source = zip_source_buffer(m_zip, static_cast<void*>(&m_buffer.front()), m_buffer.size(), 0);
+		if (!source) {
+			return;
+		}
+		zip_int64_t i = zip_file_add(m_zip, m_name.c_str(), source, ZIP_FL_OVERWRITE);
+		if (i < 0) {
+			return;
+		}
 	}
-	zip_source_t* source = zip_source_buffer(m_zip, static_cast<void*>(&m_buffer.front()), m_buffer.size(), 0);
-	if (!source) {
-		return false;
-	}
-	zip_int64_t i = zip_file_add(m_zip, m_name.c_str(), source, ZIP_FL_OVERWRITE);
-	if (i < 0) {
-		return false;
-	}
-	return true;
 }

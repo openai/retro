@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "balls": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 100.0
+      }
+    }
+  },
+  "crop": [ 0, 0, 256, 0 ]
+}

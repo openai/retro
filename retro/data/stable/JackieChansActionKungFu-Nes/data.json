@@ -1,0 +1,16 @@
+{
+  "info": {
+    "bonus_level_score": {
+      "address": 1847,
+      "type": "|u1"
+    },
+    "health": {
+      "address": 1794,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 1796,
+      "type": "|u1"
+    }
+  }
+}

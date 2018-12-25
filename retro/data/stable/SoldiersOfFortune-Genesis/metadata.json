@@ -1,0 +1,24 @@
+{
+  "default_state": "1Player.BrigandAndMercenary.Level1",
+  "states": {
+    "1Player.BrigandAndMercenary.Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 146.0288367546432,
+            "first_10_mean": 57.0,
+            "final_10_mean": 219.0,
+            "median": 130.0,
+            "max": 405.0
+          }
+        }
+      ]
+    }
+  }
+}

@@ -13,23 +13,23 @@ pool = ProcessPoolExecutor(1)
 
 @pytest.fixture(scope="module")
 def processpool():
-    def run(fn, arg):
+    def run(fn, *args):
         global pool
         try:
-            future = pool.submit(fn, arg)
+            future = pool.submit(fn, *args)
             return future.result(2)
         except BrokenProcessPool:
             pool = ProcessPoolExecutor(1)
-            return [], [(arg, 'subprocess crashed')]
+            return [], [(args[0], 'subprocess crashed')]
         except TimeoutError:
-            return [], [(arg, 'task timed out')]
+            return [], [(args[0], 'task timed out')]
     yield run
     pool.shutdown()
 
 
-def load(game):
+def load(game, inttype):
     errors = []
-    rom = retro.get_romfile_path(game)
+    rom = retro.data.get_romfile_path(game, inttype)
     emu = retro.RetroEmulator(rom)
 
     emu.step()
@@ -40,18 +40,17 @@ def load(game):
     return [], errors
 
 
-def state(game):
+def state(game, inttype):
     errors = []
-    states = retro.list_states(game)
+    states = retro.data.list_states(game, inttype)
     if not states:
         return [], []
 
-    rom = retro.get_romfile_path(game)
-    path = retro.get_game_path(game)
+    rom = retro.data.get_romfile_path(game, inttype | retro.data.Integrations.STABLE)
     emu = retro.RetroEmulator(rom)
     for statefile in states:
         try:
-            with gzip.open(os.path.join(path, statefile + '.state'), 'rb') as fh:
+            with gzip.open(retro.data.get_file_path(game, statefile + '.state', inttype), 'rb') as fh:
                 state = fh.read()
         except (IOError, zlib.error):
             errors.append((game, 'state failed to decode: %s' % statefile))
@@ -67,10 +66,10 @@ def state(game):
 
 
 def test_load(game, processpool):
-    warnings, errors = processpool(load, game)
+    warnings, errors = processpool(load, *game)
     handle(warnings, errors)
 
 
 def test_state(game, processpool):
-    warnings, errors = processpool(state, game)
+    warnings, errors = processpool(state, *game)
     handle(warnings, errors)

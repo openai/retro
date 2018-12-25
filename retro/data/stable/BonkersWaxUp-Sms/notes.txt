@@ -1,0 +1,3 @@
+Slightly incorrect done condition - game ends 1 life early.
+The red sausage-like objects are pickles. You need to get all the pickles in order to win the level and go on to the next.
+The number of pickles remaining is indicated by pressing the pause button (enter). The score is recalculated each time you press enter and not in real time during the game. Therefore the scenario uses the # of items collected instead.

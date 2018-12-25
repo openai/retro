@@ -1,0 +1,18 @@
+{
+  "done": {
+    "variables": {
+      "healthHi": {
+        "op": "equal",
+        "reference": 0
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1
+      }
+    }
+  },
+  "crop": [0, 0, 256, 0]
+}

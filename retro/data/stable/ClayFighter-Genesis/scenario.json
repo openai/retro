@@ -1,0 +1,18 @@
+
+{
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1
+      }
+    }
+  },
+  "done": {
+    "variables": {
+      "health": {
+        "op": "zero"
+      }
+    }
+  },
+  "crop": [ 0, 0, 256, 0 ]
+}

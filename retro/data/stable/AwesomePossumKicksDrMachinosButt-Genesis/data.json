@@ -1,0 +1,16 @@
+{
+  "info": {
+    "items_collected": {
+      "address": 16771340,
+      "type": ">u2"
+    },
+    "lives": {
+      "address": 16771318,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16771240,
+      "type": ">u4"
+    }
+  }
+}

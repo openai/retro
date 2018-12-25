@@ -1,0 +1,24 @@
+{
+  "default_state": "Level1.AvalancheEngine",
+  "states": {
+    "Level1.AvalancheEngine": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 765.4059343434343,
+            "first_10_mean": 37.0,
+            "final_10_mean": 880.2,
+            "median": 763.0,
+            "max": 1951.0
+          }
+        }
+      ]
+    }
+  }
+}

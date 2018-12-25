@@ -1,0 +1,100 @@
+{
+  "info": {
+    "at_bat_baltimore": {
+      "address": 16765759,
+      "type": "|u1"
+    },
+    "at_bat_oakland": {
+      "address": 16765757,
+      "type": "|u1"
+    },
+    "bal_score_inning1": {
+      "address": 16765765,
+      "type": "|u1"
+    },
+    "bal_score_inning2": {
+      "address": 16765769,
+      "type": "|u1"
+    },
+    "bal_score_inning3": {
+      "address": 16765773,
+      "type": "|u1"
+    },
+    "bal_score_inning4": {
+      "address": 16765777,
+      "type": "|u1"
+    },
+    "bal_score_inning5": {
+      "address": 16765781,
+      "type": "|u1"
+    },
+    "bal_score_inning6": {
+      "address": 16765785,
+      "type": "|u1"
+    },
+    "bal_score_inning7": {
+      "address": 16765789,
+      "type": "|u1"
+    },
+    "bal_score_inning8": {
+      "address": 16765793,
+      "type": "|u1"
+    },
+    "bal_score_inning9": {
+      "address": 16765797,
+      "type": "|u1"
+    },
+    "balls": {
+      "address": 16765881,
+      "type": "|u1"
+    },
+    "inning": {
+      "address": 16765887,
+      "type": "|u1"
+    },
+    "oak_score_inning1": {
+      "address": 16765763,
+      "type": "|u1"
+    },
+    "oak_score_inning2": {
+      "address": 16765767,
+      "type": "|u1"
+    },
+    "oak_score_inning3": {
+      "address": 16765771,
+      "type": "|u1"
+    },
+    "oak_score_inning4": {
+      "address": 16765775,
+      "type": "|u1"
+    },
+    "oak_score_inning5": {
+      "address": 16765779,
+      "type": "|u1"
+    },
+    "oak_score_inning6": {
+      "address": 16765783,
+      "type": "|u1"
+    },
+    "oak_score_inning7": {
+      "address": 16765787,
+      "type": "|u1"
+    },
+    "oak_score_inning8": {
+      "address": 16765791,
+      "type": "|u1"
+    },
+    "oak_score_inning9": {
+      "address": 16765795,
+      "type": "|u1"
+    },
+    "outs": {
+      "address": 16765885,
+      "type": "|u1"
+    },
+    "strikes": {
+      "address": 16765883,
+      "type": "|u1"
+    }
+  }
+}

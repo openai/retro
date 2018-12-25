@@ -1,0 +1,16 @@
+{
+  "info": {
+    "enemies_killed": {
+      "address": 16720156,
+      "type": ">i2"
+    },
+    "own_soldiers_alive": {
+      "address": 16722320,
+      "type": "|u1"
+    },
+    "recruits_remaining": {
+      "address": 16719224,
+      "type": ">u2"
+    }
+  }
+}

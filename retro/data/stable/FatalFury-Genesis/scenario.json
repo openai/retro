@@ -1,0 +1,21 @@
+{
+  "done": {
+    "variables": {
+      "enemy_matches_won": {
+        "op": "equal",
+        "reference": 2
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "health_enemy": {
+        "penalty": -1.0
+      },
+      "matches_won": {
+        "reward": 10.0
+      }
+    }
+  },
+  "crop": [0, 0, 256, 0]
+}

@@ -1,0 +1,16 @@
+{
+  "info": {
+    "enemies_killed": {
+      "address": 8259867,
+      "type": "<u2"
+    },
+    "soldiers_left": {
+      "address": 8258943,
+      "type": "|u1"
+    },
+    "soldiers_on_field": {
+      "address": 8260997,
+      "type": "|u1"
+    }
+  }
+}

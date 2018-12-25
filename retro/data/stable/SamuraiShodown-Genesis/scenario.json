@@ -1,0 +1,22 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "enemy_health": {
+        "op": "zero"
+      },
+      "health": {
+        "op": "zero"
+      },
+      "round": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:correct_score"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

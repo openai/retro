@@ -1,0 +1,24 @@
+{
+  "info": {
+    "opponent_score": {
+      "address": 16711830,
+      "type": ">u2"
+    },
+    "quarter": {
+      "address": 16711869,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16711832,
+      "type": ">u2"
+    },
+    "time_minutes": {
+      "address": 16712033,
+      "type": "|u1"
+    },
+    "time_seconds": {
+      "address": 16712031,
+      "type": "|u1"
+    }
+  }
+}

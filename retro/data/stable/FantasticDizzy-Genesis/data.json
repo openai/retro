@@ -1,0 +1,16 @@
+{
+  "info": {
+    "damage": {
+      "address": 16744761,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 16744777,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16744772,
+      "type": ">u2"
+    }
+  }
+}

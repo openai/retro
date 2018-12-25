@@ -14,6 +14,10 @@
 #endif
 #include <unistd.h>
 
+#ifdef VOID
+#undef VOID
+#endif
+
 namespace Retro {
 
 template<typename T = uint8_t>
@@ -322,15 +326,68 @@ private:
 	DataType m_real;
 };
 
+class Variant {
+public:
+	enum class Type {
+		BOOL,
+		INT,
+		FLOAT,
+		VOID
+	};
+
+	Variant() {}
+	Variant(int64_t);
+	Variant(double);
+	Variant(bool);
+
+	template<typename T>
+	T cast() const {
+		switch (m_type) {
+		case Type::BOOL:
+			return m_vb;
+		case Type::INT:
+			return m_vi;
+		case Type::FLOAT:
+			return m_vf;
+		case Type::VOID:
+		default:
+			return T();
+		}
+	}
+
+	operator int() const;
+	operator int64_t() const;
+	operator float() const;
+	operator double() const;
+	operator bool() const;
+
+	void clear();
+	Variant& operator=(int64_t);
+	Variant& operator=(double);
+	Variant& operator=(bool);
+
+	Type type() { return m_type; }
+
+private:
+	Type m_type = Type::VOID;
+	union {
+		bool m_vb;
+		int64_t m_vi;
+		double m_vf;
+	};
+};
+
 class Datum {
 public:
 	Datum() {}
 	Datum(void*, const DataType&);
 	Datum(void* base, const Variable&, const MemoryOverlay& overlay = {});
 	Datum(void* base, size_t offset, const DataType&, const MemoryOverlay& overlay = {});
+	Datum(Variant*);
 
 	Datum& operator=(int64_t);
 	operator int64_t() const;
+	operator Variant() const;
 	bool operator==(int64_t);
 
 private:
@@ -339,6 +396,7 @@ private:
 	const DataType m_type{ "|u1" };
 	const uint64_t m_mask = UINT64_MAX;
 	const MemoryOverlay m_overlay{};
+	Variant* m_variant = nullptr;
 };
 
 class DynamicMemoryView {

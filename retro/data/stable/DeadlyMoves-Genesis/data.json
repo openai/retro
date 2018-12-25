@@ -1,0 +1,16 @@
+{
+  "info": {
+    "health": {
+      "address": 16734074,
+      "type": "|u1"
+    },
+    "knockouts": {
+      "address": 16733866,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16733868,
+      "type": "<n7"
+    }
+  }
+}

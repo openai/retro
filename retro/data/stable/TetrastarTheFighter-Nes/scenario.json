@@ -1,0 +1,15 @@
+{
+  "done": {
+    "variables": {
+      "gameover": {
+        "op": "negative"
+      }
+    }
+  },
+  "reward": {
+    "script": "lua:correct_score"
+  },
+  "scripts": [
+    "script.lua"
+  ]
+}

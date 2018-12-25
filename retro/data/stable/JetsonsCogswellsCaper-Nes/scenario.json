@@ -1,0 +1,19 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "packs": {
+        "reward": 1.0
+      },
+      "stars": {
+        "reward": 1.0
+      }
+    }
+  }
+}

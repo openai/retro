@@ -1,0 +1,24 @@
+{
+  "default_state": "EasyA.Level1",
+  "states": {
+    "EasyA.Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 17545.646658820453,
+            "first_10_mean": 2732.0,
+            "final_10_mean": 24223.0,
+            "median": 18070.0,
+            "max": 36640.0
+          }
+        }
+      ]
+    }
+  }
+}

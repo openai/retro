@@ -1,0 +1,31 @@
+{
+  "default_state": "Eagle.Stage1",
+  "tags": [
+    "misaligned"
+  ],
+  "states": {
+    "Eagle.Stage1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 3921.816467630421,
+            "first_10_mean": 821.0,
+            "final_10_mean": 4226.0,
+            "median": 4190.0,
+            "max": 6200.0
+          },
+          "tags": [
+            "die-loop",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

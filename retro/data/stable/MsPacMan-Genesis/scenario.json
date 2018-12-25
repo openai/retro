@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "negative"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  },
+  "crop": [ 16, 0, 224, 0 ]
+}

@@ -1,0 +1,35 @@
+{
+  "default_state": "1Player.Level1",
+  "states": {
+    "1Player.Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 13502.811523776467,
+            "first_10_mean": 1820.0,
+            "final_10_mean": 18920.0,
+            "median": 13800.0,
+            "max": 35500.0
+          },
+          "tags": [
+            "die-loop",
+            "farming",
+            "sub-human"
+          ]
+        }
+      ],
+      "tags": [
+        "e-explore"
+      ]
+    }
+  },
+  "tags": [
+    "aligned"
+  ]
+}

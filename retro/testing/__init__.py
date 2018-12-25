@@ -1,5 +1,5 @@
 import pytest
-import retro
+import retro.data
 import os
 import warnings as w
 import subprocess
@@ -7,10 +7,33 @@ import subprocess
 warnings = []
 errors = []
 
+games = retro.data.list_games(retro.data.Integrations.ALL)
+all_games = []
+for g in games:
+    overlays = 0
+    if os.path.exists(os.path.join(retro.data.path(), *retro.data.Integrations.STABLE.paths, g)):
+        all_games.append(g)
+        overlays += 1
+    if os.path.exists(os.path.join(retro.data.path(), *retro.data.Integrations.EXPERIMENTAL_ONLY.paths, g)):
+        all_games.append(g + '-exp')
+        overlays += 1
+    if os.path.exists(os.path.join(retro.data.path(), *retro.data.Integrations.CONTRIB_ONLY.paths, g)):
+        all_games.append(g + '-contrib')
+        overlays += 1
+    if overlays > 1:
+        all_games.append(g + '-all')
 
-@pytest.fixture(params=[g.replace('-', '_') for g in retro.list_games()])
+inttypes = {
+    'exp': retro.data.Integrations.EXPERIMENTAL_ONLY,
+    'contrib': retro.data.Integrations.CONTRIB_ONLY,
+    'all': retro.data.Integrations.ALL,
+}
+
+
+@pytest.fixture(params=[g.replace('-', '_') for g in all_games])
 def game(request):
-    return request.param.replace('_', '-')
+    game = request.param.split('_')
+    return '%s-%s' % (game[0], game[1]), inttypes[game[2]] if len(game) > 2 else retro.data.Integrations.STABLE
 
 
 def error(test, info):
@@ -46,18 +69,18 @@ def branch_new(upstream='master', downstream=None):
 
 @pytest.yield_fixture(params=[os.path.splitext(g)[0] for g in os.listdir(os.path.join(os.path.dirname(__file__), '../../tests/roms'))])
 def testenv(request):
-    import retro
+    import retro.data
     path = os.path.join(os.path.dirname(__file__), '../../tests/roms')
 
-    get_game_path = retro.get_game_path
-    get_romfile_path = retro.get_romfile_path
+    get_file_path = retro.data.get_file_path
+    get_romfile_path = retro.data.get_romfile_path
 
-    retro.get_game_path = lambda game: path
-    retro.get_romfile_path = lambda game: [os.path.join(path, g) for g in os.listdir(path) if g.startswith(game)][0]
+    retro.data.get_file_path = lambda game, file, *args, **kwargs: os.path.join(path, file)
+    retro.data.get_romfile_path = lambda game, *args, **kwargs: [os.path.join(path, g) for g in os.listdir(path) if g.startswith(game)][0]
 
     env_box = []
 
-    def create(state=retro.STATE_NONE, *args, **kwargs):
+    def create(state=retro.State.NONE, *args, **kwargs):
         env = retro.make(request.param, state, *args, **kwargs)
         env_box.append(env)
         return env
@@ -68,5 +91,5 @@ def testenv(request):
         env_box[0].close()
         del env_box[0]
 
-    retro.get_game_path = get_game_path
-    retro.get_romfile_path = get_romfile_path
+    retro.data.get_file_path = get_file_path
+    retro.data.get_romfile_path = get_romfile_path

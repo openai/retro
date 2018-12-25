@@ -1,0 +1,16 @@
+{
+  "done": {
+    "variables": {
+      "time": {
+        "op": "negative"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 10.0
+      }
+    }
+  }
+}

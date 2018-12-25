@@ -1,0 +1,12 @@
+{
+  "info": {
+    "lives": {
+      "address": 8259776,
+      "type": "|i1"
+    },
+    "bananas": {
+      "address": 8259948,
+      "type": ">d2"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 #include "movie.h"
 
 #include "movie-bk2.h"
+#include "movie-fm2.h"
 
 #include <functional>
 #include <unordered_map>
@@ -10,6 +11,7 @@ using namespace Retro;
 
 static unordered_map<string, function<unique_ptr<Movie>(const string&)>> s_movieTypes{
 	make_pair("bk2", MovieBK2::load),
+	make_pair("fm2", MovieFM2::load),
 };
 
 std::unique_ptr<Movie> Movie::load(const string& path) {
@@ -25,11 +27,11 @@ std::unique_ptr<Movie> Movie::load(const string& path) {
 	return found->second(path);
 }
 
-bool Movie::getKey(int key) {
-	return (m_keys >> key) & 1;
+bool Movie::getKey(int key, unsigned player) {
+	return (m_keys[player] >> key) & 1;
 }
 
-void Movie::setKey(int key, bool set) {
-	m_keys &= ~(1 << key);
-	m_keys |= set << key;
+void Movie::setKey(int key, bool set, unsigned player) {
+	m_keys[player] &= ~(1 << key);
+	m_keys[player] |= set << key;
 }

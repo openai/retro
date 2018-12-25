@@ -1,0 +1,13 @@
+{
+    "Nes": {
+        "lib": "fceumm",
+        "ext": ["nes"],
+        "keybinds": ["Z", null, "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "X"],
+        "buttons": ["B", null, "SELECT", "START", "UP", "DOWN", "LEFT", "RIGHT", "A"],
+        "actions": [
+            [[], ["UP"], ["DOWN"]],
+            [[], ["LEFT"], ["RIGHT"]],
+            [[], ["A"], ["B"], ["A", "B"]]
+        ]
+    }
+}

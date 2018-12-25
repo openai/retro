@@ -1,0 +1,30 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "at_bat": {
+        "op": "equal",
+        "reference": 1
+      },
+      "inning": {
+        "op": "equal",
+        "reference": 11
+      },
+      "out": {
+        "op": "equal",
+        "reference": 2
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score_hits": {
+        "reward": 5.0
+      },
+      "score_runs": {
+        "reward": 10.0
+      }
+    }
+  },
+  "crop": [ 0, 0, 256, 0 ]
+}

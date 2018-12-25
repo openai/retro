@@ -1,0 +1,28 @@
+{
+  "info": {
+    "health": {
+      "address": 50225,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 50212,
+      "type": "|u1"
+    },
+    "prisoners_found": {
+      "address": 50370,
+      "type": "|u1"
+    },
+    "prisoners_left": {
+      "address": 50369,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 50229,
+      "type": ">n4"
+    },
+    "time": {
+      "address": 52714,
+      "type": ">n4"
+    }
+  }
+}

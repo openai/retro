@@ -1,0 +1,12 @@
+{
+  "info": {
+    "enemy_matches_won": {
+      "address": 16755597,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16755636,
+      "type": ">d4"
+    }
+  }
+}

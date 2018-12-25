@@ -1,0 +1,16 @@
+{
+  "info": {
+    "gameover": {
+      "address": 8264117,
+      "type": "|i1"
+    },
+    "health": {
+      "address": 8263846,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 8263801,
+      "type": "<d4"
+    }
+  }
+}

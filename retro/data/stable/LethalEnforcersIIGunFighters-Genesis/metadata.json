@@ -1,0 +1,35 @@
+{
+  "default_state": "1Player.Joypad",
+  "states": {
+    "1Player.Joypad": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 123.38597414311485,
+            "first_10_mean": 5.6,
+            "final_10_mean": 207.6,
+            "median": 122.0,
+            "max": 254.0
+          },
+          "tags": [
+            "bad-end",
+            "human",
+            "not-done"
+          ]
+        }
+      ],
+      "tags": [
+        "e-explore"
+      ]
+    }
+  },
+  "tags": [
+    "aligned"
+  ]
+}

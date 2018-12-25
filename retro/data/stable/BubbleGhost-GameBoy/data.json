@@ -1,0 +1,16 @@
+{
+  "info": {
+    "level": {
+      "address": 39374,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 39426,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 49403,
+      "type": "<u2"
+    }
+  }
+}

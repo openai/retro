@@ -1,0 +1,36 @@
+{
+  "default_state": "Level1",
+  "tags": [
+    "misaligned"
+  ],
+  "states": {
+    "Level1": {
+      "tags": [
+        "e-explore",
+        "s-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 37.12521099651874,
+            "first_10_mean": 16.447600075625814,
+            "final_10_mean": 39.84980028346181,
+            "median": 37.637000159709714,
+            "max": 86.58200041484086
+          },
+          "tags": [
+            "bad-end",
+            "stuck",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

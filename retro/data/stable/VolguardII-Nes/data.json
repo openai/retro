@@ -1,0 +1,44 @@
+{
+  "info": {
+    "damage0": {
+      "address": 201,
+      "type": "|u1"
+    },
+    "damage1": {
+      "address": 200,
+      "type": "|u1"
+    },
+    "score0": {
+      "address": 255,
+      "type": "|u1"
+    },
+    "score1": {
+      "address": 254,
+      "type": "|u1"
+    },
+    "score2": {
+      "address": 253,
+      "type": "|u1"
+    },
+    "score3": {
+      "address": 252,
+      "type": "|u1"
+    },
+    "score4": {
+      "address": 251,
+      "type": "|u1"
+    },
+    "score5": {
+      "address": 250,
+      "type": "|u1"
+    },
+    "score6": {
+      "address": 249,
+      "type": "|u1"
+    },
+    "score7": {
+      "address": 248,
+      "type": "|u1"
+    }
+  }
+}

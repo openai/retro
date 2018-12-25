@@ -61,20 +61,14 @@ def main():
     os_name = os.environ['TRAVIS_OS_NAME']
     cross = os.environ.get('CROSS')
     bdist_options = []
-    with Fold('script.deps', 'Installing dependencies'):
-        if os_name != 'osx':
-            os.environ['PATH'] = '/usr/lib/ccache:' + os.environ['PATH']
+    with Fold('script.build', 'Building'):
         if os_name == 'osx':
-            # update brew first, which should install the correct version of ruby
-            # and avoid the error "Homebrew must be run under Ruby 2.3"
-            call(['brew', 'update'])
-            call(['brew', 'install', 'lua@5.1', 'ccache'])
-            cmake_options = []
+            cmake_options = ['-DCMAKE_PREFIX_PATH=/usr/local/opt/qt', '-DBUILD_UI=ON']
         elif os_name == 'linux':
             cmake_options = ['-DBUILD_MANYLINUX=ON',
                              '-DPYTHON_INCLUDE_DIR=%s/include/python%sm' % (sys.base_prefix, os.environ['PYVER'])]
             if cross in ('win32', 'win64'):
-                cmake_options = ['-DCMAKE_TOOLCHAIN_FILE=docker/cmake/%s.cmake' % cross]
+                cmake_options = ['-DCMAKE_TOOLCHAIN_FILE=docker/cmake/%s.cmake' % cross, '-DBUILD_UI=ON']
             if cross == 'win32':
                 bdist_options = ['--plat-name', 'win32']
             if cross == 'win64':
@@ -82,7 +76,6 @@ def main():
         else:
             raise Exception('unrecognized os name')
 
-    with Fold('script.build', 'Building'):
         call(['cmake', '.', '-DBUILD_TESTS=ON'] + cmake_options)
         call(['python', 'setup.py', '-q', 'build_ext', '-i', '-j3'])
         if cross not in ('win64', 'win32'):
@@ -97,7 +90,11 @@ def main():
                 upload_dir = 'builds'
             else:
                 upload_dir = 'builds/%s' % os.environ['TRAVIS_BRANCH']
-            if not cross and os_name == 'linux':
+            if os_name == 'osx' or cross in ('win32', 'win64'):
+                # package the UI for uploading
+                call(['cpack'])
+                upload_to_gcs(['Gym Retro-*.*'], upload_dir)
+            elif not cross and os_name == 'linux':
                 call(['auditwheel', 'repair', '-w', 'dist'] + glob.glob('dist/*.whl'))
 
             upload_to_gcs(['dist/*.whl'], upload_dir)

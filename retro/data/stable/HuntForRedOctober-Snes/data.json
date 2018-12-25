@@ -1,0 +1,16 @@
+{
+  "info": {
+    "damage": {
+      "address": 8262885,
+      "type": "|u1"
+    },
+    "level": {
+      "address": 8265425,
+      "type": "|u1"
+    },
+    "progress": {
+      "address": 8258508,
+      "type": "|u1"
+    }
+  }
+}

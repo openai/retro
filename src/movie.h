@@ -1,5 +1,7 @@
 #pragma once
 
+#include "emulator.h"
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -20,10 +22,13 @@ public:
 	virtual bool getState(std::vector<uint8_t>*) const { return false; }
 	virtual void setState(const uint8_t*, size_t) {}
 
-	bool getKey(int);
-	void setKey(int key, bool);
+	bool getKey(int, unsigned player = 0);
+	void setKey(int key, bool, unsigned player = 0);
+
+	unsigned players() const { return m_players; }
 
 protected:
-	uint16_t m_keys = 0;
+	uint16_t m_keys[MAX_PLAYERS] = { 0 };
+	unsigned m_players = 1;
 };
 }

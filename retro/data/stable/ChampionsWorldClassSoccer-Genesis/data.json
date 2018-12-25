@@ -1,0 +1,16 @@
+{
+  "info": {
+    "chile_score": {
+      "address": 16712897,
+      "type": "|u1"
+    },
+    "germany_score": {
+      "address": 16712896,
+      "type": "|u1"
+    },
+    "time_minutes": {
+      "address": 16712251,
+      "type": "|u1"
+    }
+  }
+}

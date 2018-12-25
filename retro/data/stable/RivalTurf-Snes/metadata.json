@@ -1,0 +1,29 @@
+{
+  "default_state": "1Player.JackFlak.Level1.PoliceStreet",
+  "whitelist": {
+    "data.json": [
+      "suspicious type |d1 for score"
+    ]
+  },
+  "states": {
+    "1Player.JackFlak.Level1.PoliceStreet": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 12.164642375168691,
+            "first_10_mean": 10.8,
+            "final_10_mean": 12.5,
+            "median": 12.0,
+            "max": 17.0
+          }
+        }
+      ]
+    }
+  }
+}

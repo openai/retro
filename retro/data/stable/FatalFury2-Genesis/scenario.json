@@ -1,0 +1,18 @@
+{
+  "done": {
+    "variables": {
+      "opponent_rounds_won": {
+        "op": "equal",
+        "reference": 2
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "opponent_health": {
+        "penalty": -1.0
+      }
+    }
+  },
+  "crop": [0, 0, 256, 0]
+}

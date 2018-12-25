@@ -1,0 +1,31 @@
+{
+  "done": {
+    "nodes": {
+      "alive": {
+        "condition": "all",
+        "variables": {
+          "lives": {
+            "op": "zero"
+          },
+          "player_state": {
+            "op": "equal",
+            "reference": 15
+          }
+        }
+      }
+    },
+    "variables": {
+      "level": {
+        "measurement": "delta",
+        "op": "positive"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "xscroll": {
+        "reward": 1.0
+      }
+    }
+  }
+}

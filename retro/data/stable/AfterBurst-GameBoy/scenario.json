@@ -1,0 +1,17 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "equal",
+        "reference": 1
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 10.0
+      }
+    }
+  }
+}

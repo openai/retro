@@ -99,8 +99,8 @@ bool loadCoreInfo(const string& jsonData) {
 	istringstream jsonStream(jsonData);
 	try {
 		jsonStream >> coreInfo;
-		s_cores = coreInfo;
-	} catch (invalid_argument&) {
+		s_cores.update(coreInfo);
+	} catch (json::exception&) {
 		return false;
 	}
 

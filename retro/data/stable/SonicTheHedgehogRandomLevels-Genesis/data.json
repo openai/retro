@@ -1,0 +1,16 @@
+{
+  "info": {
+    "gameover": {
+      "address": 16764984,
+      "type": "|u1"
+    },
+    "preset": {
+      "address": 16763216,
+      "type": "|u1"
+    },
+    "x": {
+      "address": 16764936,
+      "type": ">i2"
+    }
+  }
+}

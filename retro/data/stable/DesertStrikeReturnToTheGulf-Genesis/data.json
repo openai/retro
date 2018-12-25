@@ -1,0 +1,16 @@
+{
+  "info": {
+    "armor": {
+      "address": 16715948,
+      "type": ">u4"
+    },
+    "lives": {
+      "address": 16715959,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16715960,
+      "type": ">u4"
+    }
+  }
+}

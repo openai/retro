@@ -1,0 +1,18 @@
+{
+  "done": {
+    "variables": {
+      "enemy_rounds_won": {
+        "op": "equal",
+        "reference": 2
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 10.0
+      }
+    }
+  },
+  "crop": [0, 16, 256, 200]
+}

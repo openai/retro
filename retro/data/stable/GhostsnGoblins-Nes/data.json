@@ -1,0 +1,24 @@
+{
+  "info": {
+    "lives": {
+      "address": 1813,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 142,
+      "type": ">n6"
+    },
+    "time_minutes": {
+      "address": 1782,
+      "type": "|u1"
+    },
+    "time_ones": {
+      "address": 1788,
+      "type": "|n1"
+    },
+    "time_tens": {
+      "address": 1786,
+      "type": "|n1"
+    }
+  }
+}

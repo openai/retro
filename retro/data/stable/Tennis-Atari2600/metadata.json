@@ -1,0 +1,29 @@
+{
+  "default_state": "Start",
+  "whitelist": {
+    "data.json": [
+      "suspicious type |u1 for score"
+    ]
+  },
+  "states": {
+    "Start": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": -8.309550353028614,
+            "first_10_mean": -23.9,
+            "final_10_mean": 0.0,
+            "median": -1.0,
+            "max": 1.0
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "info": {
+    "hole": {
+      "address": 16749473,
+      "type": "|u1"
+    },
+    "stroke": {
+      "address": 16749073,
+      "type": "|u1"
+    },
+    "total": {
+      "address": 16749071,
+      "type": "|u1"
+    }
+  }
+}

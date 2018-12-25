@@ -141,11 +141,12 @@ void Emulator::run() {
 void Emulator::reset() {
 	assert(s_loadedEmulator == this);
 
+	memset(m_buttonMask, 0, sizeof(m_buttonMask));
+
 	retro_system_info systemInfo;
 	retro_get_system_info(&systemInfo);
 	if (!strcmp(systemInfo.library_name, "Stella")) {
 		// Stella does not properly clear everything when reseting or loading a savestate
-		memset(m_buttonMask, 0, sizeof(m_buttonMask));
 		string romPath = m_romPath;
 
 #ifdef _WIN32
@@ -304,6 +305,9 @@ void Emulator::fixScreenSize(const string& romName) {
 	} else if (!strcmp(systemInfo.library_name, "Stella")) {
 		// Stella gives confusing values to pretend the pixel width is 2x
 		m_avInfo.geometry.base_width = 160;
+	} else if (!strcmp(systemInfo.library_name, "Mednafen PCE Fast")) {
+		m_avInfo.geometry.base_width = 256;
+		m_avInfo.geometry.base_height = 242;
 	}
 }
 
@@ -313,10 +317,14 @@ void Emulator::reconfigureAddressSpace() {
 	}
 	if (!m_map.empty() && m_addressSpace->blocks().empty()) {
 		for (const auto& desc : m_map) {
+			size_t len = desc.len;
 			if (desc.flags & RETRO_MEMDESC_CONST) {
 				continue;
 			}
-			m_addressSpace->addBlock(desc.start, desc.len, desc.ptr);
+			if (!len) {
+				len = ((~desc.select & ~desc.start) + 1) & desc.select;
+			}
+			m_addressSpace->addBlock(desc.start, len, desc.ptr);
 		}
 	}
 }

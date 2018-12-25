@@ -1,0 +1,19 @@
+{
+  "done": {
+    "variables": {
+      "health": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "bonus_level_score": {
+        "reward": 1.0
+      },
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

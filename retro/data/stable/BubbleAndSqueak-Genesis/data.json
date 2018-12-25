@@ -1,0 +1,20 @@
+{
+  "info": {
+    "gems": {
+      "address": 16755726,
+      "type": ">n3"
+    },
+    "health": {
+      "address": 16755814,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16755813,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16755718,
+      "type": ">n7"
+    }
+  }
+}

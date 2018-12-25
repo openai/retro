@@ -1,0 +1,44 @@
+{
+  "info": {
+    "act": {
+      "address": 16776721,
+      "type": "|u1"
+    },
+    "level_end_bonus": {
+      "address": 16775126,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 16776722,
+      "type": "|u1"
+    },
+    "rings": {
+      "address": 16776736,
+      "type": ">u2"
+    },
+    "score": {
+      "address": 16776742,
+      "type": ">u4"
+    },
+    "screen_x": {
+      "address": 16774912,
+      "type": ">u2"
+    },
+    "screen_x_end": {
+      "address": 16774954,
+      "type": ">u2"
+    },
+    "x": {
+      "address": 16764936,
+      "type": ">i2"
+    },
+    "y": {
+      "address": 16764940,
+      "type": ">u2"
+    },
+    "zone": {
+      "address": 16776720,
+      "type": "|u1"
+    }
+  }
+}

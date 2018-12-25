@@ -1,0 +1,20 @@
+{
+  "info": {
+    "kids_found": {
+      "address": 16768008,
+      "type": "|u1"
+    },
+    "kids_found_total": {
+      "address": 16767998,
+      "type": "|u1"
+    },
+    "level": {
+      "address": 16767995,
+      "type": "|u1"
+    },
+    "toys_found": {
+      "address": 16767996,
+      "type": "|u1"
+    }
+  }
+}

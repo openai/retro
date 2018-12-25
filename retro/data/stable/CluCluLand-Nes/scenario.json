@@ -1,0 +1,19 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "enemies_destroyed": {
+        "reward": 1.0
+      },
+      "pieces_found": {
+        "reward": 1.0
+      }
+    }
+  }
+}

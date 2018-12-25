@@ -1,0 +1,35 @@
+{
+  "default_state": "1Player.MaleCharacter.Level1",
+  "tags": [
+    "misaligned"
+  ],
+  "states": {
+    "1Player.MaleCharacter.Level1": {
+      "tags": [
+        "d-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 10314.276048714479,
+            "first_10_mean": 6655.0,
+            "final_10_mean": 10100.0,
+            "median": 10000.0,
+            "max": 32100.0
+          },
+          "tags": [
+            "spikes",
+            "stuck",
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

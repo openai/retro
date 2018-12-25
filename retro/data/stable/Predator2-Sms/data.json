@@ -1,0 +1,16 @@
+{
+  "info": {
+    "hostages": {
+      "address": 50391,
+      "type": "|i1"
+    },
+    "lives": {
+      "address": 50303,
+      "type": "|i1"
+    },
+    "score": {
+      "address": 50298,
+      "type": ">d4"
+    }
+  }
+}

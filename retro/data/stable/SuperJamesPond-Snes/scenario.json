@@ -1,0 +1,22 @@
+{
+  "done": {
+    "condition": "all",
+    "variables": {
+      "health": {
+        "op": "equal",
+        "reference": 1
+      },
+      "lives": {
+        "op": "equal",
+        "reference": 1
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 1.0
+      }
+    }
+  }
+}

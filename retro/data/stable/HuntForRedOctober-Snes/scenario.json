@@ -1,0 +1,21 @@
+{
+  "done": {
+    "variables": {
+      "damage": {
+        "op": "equal",
+        "reference": 99
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "level": {
+        "reward": 256.0
+      },
+      "progress": {
+        "penalty": 1.0,
+        "reward": 1.0
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "done": {
+    "variables": {
+      "gameover": {
+        "op": "equal",
+        "reference": 1
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score0": {
+        "penalty": 1.0,
+        "reward": 1.0
+      },
+      "score1": {
+        "penalty": 100.0,
+        "reward": 100.0
+      },
+      "score2": {
+        "penalty": 10000.0,
+        "reward": 10000.0
+      }
+    }
+  },
+  "crop": [ 0, 0, 256, 0 ]
+}

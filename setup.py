@@ -1,5 +1,5 @@
 from distutils.spawn import find_executable
-from setuptools import setup, Extension
+from setuptools import setup, Extension, __version__ as setuptools_version
 from setuptools.command.build_ext import build_ext
 import subprocess
 import sys
@@ -36,6 +36,10 @@ class CMakeBuild(build_ext):
         pylib_dir = ''
         if not self.inplace:
             pylib_dir = '-DPYLIB_DIRECTORY:PATH=%s' % self.build_lib
+        if self.debug:
+            build_type = '-DCMAKE_BUILD_TYPE=Debug'
+        else:
+            build_type = ''
         python_executable = '-DPYTHON_EXECUTABLE:STRING=%s' % sys.executable
         cmake_exe = find_executable('cmake')
         if not cmake_exe:
@@ -46,33 +50,42 @@ class CMakeBuild(build_ext):
                 pip.main(['install', 'cmake'])
                 import cmake
             cmake_exe = os.path.join(cmake.CMAKE_BIN_DIR, 'cmake')
-        subprocess.check_call([cmake_exe, '.', '-G', 'Unix Makefiles', pyext_suffix, pylib_dir, python_executable])
+        subprocess.check_call([cmake_exe, '.', '-G', 'Unix Makefiles', build_type, pyext_suffix, pylib_dir, python_executable])
         if self.parallel:
-            jobs = ['-j%d' % self.parallel]
+            jobs = '-j%d' % self.parallel
         else:
             import multiprocessing
-            jobs = ['-j%d' % multiprocessing.cpu_count()]
-        subprocess.check_call(['make'] + jobs + ['retro'])
+            jobs = '-j%d' % multiprocessing.cpu_count()
+        make_exe = find_executable('make')
+        if not make_exe:
+            raise RuntimeError('Could not find Make executable. Is it installed?')
+        subprocess.check_call([make_exe, jobs, 'retro'])
 
+
+platform_globs = ['*-%s/*' % plat for plat in ['Nes', 'Snes', 'Genesis', 'Atari2600', 'GameBoy', 'Sms', 'GameGear', 'PCEngine', 'GbColor', 'GbAdvance']]
+
+kwargs = {}
+if tuple(int(v) for v in setuptools_version.split('.')) >= (24, 2, 0):
+    kwargs['python_requires'] = '>=3.5.0'
 
 setup(
     name='gym-retro',
     author='OpenAI',
-    author_email='vickipfau@openai.com',
+    author_email='csh@openai.com',
     url='https://github.com/openai/retro',
     version=open(VERSION_PATH, 'r').read(),
     license='MIT',
     install_requires=['gym'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
     cmdclass={'build_ext': CMakeBuild},
-    packages=['retro', 'retro.data', 'retro.scripts', 'retro.import'],
+    packages=['retro', 'retro.data', 'retro.data.stable', 'retro.data.experimental', 'retro.data.contrib', 'retro.scripts', 'retro.import'],
     package_data={
-        'retro': ['cores.json', 'cores/*_libretro*', 'VERSION.txt', 'README.md', 'LICENSES.md'],
-        'retro.data': ['*-%s/*' % plat for plat in ['Genesis', 'Atari2600']],
-    },
-    package_dir={
-        'retro.data': 'data'
+        'retro': ['cores/*.json', 'cores/*_libretro*', 'VERSION.txt', 'README.md', 'LICENSES.md'],
+        'retro.data.stable': platform_globs,
+        'retro.data.experimental': platform_globs,
+        'retro.data.contrib': platform_globs,
     },
     setup_requires=['setuptools_scm'],
-    use_scm_version=use_scm_version
+    use_scm_version=use_scm_version,
+    **kwargs
 )

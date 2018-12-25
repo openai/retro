@@ -1,0 +1,24 @@
+{
+  "info": {
+    "level": {
+      "address": 48,
+      "type": "|u1"
+    },
+    "lives": {
+      "address": 50,
+      "type": "|i1"
+    },
+    "player_state": {
+      "address": 326,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 2018,
+      "type": "<u2"
+    },
+    "xscroll": {
+      "address": 100,
+      "type": ">u2"
+    }
+  }
+}

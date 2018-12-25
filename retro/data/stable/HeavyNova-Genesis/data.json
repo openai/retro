@@ -1,0 +1,24 @@
+{
+  "info": {
+    "health": {
+      "address": 16773702,
+      "type": ">i2"
+    },
+    "other_robots_killed": {
+      "address": 16763825,
+      "type": ">d2"
+    },
+    "robots_killed": {
+      "address": 16763821,
+      "type": ">d2"
+    },
+    "rocks_killed": {
+      "address": 16763831,
+      "type": ">d2"
+    },
+    "score": {
+      "address": 16773744,
+      "type": ">u4"
+    }
+  }
+}

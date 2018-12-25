@@ -1,0 +1,34 @@
+{
+  "default_state": "Day1Stage1",
+  "tags": [
+    "aligned"
+  ],
+  "states": {
+    "Day1Stage1": {
+      "tags": [
+        "e-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 9747.941592920353,
+            "first_10_mean": 6370.0,
+            "final_10_mean": 11273.0,
+            "median": 10140.0,
+            "max": 23440.0
+          },
+          "tags": [
+            "not-done",
+            "sub-human"
+          ]
+        }
+      ]
+    }
+  }
+}

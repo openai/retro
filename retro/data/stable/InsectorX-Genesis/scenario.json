@@ -1,0 +1,18 @@
+{
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "equal",
+        "reference": -1
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 10.0
+      }
+    }
+  },
+  "crop": [0, 0, 256, 0]
+}

@@ -1,0 +1,28 @@
+{
+  "default_state": "Level1.London",
+  "states": {
+    "Level1.London": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 101.65469241131566,
+            "first_10_mean": 245.5,
+            "final_10_mean": 101.0,
+            "median": 40.0,
+            "max": 900.0
+          },
+          "tags": [
+            "stuck",
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

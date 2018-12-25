@@ -1,0 +1,16 @@
+{
+  "info": {
+    "ammo": {
+      "address": 8258238,
+      "type": "<d2"
+    },
+    "lives": {
+      "address": 8263619,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 8264196,
+      "type": "<d4"
+    }
+  }
+}

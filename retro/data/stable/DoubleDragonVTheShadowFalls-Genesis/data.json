@@ -1,0 +1,12 @@
+{
+  "info": {
+    "opponent_rounds_won": {
+      "address": 16769183,
+      "type": "|u1"
+    },
+    "score": {
+      "address": 16712044,
+      "type": ">n6"
+    }
+  }
+}

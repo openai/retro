@@ -1,0 +1,18 @@
+{
+  "done": {
+    "variables": {
+      "gameover": {
+        "op": "nonzero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "penalty": 1.0,
+        "reward": 1.0
+      }
+    }
+  },
+  "crop": [ 0, 4, 256, 196 ]
+}

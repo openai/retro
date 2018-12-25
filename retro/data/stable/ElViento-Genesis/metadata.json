@@ -1,0 +1,35 @@
+{
+  "default_state": "Level1",
+  "tags": [
+    "misaligned"
+  ],
+  "states": {
+    "Level1": {
+      "tags": [
+        "u-explore"
+      ],
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 4545.679513184584,
+            "first_10_mean": 10600.0,
+            "final_10_mean": 1920.0,
+            "median": 1000.0,
+            "max": 24400.0
+          },
+          "tags": [
+            "d-explore",
+            "noisy",
+            "trivial"
+          ]
+        }
+      ]
+    }
+  }
+}

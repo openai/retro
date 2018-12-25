@@ -1,0 +1,24 @@
+{
+  "default_state": "1Player.Billy.Level1",
+  "states": {
+    "1Player.Billy.Level1": {
+      "runs": [
+        {
+          "name": "ppo-10M",
+          "agent": "ppo",
+          "hyperparameters": {
+            "timesteps": 10000000,
+            "time_limit": 4500
+          },
+          "rewards": {
+            "mean": 854.2143253747918,
+            "first_10_mean": 260.0,
+            "final_10_mean": 460.0,
+            "median": 800.0,
+            "max": 8800.0
+          }
+        }
+      ]
+    }
+  }
+}
