@@ -1,4 +1,5 @@
-import gc
+ line 1, in <module>
+  File "/nix/storimport gc
 import gym
 import gzip
 import gym.spaces
@@ -30,7 +31,7 @@ class RetroEnv(gym.Env):
     def stop_record(self):
         self.movie_path = None
         self.movie_id = 0
-        if self.movie:
+        if self.movie:observation_space
             self.movie.close()
             self.movie = None
 
@@ -128,7 +129,7 @@ class RetroEnv(gym.Env):
         if gym_version >= (0, 9, 6):
             kwargs['dtype'] = np.uint8
         if self._obs_type == 'ram':
-            shape = (len(self.em.get_state()),)
+            shape = self.data.memory.shape
         else:
             shape = img.shape
         self.observation_space = gym.spaces.Box(low=0, high=255, shape=shape, **kwargs)
