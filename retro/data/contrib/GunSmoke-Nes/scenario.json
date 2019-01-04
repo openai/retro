@@ -1,0 +1,78 @@
+{
+  "crop": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "done": {
+    "variables": {
+      "lives": {
+        "op": "zero"
+      },
+      "map_tile": {
+        "measurement": "delta",
+        "op": "negative"
+      },
+      "shop_select": {
+        "op": "less-than",
+        "reference": 5
+      },
+      "wanted": {
+        "measurement": "delta",
+        "op": "negative"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "boots_speed": {
+        "measurement": "absolute",
+        "reward": 1000.0
+      },
+      "boss_health": {
+        "penalty": 10000.0
+      },
+      "lives": {
+        "measurement": "absolute",
+        "op": "equal",
+        "penalty": 1000000.0,
+        "reward": 1000.0
+      },
+      "money_d0": {
+        "measurement": "absolute",
+        "reward": 1.0
+      },
+      "money_d1": {
+        "measurement": "absolute",
+        "reward": 10.0
+      },
+      "money_d2": {
+        "measurement": "absolute",
+        "reward": 100.0
+      },
+      "money_d3": {
+        "measurement": "absolute",
+        "reward": 1000.0
+      },
+      "money_d4": {
+        "measurement": "absolute",
+        "reward": 10000.0
+      },
+      "money_d5": {
+        "measurement": "absolute",
+        "reward": 100000.0
+      },
+      "rifle_range": {
+        "measurement": "absolute",
+        "reward": 1000.0
+      },
+      "wanted": {
+        "measurement": "absolute",
+        "op": "equal",
+        "reference": 1,
+        "reward": 1000000.0
+      }
+    }
+  }
+}

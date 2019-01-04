@@ -1,0 +1,70 @@
+{
+  "info": {
+    "boss_health": {
+      "address": 178,
+      "type": "<u1"
+    },
+    "boots_speed": {
+      "address": 120,
+      "type": "<u1"
+    },
+    "rifle_range": {
+      "address": 121,
+      "type": "<u1"
+    },
+    "lives": {
+      "address": 122,
+      "type": "<u1"
+    },
+    "map_tile": {
+      "address": 91,
+      "type": "<u1"
+    },
+    "map_tile_upper_limit": {
+      "address": 95,
+      "type": "<u1"
+    },
+    "money_d0": {
+      "address": 1788,
+      "mask": 7,
+      "type": "<u1"
+    },
+    "money_d1": {
+      "address": 1786,
+      "mask": 7,
+      "type": "<u1"
+    },
+    "money_d2": {
+      "address": 1784,
+      "mask": 7,
+      "type": "<u1"
+    },
+    "money_d3": {
+      "address": 1782,
+      "mask": 7,
+      "type": "<u1"
+    },
+    "money_d4": {
+      "address": 1780,
+      "mask": 7,
+      "type": "<u1"
+    },
+    "money_d5": {
+      "address": 1778,
+      "mask": 7,
+      "type": "<u1"
+    },
+    "scroll_position": {
+      "address": 252,
+      "type": "<u2"
+    },
+    "shop_select": {
+      "address": 8,
+      "type": "<u1"
+    },
+    "wanted": {
+      "address": 73,
+      "type": "|u1"
+    }
+  }
+}
