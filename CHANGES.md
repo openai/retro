@@ -5,6 +5,7 @@
 * add ability to use arbitrary additional integration directories
 * integration UI searches for current Python's Gym Retro data directory
 * import script can now accept files in addition to directories
+* you can now use RAM observations by sending `obs_type=retro.Observations.RAM` to `retro.make`
 
 ## 0.6.0
 

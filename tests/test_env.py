@@ -1,5 +1,7 @@
+import retro
 from retro.testing import testenv, handle
 import os
+import pytest
 
 
 def test_env_create(testenv):
@@ -7,12 +9,12 @@ def test_env_create(testenv):
     assert testenv(info=json_path, scenario=json_path)
 
 
-def test_env_basic(testenv):
-    import retro
+@pytest.mark.parametrize('obs_type', [retro.Observations.IMAGE, retro.Observations.RAM])
+def test_env_basic(obs_type, testenv):
     import gym
     import numpy as np
     json_path = os.path.join(os.path.dirname(__file__), 'dummy.json')
-    env = testenv(info=json_path, scenario=json_path)
+    env = testenv(info=json_path, scenario=json_path, obs_type=obs_type)
     obs = env.reset()
     assert obs.shape == env.observation_space.shape
     obs, rew, done, info = env.step(env.action_space.sample())
