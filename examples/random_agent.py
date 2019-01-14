@@ -4,8 +4,8 @@ import argparse
 import retro
 
 parser = argparse.ArgumentParser()
-parser.add_argument('game', help='the name or path for the game to run')
-parser.add_argument('state', nargs='?', help='the initial state file to load, minus the extension')
+parser.add_argument('--game', default='Airstriker-Genesis', help='the name or path for the game to run')
+parser.add_argument('--state', help='the initial state file to load, minus the extension')
 parser.add_argument('--scenario', '-s', default='scenario', help='the scenario file to load, minus the extension')
 parser.add_argument('--record', '-r', action='store_true', help='record bk2 movies')
 parser.add_argument('--verbose', '-v', action='count', default=1, help='increase verbosity (can be specified multiple times)')
