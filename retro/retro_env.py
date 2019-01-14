@@ -206,7 +206,7 @@ class RetroEnv(gym.Env):
         if self.movie:
             self.movie.step()
         self.em.step()
-        self.img = self.em.get_screen()
+        self.img = self.get_screen()
         self.data.update_ram()
         self.ram = self.get_ram()
         ob = self._get_obs()
@@ -225,7 +225,7 @@ class RetroEnv(gym.Env):
             self.movie_id += 1
         if self.movie:
             self.movie.step()
-        self.img = self.em.get_screen()
+        self.img = self.get_screen()
         self.data.reset()
         self.data.update_ram()
         self.ram = self.get_ram()
