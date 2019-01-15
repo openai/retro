@@ -159,10 +159,12 @@ class RetroEnv(gym.Env):
             self._render = self.render
             self._close = self.close
 
-    def _get_obs(self):
+    def _update_obs(self):
         if self._obs_type == retro.Observations.RAM:
+            self.ram = self.get_ram()
             return self.ram
         elif self._obs_type == retro.Observations.IMAGE:
+            self.img = self.get_screen()
             return self.img
         else:
             raise ValueError('Unrecognized observation type: {}'.format(self._obs_type))
@@ -206,10 +208,8 @@ class RetroEnv(gym.Env):
         if self.movie:
             self.movie.step()
         self.em.step()
-        self.img = self.get_screen()
         self.data.update_ram()
-        self.ram = self.get_ram()
-        ob = self._get_obs()
+        ob = self._update_obs()
         rew, done, info = self.compute_step()
         return ob, rew, bool(done), dict(info)
 
@@ -225,12 +225,9 @@ class RetroEnv(gym.Env):
             self.movie_id += 1
         if self.movie:
             self.movie.step()
-        self.img = self.get_screen()
         self.data.reset()
         self.data.update_ram()
-        self.ram = self.get_ram()
-        ob = self._get_obs()
-        return ob
+        return self._update_obs()
 
     def seed(self, seed=None):
         self.np_random, seed1 = seeding.np_random(seed)
