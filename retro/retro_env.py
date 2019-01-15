@@ -9,8 +9,6 @@ import retro
 import retro.data
 from gym.utils import seeding
 
-from retro.data import list_games, list_states
-
 gym_version = tuple(int(x) for x in gym.__version__.split('.'))
 
 __all__ = ['RetroEnv']
@@ -196,7 +194,7 @@ class RetroEnv(gym.Env):
         return actions
 
     def step(self, a):
-        if self.img is None:
+        if self.img is None and self.ram is None:
             raise RuntimeError('Please call env.reset() before env.step()')
 
         for p, ap in enumerate(self.action_to_array(a)):
@@ -242,13 +240,15 @@ class RetroEnv(gym.Env):
             if self.viewer:
                 self.viewer.close()
             return
+
+        img = self.get_screen() if self.img is None else self.img
         if mode == "rgb_array":
-            return self.get_screen() if self.img is None else self.img
+            return img
         elif mode == "human":
             if self.viewer is None:
                 from gym.envs.classic_control.rendering import SimpleImageViewer
                 self.viewer = SimpleImageViewer()
-            self.viewer.imshow(self.img)
+            self.viewer.imshow(img)
             return self.viewer.isopen
 
     def close(self):
