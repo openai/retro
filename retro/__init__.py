@@ -1,6 +1,5 @@
 import os
 import retro.data
-import sys
 
 from enum import Enum
 from retro._retro import Movie, RetroEmulator, core_path
@@ -32,6 +31,11 @@ class Actions(Enum):
 class State(Enum):
     DEFAULT = -1
     NONE = 0
+
+
+class Observations(Enum):
+    IMAGE = 0
+    RAM = 1
 
 
 def get_core_path(corename):

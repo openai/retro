@@ -9,8 +9,6 @@ import retro
 import retro.data
 from gym.utils import seeding
 
-from retro.data import list_games, list_states
-
 gym_version = tuple(int(x) for x in gym.__version__.split('.'))
 
 __all__ = ['RetroEnv']
@@ -46,10 +44,13 @@ class RetroEnv(gym.Env):
             path = os.getcwd()
         self.movie_path = path
 
-    def __init__(self, game, state=retro.State.DEFAULT, scenario=None, info=None, use_restricted_actions=retro.Actions.FILTERED, record=False, players=1, inttype=retro.data.Integrations.STABLE):
+    def __init__(self, game, state=retro.State.DEFAULT, scenario=None, info=None, use_restricted_actions=retro.Actions.FILTERED,
+                 record=False, players=1, inttype=retro.data.Integrations.STABLE, obs_type=retro.Observations.IMAGE):
         if not hasattr(self, 'spec'):
             self.spec = None
+        self._obs_type = obs_type
         self.img = None
+        self.ram = None
         self.viewer = None
         self.gamename = game
         self.statename = state
@@ -119,8 +120,6 @@ class RetroEnv(gym.Env):
             del self.em
             raise
 
-        img = [self.get_screen(p) for p in range(players)]
-
         if use_restricted_actions == retro.Actions.DISCRETE:
             combos = 1
             for combo in self.button_combos:
@@ -134,7 +133,13 @@ class RetroEnv(gym.Env):
         kwargs = {}
         if gym_version >= (0, 9, 6):
             kwargs['dtype'] = np.uint8
-        self.observation_space = gym.spaces.Box(low=0, high=255, shape=img[0].shape, **kwargs)
+        
+        if self._obs_type == retro.Observations.RAM:
+            shape = self.get_ram().shape
+        else:
+            img = [self.get_screen(p) for p in range(players)]
+            shape = img[0].shape
+        self.observation_space = gym.spaces.Box(low=0, high=255, shape=shape, **kwargs)
 
         self.use_restricted_actions = use_restricted_actions
         self.movie = None
@@ -151,6 +156,16 @@ class RetroEnv(gym.Env):
             self._reset = self.reset
             self._render = self.render
             self._close = self.close
+
+    def _update_obs(self):
+        if self._obs_type == retro.Observations.RAM:
+            self.ram = self.get_ram()
+            return self.ram
+        elif self._obs_type == retro.Observations.IMAGE:
+            self.img = self.get_screen()
+            return self.img
+        else:
+            raise ValueError('Unrecognized observation type: {}'.format(self._obs_type))
 
     def action_to_array(self, a):
         actions = []
@@ -179,7 +194,7 @@ class RetroEnv(gym.Env):
         return actions
 
     def step(self, a):
-        if self.img is None:
+        if self.img is None and self.ram is None:
             raise RuntimeError('Please call env.reset() before env.step()')
 
         for p, ap in enumerate(self.action_to_array(a)):
@@ -191,8 +206,8 @@ class RetroEnv(gym.Env):
         if self.movie:
             self.movie.step()
         self.em.step()
-        self.img = ob = self.get_screen()
         self.data.update_ram()
+        ob = self._update_obs()
         rew, done, info = self.compute_step()
         return ob, rew, bool(done), dict(info)
 
@@ -208,10 +223,9 @@ class RetroEnv(gym.Env):
             self.movie_id += 1
         if self.movie:
             self.movie.step()
-        self.img = ob = self.get_screen()
         self.data.reset()
         self.data.update_ram()
-        return ob
+        return self._update_obs()
 
     def seed(self, seed=None):
         self.np_random, seed1 = seeding.np_random(seed)
@@ -226,13 +240,15 @@ class RetroEnv(gym.Env):
             if self.viewer:
                 self.viewer.close()
             return
+
+        img = self.get_screen() if self.img is None else self.img
         if mode == "rgb_array":
-            return self.get_screen() if self.img is None else self.img
+            return img
         elif mode == "human":
             if self.viewer is None:
                 from gym.envs.classic_control.rendering import SimpleImageViewer
                 self.viewer = SimpleImageViewer()
-            self.viewer.imshow(self.img)
+            self.viewer.imshow(img)
             return self.viewer.isopen
 
     def close(self):
@@ -246,6 +262,13 @@ class RetroEnv(gym.Env):
         if self.players == 1:
             return actions[0]
         return actions
+
+    def get_ram(self):
+        blocks = []
+        for offset in sorted(self.data.memory.blocks):
+            arr = np.frombuffer(self.data.memory.blocks[offset], dtype=np.uint8)
+            blocks.append(arr)
+        return np.concatenate(blocks)
 
     def get_screen(self, player=0):
         img = self.em.get_screen()

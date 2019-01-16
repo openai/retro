@@ -10,10 +10,12 @@ parser.add_argument('--scenario', '-s', default='scenario', help='the scenario f
 parser.add_argument('--record', '-r', action='store_true', help='record bk2 movies')
 parser.add_argument('--verbose', '-v', action='count', default=1, help='increase verbosity (can be specified multiple times)')
 parser.add_argument('--quiet', '-q', action='count', default=0, help='decrease verbosity (can be specified multiple times)')
+parser.add_argument('--obs-type', '-o', default='image', choices=['image', 'ram'], help='the observation type, either `image` (default) or `ram`')
 parser.add_argument('--players', '-p', type=int, default=1, help='number of players/agents (default: 1)')
 args = parser.parse_args()
 
-env = retro.make(args.game, args.state or retro.State.DEFAULT, scenario=args.scenario, record=args.record, players=args.players)
+obs_type = retro.Observations.IMAGE if args.obs_type == 'image' else retro.Observations.RAM
+env = retro.make(args.game, args.state or retro.State.DEFAULT, scenario=args.scenario, record=args.record, players=args.players, obs_type=obs_type)
 verbosity = args.verbose - args.quiet
 try:
     while True:
