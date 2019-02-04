@@ -1,0 +1,22 @@
+{
+  "crop": [
+    0,
+    0,
+    0,
+    0
+  ],
+  "done": {
+    "variables": {
+      "terminal": {
+        "op": "zero"
+      }
+    }
+  },
+  "reward": {
+    "variables": {
+      "score": {
+        "reward": 100.0
+      }
+    }
+  }
+}
