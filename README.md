@@ -217,11 +217,11 @@ Building from source on Windows is currently difficult to configure. Docker cont
 
 # Example scripts
 
-In the `retro\examples` directory there are some example scripts:
+In the `retro/examples` directory there are some example scripts:
 
-1. [`random_agent.py`](retro\examples\random_agent.py), loads up a given game and state file and picks random actions every step. It will print the current reward and will exit when the scenario is done. Note that it will throw an exception if no reward or scenario data is defined for that game. This script is useful to see if a scenario is properly set up and that the reward function isn't too generous.
+1. [`random_agent.py`](retro/examples/random_agent.py), loads up a given game and state file and picks random actions every step. It will print the current reward and will exit when the scenario is done. Note that it will throw an exception if no reward or scenario data is defined for that game. This script is useful to see if a scenario is properly set up and that the reward function isn't too generous.
 
-2. [`brute.py`](retro\examples\brute.py), implementation of a simple algorithm for deterministic environments that is able to do surprisingly well at retro games.
+2. [`brute.py`](retro/examples/brute.py), implementation of a simple algorithm for deterministic environments that is able to do surprisingly well at retro games.
 
 # Add new ROMs
 
