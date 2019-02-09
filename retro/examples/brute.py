@@ -1,5 +1,5 @@
 """
-Implementation of The Brute from "Revisiting the Arcade Learning Environment:
+Implementation of the Brute from "Revisiting the Arcade Learning Environment:
 Evaluation Protocols and Open Problems for General Agents" by Machado et al.
 https://arxiv.org/abs/1709.06009
 
@@ -7,22 +7,14 @@ This is an agent that uses the determinism of the environment in order to do
 pretty well at a number of retro games.  It does not save emulator state but
 does rely on the same sequence of actions producing the same result when played
 back.
-
-This script depends on baselines
 """
-
-# TODO:
-# save best bk2 periodically by walking agressively through tree
 
 import random
 import time
 import os
 
-import gin
 import numpy as np
 import retro
-from baselines import logger
-from baselines.common.retro_wrappers import TimeLimit
 import gym
 
 
@@ -31,22 +23,41 @@ EXPLORATION_PARAM = 0.005
 
 class Frameskip(gym.Wrapper):
     def __init__(self, env, skip=4):
-        gym.Wrapper.__init__(self, env)
+        super().__init__(env)
         self._skip = skip
 
     def reset(self):
         return self.env.reset()
 
     def step(self, act):
-        total_reward = 0.0
+        total_rew = 0.0
         done = None
         for i in range(self._skip):
-            obs, reward, done, info = self.env.step(act)
-            total_reward += reward
+            obs, rew, done, info = self.env.step(act)
+            total_rew += rew
             if done:
                 break
 
-        return obs, total_reward, done, info
+        return obs, total_rew, done, info
+
+
+class TimeLimit(gym.Wrapper):
+    def __init__(self, env, max_episode_steps=None):
+        super().__init__(env)
+        self._max_episode_steps = max_episode_steps
+        self._elapsed_steps = 0
+
+    def step(self, ac):
+        observation, reward, done, info = self.env.step(ac)
+        self._elapsed_steps += 1
+        if self._elapsed_steps >= self._max_episode_steps:
+            done = True
+            info['TimeLimit.truncated'] = True
+        return observation, reward, done, info
+
+    def reset(self, **kwargs):
+        self._elapsed_steps = 0
+        return self.env.reset(**kwargs)
 
 
 class Node:
@@ -63,27 +74,6 @@ class Node:
         )
 
 
-def format_seconds(s):
-    """Format seconds in some more human readable but less accurate form"""
-    s = int(s)
-    w, d, h, m, s = (
-        s // (60 * 60 * 24 * 7),
-        s // (60 * 60 * 24) % 7,
-        s // (60 * 60) % 24,
-        s // 60 % 60,
-        s % 60,
-    )
-    parts = []
-    for value, suffix in [(w, "w"), (d, "d"), (h, "h"), (m, "m"), (s, "s")]:
-        if len(parts) > 0 or (len(parts) == 0 and value > 0):
-            parts.append(f"{value}{suffix}")
-
-    if len(parts) > 0:
-        return " ".join(parts[:2])
-
-    return f"{s}s"
-
-
 def select_actions(root, action_space, max_episode_steps):
     """
     Select actions from the tree
@@ -92,13 +82,18 @@ def select_actions(root, action_space, max_episode_steps):
     associated with that subtree.  We have a small chance to select a
     random action based on the exploration param and visit count of the
     current node at each step.
+
+    We select actions for the longest possible episode, but normally these
+    will not all be used.  They will instead be truncated to the length
+    of the actual episode and then used to update the tree.
     """
     node = root
-    acts = []
 
+    acts = []
     steps = 0
     while steps < max_episode_steps:
         if node is None:
+            # we've fallen off the explored area of the tree, just select random actions
             act = action_space.sample()
         else:
             epsilon = EXPLORATION_PARAM / np.log(node.visits + 2)
@@ -169,61 +164,25 @@ def update_tree(root, executed_acts, total_rew):
 
 
 class Brute:
+    """
+    Implementation of the Brute
+
+    Creates and manages the tree storing game actions and rewards
+    """
     def __init__(self, env, max_episode_steps):
         self.node_count = 1
         self._root = Node()
         self._env = env
-        self._action_space = self.env.action_space
         self._max_episode_steps = max_episode_steps
 
     def run(self):
-        acts = select_actions(self._root, self._action_space, self._max_episode_steps)
+        acts = select_actions(self._root, self._env.action_space, self._max_episode_steps)
         steps, total_rew = rollout(self._env, acts)
         executed_acts = acts[:steps]
         self.node_count += update_tree(self._root, executed_acts, total_rew)
         return executed_acts, total_rew
 
 
-def test_brute():
-    from csh_trees.envs import create_maze_mdp
-
-    def make_env():
-        env = create_maze_mdp()
-        env = TimeLimit(env, max_episode_steps=100)
-        return env
-
-    env = make_env()
-    b = Brute(env=env, max_episode_steps=100)
-    acts, total_rew = b.run()
-    assert len(acts) > 1
-
-    read_acts = []
-    node = b.root
-    while len(node.children) > 0:
-        assert len(node.children) == 1
-        node_values = [
-            (child.value, act, child) for act, child in node.children.items()
-        ]
-        _next_value, act, next_node = sorted(node_values)[-1]
-        if next_node.visits == 0:
-            break
-        read_acts.append(act)
-        node = next_node
-    assert acts == read_acts
-    assert b.root.value == total_rew
-
-    # make sure we get the same reward when we do the rollout ourselves
-    empirical_rew = 0
-    b.env.reset()
-    for act in acts:
-        _obs, rew, done, info = b.env.step(act)
-        empirical_rew += rew
-        if done:
-            break
-    assert empirical_rew == total_rew
-
-
-@gin.configurable
 def brute_retro(
     game,
     max_episode_steps=4500,
@@ -236,47 +195,26 @@ def brute_retro(
     env = Frameskip(env)
     env = TimeLimit(env, max_episode_steps=max_episode_steps)
 
-    start = time.time()
-    b = Brute(env, max_episode_steps=max_episode_steps)
+    brute = Brute(env, max_episode_steps=max_episode_steps)
     timesteps = 0
-    loop_count = 0
     best_rew = 0
     while True:
-        acts, rew = b.run()
-
-        logger.logkv_mean("avg_ep_len", len(acts))
-        logger.logkv_mean("avg_ep_rew", rew)
+        acts, rew = brute.run()
+        timesteps += len(acts)
 
         if rew > best_rew:
-            logger.log(f"new best reward {rew} => {best_rew}")
-            best_bk2_path = os.path.join(logger.get_dir(), "best.bk2")
-            env.unwrapped.record_movie(best_bk2_path)
+            print(f"new best reward {best_rew} => {rew}")
+            best_rew = rew
+            env.unwrapped.record_movie("best.bk2")
             env.reset()
             for act in acts:
                 env.step(act)
             env.unwrapped.stop_record()
 
         if timesteps > timestep_limit:
-            logger.log("timestep limit exceeded")
+            print("timestep limit exceeded")
             break
-
-        if loop_count == 0 or loop_count % log_interval == 0:
-            logger.logkvs(
-                loop_count=loop_count,
-                timesteps=timesteps,
-                timestep_limit=timestep_limit,
-                percent=timesteps / timestep_limit * 100,
-                timesteps_per_sec=(timesteps / (time.time() - start)),
-                node_count=b.node_count,
-            )
-            logger.dumpkvs()
-            elapsed = format_seconds(time.time() - start)
-            remaining = format_seconds(
-                (time.time() - start) / timesteps * (timestep_limit - timesteps)
-            )
-            logger.info(f"elapsed {elapsed}  remaining {remaining}")
-        loop_count += 1
 
 
 if __name__ == "__main__":
-    brute_retro(game="Airstriker-Genesis", timestep_limit=1e9)
+    brute_retro(game="Airstriker-Genesis")
