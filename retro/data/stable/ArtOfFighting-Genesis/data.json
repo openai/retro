@@ -7,6 +7,10 @@
     "score": {
       "address": 16716216,
       "type": ">d4"
+    },
+    "total_rounds": {
+      "address": 16716213,
+      "type": "|u1"
     }
   }
 }

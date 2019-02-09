@@ -1,5 +1,26 @@
 {
+  "crop": [
+    0,
+    0,
+    0,
+    0
+  ],
   "done": {
+    "nodes": {
+      "double_ko": {
+        "condition": "all",
+        "variables": {
+          "enemy_rounds_won": {
+            "op": "equal",
+            "reference": 1
+          },
+          "total_rounds": {
+            "op": "equal",
+            "reference": 3
+          }
+        }
+      }
+    },
     "variables": {
       "enemy_rounds_won": {
         "op": "equal",

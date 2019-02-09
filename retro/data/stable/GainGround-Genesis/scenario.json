@@ -1,5 +1,21 @@
 {
+  "crop": [
+    0,
+    0,
+    0,
+    0
+  ],
   "done": {
+    "nodes": {
+      "otherGameover": {
+        "variables": {
+          "gameover": {
+            "op": "equal",
+            "reference": 28
+          }
+        }
+      }
+    },
     "variables": {
       "gameover": {
         "op": "equal",
