@@ -7,13 +7,9 @@
     }
   },
   "reward": {
-    "variables": {
-      "score": {
-        "reward": 100.0
-      },
-      "scoreHi": {
-        "reward": 1000000.0
-      }
-    }
-  }
+    "script": "lua:reward"
+  },
+  "scripts": [
+    "script.lua"
+  ]
 }
