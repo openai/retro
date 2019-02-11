@@ -27,6 +27,10 @@
     "score5": {
       "address": 56711,
       "type": "|u1"
+    },
+    "score6": {
+      "address": 56710,
+      "type": "|u1"
     }
   }
 }
