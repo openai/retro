@@ -1,8 +1,15 @@
 {
+  "crop": [
+    0,
+    0,
+    0,
+    0
+  ],
   "done": {
     "variables": {
       "lives": {
-        "op": "zero"
+        "op": "equal",
+        "reference": 1
       }
     }
   },

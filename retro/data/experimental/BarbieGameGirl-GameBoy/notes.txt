@@ -1,2 +1,2 @@
-Slightly incorrect done condition - ends 1 life early
+Slightly incorrect done condition - ends 2 lives early
 Moved to experimental because the game is a little crashy
