@@ -1,4 +1,10 @@
 {
+  "crop": [
+    0,
+    0,
+    0,
+    0
+  ],
   "done": {
     "variables": {
       "lives": {
@@ -31,10 +37,6 @@
       "score5": {
         "penalty": 100000.0,
         "reward": 100000.0
-      },
-      "score6": {
-        "penalty": 1000000.0,
-        "reward": 1000000.0
       }
     }
   }
