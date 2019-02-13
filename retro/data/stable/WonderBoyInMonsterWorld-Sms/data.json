@@ -1,5 +1,9 @@
 {
   "info": {
+    "gold": {
+      "address": 50813,
+      "type": "<u2"
+    },
     "health": {
       "address": 50573,
       "type": "|u1"
@@ -7,10 +11,6 @@
     "lives": {
       "address": 50564,
       "type": "|u1"
-    },
-    "score": {
-      "address": 50813,
-      "type": "<u2"
     }
   }
 }

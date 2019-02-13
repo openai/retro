@@ -1,4 +1,10 @@
 {
+  "crop": [
+    0,
+    0,
+    0,
+    0
+  ],
   "done": {
     "condition": "all",
     "variables": {
@@ -12,7 +18,7 @@
   },
   "reward": {
     "variables": {
-      "score": {
+      "gold": {
         "reward": 1.0
       }
     }

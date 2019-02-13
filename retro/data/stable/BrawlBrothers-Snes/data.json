@@ -9,8 +9,8 @@
       "type": "|i1"
     },
     "score": {
-      "address": 8259552,
-      "type": "<d2"
+      "address": 8259554,
+      "type": "|d1"
     }
   }
 }
