@@ -78,7 +78,7 @@ setup(
     install_requires=['gym'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
     cmdclass={'build_ext': CMakeBuild},
-    packages=['retro', 'retro.data', 'retro.data.stable', 'retro.data.experimental', 'retro.data.contrib', 'retro.scripts', 'retro.import'],
+    packages=['retro', 'retro.data', 'retro.data.stable', 'retro.data.experimental', 'retro.data.contrib', 'retro.scripts', 'retro.import', 'retro.examples'],
     package_data={
         'retro': ['cores/*.json', 'cores/*_libretro*', 'VERSION.txt', 'README.md', 'LICENSES.md'],
         'retro.data.stable': platform_globs,
