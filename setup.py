@@ -14,7 +14,7 @@ if not os.path.exists(os.path.join(os.path.dirname(__file__), '.git')):
 else:
     def version_scheme(version):
         with open(VERSION_PATH) as v:
-            version_file = v.read()
+            version_file = v.read().strip()
         if version.distance:
             version_file += '.dev%d' % version.distance
         return version_file
@@ -73,7 +73,7 @@ setup(
     author='OpenAI',
     author_email='csh@openai.com',
     url='https://github.com/openai/retro',
-    version=open(VERSION_PATH, 'r').read(),
+    version=open(VERSION_PATH, 'r').read().strip(),
     license='MIT',
     install_requires=['gym'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
