@@ -1,0 +1,1 @@
+disabled until bugs in the snes core can be fixed: https://github.com/openai/retro/issues/115
