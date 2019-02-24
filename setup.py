@@ -46,8 +46,7 @@ class CMakeBuild(build_ext):
             try:
                 import cmake
             except ImportError:
-                import pip
-                pip.main(['install', 'cmake'])
+                subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'cmake'])
                 import cmake
             cmake_exe = os.path.join(cmake.CMAKE_BIN_DIR, 'cmake')
         subprocess.check_call([cmake_exe, '.', '-G', 'Unix Makefiles', build_type, pyext_suffix, pylib_dir, python_executable])
