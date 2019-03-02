@@ -4,6 +4,8 @@ import shlex
 import json
 import glob
 import sys
+import re
+import shutil
 
 
 class Fold:
@@ -93,6 +95,14 @@ def main():
             if os_name == 'osx' or cross in ('win32', 'win64'):
                 # package the UI for uploading
                 call(['cpack'])
+                # assuming this is running on the latest commit, rename
+                # the UI so that we can easily link to the latest version
+                for filepath in glob.glob('Gym Retro-*.*'):
+                    basename = os.path.basename(filepath)
+                    m = re.match(r'Gym Retro-.*-([^-]+)', basename)
+                    new_basename = 'Gym Retro-latest-' + m.group(1)
+                    new_filepath = os.path.join(os.path.dirname(filepath), new_basename)
+                    shutil.copy(filepath, new_filepath)
                 upload_to_gcs(['Gym Retro-*.*'], upload_dir)
             elif not cross and os_name == 'linux':
                 call(['auditwheel', 'repair', '-w', 'dist'] + glob.glob('dist/*.whl'))
