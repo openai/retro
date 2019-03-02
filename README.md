@@ -120,7 +120,11 @@ python -m retro.scripts.playback_movie AirStriker-Genesis-Level1-000000.bk2
 
 # Integration User Interface
 
-The integration UI helps you easily find variables and see what is going on with the reward function.  Binaries for this are not currently available, so you'll have to build this from source, see [Install Retro UI from source](#install-retro-ui-from-source).
+The integration UI helps you easily find variables and see what is going on with the reward function.  You can download the compiled UI package for your platform here:
+
+* [Windows Integration UI](https://storage.cloud.google.com/gym-retro/builds/Gym%20Retro-latest-win64.zip)
+* [Mac Integration UI](https://storage.cloud.google.com/gym-retro/builds/Gym%20Retro-latest-Darwin.dmg)
+
 
 # Development
 
