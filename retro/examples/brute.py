@@ -167,6 +167,7 @@ class Brute:
 
     Creates and manages the tree storing game actions and rewards
     """
+
     def __init__(self, env, max_episode_steps):
         self.node_count = 1
         self._root = Node()
@@ -189,7 +190,7 @@ def brute_retro(
     state=retro.State.DEFAULT,
     scenario=None,
 ):
-    env = retro.make(game, state, use_restricted_actions=retro.Actions.DISCRETE)
+    env = retro.make(game, state, use_restricted_actions=retro.Actions.DISCRETE, scenario=scenario)
     env = Frameskip(env)
     env = TimeLimit(env, max_episode_steps=max_episode_steps)
 
