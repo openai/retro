@@ -186,7 +186,6 @@ def brute_retro(
     game,
     max_episode_steps=4500,
     timestep_limit=100_000_000,
-    log_interval=100,
     state=retro.State.DEFAULT,
     scenario=None,
 ):
