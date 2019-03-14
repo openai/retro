@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Gym Retro &mdash; Gym Retro  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> Gym Retro
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gym Retro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">Game Integration</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Gym Retro</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Gym Retro</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <p><strong>Status:</strong> Maintenance (expect bug fixes and minor updates)</p>
+<div class="section" id="gym-retro">
+<h1>Gym Retro<a class="headerlink" href="#gym-retro" title="Permalink to this headline">¶</a></h1>
+<p>Gym Retro lets you turn classic video games into <a class="reference external" href="https://gym.openai.com/">Gym</a> environments for Reinforcement Learning and comes with integrations for ~1000 games.  It uses various emulators that support the <a class="reference external" href="https://www.libretro.com/index.php/api/">Libretro API</a>, making it fairly easy to add new emulators.</p>
+<p>Supported platforms:</p>
+<ul class="simple">
+<li>Windows 7, 8, 10</li>
+<li>macOS 10.12 (Sierra), 10.13 (High Sierra), 10.14 (Mojave)</li>
+<li>Linux (manylinux1)</li>
+</ul>
+<p>Supported Pythons:</p>
+<ul class="simple">
+<li>3.5</li>
+<li>3.6</li>
+<li>3.7</li>
+</ul>
+<p>Each game integration has files listing memory locations for in-game variables, reward functions based on those variables, episode end conditions, savestates at the beginning of levels and a file containing hashes of ROMs that work with these files.</p>
+<p>Please note that ROMs are not included and you must obtain them yourself.  Most ROM hashes are sourced from their respective No-Intro SHA-1 sums.</p>
+</div>
+<div class="section" id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<p>Documentation is available at <a class="reference external" href="https://openai.github.io/retro">https://openai.github.io/retro</a></p>
+<p>You should probably start with the <a class="reference external" href="https://openai.github.io/retro/getting_started.html">Getting Started Guide</a>.</p>
+</div>
+<div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://github.com/openai/retro/blob/master/CHANGES.md">See CHANGES.md</a></p>
+</div>
+<div class="section" id="emulated-systems">
+<h1>Emulated Systems<a class="headerlink" href="#emulated-systems" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Atari<ul>
+<li>Atari2600 (via Stella)</li>
+</ul>
+</li>
+<li>NEC<ul>
+<li>TurboGrafx-16/PC Engine (via Mednafen/Beetle PCE Fast)</li>
+</ul>
+</li>
+<li>Nintendo<ul>
+<li>Game Boy/Game Boy Color (via gambatte)</li>
+<li>Game Boy Advance (via mGBA)</li>
+<li>Nintendo Entertainment System (via FCEUmm)</li>
+<li>Super Nintendo Entertainment System (via Snes9x)</li>
+</ul>
+</li>
+<li>Sega<ul>
+<li>GameGear (via Genesis Plus GX)</li>
+<li>Genesis/Mega Drive (via Genesis Plus GX)</li>
+<li>Master System (via Genesis Plus GX)</li>
+</ul>
+</li>
+</ul>
+<p>See <a class="reference external" href="https://github.com/openai/retro/blob/master/LICENSES.md">LICENSES.md</a> for information on the licenses of the individual cores.</p>
+</div>
+<div class="section" id="included-roms">
+<h1>Included ROMs<a class="headerlink" href="#included-roms" title="Permalink to this headline">¶</a></h1>
+<p>The following non-commercial ROMs are included with Gym Retro for testing purposes:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.pouet.net/prod.php?which=2762">the 128 sine-dot</a> by Anthrox</li>
+<li><a class="reference external" href="https://pdroms.de/files/gamegear/sega-tween">Sega Tween</a> by Ben Ryves</li>
+<li><a class="reference external" href="http://www.pouet.net/prod.php?which=52716">Happy 10!</a> by Blind IO</li>
+<li><a class="reference external" href="https://pdroms.de/files/pcengine/512-colour-test-demo">512-Colour Test Demo</a> by Chris Covell</li>
+<li><a class="reference external" href="http://www.pouet.net/prod.php?which=67142">Dekadrive</a> by Dekadence</li>
+<li><a class="reference external" href="https://pdroms.de/files/atari2600/automaton-minigame-compo-2003">Automaton</a> by Derek Ledbetter</li>
+<li><a class="reference external" href="http://privat.bahnhof.se/wb800787/gb/demo/64/">Fire</a> by dox</li>
+<li><a class="reference external" href="http://www.pouet.net/prod.php?which=53497">FamiCON intro</a> by dr88</li>
+<li><a class="reference external" href="https://pdroms.de/genesis/airstriker-v1-50-genesis-game">Airstriker</a> by Electrokinesis</li>
+<li><a class="reference external" href="https://pdroms.de/files/gameboyadvance/lost-marbles">Lost Marbles</a> by Vantage</li>
+</ul>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Gym Retro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#create-a-gym-environment">Create a Gym Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#example-usage">Example Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#integrations">Integrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#importing-roms">Importing ROMs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python.html#retroenv">RetroEnv</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#actions">Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#observations">Observations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#multiplayer-environments">Multiplayer Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html#replay-files">Replay files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developing.html#install-retro-from-source">Install Retro from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing.html#install-retro-ui-from-source">Install Retro UI from source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">Game Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#example-integration">Example Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#integration-files">Integration Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#the-integration-ui">The Integration UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#supported-rom-types">Supported ROM Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#integrating-a-game">Integrating a Game</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#appendix-types">Appendix: Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html#appendix-operations">Appendix: Operations</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenAI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

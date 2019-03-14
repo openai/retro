@@ -1,0 +1,584 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Game Integration &mdash; Gym Retro  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Development" href="developing.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Gym Retro
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Gym Retro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Development</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Game Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example-integration">Example Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#level1-state"><code class="docutils literal notranslate"><span class="pre">Level1.state</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-json"><code class="docutils literal notranslate"><span class="pre">data.json</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scenario-json"><code class="docutils literal notranslate"><span class="pre">scenario.json</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metadata-json"><code class="docutils literal notranslate"><span class="pre">metadata.json</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rom-md"><code class="docutils literal notranslate"><span class="pre">rom.md</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rom-sha"><code class="docutils literal notranslate"><span class="pre">rom.sha</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#integration-files">Integration Files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#states">States</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variable-locations-data-json">Variable Locations <code class="docutils literal notranslate"><span class="pre">data.json</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scenario-scenario-json">Scenario <code class="docutils literal notranslate"><span class="pre">scenario.json</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#the-integration-ui">The Integration UI</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#integrating-a-new-rom">Integrating a new ROM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#supported-rom-types">Supported ROM Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#integrating-a-game">Integrating a Game</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#done-condition">Done Condition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reward-function">Reward Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#finding-variables">Finding Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#common-errors">Common Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#appendix-types">Appendix: Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#appendix-operations">Appendix: Operations</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Gym Retro</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Game Integration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/integration.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="game-integration">
+<span id="id1"></span><h1>Game Integration<a class="headerlink" href="#game-integration" title="Permalink to this headline">¶</a></h1>
+<p>Integrating a game means taking a video game ROM file and setting it up as a reinforcement learning environment by defining 3 things:</p>
+<ul class="simple">
+<li>A starting state</li>
+<li>A reward function</li>
+<li>A done condition</li>
+</ul>
+<p>Once integrated, you will be able to use the game through the Gym Retro Python API as a <a class="reference external" href="https://gym.openai.com/">Gym</a> environment.</p>
+<p>If you are going to integrate a new game, you’ll need a ROM for the correct system, see <a class="reference internal" href="#supported-roms"><span class="std std-ref">Supported ROM Types</span></a> for a list.</p>
+<div class="section" id="example-integration">
+<h2>Example Integration<a class="headerlink" href="#example-integration" title="Permalink to this headline">¶</a></h2>
+<p>This is a list of the integration files for the game <a class="reference external" href="https://github.com/openai/retro/blob/master/retro/data/stable/Airstriker-Genesis">AirStriker-Genesis</a>.</p>
+<div class="section" id="level1-state">
+<h3><code class="docutils literal notranslate"><span class="pre">Level1.state</span></code><a class="headerlink" href="#level1-state" title="Permalink to this headline">¶</a></h3>
+<p>This is a savestate from the beginning of the game, restarting the environment will put the agent at this point in the game.</p>
+</div>
+<div class="section" id="data-json">
+<h3><code class="docutils literal notranslate"><span class="pre">data.json</span></code><a class="headerlink" href="#data-json" title="Permalink to this headline">¶</a></h3>
+<p>This file defines the list of game-related variables that python can see based on their memory addresses in the games</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;gameover&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="mi">16712294</span><span class="p">,</span>
+      <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;u2&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;lives&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="mi">16712282</span><span class="p">,</span>
+      <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;u2&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="mi">16712270</span><span class="p">,</span>
+      <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;u4&quot;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scenario-json">
+<h3><code class="docutils literal notranslate"><span class="pre">scenario.json</span></code><a class="headerlink" href="#scenario-json" title="Permalink to this headline">¶</a></h3>
+<p>This file defines the reward function and done condition using the variables defined in <cite>data.json</cite></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;done&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;condition&quot;</span><span class="p">:</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;gameover&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="s2">&quot;equal&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;reference&quot;</span><span class="p">:</span> <span class="mi">1</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;lives&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;op&quot;</span><span class="p">:</span> <span class="s2">&quot;zero&quot;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;reward&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s2">&quot;score&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;reward&quot;</span><span class="p">:</span> <span class="mf">1.0</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="metadata-json">
+<h3><code class="docutils literal notranslate"><span class="pre">metadata.json</span></code><a class="headerlink" href="#metadata-json" title="Permalink to this headline">¶</a></h3>
+<p>This file defines the default starting state if no state is specified by the user as well as some miscellaneous debugging information.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;default_state&quot;</span><span class="p">:</span> <span class="s2">&quot;Level1&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;whitelist&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;data.json&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">&quot;suspicious type &gt;u2 for lives&quot;</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rom-md">
+<h3><code class="docutils literal notranslate"><span class="pre">rom.md</span></code><a class="headerlink" href="#rom-md" title="Permalink to this headline">¶</a></h3>
+<p>This is the ROM file used for this game, with a few exceptions, ROM files are not included in Gym Retro, but will be in your local copy of Gym Retro after you import them.</p>
+</div>
+<div class="section" id="rom-sha">
+<h3><code class="docutils literal notranslate"><span class="pre">rom.sha</span></code><a class="headerlink" href="#rom-sha" title="Permalink to this headline">¶</a></h3>
+<p>This is the SHA1 hash of the <cite>rom.md</cite> file, used for importing ROMs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">a8be7b0ca850119b167f9644e6a4a22e983d61a4</span>
+</pre></div>
+</div>
+<p>These are all the files used in an integration.  The next section will describe the files in more detail.</p>
+</div>
+</div>
+<div class="section" id="integration-files">
+<h2>Integration Files<a class="headerlink" href="#integration-files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="states">
+<h3>States<a class="headerlink" href="#states" title="Permalink to this headline">¶</a></h3>
+<p>Emulation allows the entire state of a video game system to be stored to disk and restored. These files are specific to the emulator, but always end with <cite>.state</cite>. These are identical to the versions used in the standalone versions of the emulators but gzipped.</p>
+</div>
+<div class="section" id="variable-locations-data-json">
+<h3>Variable Locations <code class="docutils literal notranslate"><span class="pre">data.json</span></code><a class="headerlink" href="#variable-locations-data-json" title="Permalink to this headline">¶</a></h3>
+<p>Information about the inner workings of games are stored alongside the ROM in a file named <code class="docutils literal notranslate"><span class="pre">data.json</span></code>. This JSON file documents “ground truth” information about a game, including the locations and formats of variables in memory. These manifests are separated into sections, although only one section currently is defined:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">info</span></code> section of the manifest lists game variables’ memory addresses. Each entry in the <code class="docutils literal notranslate"><span class="pre">info</span></code> section consists of a key naming the memory address and the following values:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">address</span></code>: The address into a RAM array of the first byte of the variable.</li>
+<li><code class="docutils literal notranslate"><span class="pre">type</span></code>: A type descriptor for this variable. See the above addendum for the format of this value.</li>
+</ul>
+<p>The following manifest shows an example of a game that has one variable, <code class="docutils literal notranslate"><span class="pre">score</span></code>, located at byte 128 that is 4 bytes wide in unsigned big endian format:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+        <span class="nt">&quot;info&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;score&quot;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="nt">&quot;address&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+                        <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;u4&quot;</span>
+                <span class="p">}</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>For more information on the possible variable types, see <a class="reference internal" href="#appendix-types"><span class="std std-ref">Appendix: Types</span></a>.</p>
+</div>
+<div class="section" id="scenario-scenario-json">
+<h3>Scenario <code class="docutils literal notranslate"><span class="pre">scenario.json</span></code><a class="headerlink" href="#scenario-scenario-json" title="Permalink to this headline">¶</a></h3>
+<p>Information pertaining to reward functions and done conditions can either be specified by manually overriding functions in <a class="reference internal" href="python.html#retro.RetroEnv" title="retro.RetroEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">retro.RetroEnv</span></code></a> or can be done by writing a scenario file.</p>
+<p>Scenario files contain information that is used to compute the reward function and done condition from variables defined in the information manifest. Each variable specified in the scenario file is multiplied by a <code class="docutils literal notranslate"><span class="pre">reward</span></code> value if positive and a <code class="docutils literal notranslate"><span class="pre">penalty</span></code> value if negative and then summed up to create the reward for that step. Similarly, states of these variables can be checked to see if the game is over. By default the scenario file will be loaded from <code class="docutils literal notranslate"><span class="pre">scenario.json</span></code>, but alternative scenario files can be specified in the <a class="reference internal" href="python.html#retro.RetroEnv" title="retro.RetroEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">retro.RetroEnv</span></code></a> constructor.</p>
+<p>Scenario files are again JSON and specified with the following sections:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">reward</span></code> section used to calculate the reward function, and it split into the following subsections:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">variables</span></code> subsection is used for defining how to calculate the reward function from the current state of memory. For each variable in the <code class="docutils literal notranslate"><span class="pre">variables</span></code> section, a value is calculated, multiplied by a coefficient, then added to the reward function for this step. How a value is extracted is specified by the <code class="docutils literal notranslate"><span class="pre">op</span></code>/<code class="docutils literal notranslate"><span class="pre">measurement</span></code>/<code class="docutils literal notranslate"><span class="pre">reference</span></code> values (see the addendum below on operations for the meanings of these). The default <code class="docutils literal notranslate"><span class="pre">measurement</span></code> is <code class="docutils literal notranslate"><span class="pre">delta</span></code>. There is no default <code class="docutils literal notranslate"><span class="pre">op</span></code>, and by default the value is passed through raw.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">reward</span></code>: A coefficient multiplied by the value when the value is positive.</li>
+<li><code class="docutils literal notranslate"><span class="pre">penalty</span></code>: A coefficient multiplied by the value when the value is negative.</li>
+</ul>
+<p>A negative <code class="docutils literal notranslate"><span class="pre">penalty</span></code> would imply addition to the reward function instead of subtraction as the value to be multiplied by the coefficient is negative.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">time</span></code> subsection is used for creating rewards based off of how many steps are taken. Two values can be specified:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">reward</span></code>: A value to be added to the reward function every step.</li>
+<li><code class="docutils literal notranslate"><span class="pre">penalty</span></code>: A value to be subtracted from the reward function every step.</li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">done</span></code> section is used to calculate if the end of a game has been reached. At the top level the following property is available:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">condition</span></code>: Specifies how the <code class="docutils literal notranslate"><span class="pre">done</span></code> conditions should be combined
+- <code class="docutils literal notranslate"><span class="pre">any</span></code>: Any of the conditions in the <code class="docutils literal notranslate"><span class="pre">done</span></code> section is fulfilled. This is the default.
+- <code class="docutils literal notranslate"><span class="pre">all</span></code>: All of the conditions in the <code class="docutils literal notranslate"><span class="pre">done</span></code> section are fulfilled.</li>
+</ul>
+<p>Currently it has one subsection:</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">variables</span></code> subsection specifies how to calculate the done condition from the current state of memory. Each variable in the <code class="docutils literal notranslate"><span class="pre">variables</span></code> subsection is extracted per the <code class="docutils literal notranslate"><span class="pre">op</span></code>/<code class="docutils literal notranslate"><span class="pre">measurement</span></code>/<code class="docutils literal notranslate"><span class="pre">reference</span></code> values (see the addendum below on operations for the meanings of these). The default <code class="docutils literal notranslate"><span class="pre">measurement</span></code> is <code class="docutils literal notranslate"><span class="pre">absolute</span></code>. There is no default <code class="docutils literal notranslate"><span class="pre">op</span></code>, and by default the value is ignored.</p>
+<p>For more information on the conditions that can be defined, see <a class="reference internal" href="#appendix-operations"><span class="std std-ref">Appendix: Operations</span></a>.</p>
+</div>
+</div>
+<div class="section" id="the-integration-ui">
+<span id="integration-ui"></span><h2>The Integration UI<a class="headerlink" href="#the-integration-ui" title="Permalink to this headline">¶</a></h2>
+<p>The integration UI helps you easily find variables and see what is going on with the reward function.  You can download the compiled UI package for your platform here:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://storage.cloud.google.com/gym-retro/builds/Gym%20Retro-latest-win64.zip">Windows Integration UI</a></li>
+<li><a class="reference external" href="https://storage.cloud.google.com/gym-retro/builds/Gym%20Retro-latest-Darwin.dmg">Mac Integration UI</a></li>
+</ul>
+<div class="section" id="integrating-a-new-rom">
+<h3>Integrating a new ROM<a class="headerlink" href="#integrating-a-new-rom" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Open the Gym Retro Integration UI</li>
+<li>Load a new game — <code class="docutils literal notranslate"><span class="pre">Command-Shift-O</span></code> on Mac</li>
+<li>Select the ROM of the game you’d like to integrate in the menu</li>
+<li>Name the game</li>
+<li>The game will open. To see what keys correspond to what controls in-game, go to Window &gt; Control</li>
+<li>Using the available controls, select a level, option, mode, character, etc. and take note of these options</li>
+<li>When you are finally at the first playable moment of the game, pause the game (in the integrator, not within the actual game) (<code class="docutils literal notranslate"><span class="pre">Command-P</span></code>), and save the state (<code class="docutils literal notranslate"><span class="pre">Command-S</span></code>). This moment can be hard to find, and you might have to go back through and restart the game (<code class="docutils literal notranslate"><span class="pre">Command-R</span></code>) to find and save that exact state.</li>
+<li>Save the state — include the options you chose in the previous menus — e.g. <code class="docutils literal notranslate"><span class="pre">SailorMoon.QueenBerylsCastle.Easy.Level1.state</span></code></li>
+</ol>
+<p>For Gym Retro integrations, a few notes about ROMs:</p>
+<ul class="simple">
+<li>We have preferred the USA version of ROMs, denoted by one of <code class="docutils literal notranslate"><span class="pre">(USA)</span></code>, <code class="docutils literal notranslate"><span class="pre">(USA,</span> <span class="pre">Europe)</span></code>, <code class="docutils literal notranslate"><span class="pre">(Japan,</span> <span class="pre">USA)</span></code>, etc</li>
+<li>If the ROM has a <code class="docutils literal notranslate"><span class="pre">.bin</span></code> extension, rename it to have the correct extension for that system listed in <a class="reference internal" href="#supported-roms"><span class="std std-ref">Supported ROM Types</span></a></li>
+<li>Use the Gym Retro Integration application and select the Integrate option from the File menu to begin working on integrating it</li>
+</ul>
+</div>
+</div>
+<div class="section" id="supported-rom-types">
+<span id="supported-roms"></span><h2>Supported ROM Types<a class="headerlink" href="#supported-rom-types" title="Permalink to this headline">¶</a></h2>
+<p>ROM files contain the game itself. Each system has a unique file extension to denote which system a given ROM runs on:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">.md</span></code>: Sega Genesis (also known as Mega Drive)</li>
+<li><code class="docutils literal notranslate"><span class="pre">.sfc</span></code>: Super Nintendo Entertainment System (also known as Super Famicom)</li>
+<li><code class="docutils literal notranslate"><span class="pre">.nes</span></code>: Nintendo Entertainment System (also known as Famicom)</li>
+<li><code class="docutils literal notranslate"><span class="pre">.a26</span></code>: Atari 2600</li>
+<li><code class="docutils literal notranslate"><span class="pre">.gb</span></code>: Nintendo Game Boy</li>
+<li><code class="docutils literal notranslate"><span class="pre">.gba</span></code>: Nintendo Game Boy Advance</li>
+<li><code class="docutils literal notranslate"><span class="pre">.gbc</span></code>: Nintendo Game Boy Color</li>
+<li><code class="docutils literal notranslate"><span class="pre">.gg</span></code>: Sega Game Gear</li>
+<li><code class="docutils literal notranslate"><span class="pre">.pce</span></code>: NEC TurboGrafx-16 (also known as PC Engine)</li>
+<li><code class="docutils literal notranslate"><span class="pre">.sms</span></code>: Sega Master System</li>
+</ul>
+<p>Sometimes ROMs from these systems use different extensions, e.g. <code class="docutils literal notranslate"><span class="pre">.gen</span></code> for Genesis, <code class="docutils literal notranslate"><span class="pre">.bin</span></code> for Atari, etc. Please rename the ROMs to use the aforementioned extensions in these cases.</p>
+</div>
+<div class="section" id="integrating-a-game">
+<h2>Integrating a Game<a class="headerlink" href="#integrating-a-game" title="Permalink to this headline">¶</a></h2>
+<p>To integrate a game you need to define a done condition and a reward function.  The done condition lets Gym Retro know when to end a game session, while the reward function provides a simple numeric goal for machine learning agents to maximize.</p>
+<p>To define these, you find variables from the game’s memory, such as the player’s current score and lives remaining, and use those to create the done condition and reward function.  An example done condition is when the <code class="docutils literal notranslate"><span class="pre">lives</span></code> variable is equal to <code class="docutils literal notranslate"><span class="pre">0</span></code>, an example reward function is the change in the <code class="docutils literal notranslate"><span class="pre">score</span></code> variable.</p>
+<p>Note: if the game requires that you hit the <code class="docutils literal notranslate"><span class="pre">Start</span></code> button to play, for instance after dying, then you need to modify the scenario file to allow this as <code class="docutils literal notranslate"><span class="pre">Start</span></code> is disallowed by default.  See the <code class="docutils literal notranslate"><span class="pre">actions</span></code> key in <a class="reference external" href="https://github.com/openai/retro/blob/master/retro/data/stable/KidChameleon-Genesis/scenario.json">KidChameleon-Genesis</a> for an example of this.</p>
+<div class="section" id="done-condition">
+<h3>Done Condition<a class="headerlink" href="#done-condition" title="Permalink to this headline">¶</a></h3>
+<p>This is usually the easier of the two.  The best done condition to use is the Game Over or Continue screen after you run out of lives.  For some games this is when you have zero lives left, for some <code class="docutils literal notranslate"><span class="pre">-1</span></code> lives, for others, it can be pretty hard.</p>
+<p>It’s better to have a simple and reliable but slightly incorrect done condition (e.g. ending the game when you still have 1 life left because it’s hard to detect the 0 life case) than to have a done condition that is unreliable, such as a <code class="docutils literal notranslate"><span class="pre">gameover</span></code> variable that detects when the gameover screen is present most of the time but also incorrectly fires when switching levels.</p>
+<p>If you create a <code class="docutils literal notranslate"><span class="pre">gameover</span></code> variable, make sure to test it with a replay that plays multiple levels in a row to make sure it doesn’t fire accidentally.</p>
+</div>
+<div class="section" id="reward-function">
+<h3>Reward Function<a class="headerlink" href="#reward-function" title="Permalink to this headline">¶</a></h3>
+<p>Reinforcement learning agents try to maximize the reward function.  The ideal reward function would be that you get 1 point for beating the game.  There’s no way to maximize that besides beating the game.</p>
+<p>That reward is impractical though, because existing reinforcement learning algorithms are unable to make progress with a reward that is so hard to get.  Instead we can specify some easier to get reward that, if you maximize it, should result in beating the game.</p>
+<p>If the game has a score, this is often a good choice.  In some games however, you can get as much score as you want by standing in one place and attacking the same enemy over and over as it respawns.  Because that is so different from beating the game, it’s best to have an alternative reward, though these are often very game specific.</p>
+<p>Be careful with non-score variables though, they can be tricky to get right, make sure to play multiple levels using the reward to see if it makes sense.</p>
+<p>Provided you use the score, define a <code class="docutils literal notranslate"><span class="pre">score</span></code> variable and set the reward such that the reward the agent receives matches the score displayed on the screen, make sure to check that you’re not off by a factor of 10 or 100 by comparing to the <code class="docutils literal notranslate"><span class="pre">Cumulative</span></code> value displayed in the <code class="docutils literal notranslate"><span class="pre">Scenario</span> <span class="pre">Information</span></code> pane of the UI.</p>
+</div>
+<div class="section" id="finding-variables">
+<h3>Finding Variables<a class="headerlink" href="#finding-variables" title="Permalink to this headline">¶</a></h3>
+<p>It’s best to keep a consistent pattern for the different types of variables you might add to a game’s <code class="docutils literal notranslate"><span class="pre">data.json</span></code> file.  Here are some tips:</p>
+<ol class="arabic simple">
+<li>It’s pretty common for multiple different variables to group themselves together. When narrowing down the search for a particular variable, look at nearby memory addresses if you suspect you have a similar but incorrect variable (for instance you found the high score variable but are looking for the score variable).</li>
+<li>Score occasionally is stored in individual locations — e.g. if the score displayed is <code class="docutils literal notranslate"><span class="pre">123400</span></code>, 1, 2, 3, 4, 0, 0 all will update separately.  If the score is broken into multiple variables, make sure you have penalties set for the individual digits (such as <a class="reference external" href="https://github.com/openai/retro/blob/master/retro/data/stable/BOB-Snes/scenario.json">BOB-Snes</a>). A number of games will update the score value across multiple frames, in this case you will need a lua script to correct the reward, such as <a class="reference external" href="https://github.com/openai/retro/blob/master/retro/data/stable/1942-Nes/script.lua">1942-Nes</a>.</li>
+<li>Check for uncommon lengths of 3, 5, etc. Games don’t always store score in nice neat lengths of multiples of 2, and making sure the variable is the appropriate length is key — if you go too short, then no progress over a certain score is tracked, if you go too long, then the score can suddenly jump between levels, etc.  If you can’t decide between two possible lengths, the shorter length is the safer bet.</li>
+<li>Score variable doesn’t always include the 0s at the end of the game — while the screen might say <code class="docutils literal notranslate"><span class="pre">2400</span></code>, the score variable might only store <code class="docutils literal notranslate"><span class="pre">24</span></code>.  So you will need to multiply by 100 in this case.</li>
+<li>It’s very uncommon, but occasionally, scores can be transposed by a value of 1 — e.g., while the screen says <code class="docutils literal notranslate"><span class="pre">123456</span></code>, the variable is <code class="docutils literal notranslate"><span class="pre">012345</span></code>. Some of these scores start at -1 rather than 0. This can be fixed with lua.</li>
+<li>It’s very uncommon, but some games track health symbolically rather than with one set #. For example, the starting health bar could be represented by <code class="docutils literal notranslate"><span class="pre">9999999</span></code>, which displays as a full health bar, but becomes <code class="docutils literal notranslate"><span class="pre">99999</span></code> after losing two health units.</li>
+<li>In defining a game over variable, look for a binary value that switches between 0 and 1 – 0 when the game is in play, 1 when the game is over.  And make sure to test it by playing a few consecutive levels.</li>
+</ol>
+<p>Once you’ve found a variable, making sure the address and type are correct is important for avoiding issues later.  One of the best ways to do this is to change the value in memory, then change it in the game and make sure it updates correctly.</p>
+<p>For instance if you have a variable called “score” and you want to see if it is <code class="docutils literal notranslate"><span class="pre">&gt;d2</span></code> or <code class="docutils literal notranslate"><span class="pre">&gt;d4</span></code>, set the type to <code class="docutils literal notranslate"><span class="pre">&gt;d4</span></code> and set the value to the maximum for <code class="docutils literal notranslate"><span class="pre">&gt;d2</span></code>, 9999, and then increase the score by playing the game.  If the score increases by 1, and the value in the memory viewer is 10000 and the value in the game is 10000, then <code class="docutils literal notranslate"><span class="pre">&gt;d4</span></code> is correct.  If the value in the memory viewer or game is 0 or 9999, then it’s likely that <code class="docutils literal notranslate"><span class="pre">&gt;d2</span></code> is the correct type or that the address is wrong. You may also want to check if &gt;d3 is the correct type by changing the score to 999999 and playing for a bit.</p>
+<p>You can also check to see if the data type is correct by watching how it increments and decrements in the search window as you play the game. For example, if the value of the variable jumps from <code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">255</span></code>, it’s likely that this is a signed value (represented by <code class="docutils literal notranslate"><span class="pre">i</span></code>) – unsigned values (represented by <code class="docutils literal notranslate"><span class="pre">u</span></code>) are either positive or zero.</p>
+<p>When you search for a variable, different formats at the same location will appear next to each other in the search window. For example, at address <code class="docutils literal notranslate"><span class="pre">16769105</span></code>, you might see <code class="docutils literal notranslate"><span class="pre">&gt;u2</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;i2</span></code>, as well as <code class="docutils literal notranslate"><span class="pre">&gt;d2</span></code> return as search results. Play the game for a little bit, and you might notice that one of the search results increments/decrements in uneven or unusual ways in relation to the other search results at the same address.</p>
+<p>eg: <code class="docutils literal notranslate"><span class="pre">|u1</span></code> at <code class="docutils literal notranslate"><span class="pre">7e094d</span></code> goes from <code class="docutils literal notranslate"><span class="pre">144</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">137</span></code>, <code class="docutils literal notranslate"><span class="pre">|d1</span></code> at <code class="docutils literal notranslate"><span class="pre">7e094d</span></code> (same address) decrements from <code class="docutils literal notranslate"><span class="pre">90</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">89</span></code>, it’s probably <code class="docutils literal notranslate"><span class="pre">|d1</span></code></p>
+<p>If you update the value of a variable but it doesn’t have any effect on the game, it’s likely that you’ve found a copy of the variable, not the correct address.  An example would be a lives variable, but setting it to some higher value and then dying in the game reveals that you didn’t actually increase the number of lives.  It’s often the case that you have to change the value in the game to get things to update (such as losing a life in the previous example).</p>
+<p>Ideally you can find the original since it’s more likely to be correct, so if you can, find a variable that when updated, updates the corresponding value in the game.  The most common source of this is a high score variable which will have the same value as the normal score variable, but updating it will have no effect on your score.</p>
+</div>
+<div class="section" id="common-errors">
+<h3>Common Errors<a class="headerlink" href="#common-errors" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Wrong type for variable: if your score variable is actually <code class="docutils literal notranslate"><span class="pre">&gt;d2</span></code> and you put <code class="docutils literal notranslate"><span class="pre">&gt;d4</span></code>, you may not notice until you get to some later level and the memory address next to the score is used for something, suddenly giving you a very large score.</li>
+<li>Incorrect done condition: it might be that if you run out of time or die in some unusual way that the done condition is not detected correctly.  Make sure to test unusual ways of ending the game, and make sure that your done condition doesn’t fire upon completing a level (unless it’s the final level of the game).  If you’re able to hit continue after dying, make sure that the game ends before the agent can hit continue.</li>
+<li>Score is used as reward, but it’s different from the score displayed in the game: this could happen if you forgot a factor of 10 in the reward, or if you’re calculating the score based on some other variables (e.g. the upper and lower digits of the score, or some variable like <code class="docutils literal notranslate"><span class="pre">number</span> <span class="pre">of</span> <span class="pre">enemies</span> <span class="pre">killed</span> <span class="pre">*</span> <span class="pre">100</span></code>) and there is a bug.  If you play the game for awhile and the reward diverges slightly from the in-game score, it’s possible that the score digits are not always updated at the same time.  In this case, you can use the change in maximum score as the reward, see <a class="reference external" href="https://github.com/openai/retro/blob/master/retro/data/stable/GuardianLegend-Nes/script.lua">GuardianLegend-Nes</a> for an example of this.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="appendix-types">
+<span id="id2"></span><h2>Appendix: Types<a class="headerlink" href="#appendix-types" title="Permalink to this headline">¶</a></h2>
+<p>The types consist of three parts, in order:</p>
+<ul class="simple">
+<li>Endianness</li>
+<li>Format</li>
+<li>Bytes</li>
+</ul>
+<p>Endianness refers to the order of the bytes in memory.
+For example, take the hex string <code class="docutils literal notranslate"><span class="pre">0x01020304</span></code>, which can be stored many ways:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Big endian: <code class="docutils literal notranslate"><span class="pre">0x01</span> <span class="pre">0x02</span> <span class="pre">0x03</span> <span class="pre">0x04</span></code></li>
+<li>Little endian: <code class="docutils literal notranslate"><span class="pre">0x04</span> <span class="pre">0x03</span> <span class="pre">0x02</span> <span class="pre">0x01</span></code></li>
+<li>Middle endian (big outside/little inside): <code class="docutils literal notranslate"><span class="pre">0x02</span> <span class="pre">0x01</span> <span class="pre">0x04</span> <span class="pre">0x03</span></code></li>
+<li>Middle endian (little outside/big inside): <code class="docutils literal notranslate"><span class="pre">0x03</span> <span class="pre">0x04</span> <span class="pre">0x01</span> <span class="pre">0x02</span></code></li>
+</ul>
+</div></blockquote>
+<p>The following sigils correspond to the endiannesses:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&lt;</span></code>: Little</li>
+<li><code class="docutils literal notranslate"><span class="pre">&gt;</span></code>: Big</li>
+<li><code class="docutils literal notranslate"><span class="pre">&gt;&lt;</span></code>: Middle (big/little)</li>
+<li><code class="docutils literal notranslate"><span class="pre">&lt;&gt;</span></code>: Middle (little/big)</li>
+<li><code class="docutils literal notranslate"><span class="pre">=</span></code>: Native (little on most computers)</li>
+<li><code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>: Middle (big/native)</li>
+<li><code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>: Middle (little/native)</li>
+<li><code class="docutils literal notranslate"><span class="pre">|</span></code>: Don’t care (only useful for single-byte values)</li>
+</ul>
+</div></blockquote>
+<p><em>NB</em>: Middle endian is very rare, but some systems store 16-bit values in
+native endian and 32-bit values as two 16-bit values in big endian order.
+One such example is the emulator Genesis Plus GX. Thus, on a big endian
+system the format appears to be <code class="docutils literal notranslate"><span class="pre">=u4</span></code> (aka <code class="docutils literal notranslate"><span class="pre">&gt;u4</span></code>) when it appears as <code class="docutils literal notranslate"><span class="pre">&gt;=u4</span></code>
+on little endian systems. As such some data may require manual grooming.</p>
+<p>Format refers to how in memory a value is stored.
+For example, take the hex byte <code class="docutils literal notranslate"><span class="pre">0x81</span></code>. It could mean three things in decimal:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Unsigned: 129</li>
+<li>Signed: -127</li>
+<li>Binary-coded decimal: 81</li>
+<li>Low-nybble Binary-coded decimal: 1</li>
+</ul>
+</div></blockquote>
+<p><em>NB</em>: The nybbles <code class="docutils literal notranslate"><span class="pre">0xA</span></code> - <code class="docutils literal notranslate"><span class="pre">0xF</span></code> cannot occur in binary-coded decimal.</p>
+<p>The following characters correspond to formats:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">i</span></code>: Signed</li>
+<li><code class="docutils literal notranslate"><span class="pre">u</span></code>: Unsigned</li>
+<li><code class="docutils literal notranslate"><span class="pre">d</span></code>: Binary-coded Decimal</li>
+<li><code class="docutils literal notranslate"><span class="pre">n</span></code>: Low-nybble Binary-coded Decimal</li>
+</ul>
+</div></blockquote>
+<p>Finally, the last piece refers to how many bytes a value occupies in memory.
+Ideally, this should be a power of two, e.g. 1, 2, 4, 8, etc., however non-power of two values are used by some games (e.g. the score in Super Mario Bros. is 6 bytes long), so non-power of two variables are supported.</p>
+<p><em>NB</em>: Native endian and middle endian don’t work with non-power of two sizes or sizes less than 4 bytes. Currently only 4-byte middle endian is properly supported.</p>
+<p>Some examples follow:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&lt;u2</span></code>: Little endian two-byte unsigned value
+(i.e. <code class="docutils literal notranslate"><span class="pre">0x0102</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">0x02</span> <span class="pre">0x01</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">&lt;&gt;u4</span></code>: Middle endian (little/big) four-byte unsigned value
+(i.e. <code class="docutils literal notranslate"><span class="pre">0x01020304</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">0x03</span> <span class="pre">0x04</span> <span class="pre">0x01</span> <span class="pre">0x02</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">&gt;d2</span></code>: Big endian two-byte binary-coded decimal value
+(i.e. <code class="docutils literal notranslate"><span class="pre">1234</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">0x12</span> <span class="pre">0x34</span></code>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">|u1</span></code>: Single unsigned byte</li>
+<li><code class="docutils literal notranslate"><span class="pre">&lt;u3</span></code>: Non-power of two bytes
+(i.e. <code class="docutils literal notranslate"><span class="pre">0x010203</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">0x03</span> <span class="pre">0x02</span> <span class="pre">0x1</span></code>)</li>
+<li>=n2: Native endian two-byte low-nybble binary-coded decimal value
+(i.e. <code class="docutils literal notranslate"><span class="pre">12</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">0x01</span> <span class="pre">0x02</span></code> on Intel and most ARM CPUs, <code class="docutils literal notranslate"><span class="pre">0x02</span> <span class="pre">0x01</span></code> on PowerPC CPUs)</li>
+</ul>
+</div></blockquote>
+<p>Some non-examples:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">|i2</span></code>: Valid but not recommended: Two signed bytes, order undefined</li>
+<li><code class="docutils literal notranslate"><span class="pre">&lt;u1</span></code>: Valid but not recommended: One byte has no order</li>
+<li><code class="docutils literal notranslate"><span class="pre">?u4</span></code>: Invalid: undefined endianness</li>
+<li><code class="docutils literal notranslate"><span class="pre">&gt;q2</span></code>: Invalid: undefined format</li>
+<li><code class="docutils literal notranslate"><span class="pre">=i0</span></code>: Invalid: zero bytes</li>
+<li><code class="docutils literal notranslate"><span class="pre">&gt;&lt;u3</span></code>: Invalid: Non-power of two middle endian bytes</li>
+<li><code class="docutils literal notranslate"><span class="pre">&lt;=u2</span></code>: Invalid: Middle endian does not make sense for two byte values</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="appendix-operations">
+<span id="id3"></span><h2>Appendix: Operations<a class="headerlink" href="#appendix-operations" title="Permalink to this headline">¶</a></h2>
+<p>Games can store information in memory in many various ways, and as such the specific information needed can vary in form too. The basic premise is that once a raw value is extracted from memory an operation may be defined to transform it to a useful form. Furthermore, we may want raw values in a given step or the deltas between two steps. Thus three properties are defined:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">measurement</span></code>: The method used for extracting the raw value. May be <code class="docutils literal notranslate"><span class="pre">absolute</span></code> for the current value and <code class="docutils literal notranslate"><span class="pre">delta</span></code> for the difference between the current and previous value. The default varies based on context.</li>
+<li><code class="docutils literal notranslate"><span class="pre">op</span></code>: The specific operation to apply to this value. Valid operations are defined below.</li>
+<li><code class="docutils literal notranslate"><span class="pre">reference</span></code>: The reference value for an operation, if needed.</li>
+</ul>
+<p>The following operations are defined:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">nonzero</span></code>: Returns 0 if the value is 0, 1 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">zero</span></code>: Returns 1 if the value is 0, 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">positive</span></code>: Returns 1 if the value is positive, 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">negative</span></code>: Returns 1 if the value is negative, 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">sign</span></code>: Returns 1 if the value is positive, -1 if the value is negative, 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">equal</span></code>: Returns 1 if the value is equal to the <code class="docutils literal notranslate"><span class="pre">reference</span></code> value, 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">not-equal</span></code>: Returns 1 if the value is not equal to the <code class="docutils literal notranslate"><span class="pre">reference</span></code> value, 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">less-than</span></code>: Returns 1 if the value is less than the <code class="docutils literal notranslate"><span class="pre">reference</span></code> value, 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">greater-than</span></code>: Returns 1 if the value is greater than the <code class="docutils literal notranslate"><span class="pre">reference</span></code> value, 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">less-or-equal</span></code>: Returns 1 if the value is less than or equal to the <code class="docutils literal notranslate"><span class="pre">reference</span></code> value, 0 otherwise.</li>
+<li><code class="docutils literal notranslate"><span class="pre">greater-or-equal</span></code>: Returns 1 if the value is greater than or equal to the <code class="docutils literal notranslate"><span class="pre">reference</span></code> value, 0 otherwise.</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="developing.html" class="btn btn-neutral float-left" title="Development" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenAI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

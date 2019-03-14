@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Getting Started &mdash; Gym Retro  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Python API" href="python.html" />
+    <link rel="prev" title="Gym Retro" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Gym Retro
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Gym Retro</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-gym-environment">Create a Gym Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-usage">Example Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#interactive-script">Interactive Script</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-agent">Random Agent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#brute">Brute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ppo">PPO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#integrations">Integrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#importing-roms">Importing ROMs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python.html">Python API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developing.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="integration.html">Game Integration</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Gym Retro</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Getting Started</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/getting_started.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Gym Retro requires one of the supported versions of Python (3.5, 3.6, or 3.7). Please make sure to install the appropriate distribution for your OS beforehand. Please note that due to compatibility issues with some of the cores, 32-bit operating systems are not supported.</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip3 install gym-retro
+</pre></div>
+</div>
+<p>See the section <a class="reference internal" href="developing.html#development"><span class="std std-ref">Development</span></a> if you want to build Gym Retro yourself (this is only useful if you want to change the C++ code, not required to integrate new games).</p>
+<div class="section" id="create-a-gym-environment">
+<h2>Create a Gym Environment<a class="headerlink" href="#create-a-gym-environment" title="Permalink to this headline">¶</a></h2>
+<p>After installing you can now create a <a class="reference external" href="https://gym.openai.com/">Gym</a> environment in Python:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">retro</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">retro</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">game</span><span class="o">=</span><span class="s1">&#39;AirStriker-Genesis&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">AirStriker-Genesis</span></code> has a non-commercial ROM that is included by default.</p>
+<p>Please note that other ROMs are not included and you must obtain them yourself.  Most ROM hashes are sourced from their respective No-Intro SHA-1 sums.  See <a class="reference internal" href="#importing-roms"><span class="std std-ref">Importing ROMs</span></a> for information about importing ROMs into Gym Retro.</p>
+</div>
+<div class="section" id="example-usage">
+<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<p>Gym Retro is useful primarily as a means to train RL on classic video games, though it can also be used to control those video games from Python.</p>
+<p>Here are some example ways to use Gym Retro:</p>
+<div class="section" id="interactive-script">
+<h3>Interactive Script<a class="headerlink" href="#interactive-script" title="Permalink to this headline">¶</a></h3>
+<p>There is a Python script that lets you interact with the game using the Gym interface.  Run it like this:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python3 -m retro.examples.interactive --game AirStriker-Genesis
+</pre></div>
+</div>
+<p>You can use the arrow keys and the <code class="docutils literal notranslate"><span class="pre">X</span></code> key to control your ship and fire.  This Python script lets you try out an environment using only the Gym Retro Python API and is quite basic.  For a more advanced tool, check out the <a class="reference internal" href="integration.html#integration-ui"><span class="std std-ref">The Integration UI</span></a>.</p>
+</div>
+<div class="section" id="random-agent">
+<h3>Random Agent<a class="headerlink" href="#random-agent" title="Permalink to this headline">¶</a></h3>
+<p>A random agent that chooses a random action on each timestep looks much like the example random agent for <a class="reference external" href="https://gym.openai.com/">Gym</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">retro</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">retro</span><span class="o">.</span><span class="n">make</span><span class="p">(</span><span class="n">game</span><span class="o">=</span><span class="s1">&#39;Airstriker-Genesis&#39;</span><span class="p">)</span>
+    <span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">obs</span><span class="p">,</span> <span class="n">rew</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">action_space</span><span class="o">.</span><span class="n">sample</span><span class="p">())</span>
+        <span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">done</span><span class="p">:</span>
+            <span class="n">obs</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+    <span class="n">env</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A more full-featured random agent script is available in the examples dir:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python3 -m retro.examples.random_agent --game AirStriker-Genesis
+</pre></div>
+</div>
+<p>It will print the current reward and will exit when the scenario is done. Note that it will throw an exception if no reward or scenario data is defined for that game. This script is useful to see if a scenario is properly set up and that the reward function isn’t too generous.</p>
+</div>
+<div class="section" id="brute">
+<h3>Brute<a class="headerlink" href="#brute" title="Permalink to this headline">¶</a></h3>
+<p>There is a simple but effective reinforcement learning algorithm called “the Brute” from <a class="reference external" href="https://arxiv.org/abs/1709.06009">“Revisiting the Arcade Learning Environment”</a>  by Machado et al. which works on deterministic environments like Gym Retro games and is easy to implement.  To run the example:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python3 -m retro.examples.brute --game AirStriker-Genesis
+</pre></div>
+</div>
+<p>This algorithm works by building up a sequence of button presses that do well in the game, it doesn’t look at the screen at all.  It will print out the best reward seen so far while training.</p>
+</div>
+<div class="section" id="ppo">
+<h3>PPO<a class="headerlink" href="#ppo" title="Permalink to this headline">¶</a></h3>
+<p>Using <a class="reference external" href="https://arxiv.org/abs/1707.06347">“Proximal Policy Optimization”</a> by Schulman et al., you can train an agent to play many of the games, though it takes awhile and is much faster with a GPU.</p>
+<p>This example requires installing <a class="reference external" href="https://github.com/openai/baselines">OpenAI Baselines</a>.  Once installed, you can run it:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python3 -m retro.examples.ppo --game AirStriker-Genesis
+</pre></div>
+</div>
+<p>This will take awhile to train, but will print out progress as it goes.  More information about PPO can be found in <a class="reference external" href="https://spinningup.openai.com/en/latest/algorithms/ppo.html">Spinning Up</a>.</p>
+</div>
+</div>
+<div class="section" id="integrations">
+<h2>Integrations<a class="headerlink" href="#integrations" title="Permalink to this headline">¶</a></h2>
+<p>What games have already been integrated?  Note that this will display all defined environments, even ones for which ROMs are missing.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">retro</span>
+<span class="n">retro</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">list_games</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The actual integration data can be see in the <a class="reference external" href="https://github.com/openai/retro/tree/master/retro/data/stable">Gym Retro Github repo</a>.</p>
+</div>
+<div class="section" id="importing-roms">
+<span id="id2"></span><h2>Importing ROMs<a class="headerlink" href="#importing-roms" title="Permalink to this headline">¶</a></h2>
+<p>If you have the correct ROMs on your computer (identified by the <cite>rom.sha</cite> file for each game integration), you can import them using the import script:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>python3 -m retro.import /path/to/your/ROMs/directory/
+</pre></div>
+</div>
+<p>This will copy all matching ROMs to their corresponding Gym Retro game integration directories.</p>
+<p>Your ROMs must be in the <a class="reference internal" href="integration.html#supported-roms"><span class="std std-ref">Supported ROM Types</span></a> list and must already have an integration.  To add a ROM yourself, check out <a class="reference internal" href="integration.html#game-integration"><span class="std std-ref">Game Integration</span></a>.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="python.html" class="btn btn-neutral float-right" title="Python API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Gym Retro" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, OpenAI
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
