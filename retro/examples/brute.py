@@ -10,6 +10,7 @@ back.
 """
 
 import random
+import argparse
 
 import numpy as np
 import retro
@@ -213,6 +214,15 @@ def brute_retro(
             print("timestep limit exceeded")
             break
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--game', default='AirStriker-Genesis')
+    parser.add_argument('--state', default=retro.State.DEFAULT)
+    parser.add_argument('--scenario', default=None)
+    args = parser.parse_args()
+
+    brute_retro(game=args.game, state=args.state, scenario=args.scenario)
+
 
 if __name__ == "__main__":
-    brute_retro(game="Airstriker-Genesis")
+    main()

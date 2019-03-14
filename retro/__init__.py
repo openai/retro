@@ -1,8 +1,9 @@
 import os
 import retro.data
 
-from enum import Enum
 from retro._retro import Movie, RetroEmulator, core_path
+from retro.enums import Actions, State, Observations
+from retro.retro_env import RetroEnv
 
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -16,26 +17,9 @@ for path in ('VERSION.txt', '../VERSION'):
     except IOError:
         pass
 
-__all__ = ['Movie', 'RetroEmulator', 'Actions', 'State', 'get_core_path', 'get_romfile_system', 'get_system_info', 'make']
+__all__ = ['Movie', 'RetroEmulator', 'Actions', 'State', 'Observations', 'get_core_path', 'get_romfile_system', 'get_system_info', 'make', 'RetroEnv']
 
 retro.data.init_core_info(core_path())
-
-
-class Actions(Enum):
-    ALL = 0
-    FILTERED = 1
-    DISCRETE = 2
-    MULTI_DISCRETE = 3
-
-
-class State(Enum):
-    DEFAULT = -1
-    NONE = 0
-
-
-class Observations(Enum):
-    IMAGE = 0
-    RAM = 1
 
 
 def get_core_path(corename):
@@ -58,7 +42,9 @@ def get_system_info(system):
 
 
 def make(game, state=State.DEFAULT, inttype=retro.data.Integrations.DEFAULT, **kwargs):
-    from retro.retro_env import RetroEnv
+    """
+    Create a Gym environment for the specified game
+    """
     try:
         retro.data.get_romfile_path(game, inttype)
     except FileNotFoundError:

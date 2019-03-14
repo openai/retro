@@ -15,34 +15,13 @@ __all__ = ['RetroEnv']
 
 
 class RetroEnv(gym.Env):
+    """
+    Gym Retro environment class
+
+    Provides a Gym interface to classic video games
+    """
     metadata = {'render.modes': ['human', 'rgb_array'],
                 'video.frames_per_second': 60.0}
-
-    def compute_step(self):
-        if self.players > 1:
-            reward = [self.data.current_reward(p) for p in range(self.players)]
-        else:
-            reward = self.data.current_reward()
-        done = self.data.is_done()
-        return reward, done, self.data.lookup_all()
-
-    def record_movie(self, path):
-        self.movie = retro.Movie(path, True, self.players)
-        self.movie.configure(self.gamename, self.em)
-        if self.initial_state:
-            self.movie.set_state(self.initial_state)
-
-    def stop_record(self):
-        self.movie_path = None
-        self.movie_id = 0
-        if self.movie:
-            self.movie.close()
-            self.movie = None
-
-    def auto_record(self, path=None):
-        if not path:
-            path = os.getcwd()
-        self.movie_path = path
 
     def __init__(self, game, state=retro.State.DEFAULT, scenario=None, info=None, use_restricted_actions=retro.Actions.FILTERED,
                  record=False, players=1, inttype=retro.data.Integrations.STABLE, obs_type=retro.Observations.IMAGE):
@@ -293,3 +272,29 @@ class RetroEnv(gym.Env):
             self.initial_state = fh.read()
 
         self.statename = statename
+
+    def compute_step(self):
+        if self.players > 1:
+            reward = [self.data.current_reward(p) for p in range(self.players)]
+        else:
+            reward = self.data.current_reward()
+        done = self.data.is_done()
+        return reward, done, self.data.lookup_all()
+
+    def record_movie(self, path):
+        self.movie = retro.Movie(path, True, self.players)
+        self.movie.configure(self.gamename, self.em)
+        if self.initial_state:
+            self.movie.set_state(self.initial_state)
+
+    def stop_record(self):
+        self.movie_path = None
+        self.movie_id = 0
+        if self.movie:
+            self.movie.close()
+            self.movie = None
+
+    def auto_record(self, path=None):
+        if not path:
+            path = os.getcwd()
+        self.movie_path = path

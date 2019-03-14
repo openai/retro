@@ -36,7 +36,7 @@ struct PyRetroEmulator {
 	int m_cheats = 0;
 	PyRetroEmulator(const string& rom_path) {
 		if (Emulator::isLoaded()) {
-			throw std::runtime_error("Cannot create multiple emulator instances per process");
+			throw std::runtime_error("Cannot create multiple emulator instances per process, make sure to call env.close() on each environment before creating a new one");
 		}
 		if (!m_re.loadRom(rom_path.c_str())) {
 			throw std::runtime_error("Could not load ROM");
