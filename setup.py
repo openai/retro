@@ -67,6 +67,7 @@ kwargs = {}
 if tuple(int(v) for v in setuptools_version.split('.')) >= (24, 2, 0):
     kwargs['python_requires'] = '>=3.5.0'
 
+
 setup(
     name='gym-retro',
     author='OpenAI',
@@ -74,7 +75,7 @@ setup(
     url='https://github.com/openai/retro',
     version=open(VERSION_PATH, 'r').read().strip(),
     license='MIT',
-    install_requires=['gym'],
+    install_requires=['gym', 'pyglet>=1.3.2,==1.*'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
     cmdclass={'build_ext': CMakeBuild},
     packages=['retro', 'retro.data', 'retro.data.stable', 'retro.data.experimental', 'retro.data.contrib', 'retro.scripts', 'retro.import', 'retro.examples'],
@@ -84,6 +85,7 @@ setup(
         'retro.data.experimental': platform_globs,
         'retro.data.contrib': platform_globs,
     },
+    extras_require={'docs': ['sphinx', 'sphinx_rtd_theme', 'sphinx-autobuild', 'm2r']},
     setup_requires=['setuptools_scm'],
     use_scm_version=use_scm_version,
     **kwargs
