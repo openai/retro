@@ -317,12 +317,15 @@ void Emulator::reconfigureAddressSpace() {
 	}
 	if (!m_map.empty() && m_addressSpace->blocks().empty()) {
 		for (const auto& desc : m_map) {
-			size_t len = desc.len;
 			if (desc.flags & RETRO_MEMDESC_CONST) {
 				continue;
 			}
+			size_t len = desc.len;
 			if (desc.select) {
 				len = ((~desc.select & ~desc.start) + 1) & desc.select;
+			}
+			if (desc.len && desc.len < len) {
+				len = desc.len;
 			}
 			m_addressSpace->addBlock(desc.start, len, desc.ptr);
 		}
