@@ -1,6 +1,5 @@
 """
-Train an agent using 
-
+Train an agent using Proximal Policy Optimization from OpenAI Baselines
 """
 
 import argparse
