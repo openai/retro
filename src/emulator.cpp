@@ -321,7 +321,7 @@ void Emulator::reconfigureAddressSpace() {
 			if (desc.flags & RETRO_MEMDESC_CONST) {
 				continue;
 			}
-			if (!len) {
+			if (desc.select) {
 				len = ((~desc.select & ~desc.start) + 1) & desc.select;
 			}
 			m_addressSpace->addBlock(desc.start, len, desc.ptr);
