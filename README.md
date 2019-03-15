@@ -22,9 +22,9 @@ Please note that ROMs are not included and you must obtain them yourself.  Most 
 
 # Documentation
 
-Documentation is available at https://openai.github.io/retro
+Documentation is available at https://retro.readthedocs.io/en/latest/
 
-You should probably start with the [Getting Started Guide](https://openai.github.io/retro/getting_started.html).
+You should probably start with the [Getting Started Guide](https://retro.readthedocs.io/en/latest/getting_started.html).
 
 # Changelog
 
