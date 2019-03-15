@@ -60,7 +60,7 @@ If you have an agent playing a game, you can record the gameplay to a ``.bk2`` f
 
     import retro
 
-    env = retro.make(game='AirStriker-Genesis', record='.')
+    env = retro.make(game='Airstriker-Genesis', record='.')
     env.reset()
     while True:
         _obs, _rew, done, _info = env.step(env.action_space.sample())
@@ -76,7 +76,7 @@ Given a ``.bk2`` file you can load it in python and either play it back or use t
 
     import retro
 
-    movie = retro.Movie('AirStriker-Genesis-Level1-000000.bk2')
+    movie = retro.Movie('Airstriker-Genesis-Level1-000000.bk2')
     movie.step()
 
     env = retro.make(
@@ -104,4 +104,4 @@ This requires `ffmpeg <https://www.ffmpeg.org/>`_ to be installed and writes the
 
 .. code-block:: shell
 
-    python3 -m retro.scripts.playback_movie AirStriker-Genesis-Level1-000000.bk2
+    python3 -m retro.scripts.playback_movie Airstriker-Genesis-Level1-000000.bk2

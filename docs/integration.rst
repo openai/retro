@@ -16,7 +16,7 @@ If you are going to integrate a new game, you'll need a ROM for the correct syst
 Example Integration
 --------------------------------------
 
-This is a list of the integration files for the game `AirStriker-Genesis <https://github.com/openai/retro/blob/master/retro/data/stable/Airstriker-Genesis>`_.
+This is a list of the integration files for the game `Airstriker-Genesis <https://github.com/openai/retro/blob/master/retro/data/stable/Airstriker-Genesis>`_.
 
 ``Level1.state``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

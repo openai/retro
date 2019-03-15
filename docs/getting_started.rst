@@ -17,9 +17,9 @@ After installing you can now create a `Gym <https://gym.openai.com/>`_ environme
 .. code-block:: python
 
     import retro
-    env = retro.make(game='AirStriker-Genesis')
+    env = retro.make(game='Airstriker-Genesis')
 
-``AirStriker-Genesis`` has a non-commercial ROM that is included by default.
+``Airstriker-Genesis`` has a non-commercial ROM that is included by default.
 
 Please note that other ROMs are not included and you must obtain them yourself.  Most ROM hashes are sourced from their respective No-Intro SHA-1 sums.  See :ref:`importing-roms` for information about importing ROMs into Gym Retro.
 
@@ -37,7 +37,7 @@ There is a Python script that lets you interact with the game using the Gym inte
 
 .. code-block:: shell
 
-    python3 -m retro.examples.interactive --game AirStriker-Genesis
+    python3 -m retro.examples.interactive --game Airstriker-Genesis
 
 You can use the arrow keys and the ``X`` key to control your ship and fire.  This Python script lets you try out an environment using only the Gym Retro Python API and is quite basic.  For a more advanced tool, check out the :ref:`integration-ui`.
 
@@ -52,7 +52,7 @@ A more full-featured random agent script is available in the examples dir:
 
 .. code-block:: shell
 
-    python3 -m retro.examples.random_agent --game AirStriker-Genesis
+    python3 -m retro.examples.random_agent --game Airstriker-Genesis
 
 It will print the current reward and will exit when the scenario is done. Note that it will throw an exception if no reward or scenario data is defined for that game. This script is useful to see if a scenario is properly set up and that the reward function isn't too generous.
 
@@ -63,7 +63,7 @@ There is a simple but effective reinforcement learning algorithm called "the Bru
 
 .. code-block:: shell
 
-    python3 -m retro.examples.brute --game AirStriker-Genesis
+    python3 -m retro.examples.brute --game Airstriker-Genesis
 
 This algorithm works by building up a sequence of button presses that do well in the game, it doesn't look at the screen at all.  It will print out the best reward seen so far while training.
 
@@ -76,7 +76,7 @@ This example requires installing `OpenAI Baselines <https://github.com/openai/ba
 
 .. code-block:: shell
 
-    python3 -m retro.examples.ppo --game AirStriker-Genesis
+    python3 -m retro.examples.ppo --game Airstriker-Genesis
 
 
 This will take awhile to train, but will print out progress as it goes.  More information about PPO can be found in `Spinning Up <https://spinningup.openai.com/en/latest/algorithms/ppo.html>`_.

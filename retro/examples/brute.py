@@ -216,7 +216,7 @@ def brute_retro(
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--game', default='AirStriker-Genesis')
+    parser.add_argument('--game', default='Airstriker-Genesis')
     parser.add_argument('--state', default=retro.State.DEFAULT)
     parser.add_argument('--scenario', default=None)
     args = parser.parse_args()
