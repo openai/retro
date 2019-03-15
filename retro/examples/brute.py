@@ -196,7 +196,7 @@ def brute_retro(
 
     brute = Brute(env, max_episode_steps=max_episode_steps)
     timesteps = 0
-    best_rew = 0
+    best_rew = float('-inf')
     while True:
         acts, rew = brute.run()
         timesteps += len(acts)
