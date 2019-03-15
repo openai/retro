@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0
+
+* move some buggy games from the `stable` integrations folder to `experimental`
+* minor bug fixes including fixes to a few game scenarios
+
 ## 0.6.1
 
 * add ability to use arbitrary additional integration directories
