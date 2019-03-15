@@ -2,7 +2,7 @@
 
 # Gym Retro
 
-Gym Retro lets you turn classic video games into [Gym](https://gym.openai.com/) environments for Reinforcement Learning and comes with integrations for ~1000 games.  It uses various emulators that support the [Libretro API](https://www.libretro.com/index.php/api/), making it fairly easy to add new emulators.
+Gym Retro lets you turn classic video games into [Gym](https://gym.openai.com/) environments for reinforcement learning and comes with integrations for ~1000 games.  It uses various emulators that support the [Libretro API](https://www.libretro.com/index.php/api/), making it fairly easy to add new emulators.
 
 Supported platforms:
 

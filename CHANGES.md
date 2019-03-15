@@ -4,6 +4,7 @@
 
 * move some buggy games from the `stable` integrations folder to `experimental`
 * minor bug fixes including fixes to a few game scenarios
+* more docs
 
 ## 0.6.1
 
