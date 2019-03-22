@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1
+
+* fix discrete and multi-discrete action space filtering
+
 ## 0.7.0
 
 * move some buggy games from the `stable` integrations folder to `experimental`

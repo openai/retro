@@ -91,7 +91,6 @@ class RetroEnv(gym.Env):
         core = retro.get_system_info(self.system)
         self.buttons = core['buttons']
         self.num_buttons = len(self.buttons)
-        self.button_combos = self.data.valid_actions()
 
         try:
             assert self.data.load(info_path, scenario_path), 'Failed to load info (%s) or scenario (%s)' % (info_path, scenario_path)
@@ -99,6 +98,7 @@ class RetroEnv(gym.Env):
             del self.em
             raise
 
+        self.button_combos = self.data.valid_actions()
         if use_restricted_actions == retro.Actions.DISCRETE:
             combos = 1
             for combo in self.button_combos:
