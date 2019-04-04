@@ -28,6 +28,34 @@ static inline T _hypot(T x, T y) {
 using std::string;
 using namespace Retro;
 
+CMemoryView memoryViewCreate(Retro::AddressSpace* addressSpace) {
+	return { addressSpace };
+}
+
+void memoryViewDelete(CMemoryView* memoryView) {
+	delete memoryView;
+}
+
+int64_t memoryViewExtract(CMemoryView* memoryView, size_t address, const char* type) {
+	return (*memoryView->addressSpace)[Variable{ type, address }];
+}
+
+void memoryViewAssign(CMemoryView* memoryView, size_t address, const char* type, int64_t value) {
+	(*memoryView->addressSpace)[Variable{ type, address }] = value;
+}
+
+CMemoryBlocks memoryViewBlocks(CMemoryView* memoryView) {
+	auto& internalBlocks = memoryView->addressSpace->blocks();
+	auto numBlocks = internalBlocks.size();
+	auto* blocks = new CMemoryBlock[numBlocks];
+	auto i = 0;
+	for (const auto& iter : internalBlocks) {
+		blocks[i] = {iter.first, static_cast<const char*>(iter.second.offset(0)), iter.second.size()};
+		i++;
+	}
+	return {blocks, numBlocks};
+}
+
 CSearch searchCreate(const char** types, size_t numTypes) {
 	Retro::Search* search;
 	if (numTypes > 0) {

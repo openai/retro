@@ -7,6 +7,21 @@ using namespace Retro;
 extern "C" {
 #endif
 
+typedef struct CMemoryView {
+  Retro::AddressSpace* addressSpace;
+} CMemoryView;
+
+typedef struct CMemoryBlock {
+  size_t address;
+  const char* bytes;
+  size_t numBytes;
+} CMemoryBlock;
+
+typedef struct CMemoryBlocks {
+  CMemoryBlock* blocks;
+  size_t numBlocks;
+} CMemoryBlocks;
+
 typedef struct CSearch {
   Retro::Search* search;
 	bool managed;
@@ -49,6 +64,12 @@ typedef struct CCropInfo {
   size_t width;
   size_t height;
 } CCropInfo;
+
+CMemoryView memoryViewCreate(Retro::AddressSpace* addressSpace);
+void memoryViewDelete(CMemoryView* memoryView);
+int64_t memoryViewExtract(CMemoryView* memoryView, size_t address, const char* type);
+void memoryViewAssign(CMemoryView* memoryView, size_t address, const char* type, int64_t value);
+CMemoryBlocks memoryViewBlocks(CMemoryView* memoryView);
 
 CSearch searchCreate(const char** types, size_t numTypes);
 CSearch searchCreateUnmanaged(Retro::Search* search);
