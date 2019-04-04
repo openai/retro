@@ -28,6 +28,105 @@ static inline T _hypot(T x, T y) {
 using std::string;
 using namespace Retro;
 
+CEmulator emulatorCreate(const char* romPath) {
+	Retro::Emulator emulator;
+	if (Emulator::isLoaded()) {
+		throw std::runtime_error(
+			"Cannot create multiple emulator instances per process, make sure to call "
+			"'env.close()' on each environment before creating a new one.");
+	}
+	if (!emulator.loadRom(romPath)) {
+		throw std::runtime_error("Could not load ROM.");
+	}
+	// The following is necessary because otherwise, you get a segfault 
+	// when you try to get the screen for the first time.
+	emulator.run();
+	return {&emulator, 0};
+}
+
+void emulatorDelete(CEmulator* emulator) {
+	delete emulator->emulator;
+	delete emulator;
+}
+
+void emulatorStep(CEmulator* emulator) {
+	emulator->emulator->run();
+}
+
+CBytes emulatorGetState(CEmulator* emulator) {
+	size_t numBytes = emulator->emulator->serializeSize();
+	void* bytes = malloc(numBytes);
+	emulator->emulator->serialize(bytes, numBytes);
+	return {bytes, numBytes};
+}
+
+bool emulatorSetState(CEmulator* emulator, CBytes* state) {
+	return emulator->emulator->unserialize(state->bytes, state->numBytes);
+}
+
+CEmulatorScreen emulatorGetScreen(CEmulator* emulator) {
+	auto* emu = emulator->emulator;
+	long w = emu->getImageWidth();
+	long h = emu->getImageHeight();
+	uint8_t* data = new uint8_t[w * h * 3];
+	Image out(Image::Format::RGB888, data, w, h, w);
+	Image in;
+	if (emu->getImageDepth() == 16) {
+		in = Image(Image::Format::RGB565, emu->getImageData(), w, h, emu->getImagePitch());
+	} else if (emu->getImageDepth() == 32) {
+		in = Image(Image::Format::RGBX888, emu->getImageData(), w, h, emu->getImagePitch());
+	}
+	in.copyTo(&out);
+	return {data, (int) w, (int) h, 3};
+}
+
+double emulatorGetScreenRate(CEmulator* emulator) {
+	return emulator->emulator->getFrameRate();
+}
+
+CEmulatorAudio emulatorGetAudio(CEmulator* emulator) {
+	size_t numSamples = emulator->emulator->getAudioSamples() * 2;
+	int16_t* samples = new int16_t[numSamples];
+	memcpy(samples, emulator->emulator->getAudioData(), numSamples * 2);
+	return {samples, numSamples};
+}
+
+double emulatorGetAudioRate(CEmulator* emulator) {
+	return emulator->emulator->getAudioRate();
+}
+
+CEmulatorResolution emulatorGetResolution(CEmulator* emulator) {
+	auto w = emulator->emulator->getImageWidth();
+	auto h = emulator->emulator->getImageHeight();
+	return {w, h};
+}
+
+void emulatorSetButtonMask(CEmulator* emulator, uint8_t* mask, size_t maskSize, unsigned int player) {
+	if (maskSize > N_BUTTONS) {
+		throw std::runtime_error("mask.size() > N_BUTTONS.");
+	}
+	if (player >= MAX_PLAYERS) {
+		throw std::runtime_error("player >= MAX_PLAYERS.");
+	}
+	for (int key = 0; key < maskSize; key++) {
+		emulator->emulator->setKey(player, key, mask[key]);
+	}
+}
+
+void emulatorAddCheat(CEmulator* emulator, const char* code) {
+	emulator->emulator->setCheat(emulator->cheats, true, code);
+	emulator->cheats++;
+}
+
+void emulatorClearCheats(CEmulator* emulator) {
+	emulator->emulator->clearCheats();
+	emulator->cheats = 0;
+}
+
+void emulatorConfigureData(CEmulator* emulator, CGameData* gameData) {
+	emulator->emulator->configureData(gameData->data);
+}
+
 CMemoryView memoryViewCreate(Retro::AddressSpace* addressSpace) {
 	return { addressSpace };
 }
@@ -143,7 +242,24 @@ uint16_t gameDataFilterAction(CGameData* gameData, uint16_t action) {
 	return gameData->scenario->filterAction(action);
 }
 
-// TODO: gameDataValidActions
+CValidActions gameDataValidActions(CGameData* gameData) {
+	std::map<int, std::set<int>> validActions = gameData->scenario->validActions();
+	size_t numActionsOuter = validActions.size();
+	int** actions = new int*[numActionsOuter];
+  size_t* numActionsInner = new size_t[numActionsOuter];
+	int i = 0;
+	for (const auto& action : validActions) {
+		numActionsInner[i] = action.second.size();
+		actions[i] = new int[numActionsInner[i]];
+		int j = 0;
+		for (const auto& act : action.second) {
+			actions[i][j] = act;
+			j++;
+		}
+		i++;
+	}
+	return {actions, numActionsInner, numActionsOuter};
+}
 
 void gameDataUpdateRam(CGameData* gameData) {
 	gameData->data->updateRam();
@@ -200,7 +316,9 @@ CCropInfo gameDataCropInfo(CGameData* gameData, unsigned int player) {
 	return {x, y, width, height};
 }
 
-// TODO: gameDataMemory
+CMemoryView gameDataMemory(CGameData* gameData) {
+	return memoryViewCreate(&gameData->data->addressSpace());
+}
 
 void gameDataSearch(CGameData* gameData, const char* name, int64_t value) {
 	gameData->data->search(name, value);
@@ -210,13 +328,22 @@ void gameDataDeltaSearch(CGameData* gameData, const char* name, const char* op, 
 	gameData->data->deltaSearch(name, Retro::Scenario::op(op), ref);
 }
 
-// TODO: gameDataGetSearch
+CSearch gameDataGetSearch(CGameData* gameData, const char* name) {
+	return searchCreateUnmanaged(gameData->data->getSearch(name));
+}
 
 void gameDataRemoveSearch(CGameData* gameData, const char* name) {
 	gameData->data->removeSearch(name);
 }
 
-// TODO: gameDataListSearches
+CSearchList gameDataListSearches(CGameData* gameData) {
+	std::vector<std::string> names = gameData->data->listSearches();
+	const char** cNames = new const char*[names.size()];
+	for (int i = 0; i < names.size(); i++) {
+		cNames[i] = names[i].c_str();
+	}
+	return {cNames, names.size()};
+}
 
 CMovie movieCreate(const char* name, bool record, unsigned int players) {
 	Retro::Movie* movie;
@@ -236,7 +363,12 @@ void movieDelete(CMovie* movie) {
 	delete movie;
 }
 
-// TODO: movieConfigure
+void movieConfigure(CMovie* movie, const char* name, CEmulator* emulator) {
+	if (movie->recording) {
+		static_cast<MovieBK2*>(movie->movie)->setGameName(name);
+		static_cast<MovieBK2*>(movie->movie)->loadKeymap(emulator->emulator->core());
+	}
+}
 
 const char* movieGetGameName(CMovie* movie) {
 	return movie->movie->getGameName().c_str();
@@ -262,14 +394,18 @@ void movieSetKey(CMovie* movie, int key, bool set, unsigned int player) {
 	movie->movie->setKey(key, set, player);
 }
 
-CMovieState movieGetState(CMovie* movie) {
+CBytes movieGetState(CMovie* movie) {
 	std::vector<uint8_t> data;
 	movie->movie->getState(&data);
 	return {reinterpret_cast<char*>(data.data()), data.size()};
 }
 
-void movieSetState(CMovie* movie, CMovieState* state) {
+void movieSetState(CMovie* movie, CBytes* state) {
 	movie->movie->setState(reinterpret_cast<uint8_t*>(state->bytes), state->numBytes);
+}
+
+bool retroLoadCoreInfo(const char* json) {
+	return Retro::loadCoreInfo(json);
 }
 
 const char* retroCorePath(const char* hint) {
