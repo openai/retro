@@ -22,6 +22,17 @@ typedef struct CGameData {
 	Retro::Scenario* scenario;
 } CGameData;
 
+typedef struct CVariable {
+  const char* name;
+  size_t address;
+	const char* type;
+} CVariable;
+
+typedef struct CVariables {
+  CVariable* variables;
+  size_t numVariables;
+} CVariables;
+
 typedef struct CMovie {
   Retro::Movie* movie;
 	bool recording;
@@ -40,7 +51,7 @@ typedef struct CCropInfo {
 } CCropInfo;
 
 CSearch searchCreate(const char** types, size_t numTypes);
-CSearch searchCreate(Retro::Search* search);
+CSearch searchCreateUnmanaged(Retro::Search* search);
 void searchDelete(CSearch* search);
 int searchNumResults(CSearch* search);
 bool searchHasUniqueResult(CSearch* search);
@@ -56,7 +67,10 @@ uint16_t gameDataFilterAction(CGameData* gameData, uint16_t action);
 // TODO: validActions
 void gameDataUpdateRam(CGameData* gameData);
 // TODO: lookupValue, setValue, lookupAll
-// TODO: getVariable, setVariable, removeVariable, listVariables
+CVariable gameDataGetVariable(CGameData* gameData, const char* name);
+void gameDataSetVariable(CGameData* gameData, const char* name, CVariable* value);
+void gameDataRemoveVariable(CGameData* gameData, const char* name);
+CVariables gameDataListVariables(CGameData* gameData);
 float gameDataCurrentReward(CGameData* gameData, unsigned int player);
 float gameDataTotalReward(CGameData* gameData, unsigned int player);
 bool gameDataIsDone(CGameData* gameData);

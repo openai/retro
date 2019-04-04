@@ -28,13 +28,45 @@ static inline T _hypot(T x, T y) {
 using std::string;
 using namespace Retro;
 
-const char* retroCorePath(const char* hint) {
-	return Retro::corePath(hint).c_str();
+CSearch searchCreate(const char** types, size_t numTypes) {
+	Retro::Search* search;
+	if (numTypes > 0) {
+		std::vector<Retro::DataType> dtypes;
+		for (int i = 0; i < numTypes; i++) {
+			dtypes.emplace_back(types[i]);
+		}
+		search = new Retro::Search(dtypes);
+	} else {
+		search = nullptr;
+	}
+	return {search, true};
 }
 
-const char* retroDataPath(const char* hint) {
-	return Retro::GameData::dataPath(hint).c_str();
+CSearch searchCreateUnmanaged(Retro::Search* search) {
+	return {search, false};
 }
+
+void searchDelete(CSearch* search) {
+	if (search->managed) {
+		delete search->search;
+	}
+	delete search;
+}
+
+int searchNumResults(CSearch* search) {
+	return search->search->numResults();
+}
+
+bool searchHasUniqueResult(CSearch* search) {
+	return search->search->hasUniqueResult();
+}
+
+CSearchResult searchUniqueResult(CSearch* search) {
+	TypedSearchResult result = search->search->uniqueResult();
+	return {result.address, result.type.type};
+}
+
+// TODO: searchTypedResults
 
 CGameData gameDataCreate() {
 	auto* data = new Retro::GameData();
@@ -91,7 +123,33 @@ void gameDataUpdateRam(CGameData* gameData) {
 }
 
 // TODO: lookupValue, setValue, lookupAll
-// TODO: getVariable, setVariable, removeVariable, listVariables
+
+CVariable gameDataGetVariable(CGameData* gameData, const char* name) {
+	Retro::Variable var = gameData->data->getVariable(name);
+	return {name, var.address, var.type.type};
+}
+
+void gameDataSetVariable(CGameData* gameData, const char* name, CVariable* value) {
+	Retro::Variable var { value->type, value->address };
+	gameData->data->setVariable(name, var);
+}
+
+void gameDataRemoveVariable(CGameData* gameData, const char* name) {
+	gameData->data->removeVariable(name);
+}
+
+CVariables gameDataListVariables(CGameData* gameData) {
+	const auto& vars = gameData->data->listVariables();
+	auto numVariables = vars.size();
+	auto* variables = new CVariable[numVariables];
+	auto i = 0;
+	for (const auto& var : vars) {
+		const auto& v = var.second;
+		variables[i] = {var.first.c_str(), v.address, v.type.type};
+		i++;
+	}
+	return {variables, numVariables};
+}
 
 float gameDataCurrentReward(CGameData* gameData, unsigned int player) {
 	return gameData->scenario->currentReward(player);
@@ -186,42 +244,10 @@ void movieSetState(CMovie* movie, CMovieState* state) {
 	movie->movie->setState(reinterpret_cast<uint8_t*>(state->bytes), state->numBytes);
 }
 
-CSearch searchCreate(const char** types, size_t numTypes) {
-	Retro::Search* search;
-	if (numTypes > 0) {
-		std::vector<Retro::DataType> dtypes;
-		for (int i = 0; i < numTypes; i++) {
-			dtypes.emplace_back(types[i]);
-		}
-		search = new Retro::Search(dtypes);
-	} else {
-		search = nullptr;
-	}
-	return {search, true};
+const char* retroCorePath(const char* hint) {
+	return Retro::corePath(hint).c_str();
 }
 
-CSearch searchCreate(Retro::Search* search) {
-	return {search, false};
+const char* retroDataPath(const char* hint) {
+	return Retro::GameData::dataPath(hint).c_str();
 }
-
-void searchDelete(CSearch* search) {
-	if (search->managed) {
-		delete search->search;
-	}
-	delete search;
-}
-
-int searchNumResults(CSearch* search) {
-	return search->search->numResults();
-}
-
-bool searchHasUniqueResult(CSearch* search) {
-	return search->search->hasUniqueResult();
-}
-
-CSearchResult searchUniqueResult(CSearch* search) {
-	TypedSearchResult result = search->search->uniqueResult();
-	return {result.address, result.type.type};
-}
-
-// TODO: searchTypedResults
