@@ -185,3 +185,43 @@ CMovieState movieGetState(CMovie* movie) {
 void movieSetState(CMovie* movie, CMovieState* state) {
 	movie->movie->setState(reinterpret_cast<uint8_t*>(state->bytes), state->numBytes);
 }
+
+CSearch searchCreate(const char** types, size_t numTypes) {
+	Retro::Search* search;
+	if (numTypes > 0) {
+		std::vector<Retro::DataType> dtypes;
+		for (int i = 0; i < numTypes; i++) {
+			dtypes.emplace_back(types[i]);
+		}
+		search = new Retro::Search(dtypes);
+	} else {
+		search = nullptr;
+	}
+	return {search, true};
+}
+
+CSearch searchCreate(Retro::Search* search) {
+	return {search, false};
+}
+
+void searchDelete(CSearch* search) {
+	if (search->managed) {
+		delete search->search;
+	}
+	delete search;
+}
+
+int searchNumResults(CSearch* search) {
+	return search->search->numResults();
+}
+
+bool searchHasUniqueResult(CSearch* search) {
+	return search->search->hasUniqueResult();
+}
+
+CSearchResult searchUniqueResult(CSearch* search) {
+	TypedSearchResult result = search->search->uniqueResult();
+	return {result.address, result.type.type};
+}
+
+// TODO: searchTypedResults

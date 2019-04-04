@@ -12,6 +12,11 @@ typedef struct CSearch {
 	bool managed;
 } CSearch;
 
+typedef struct CSearchResult {
+  size_t address;
+	const char* type;
+} CSearchResult;
+
 typedef struct CGameData {
   Retro::GameData* data;
 	Retro::Scenario* scenario;
@@ -33,6 +38,14 @@ typedef struct CCropInfo {
   size_t width;
   size_t height;
 } CCropInfo;
+
+CSearch searchCreate(const char** types, size_t numTypes);
+CSearch searchCreate(Retro::Search* search);
+void searchDelete(CSearch* search);
+int searchNumResults(CSearch* search);
+bool searchHasUniqueResult(CSearch* search);
+CSearchResult searchUniqueResult(CSearch* search);
+// TODO: searchTypedResults
 
 CGameData gameDataCreate();
 void gameDataDelete(CGameData* gameData);
