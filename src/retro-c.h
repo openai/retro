@@ -9,7 +9,7 @@ extern "C" {
 
 typedef struct CEmulator {
   Retro::Emulator* emulator;
-	int cheats;
+  int cheats;
 } CEmulator;
 
 typedef struct CEmulatorScreen {
@@ -46,7 +46,7 @@ typedef struct CMemoryBlocks {
 
 typedef struct CSearch {
   Retro::Search* search;
-	bool managed;
+  bool managed;
 } CSearch;
 
 typedef struct CSearchList {
@@ -56,18 +56,18 @@ typedef struct CSearchList {
 
 typedef struct CSearchResult {
   size_t address;
-	const char* type;
+  const char* type;
 } CSearchResult;
 
 typedef struct CGameData {
   Retro::GameData* data;
-	Retro::Scenario* scenario;
+  Retro::Scenario* scenario;
 } CGameData;
 
 typedef struct CVariable {
   const char* name;
   size_t address;
-	const char* type;
+  const char* type;
 } CVariable;
 
 typedef struct CVariables {
@@ -83,17 +83,17 @@ typedef struct CValidActions {
 
 typedef struct CMovie {
   Retro::Movie* movie;
-	bool recording;
+  bool recording;
 } CMovie;
 
 typedef struct CBytes {
   void* bytes;
-	size_t numBytes;
+  size_t numBytes;
 } CBytes;
 
 typedef struct CCropInfo {
   size_t x;
-	size_t y;
+  size_t y;
   size_t width;
   size_t height;
 } CCropInfo;
