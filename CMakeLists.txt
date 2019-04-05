@@ -288,7 +288,10 @@ endif()
 
 if(BUILD_C)
     add_library(retro-c SHARED src/retro-c.cpp)
-    set_target_properties(retro-c PROPERTIES OUTPUT_NAME retro)
+    set_target_properties(retro-c PROPERTIES 
+        OUTPUT_NAME retro
+        CXX_VISIBILITY_PRESET default
+        POSITION_INDEPENDENT_CODE ON)
     if(APPLE)
         set(C_LIBS "-undefined dynamic_lookup")
     elseif(WIN32)
@@ -297,7 +300,7 @@ if(BUILD_C)
         endif()
         set(C_LIBS "")
     endif()
-    target_link_libraries(retro-c retro-base ${C_LIBS} ${STATIC_LDFLAGS})
+    target_link_libraries(retro-c PUBLIC retro-base ${C_LIBS} ${STATIC_LDFLAGS})
 endif()
 
 if(BUILD_TESTS)
