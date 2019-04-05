@@ -19,12 +19,15 @@ using namespace Retro;
 CEmulator* emulatorCreate(const char* romPath) {
   Retro::Emulator emulator;
   if (Emulator::isLoaded()) {
-    throw std::runtime_error(
+    fprintf(
+      stderr,
       "Cannot create multiple emulator instances per process, make sure to call "
       "'env.close()' on each environment before creating a new one.");
+    return nullptr;
   }
   if (!emulator.loadRom(romPath)) {
-    throw std::runtime_error("Could not load ROM.");
+    fprintf(stderr, "Could not load ROM.");
+    return nullptr;
   }
   // The following is necessary because otherwise, you get a segfault 
   // when you try to get the screen for the first time.
@@ -91,10 +94,12 @@ CEmulatorResolution* emulatorGetResolution(CEmulator* emulator) {
 
 void emulatorSetButtonMask(CEmulator* emulator, uint8_t* mask, size_t maskSize, unsigned int player) {
   if (maskSize > N_BUTTONS) {
-    throw std::runtime_error("mask.size() > N_BUTTONS.");
+    fprintf(stderr, "mask.size() > N_BUTTONS.");
+    return;
   }
   if (player >= MAX_PLAYERS) {
-    throw std::runtime_error("player >= MAX_PLAYERS.");
+    fprintf(stderr, "player >= MAX_PLAYERS.");
+    return;
   }
   for (int key = 0; key < maskSize; key++) {
     ((Retro::Emulator*) emulator->emulator)->setKey(player, key, mask[key]);
@@ -398,7 +403,8 @@ CMovie* movieCreate(const char* name, bool record, unsigned int players) {
     movie = Movie::load(name).get();
   }
   if (!movie) {
-    throw std::runtime_error("Could not load movie");
+    fprintf(stderr, "Could not load movie.");
+    return nullptr;
   }
   return new CMovie {movie, record};
 }

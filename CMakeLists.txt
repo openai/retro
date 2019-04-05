@@ -300,7 +300,7 @@ if(BUILD_C)
         endif()
         set(C_LIBS "")
     endif()
-    target_link_libraries(retro-c PUBLIC retro-base ${C_LIBS} ${STATIC_LDFLAGS})
+    target_link_libraries(retro-c retro-base ${C_LIBS} ${STATIC_LDFLAGS})
 endif()
 
 if(BUILD_TESTS)
