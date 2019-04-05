@@ -1,16 +1,5 @@
 #include "retro-c.h"
 
-#include <cmath>
-#ifdef _WIN32
-// pyconfig.h doesn't seem to like hypot, so we need to work around it.
-namespace std {
-template<typename T>
-static inline T _hypot(T x, T y) {
-  return hypot(x, y);
-}
-}
-#endif
-
 #include "coreinfo.h"
 #include "data.h"
 #include "emulator.h"
@@ -25,10 +14,9 @@ static inline T _hypot(T x, T y) {
 #include <unordered_map>
 #include <unordered_set>
 
-using std::string;
 using namespace Retro;
 
-CEmulator emulatorCreate(const char* romPath) {
+CEmulator* emulatorCreate(const char* romPath) {
   Retro::Emulator emulator;
   if (Emulator::isLoaded()) {
     throw std::runtime_error(
@@ -41,7 +29,7 @@ CEmulator emulatorCreate(const char* romPath) {
   // The following is necessary because otherwise, you get a segfault 
   // when you try to get the screen for the first time.
   emulator.run();
-  return {&emulator, 0};
+  return new CEmulator {&emulator, 0};
 }
 
 void emulatorDelete(CEmulator* emulator) {
@@ -53,18 +41,18 @@ void emulatorStep(CEmulator* emulator) {
   ((Retro::Emulator*) emulator->emulator)->run();
 }
 
-CBytes emulatorGetState(CEmulator* emulator) {
+CBytes* emulatorGetState(CEmulator* emulator) {
   size_t numBytes = ((Retro::Emulator*) emulator->emulator)->serializeSize();
   void* bytes = malloc(numBytes);
   ((Retro::Emulator*) emulator->emulator)->serialize(bytes, numBytes);
-  return {bytes, numBytes};
+  return new CBytes {bytes, numBytes};
 }
 
 bool emulatorSetState(CEmulator* emulator, CBytes* state) {
   return ((Retro::Emulator*) emulator->emulator)->unserialize(state->bytes, state->numBytes);
 }
 
-CEmulatorScreen emulatorGetScreen(CEmulator* emulator) {
+CEmulatorScreen* emulatorGetScreen(CEmulator* emulator) {
   auto* emu = ((Retro::Emulator*) emulator->emulator);
   long w = emu->getImageWidth();
   long h = emu->getImageHeight();
@@ -77,28 +65,28 @@ CEmulatorScreen emulatorGetScreen(CEmulator* emulator) {
     in = Image(Image::Format::RGBX888, emu->getImageData(), w, h, emu->getImagePitch());
   }
   in.copyTo(&out);
-  return {data, (int) w, (int) h, 3};
+  return new CEmulatorScreen {data, (int) w, (int) h, 3};
 }
 
 double emulatorGetScreenRate(CEmulator* emulator) {
   return ((Retro::Emulator*) emulator->emulator)->getFrameRate();
 }
 
-CEmulatorAudio emulatorGetAudio(CEmulator* emulator) {
+CEmulatorAudio* emulatorGetAudio(CEmulator* emulator) {
   size_t numSamples = ((Retro::Emulator*) emulator->emulator)->getAudioSamples() * 2;
   int16_t* samples = new int16_t[numSamples];
   memcpy(samples, ((Retro::Emulator*) emulator->emulator)->getAudioData(), numSamples * 2);
-  return {samples, numSamples};
+  return new CEmulatorAudio {samples, numSamples};
 }
 
 double emulatorGetAudioRate(CEmulator* emulator) {
   return ((Retro::Emulator*) emulator->emulator)->getAudioRate();
 }
 
-CEmulatorResolution emulatorGetResolution(CEmulator* emulator) {
+CEmulatorResolution* emulatorGetResolution(CEmulator* emulator) {
   auto w = ((Retro::Emulator*) emulator->emulator)->getImageWidth();
   auto h = ((Retro::Emulator*) emulator->emulator)->getImageHeight();
-  return {w, h};
+  return new CEmulatorResolution {w, h};
 }
 
 void emulatorSetButtonMask(CEmulator* emulator, uint8_t* mask, size_t maskSize, unsigned int player) {
@@ -127,8 +115,8 @@ void emulatorConfigureData(CEmulator* emulator, CGameData* gameData) {
   ((Retro::Emulator*) emulator->emulator)->configureData(((Retro::GameData*) gameData->data));
 }
 
-CMemoryView memoryViewCreate(void* addressSpace) {
-  return { (Retro::AddressSpace*) addressSpace };
+CMemoryView* memoryViewCreate(void* addressSpace) {
+  return new CMemoryView { (Retro::AddressSpace*) addressSpace };
 }
 
 void memoryViewDelete(CMemoryView* memoryView) {
@@ -143,7 +131,7 @@ void memoryViewAssign(CMemoryView* memoryView, size_t address, const char* type,
   (*((Retro::AddressSpace*) memoryView->addressSpace))[Variable{ type, address }] = value;
 }
 
-CMemoryBlocks memoryViewBlocks(CMemoryView* memoryView) {
+CMemoryBlocks* memoryViewBlocks(CMemoryView* memoryView) {
   auto& internalBlocks = ((Retro::AddressSpace*) memoryView->addressSpace)->blocks();
   auto numBlocks = internalBlocks.size();
   auto* blocks = new CMemoryBlock[numBlocks];
@@ -152,10 +140,10 @@ CMemoryBlocks memoryViewBlocks(CMemoryView* memoryView) {
     blocks[i] = {iter.first, static_cast<const char*>(iter.second.offset(0)), iter.second.size()};
     i++;
   }
-  return {blocks, numBlocks};
+  return new CMemoryBlocks {blocks, numBlocks};
 }
 
-CSearch searchCreate(const char** types, size_t numTypes) {
+CSearch* searchCreate(const char** types, size_t numTypes) {
   Retro::Search* search;
   if (numTypes > 0) {
     std::vector<Retro::DataType> dtypes;
@@ -166,11 +154,11 @@ CSearch searchCreate(const char** types, size_t numTypes) {
   } else {
     search = nullptr;
   }
-  return {search, true};
+  return new CSearch {search, true};
 }
 
-CSearch searchCreateUnmanaged(Retro::Search* search) {
-  return {search, false};
+CSearch* searchCreateUnmanaged(Retro::Search* search) {
+  return new CSearch {search, false};
 }
 
 void searchDelete(CSearch* search) {
@@ -188,12 +176,12 @@ bool searchHasUniqueResult(CSearch* search) {
   return ((Retro::Search*) search->search)->hasUniqueResult();
 }
 
-CSearchResult searchUniqueResult(CSearch* search) {
+CSearchResult* searchUniqueResult(CSearch* search) {
   TypedSearchResult result = ((Retro::Search*) search->search)->uniqueResult();
-  return {result.address, result.type.type};
+  return new CSearchResult {result.address, result.type.type};
 }
 
-CSearchTypedResults searchTypedResults(CSearch* search) {
+CSearchTypedResults* searchTypedResults(CSearch* search) {
   std::map<SearchResult, std::unordered_set<DataType>> results;
   for (const auto& result : ((Retro::Search*) search->search)->typedResults()) {
     results[static_cast<const SearchResult&>(result)].emplace(result.type);
@@ -216,13 +204,13 @@ CSearchTypedResults searchTypedResults(CSearch* search) {
       result.second.size()};
     i++;
   }
-  return {cResults, results.size()};
+  return new CSearchTypedResults {cResults, results.size()};
 }
 
-CGameData gameDataCreate() {
+CGameData* gameDataCreate() {
   auto* data = new Retro::GameData();
   auto* scenario = new Retro::Scenario(*data);
-  return {data, scenario};
+  return new CGameData {data, scenario};
 }
 
 void gameDataDelete(CGameData* gameData) {
@@ -266,7 +254,7 @@ uint16_t gameDataFilterAction(CGameData* gameData, uint16_t action) {
   return ((Retro::Scenario*) gameData->scenario)->filterAction(action);
 }
 
-CValidActions gameDataValidActions(CGameData* gameData) {
+CValidActions* gameDataValidActions(CGameData* gameData) {
   std::map<int, std::set<int>> validActions = ((Retro::Scenario*) gameData->scenario)->validActions();
   size_t numActionsOuter = validActions.size();
   int** actions = new int*[numActionsOuter];
@@ -282,7 +270,7 @@ CValidActions gameDataValidActions(CGameData* gameData) {
     }
     i++;
   }
-  return {actions, numActionsInner, numActionsOuter};
+  return new CValidActions {actions, numActionsInner, numActionsOuter};
 }
 
 void gameDataUpdateRam(CGameData* gameData) {
@@ -314,20 +302,20 @@ void gameDataSetDoubleValue(CGameData* gameData, const char* name, double value)
   ((Retro::GameData*) gameData->data)->setValue(name, Variant(value));
 }
 
-CNames gameDataLookupKeys(CGameData* gameData) {
+CNames* gameDataLookupKeys(CGameData* gameData) {
   std::unordered_map<std::string, Datum> allValues = ((Retro::GameData*) gameData->data)->lookupAll();
-  const char** cNames = new const char*[allValues.size()];
+  const char** namesArray = new const char*[allValues.size()];
   auto i = 0;
   for (const auto& var : allValues) {
-    cNames[i] = var.first.c_str();
+    namesArray[i] = var.first.c_str();
     i++;
   }
-  return {cNames, allValues.size()};
+  return new CNames {namesArray, allValues.size()};
 }
 
-CVariable gameDataGetVariable(CGameData* gameData, const char* name) {
+CVariable* gameDataGetVariable(CGameData* gameData, const char* name) {
   Retro::Variable var = ((Retro::GameData*) gameData->data)->getVariable(name);
-  return {name, var.address, var.type.type};
+  return new CVariable {name, var.address, var.type.type};
 }
 
 void gameDataSetVariable(CGameData* gameData, const char* name, CVariable* value) {
@@ -339,7 +327,7 @@ void gameDataRemoveVariable(CGameData* gameData, const char* name) {
   ((Retro::GameData*) gameData->data)->removeVariable(name);
 }
 
-CVariables gameDataListVariables(CGameData* gameData) {
+CVariables* gameDataListVariables(CGameData* gameData) {
   const auto& vars = ((Retro::GameData*) gameData->data)->listVariables();
   auto numVariables = vars.size();
   auto* variables = new CVariable[numVariables];
@@ -349,7 +337,7 @@ CVariables gameDataListVariables(CGameData* gameData) {
     variables[i] = {var.first.c_str(), v.address, v.type.type};
     i++;
   }
-  return {variables, numVariables};
+  return new CVariables {variables, numVariables};
 }
 
 float gameDataCurrentReward(CGameData* gameData, unsigned int player) {
@@ -364,16 +352,16 @@ bool gameDataIsDone(CGameData* gameData) {
   return ((Retro::Scenario*) gameData->scenario)->isDone();
 }
 
-CCropInfo gameDataCropInfo(CGameData* gameData, unsigned int player) {
+CCropInfo* gameDataCropInfo(CGameData* gameData, unsigned int player) {
   size_t x = 0;
   size_t y = 0;
   size_t width = 0;
   size_t height = 0;
   ((Retro::Scenario*) gameData->scenario)->getCrop(&x, &y, &width, &height, player);
-  return {x, y, width, height};
+  return new CCropInfo {x, y, width, height};
 }
 
-CMemoryView gameDataMemory(CGameData* gameData) {
+CMemoryView* gameDataMemory(CGameData* gameData) {
   return memoryViewCreate(&((Retro::GameData*) gameData->data)->addressSpace());
 }
 
@@ -385,7 +373,7 @@ void gameDataDeltaSearch(CGameData* gameData, const char* name, const char* op, 
   ((Retro::GameData*) gameData->data)->deltaSearch(name, Retro::Scenario::op(op), ref);
 }
 
-CSearch gameDataGetSearch(CGameData* gameData, const char* name) {
+CSearch* gameDataGetSearch(CGameData* gameData, const char* name) {
   return searchCreateUnmanaged(((Retro::GameData*) gameData->data)->getSearch(name));
 }
 
@@ -393,16 +381,16 @@ void gameDataRemoveSearch(CGameData* gameData, const char* name) {
   ((Retro::GameData*) gameData->data)->removeSearch(name);
 }
 
-CNames gameDataListSearchNames(CGameData* gameData) {
+CNames* gameDataListSearchNames(CGameData* gameData) {
   std::vector<std::string> names = ((Retro::GameData*) gameData->data)->listSearches();
-  const char** cNames = new const char*[names.size()];
+  const char** namesArray = new const char*[names.size()];
   for (int i = 0; i < names.size(); i++) {
-    cNames[i] = names[i].c_str();
+    namesArray[i] = names[i].c_str();
   }
-  return {cNames, names.size()};
+  return new CNames {namesArray, names.size()};
 }
 
-CMovie movieCreate(const char* name, bool record, unsigned int players) {
+CMovie* movieCreate(const char* name, bool record, unsigned int players) {
   Retro::Movie* movie;
   if (record) {
     movie = new MovieBK2(name, true, players);
@@ -412,7 +400,7 @@ CMovie movieCreate(const char* name, bool record, unsigned int players) {
   if (!movie) {
     throw std::runtime_error("Could not load movie");
   }
-  return {movie, record};
+  return new CMovie {movie, record};
 }
 
 void movieDelete(CMovie* movie) {
@@ -451,10 +439,10 @@ void movieSetKey(CMovie* movie, int key, bool set, unsigned int player) {
   ((Retro::Movie*) movie->movie)->setKey(key, set, player);
 }
 
-CBytes movieGetState(CMovie* movie) {
+CBytes* movieGetState(CMovie* movie) {
   std::vector<uint8_t> data;
   ((Retro::Movie*) movie->movie)->getState(&data);
-  return {reinterpret_cast<char*>(data.data()), data.size()};
+  return new CBytes {reinterpret_cast<char*>(data.data()), data.size()};
 }
 
 void movieSetState(CMovie* movie, CBytes* state) {
