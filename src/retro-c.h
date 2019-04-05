@@ -1,14 +1,13 @@
-#include "data.h"
-#include "movie.h"
-
-using namespace Retro;
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 typedef struct CEmulator {
-  Retro::Emulator* emulator;
+  void* emulator;
   int cheats;
 } CEmulator;
 
@@ -30,7 +29,7 @@ typedef struct CEmulatorResolution {
 } CEmulatorResolution;
 
 typedef struct CMemoryView {
-  Retro::AddressSpace* addressSpace;
+  void* addressSpace;
 } CMemoryView;
 
 typedef struct CMemoryBlock {
@@ -45,7 +44,7 @@ typedef struct CMemoryBlocks {
 } CMemoryBlocks;
 
 typedef struct CSearch {
-  Retro::Search* search;
+  void* search;
   bool managed;
 } CSearch;
 
@@ -74,8 +73,8 @@ typedef struct CSearchTypedResults {
 } CSearchTypedResults;
 
 typedef struct CGameData {
-  Retro::GameData* data;
-  Retro::Scenario* scenario;
+  void* data;
+  void* scenario;
 } CGameData;
 
 typedef struct CVariable {
@@ -96,7 +95,7 @@ typedef struct CValidActions {
 } CValidActions;
 
 typedef struct CMovie {
-  Retro::Movie* movie;
+  void* movie;
   bool recording;
 } CMovie;
 
@@ -127,14 +126,14 @@ void emulatorAddCheat(CEmulator* emulator, const char* code);
 void emulatorClearCheats(CEmulator* emulator);
 void emulatorConfigureData(CEmulator* emulator, CGameData* gameData);
 
-CMemoryView memoryViewCreate(Retro::AddressSpace* addressSpace);
+CMemoryView memoryViewCreate(void* addressSpace);
 void memoryViewDelete(CMemoryView* memoryView);
 int64_t memoryViewExtract(CMemoryView* memoryView, size_t address, const char* type);
 void memoryViewAssign(CMemoryView* memoryView, size_t address, const char* type, int64_t value);
 CMemoryBlocks memoryViewBlocks(CMemoryView* memoryView);
 
 CSearch searchCreate(const char** types, size_t numTypes);
-CSearch searchCreateUnmanaged(Retro::Search* search);
+CSearch searchCreateUnmanaged(void* search);
 void searchDelete(CSearch* search);
 int searchNumResults(CSearch* search);
 bool searchHasUniqueResult(CSearch* search);
