@@ -135,7 +135,13 @@ void gameDataReset(CGameData* gameData);
 uint16_t gameDataFilterAction(CGameData* gameData, uint16_t action);
 CValidActions gameDataValidActions(CGameData* gameData);
 void gameDataUpdateRam(CGameData* gameData);
-// TODO: lookupValue, setValue, lookupAll
+bool gameDataLookupBoolValue(CGameData* gameData, const char* name);
+int64_t gameDataLookupIntValue(CGameData* gameData, const char* name);
+double gameDataLookupDoubleValue(CGameData* gameData, const char* name);
+void gameDataSetBoolValue(CGameData* gameData, const char* name, bool value);
+void gameDataSetIntValue(CGameData* gameData, const char* name, int64_t value);
+void gameDataSetDoubleValue(CGameData* gameData, const char* name, double value);
+// TODO: lookupAll
 CVariable gameDataGetVariable(CGameData* gameData, const char* name);
 void gameDataSetVariable(CGameData* gameData, const char* name, CVariable* value);
 void gameDataRemoveVariable(CGameData* gameData, const char* name);

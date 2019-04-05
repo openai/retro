@@ -266,7 +266,31 @@ void gameDataUpdateRam(CGameData* gameData) {
   gameData->scenario->update();
 }
 
-// TODO: lookupValue, setValue, lookupAll
+bool gameDataLookupBoolValue(CGameData* gameData, const char* name) {
+  return bool(gameData->data->lookupValue(name));
+}
+
+int64_t gameDataLookupIntValue(CGameData* gameData, const char* name) {
+  return int64_t(gameData->data->lookupValue(name));
+}
+
+double gameDataLookupDoubleValue(CGameData* gameData, const char* name) {
+  return double(gameData->data->lookupValue(name));
+}
+
+void gameDataSetBoolValue(CGameData* gameData, const char* name, bool value) {
+  gameData->data->setValue(name, Variant(value));
+}
+
+void gameDataSetIntValue(CGameData* gameData, const char* name, int64_t value) {
+  gameData->data->setValue(name, Variant(value));
+}
+
+void gameDataSetDoubleValue(CGameData* gameData, const char* name, double value) {
+  gameData->data->setValue(name, Variant(value));
+}
+
+// TODO: lookupAll
 
 CVariable gameDataGetVariable(CGameData* gameData, const char* name) {
   Retro::Variable var = gameData->data->getVariable(name);
