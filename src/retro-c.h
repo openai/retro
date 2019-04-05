@@ -59,6 +59,20 @@ typedef struct CSearchResult {
   const char* type;
 } CSearchResult;
 
+typedef struct CSearchTypedResult {
+  size_t address;
+  uint64_t mult;
+	uint64_t div;
+	int64_t bias;
+  const char** types;
+  size_t numTypes;
+} CSearchTypedResult;
+
+typedef struct CSearchTypedResults {
+  CSearchTypedResult* results;
+  size_t numResults;
+} CSearchTypedResults;
+
 typedef struct CGameData {
   Retro::GameData* data;
   Retro::Scenario* scenario;
@@ -125,7 +139,7 @@ void searchDelete(CSearch* search);
 int searchNumResults(CSearch* search);
 bool searchHasUniqueResult(CSearch* search);
 CSearchResult searchUniqueResult(CSearch* search);
-// TODO: searchTypedResults
+CSearchTypedResults searchTypedResults(CSearch* search);
 
 CGameData gameDataCreate();
 void gameDataDelete(CGameData* gameData);

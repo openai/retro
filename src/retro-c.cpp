@@ -193,7 +193,31 @@ CSearchResult searchUniqueResult(CSearch* search) {
   return {result.address, result.type.type};
 }
 
-// TODO: searchTypedResults
+CSearchTypedResults searchTypedResults(CSearch* search) {
+  std::map<SearchResult, std::unordered_set<DataType>> results;
+  for (const auto& result : search->search->typedResults()) {
+    results[static_cast<const SearchResult&>(result)].emplace(result.type);
+  }
+  CSearchTypedResult* cResults = new CSearchTypedResult[results.size()];
+  int i = 0;
+  for (const auto& result : results) {
+    const char** types = new const char*[result.second.size()];
+    int j = 0;
+    for (const auto& type : result.second) {
+      types[j] = type.type;
+      j++;
+    }
+    cResults[i] = {
+      result.first.address,
+      result.first.mult,
+      result.first.div,
+      result.first.bias,
+      types,
+      result.second.size()};
+    i++;
+  }
+  return {cResults, results.size()};
+}
 
 CGameData gameDataCreate() {
   auto* data = new Retro::GameData();
