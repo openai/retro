@@ -49,10 +49,10 @@ typedef struct CSearch {
   bool managed;
 } CSearch;
 
-typedef struct CSearchList {
+typedef struct CNames {
   const char** names;
   size_t numNames;
-} CSearchList;
+} CNames;
 
 typedef struct CSearchResult {
   size_t address;
@@ -141,7 +141,7 @@ double gameDataLookupDoubleValue(CGameData* gameData, const char* name);
 void gameDataSetBoolValue(CGameData* gameData, const char* name, bool value);
 void gameDataSetIntValue(CGameData* gameData, const char* name, int64_t value);
 void gameDataSetDoubleValue(CGameData* gameData, const char* name, double value);
-// TODO: lookupAll
+CNames gameDataLookupKeys(CGameData* gameData);
 CVariable gameDataGetVariable(CGameData* gameData, const char* name);
 void gameDataSetVariable(CGameData* gameData, const char* name, CVariable* value);
 void gameDataRemoveVariable(CGameData* gameData, const char* name);
@@ -155,7 +155,7 @@ void gameDataSearch(CGameData* gameData, const char* name, int64_t value);
 void gameDataDeltaSearch(CGameData* gameData, const char* name, const char* op, int64_t ref);
 CSearch gameDataGetSearch(CGameData* gameData, const char* name);
 void gameDataRemoveSearch(CGameData* gameData, const char* name);
-CSearchList gameDataListSearches(CGameData* gameData);
+CNames gameDataListSearchNames(CGameData* gameData);
 
 CMovie movieCreate(const char* name, bool record, unsigned int players);
 void movieDelete(CMovie* movie);

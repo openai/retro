@@ -290,7 +290,16 @@ void gameDataSetDoubleValue(CGameData* gameData, const char* name, double value)
   gameData->data->setValue(name, Variant(value));
 }
 
-// TODO: lookupAll
+CNames gameDataLookupKeys(CGameData* gameData) {
+  std::unordered_map<std::string, Datum> allValues = gameData->data->lookupAll();
+  const char** cNames = new const char*[allValues.size()];
+  auto i = 0;
+  for (const auto& var : allValues) {
+    cNames[i] = var.first.c_str();
+    i++;
+  }
+  return {cNames, allValues.size()};
+}
 
 CVariable gameDataGetVariable(CGameData* gameData, const char* name) {
   Retro::Variable var = gameData->data->getVariable(name);
@@ -360,7 +369,7 @@ void gameDataRemoveSearch(CGameData* gameData, const char* name) {
   gameData->data->removeSearch(name);
 }
 
-CSearchList gameDataListSearches(CGameData* gameData) {
+CNames gameDataListSearchNames(CGameData* gameData) {
   std::vector<std::string> names = gameData->data->listSearches();
   const char** cNames = new const char*[names.size()];
   for (int i = 0; i < names.size(); i++) {
