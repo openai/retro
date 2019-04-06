@@ -100,7 +100,7 @@ typedef struct CMovie {
 } CMovie;
 
 typedef struct CBytes {
-  void* bytes;
+  const uint8_t* bytes;
   size_t numBytes;
 } CBytes;
 

@@ -48,7 +48,7 @@ CBytes* emulatorGetState(CEmulator* emulator) {
   size_t numBytes = ((Retro::Emulator*) emulator->emulator)->serializeSize();
   void* bytes = malloc(numBytes);
   ((Retro::Emulator*) emulator->emulator)->serialize(bytes, numBytes);
-  return new CBytes {bytes, numBytes};
+  return new CBytes {reinterpret_cast<const uint8_t*>(bytes), numBytes};
 }
 
 bool emulatorSetState(CEmulator* emulator, CBytes* state) {
@@ -448,11 +448,11 @@ void movieSetKey(CMovie* movie, int key, bool set, unsigned int player) {
 CBytes* movieGetState(CMovie* movie) {
   std::vector<uint8_t> data;
   ((Retro::Movie*) movie->movie)->getState(&data);
-  return new CBytes {reinterpret_cast<char*>(data.data()), data.size()};
+  return new CBytes {reinterpret_cast<const uint8_t*>(data.data()), data.size()};
 }
 
 void movieSetState(CMovie* movie, CBytes* state) {
-  ((Retro::Movie*) movie->movie)->setState(reinterpret_cast<uint8_t*>(state->bytes), state->numBytes);
+  ((Retro::Movie*) movie->movie)->setState(state->bytes, state->numBytes);
 }
 
 bool retroLoadCoreInfo(const char* json) {
