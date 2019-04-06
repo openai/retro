@@ -121,7 +121,7 @@ double emulatorGetScreenRate(CEmulator* emulator);
 CEmulatorAudio* emulatorGetAudio(CEmulator* emulator);
 double emulatorGetAudioRate(CEmulator* emulator);
 CEmulatorResolution* emulatorGetResolution(CEmulator* emulator);
-void emulatorSetButtonMask(CEmulator* emulator, uint8_t* mask, size_t maskSize, unsigned int player);
+void emulatorSetButtonMask(CEmulator* emulator, const uint8_t* mask, size_t maskSize, unsigned int player);
 void emulatorAddCheat(CEmulator* emulator, const char* code);
 void emulatorClearCheats(CEmulator* emulator);
 void emulatorConfigureData(CEmulator* emulator, CGameData* gameData);

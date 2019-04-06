@@ -92,7 +92,7 @@ CEmulatorResolution* emulatorGetResolution(CEmulator* emulator) {
   return new CEmulatorResolution {w, h};
 }
 
-void emulatorSetButtonMask(CEmulator* emulator, uint8_t* mask, size_t maskSize, unsigned int player) {
+void emulatorSetButtonMask(CEmulator* emulator, const uint8_t* mask, size_t maskSize, unsigned int player) {
   if (maskSize > N_BUTTONS) {
     fprintf(stderr, "mask.size() > N_BUTTONS.");
     return;
