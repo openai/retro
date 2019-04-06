@@ -68,7 +68,7 @@ CEmulatorScreen* emulatorGetScreen(CEmulator* emulator) {
     in = Image(Image::Format::RGBX888, emu->getImageData(), w, h, emu->getImagePitch());
   }
   in.copyTo(&out);
-  return new CEmulatorScreen {data, (int) w, (int) h, 3};
+  return new CEmulatorScreen {data, (size_t) w, (size_t) h, 3};
 }
 
 double emulatorGetScreenRate(CEmulator* emulator) {
@@ -87,8 +87,8 @@ double emulatorGetAudioRate(CEmulator* emulator) {
 }
 
 CEmulatorResolution* emulatorGetResolution(CEmulator* emulator) {
-  auto w = ((Retro::Emulator*) emulator->emulator)->getImageWidth();
-  auto h = ((Retro::Emulator*) emulator->emulator)->getImageHeight();
+  auto w = (size_t) ((Retro::Emulator*) emulator->emulator)->getImageWidth();
+  auto h = (size_t) ((Retro::Emulator*) emulator->emulator)->getImageHeight();
   return new CEmulatorResolution {w, h};
 }
 
@@ -378,7 +378,7 @@ void gameDataDeltaSearch(CGameData* gameData, const char* name, const char* op, 
   ((Retro::GameData*) gameData->data)->deltaSearch(name, Retro::Scenario::op(op), ref);
 }
 
-CSearch* gameDataGetSearch(CGameData* gameData, const char* name) {
+CSearch* gameDataSearch(CGameData* gameData, const char* name) {
   return searchCreateUnmanaged(((Retro::GameData*) gameData->data)->getSearch(name));
 }
 

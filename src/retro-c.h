@@ -8,14 +8,14 @@ extern "C" {
 
 typedef struct CEmulator {
   void* emulator;
-  int cheats;
+  size_t cheats;
 } CEmulator;
 
 typedef struct CEmulatorScreen {
   uint8_t* values;
-  int width;
-  int height;
-  int channels;
+  size_t width;
+  size_t height;
+  size_t channels;
 } CEmulatorScreen;
 
 typedef struct CEmulatorAudio {
@@ -24,8 +24,8 @@ typedef struct CEmulatorAudio {
 } CEmulatorAudio;
 
 typedef struct CEmulatorResolution {
-  int width;
-  int height;
+  size_t width;
+  size_t height;
 } CEmulatorResolution;
 
 typedef struct CMemoryView {
