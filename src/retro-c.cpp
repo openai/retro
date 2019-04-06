@@ -142,7 +142,7 @@ CMemoryBlocks* memoryViewBlocks(CMemoryView* memoryView) {
   auto* blocks = new CMemoryBlock[numBlocks];
   auto i = 0;
   for (const auto& iter : internalBlocks) {
-    blocks[i] = {iter.first, static_cast<const char*>(iter.second.offset(0)), iter.second.size()};
+    blocks[i] = {iter.first, static_cast<const uint8_t*>(iter.second.offset(0)), iter.second.size()};
     i++;
   }
   return new CMemoryBlocks {blocks, numBlocks};

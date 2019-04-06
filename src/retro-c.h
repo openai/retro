@@ -34,7 +34,7 @@ typedef struct CMemoryView {
 
 typedef struct CMemoryBlock {
   size_t address;
-  const char* bytes;
+  const uint8_t* bytes;
   size_t numBytes;
 } CMemoryBlock;
 
