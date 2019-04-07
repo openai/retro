@@ -2,6 +2,7 @@
 
 #include <climits>
 #include <cstdlib>
+#include <cstring>
 #include <sys/stat.h>
 
 using namespace std;
