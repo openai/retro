@@ -16,8 +16,16 @@
 
 using namespace Retro;
 
+const char* newCString(std::string value) {
+  auto* cValue = value.c_str();
+  auto size = sizeof(char) * (value.length() + 1);
+  auto* copy = malloc(size);
+  memcpy(copy, cValue, size);
+  return reinterpret_cast<const char*>(copy);
+}
+
 CEmulator* emulatorCreate(const char* romPath) {
-  Retro::Emulator emulator;
+  Retro::Emulator* emulator = new Retro::Emulator();
   if (Emulator::isLoaded()) {
     fprintf(
       stderr,
@@ -25,14 +33,14 @@ CEmulator* emulatorCreate(const char* romPath) {
       "'env.close()' on each environment before creating a new one.");
     return nullptr;
   }
-  if (!emulator.loadRom(romPath)) {
+  if (!emulator->loadRom(romPath)) {
     fprintf(stderr, "Could not load ROM.");
     return nullptr;
   }
   // The following is necessary because otherwise, you get a segfault 
   // when you try to get the screen for the first time.
-  emulator.run();
-  return new CEmulator {&emulator, 0};
+  emulator->run();
+  return new CEmulator {emulator, 0};
 }
 
 void emulatorDelete(CEmulator* emulator) {
@@ -200,6 +208,7 @@ CSearchTypedResults* searchTypedResults(CSearch* search) {
       types[j] = type.type;
       j++;
     }
+    // TODO: Allocated on stack.
     cResults[i] = {
       result.first.address,
       result.first.mult,
@@ -215,8 +224,6 @@ CSearchTypedResults* searchTypedResults(CSearch* search) {
 CGameData* gameDataCreate() {
   auto* data = new Retro::GameData();
   auto* scenario = new Retro::Scenario(*data);
-  fprintf(stderr, "\nAfter: %lu", &data->addressSpace());
-  (&data->addressSpace())->reset();
   return new CGameData {data, scenario};
 }
 
@@ -314,6 +321,7 @@ CNames* gameDataLookupKeys(CGameData* gameData) {
   const char** namesArray = new const char*[allValues.size()];
   auto i = 0;
   for (const auto& var : allValues) {
+    // TODO: Allocated on stack.
     namesArray[i] = var.first.c_str();
     i++;
   }
@@ -322,6 +330,7 @@ CNames* gameDataLookupKeys(CGameData* gameData) {
 
 CVariable* gameDataGetVariable(CGameData* gameData, const char* name) {
   Retro::Variable var = ((Retro::GameData*) gameData->data)->getVariable(name);
+  // TODO: Allocated on stack.
   return new CVariable {name, var.address, var.type.type};
 }
 
@@ -341,7 +350,7 @@ CVariables* gameDataListVariables(CGameData* gameData) {
   auto i = 0;
   for (const auto& var : vars) {
     const auto& v = var.second;
-    variables[i] = {var.first.c_str(), v.address, v.type.type};
+    variables[i] = {newCString(var.first), v.address, v.type.type};
     i++;
   }
   return new CVariables {variables, numVariables};
@@ -392,7 +401,7 @@ CNames* gameDataListSearchNames(CGameData* gameData) {
   std::vector<std::string> names = ((Retro::GameData*) gameData->data)->listSearches();
   const char** namesArray = new const char*[names.size()];
   for (int i = 0; i < names.size(); i++) {
-    namesArray[i] = names[i].c_str();
+    namesArray[i] = newCString(names[i]);
   }
   return new CNames {namesArray, names.size()};
 }
@@ -402,7 +411,7 @@ CMovie* movieCreate(const char* name, bool record, unsigned int players) {
   if (record) {
     movie = new MovieBK2(name, true, players);
   } else {
-    movie = Movie::load(name).get();
+    movie = Movie::load(name).release();
   }
   if (!movie) {
     fprintf(stderr, "Could not load movie.");
@@ -424,7 +433,7 @@ void movieConfigure(CMovie* movie, const char* name, CEmulator* emulator) {
 }
 
 const char* movieGetGameName(CMovie* movie) {
-  return ((Retro::Movie*) movie->movie)->getGameName().c_str();
+  return newCString(((Retro::Movie*) movie->movie)->getGameName());
 }
 
 bool movieStep(CMovie* movie) {
@@ -448,6 +457,7 @@ void movieSetKey(CMovie* movie, int key, bool set, unsigned int player) {
 }
 
 CBytes* movieGetState(CMovie* movie) {
+  // TODO: Allocated on stack?
   std::vector<uint8_t> data;
   ((Retro::Movie*) movie->movie)->getState(&data);
   return new CBytes {reinterpret_cast<const uint8_t*>(data.data()), data.size()};
@@ -462,9 +472,9 @@ bool retroLoadCoreInfo(const char* json) {
 }
 
 const char* retroCorePath(const char* hint) {
-  return Retro::corePath(hint).c_str();
+  return newCString(Retro::corePath(hint));
 }
 
 const char* retroDataPath(const char* hint) {
-  return Retro::GameData::dataPath(hint).c_str();
+  return newCString(Retro::GameData::dataPath(hint));
 }
