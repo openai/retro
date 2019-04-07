@@ -9,20 +9,13 @@
 #include "script.h"
 #include "movie.h"
 #include "movie-bk2.h"
+#include "utils.h"
 
 #include <map>
 #include <unordered_map>
 #include <unordered_set>
 
 using namespace Retro;
-
-const char* newCString(std::string value) {
-  auto* cValue = value.c_str();
-  auto size = sizeof(char) * (value.length() + 1);
-  auto* copy = malloc(size);
-  memcpy(copy, cValue, size);
-  return reinterpret_cast<const char*>(copy);
-}
 
 CEmulator* emulatorCreate(const char* romPath) {
   Retro::Emulator* emulator = new Retro::Emulator();

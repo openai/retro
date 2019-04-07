@@ -80,4 +80,12 @@ string drillUp(const vector<string>& targets, const string& fail, const string& 
 	}
 	return {};
 }
+
+const char* newCString(std::string value) {
+  auto* cValue = value.c_str();
+  auto size = sizeof(char) * (value.length() + 1);
+  auto* copy = malloc(size);
+  memcpy(copy, cValue, size);
+  return reinterpret_cast<const char*>(copy);
+}
 }
