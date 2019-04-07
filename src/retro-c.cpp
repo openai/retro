@@ -201,7 +201,6 @@ CSearchTypedResults* searchTypedResults(CSearch* search) {
       types[j] = type.type;
       j++;
     }
-    // TODO: Allocated on stack.
     cResults[i] = {
       result.first.address,
       result.first.mult,
