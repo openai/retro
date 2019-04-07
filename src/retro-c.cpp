@@ -321,8 +321,7 @@ CNames* gameDataLookupKeys(CGameData* gameData) {
   const char** namesArray = new const char*[allValues.size()];
   auto i = 0;
   for (const auto& var : allValues) {
-    // TODO: Allocated on stack.
-    namesArray[i] = var.first.c_str();
+    namesArray[i] = newCString(var.first);
     i++;
   }
   return new CNames {namesArray, allValues.size()};
