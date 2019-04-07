@@ -117,7 +117,7 @@ void emulatorClearCheats(CEmulator* emulator) {
 }
 
 void emulatorConfigureData(CEmulator* emulator, CGameData* gameData) {
-  ((Retro::Emulator*) emulator->emulator)->configureData(((Retro::GameData*) gameData->data));
+  ((Retro::Emulator*) emulator->emulator)->configureData((Retro::GameData*) gameData->data);
 }
 
 CMemoryView* memoryViewCreate(void* addressSpace) {
@@ -215,6 +215,8 @@ CSearchTypedResults* searchTypedResults(CSearch* search) {
 CGameData* gameDataCreate() {
   auto* data = new Retro::GameData();
   auto* scenario = new Retro::Scenario(*data);
+  fprintf(stderr, "\nAfter: %lu", &data->addressSpace());
+  (&data->addressSpace())->reset();
   return new CGameData {data, scenario};
 }
 

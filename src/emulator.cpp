@@ -410,13 +410,21 @@ int16_t Emulator::cbInputState(unsigned port, unsigned, unsigned, unsigned id) {
 }
 
 void Emulator::configureData(GameData* data) {
+	fprintf(stderr, "%s", "\n##################### - 5.0");
 	m_addressSpace = &data->addressSpace();
+  fprintf(stderr, "\nAfter: %lu", m_addressSpace);
+	fprintf(stderr, "%s", "\n##################### - 5.1");
 	m_addressSpace->reset();
+	fprintf(stderr, "%s", "\n##################### - 5.2");
 	Retro::configureData(data, m_core);
+	fprintf(stderr, "%s", "\n##################### - 5.3");
 	reconfigureAddressSpace();
+	fprintf(stderr, "%s", "\n##################### - 5.4");
 	if (m_addressSpace->blocks().empty() && retro_get_memory_size(RETRO_MEMORY_SYSTEM_RAM)) {
+		fprintf(stderr, "%s", "\n##################### - 5.5");
 		m_addressSpace->addBlock(Retro::ramBase(m_core), retro_get_memory_size(RETRO_MEMORY_SYSTEM_RAM), retro_get_memory_data(RETRO_MEMORY_SYSTEM_RAM));
 	}
+	fprintf(stderr, "%s", "\n##################### - 5.6");
 }
 
 vector<string> Emulator::buttons() const {

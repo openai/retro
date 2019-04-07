@@ -396,7 +396,9 @@ bool AddressSpace::ok() const {
 }
 
 void AddressSpace::reset() {
+	fprintf(stderr, "\nBefore: %lu", this);
 	m_blocks.clear();
+	fprintf(stderr, "%s", "\n##################### - 5.1.1");
 }
 
 void AddressSpace::clone(const AddressSpace& as) {
