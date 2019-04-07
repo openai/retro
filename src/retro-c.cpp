@@ -459,10 +459,13 @@ void movieSetKey(CMovie* movie, int key, bool set, unsigned int player) {
 }
 
 CBytes* movieGetState(CMovie* movie) {
-  // TODO: Allocated on stack?
   std::vector<uint8_t> data;
   ((Retro::Movie*) movie->movie)->getState(&data);
-  return new CBytes {reinterpret_cast<const uint8_t*>(data.data()), data.size()};
+  auto* cData = data.data();
+  auto size = sizeof(uint8_t) * data.size();
+  auto* copy = malloc(size);
+  memcpy(copy, cData, size);
+  return new CBytes {reinterpret_cast<const uint8_t*>(copy), data.size()};
 }
 
 void movieSetState(CMovie* movie, CBytes* state) {
