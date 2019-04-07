@@ -329,8 +329,11 @@ CNames* gameDataLookupKeys(CGameData* gameData) {
 
 CVariable* gameDataGetVariable(CGameData* gameData, const char* name) {
   Retro::Variable var = ((Retro::GameData*) gameData->data)->getVariable(name);
-  // TODO: Allocated on stack.
-  return new CVariable {name, var.address, var.type.type};
+  auto size = sizeof(char) * 5;
+  auto* typeCopy = malloc(size);
+  memcpy(typeCopy, var.type.type, size);
+  auto* type = reinterpret_cast<const char*>(typeCopy);
+  return new CVariable {name, var.address, type};
 }
 
 void gameDataSetVariable(CGameData* gameData, const char* name, CVariable* value) {
