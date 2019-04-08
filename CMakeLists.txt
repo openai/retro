@@ -290,17 +290,13 @@ if(BUILD_C)
     add_library(retro-c SHARED src/retro-c.cpp)
     set_target_properties(retro-c PROPERTIES 
         OUTPUT_NAME retro
-        CXX_VISIBILITY_PRESET default
-        POSITION_INDEPENDENT_CODE ON)
-    if(APPLE)
-        set(C_LIBS "-undefined dynamic_lookup")
-    elseif(WIN32)
+        CXX_VISIBILITY_PRESET default)
+    if(WIN32)
         if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_SYSTEM_PROCESSOR STREQUAL "AMD64")
             add_definitions(-DMS_WIN64)
         endif()
-        set(C_LIBS "")
     endif()
-    target_link_libraries(retro-c retro-base ${C_LIBS} ${STATIC_LDFLAGS})
+    target_link_libraries(retro-c retro-base ${STATIC_LDFLAGS})
 endif()
 
 if(BUILD_TESTS)
