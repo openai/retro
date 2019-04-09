@@ -24,6 +24,4 @@ enum class Operation {
 int64_t calculate(Operation op, int64_t reference, int64_t value);
 
 std::string drillUp(const std::vector<std::string>& targets, const std::string& fail = {}, const std::string& hint = ".");
-
-const char* newCString(std::string value);
 }

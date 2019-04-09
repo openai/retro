@@ -12,7 +12,6 @@
 #include "data.h"
 #include "emulator.h"
 #include "libretro.h"
-#include "utils.h"
 
 #ifndef _WIN32
 #define GETSYM dlsym
@@ -361,7 +360,7 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		return false;
 	}
 	case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
-		*reinterpret_cast<const char**>(data) = newCString(corePath());
+		*reinterpret_cast<const char**>(data) = strdup(corePath().c_str());
 		return true;
 	case RETRO_ENVIRONMENT_GET_CAN_DUPE:
 		*reinterpret_cast<bool*>(data) = true;

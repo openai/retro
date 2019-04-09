@@ -9,7 +9,6 @@
 #include "script.h"
 #include "movie.h"
 #include "movie-bk2.h"
-#include "utils.h"
 
 #include <map>
 #include <unordered_map>
@@ -313,7 +312,7 @@ CNames* gameDataLookupKeys(CGameData* gameData) {
   const char** namesArray = new const char*[allValues.size()];
   auto i = 0;
   for (const auto& var : allValues) {
-    namesArray[i] = newCString(var.first);
+    namesArray[i] = strdup(var.first.c_str());
     i++;
   }
   return new CNames {namesArray, allValues.size()};
@@ -344,7 +343,7 @@ CVariables* gameDataListVariables(CGameData* gameData) {
   auto i = 0;
   for (const auto& var : vars) {
     const auto& v = var.second;
-    variables[i] = {newCString(var.first), v.address, v.type.type};
+    variables[i] = {strdup(var.first.c_str()), v.address, v.type.type};
     i++;
   }
   return new CVariables {variables, numVariables};
@@ -395,7 +394,7 @@ CNames* gameDataListSearchNames(CGameData* gameData) {
   std::vector<std::string> names = ((Retro::GameData*) gameData->data)->listSearches();
   const char** namesArray = new const char*[names.size()];
   for (int i = 0; i < names.size(); i++) {
-    namesArray[i] = newCString(names[i]);
+    namesArray[i] = strdup(names[i].c_str());
   }
   return new CNames {namesArray, names.size()};
 }
@@ -427,7 +426,7 @@ void movieConfigure(CMovie* movie, const char* name, CEmulator* emulator) {
 }
 
 const char* movieGetGameName(CMovie* movie) {
-  return newCString(((Retro::Movie*) movie->movie)->getGameName());
+  return strdup(((Retro::Movie*) movie->movie)->getGameName().c_str());
 }
 
 bool movieStep(CMovie* movie) {
@@ -469,9 +468,9 @@ bool retroLoadCoreInfo(const char* json) {
 }
 
 const char* retroCorePath(const char* hint) {
-  return newCString(Retro::corePath(hint));
+  return strdup(Retro::corePath(hint).c_str());
 }
 
 const char* retroDataPath(const char* hint) {
-  return newCString(Retro::GameData::dataPath(hint));
+  return strdup(Retro::GameData::dataPath(hint).c_str());
 }
