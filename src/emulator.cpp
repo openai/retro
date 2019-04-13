@@ -360,7 +360,7 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		return false;
 	}
 	case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
-		*reinterpret_cast<const char**>(data) = corePath().c_str();
+		*reinterpret_cast<const char**>(data) = strdup(corePath().c_str());
 		return true;
 	case RETRO_ENVIRONMENT_GET_CAN_DUPE:
 		*reinterpret_cast<bool*>(data) = true;
