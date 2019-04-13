@@ -108,7 +108,7 @@ bool loadCoreInfo(const string& jsonData) {
 		for (auto ext = core->at("ext").cbegin(); ext != core->at("ext").cend(); ++ext) {
 			s_extensionToCore[*ext] = core.key();
 		}
-		s_coreToLib[core.key()] = core->at("lib");
+		s_coreToLib[core.key()] = core->at("lib").get<string>();
 	}
 	return true;
 }
