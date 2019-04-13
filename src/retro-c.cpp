@@ -300,6 +300,14 @@ CValidActions* gameDataValidActions(CGameData* gameData) {
   return new CValidActions {actions, numActionsInner, numActionsOuter};
 }
 
+void gameDataValidActionsDelete(CValidActions* validActions) {
+  for (int i = 0; i < validActions->numActionsOuter; i++) {
+    delete validActions->actions[i];
+  }
+  delete validActions->numActionsInner;
+  delete validActions;
+}
+
 void gameDataUpdateRam(CGameData* gameData) {
   static_cast<GameData*>(gameData->data)->updateRam();
   static_cast<Scenario*>(gameData->scenario)->update();
@@ -393,6 +401,10 @@ CCropInfo* gameDataCropInfo(CGameData* gameData, unsigned int player) {
   return new CCropInfo {x, y, width, height};
 }
 
+void gameDataCropInfoDelete(CCropInfo* cropInfo) {
+  delete cropInfo;
+}
+
 CMemoryView* gameDataMemory(CGameData* gameData) {
   return memoryViewCreate(&static_cast<GameData*>(gameData->data)->addressSpace());
 }
@@ -420,6 +432,28 @@ CNames* gameDataListSearchNames(CGameData* gameData) {
     namesArray[i] = strdup(names[i].c_str());
   }
   return new CNames {namesArray, names.size()};
+}
+
+void gameDataNamesDelete(CNames* names) {
+  for (int i = 0; i < names->numNames; i++) {
+    delete names->names[i];
+  }
+  delete names->names;
+  delete names;
+}
+
+void gameDataVariableDelete(CVariable* variable) {
+  delete variable->name;
+  delete variable->type;
+  delete variable;
+}
+
+void gameDataVariablesDelete(CVariables* variables) {
+  for (int i = 0; i < variables->numVariables; i++) {
+    gameDataVariableDelete(&variables->variables[i]);
+  }
+  delete variables->variables;
+  delete variables;
 }
 
 CMovie* movieCreate(const char* name, bool record, unsigned int players) {

@@ -150,6 +150,7 @@ bool gameDataSave(CGameData* gameData, const char* dataFilename, const char* sce
 void gameDataReset(CGameData* gameData);
 uint16_t gameDataFilterAction(CGameData* gameData, uint16_t action);
 CValidActions* gameDataValidActions(CGameData* gameData);
+void gameDataValidActionsDelete(CValidActions* validActions);
 void gameDataUpdateRam(CGameData* gameData);
 bool gameDataLookupBoolValue(CGameData* gameData, const char* name);
 int64_t gameDataLookupIntValue(CGameData* gameData, const char* name);
@@ -166,12 +167,16 @@ float gameDataCurrentReward(CGameData* gameData, unsigned int player);
 float gameDataTotalReward(CGameData* gameData, unsigned int player);
 bool gameDataIsDone(CGameData* gameData);
 CCropInfo* gameDataCropInfo(CGameData* gameData, unsigned int player);
+void gameDataCropInfoDelete(CCropInfo* cropInfo);
 CMemoryView* gameDataMemory(CGameData* gameData);
 void gameDataSearch(CGameData* gameData, const char* name, int64_t value);
 void gameDataDeltaSearch(CGameData* gameData, const char* name, const char* op, int64_t ref);
 CSearch* gameDataGetSearch(CGameData* gameData, const char* name);
 void gameDataRemoveSearch(CGameData* gameData, const char* name);
 CNames* gameDataListSearchNames(CGameData* gameData);
+void gameDataNamesDelete(CNames* names);
+void gameDataVariableDelete(CVariable* variable);
+void gameDataVariablesDelete(CVariables* variables);
 
 CMovie* movieCreate(const char* name, bool record, unsigned int players);
 void movieDelete(CMovie* movie);
