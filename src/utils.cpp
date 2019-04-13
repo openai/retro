@@ -2,7 +2,6 @@
 
 #include <climits>
 #include <cstdlib>
-#include <cstring>
 #include <sys/stat.h>
 
 using namespace std;
@@ -81,5 +80,4 @@ string drillUp(const vector<string>& targets, const string& fail, const string& 
 	}
 	return {};
 }
-
 }

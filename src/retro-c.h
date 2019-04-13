@@ -24,8 +24,8 @@ typedef struct CEmulatorAudio {
 } CEmulatorAudio;
 
 typedef struct CEmulatorResolution {
-  size_t width;
-  size_t height;
+  int width;
+  int height;
 } CEmulatorResolution;
 
 typedef struct CMemoryView {
@@ -131,6 +131,7 @@ void memoryViewDelete(CMemoryView* memoryView);
 int64_t memoryViewExtract(CMemoryView* memoryView, size_t address, const char* type);
 void memoryViewAssign(CMemoryView* memoryView, size_t address, const char* type, int64_t value);
 CMemoryBlocks* memoryViewBlocks(CMemoryView* memoryView);
+void memoryViewBlocksDelete(CMemoryBlocks* memoryBlocks);
 
 CSearch* searchCreate(const char** types, size_t numTypes);
 CSearch* searchCreateUnmanaged(void* search);
@@ -138,7 +139,9 @@ void searchDelete(CSearch* search);
 int searchNumResults(CSearch* search);
 bool searchHasUniqueResult(CSearch* search);
 CSearchResult* searchUniqueResult(CSearch* search);
+void searchResultDelete(CSearchResult* searchResult);
 CSearchTypedResults* searchTypedResults(CSearch* search);
+void searchTypedResultsDelete(CSearchTypedResults* searchTypedResults);
 
 CGameData* gameDataCreate();
 void gameDataDelete(CGameData* gameData);
