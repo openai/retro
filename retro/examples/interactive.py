@@ -126,11 +126,17 @@ class Interactive(abc.ABC):
                 np.set_printoptions(precision=2)
                 if self._sync:
                     done_int = int(done)  # shorter than printing True/False
-                    print(f'steps={self._steps} episode_steps={self._episode_steps} rew={rew} episode_returns={self._episode_returns} done={done_int}')
+                    mess = 'steps={self._steps} episode_steps={self._episode_steps} rew={rew} episode_returns={self._episode_returns} done={done_int}'.format(
+                        **locals()
+                    )
+                    print(mess)
                 elif self._steps % self._tps == 0 or done:
                     episode_returns_delta = self._episode_returns - self._prev_episode_returns
                     self._prev_episode_returns = self._episode_returns
-                    print(f'steps={self._steps} episode_steps={self._episode_steps} episode_returns_delta={episode_returns_delta} episode_returns={self._episode_returns}')
+                    mess = 'steps={self._steps} episode_steps={self._episode_steps} episode_returns_delta={episode_returns_delta} episode_returns={self._episode_returns}'.format(
+                        **locals()
+                    )
+                    print(mess)
 
                 if done:
                     self._env.reset()
