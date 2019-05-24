@@ -186,7 +186,7 @@ class Brute:
 def brute_retro(
     game,
     max_episode_steps=4500,
-    timestep_limit=100_000_000,
+    timestep_limit=1e8,
     state=retro.State.DEFAULT,
     scenario=None,
 ):
@@ -202,7 +202,7 @@ def brute_retro(
         timesteps += len(acts)
 
         if rew > best_rew:
-            print(f"new best reward {best_rew} => {rew}")
+            print("new best reward {} => {}".format(best_rew, rew))
             best_rew = rew
             env.unwrapped.record_movie("best.bk2")
             env.reset()
