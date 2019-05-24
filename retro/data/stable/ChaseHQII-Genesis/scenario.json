@@ -7,11 +7,10 @@
     }
   },
   "reward": {
-    "variables": {
-      "score": {
-        "reward": 1.0
-      }
-    }
+    "script": "lua:correct_score"
   },
+  "scripts": [
+    "script.lua"
+  ],
   "crop": [ 0, 0, 256, 0 ]
 }
