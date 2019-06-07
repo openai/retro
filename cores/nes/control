@@ -1,0 +1,10 @@
+Package: com.libretro.fceumm
+Name: fceumm
+Depends: 
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: Libretro iOS core of FCEUmm
+Maintainer: libretro
+Author: libretro
+Section: System
+Tag: role::developer

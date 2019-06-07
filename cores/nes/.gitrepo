@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/libretro/libretro-fceumm.git
+	branch = fdf6993b6cd68e62e03d1c7cc0e87ed3ee7e0483
+	commit = fdf6993b6cd68e62e03d1c7cc0e87ed3ee7e0483
+	parent = 6b93df486b529fa8bb42c823a925c9739065d7be
+	method = rebase
+	cmdver = 0.4.0
