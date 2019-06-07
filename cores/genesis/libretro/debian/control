@@ -1,0 +1,32 @@
+Source: libretro-genesisplusgx
+Section: otherosfs
+Priority: extra
+Maintainer: Hunter Kaller (hizzlekizzle) <hunter_kaller@yahoo.com>
+Build-Depends: debhelper (>= 9), zlib1g-dev
+Standards-Version: 3.9.5
+Homepage: https://code.google.com/p/genplus-gx
+Vcs-Git: git://github.com/libretro/Genesis-Plus-GX.git
+Vcs-Browser: https://github.com/libretro/Genesis-Plus-GX
+
+Package: libretro-genesisplusgx
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libretro-core-info
+Description: Libretro wrapper for Genesis Plus GX
+ This wrapper makes Genesis Plus GX API compatible with libretro, thus allowing
+ its use with libretro frontends, such as RetroArch.
+ .
+ Genesis Plus GX is an open-source Sega 8/16 bit emulator focused on accuracy
+ and portability. Initially ported and developed on Gamecube / Wii consoles
+ only through libogc / devkitPPC, it is now available on many other platforms
+ through various frontends.
+ .
+ The source code, originally based on Genesis Plus 1.3 by Charles MacDonald, has
+ been heavily modified & enhanced, with respect to initial goals and design, in
+ order to improve the accuracy of emulation, implementing new features and
+ adding support for extra peripherals, cartridge & systems hardware.
+ .
+ The result is that Genesis Plus GX is now more a continuation of the original 
+ project than a simple port, providing very accurate emulation and 100% 
+ compatibility with Genesis / Mega Drive, Sega/Mega CD, Master System, Game Gear
+ & SG-1000 released software (including all unlicensed or pirate known dumps), 
+ also emulating backwards compatibility modes when available. 

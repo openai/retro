@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\z80">
+      <UniqueIdentifier>{e0f9ca3b-df0f-4cf9-bde1-9fa3c945b0df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\m68k">
+      <UniqueIdentifier>{0605ef1a-d898-494c-a898-8f06000646ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cart_hw">
+      <UniqueIdentifier>{8b373848-96f7-4410-a466-5d7cb6866b0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cart_hw\svp">
+      <UniqueIdentifier>{ea37a461-94f4-40e3-91a8-2b254b94f547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\input_hw">
+      <UniqueIdentifier>{becebb08-7987-4fe3-8ee0-dd47889d4996}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ntsc">
+      <UniqueIdentifier>{e66cf784-cb76-4a70-a2e0-327a3b4c96eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sound">
+      <UniqueIdentifier>{39a1110f-2062-4e3c-9f43-aca63cc20cda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\libretro">
+      <UniqueIdentifier>{95e90e29-1915-4f70-b6e0-50b9dace48cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\cd_hw">
+      <UniqueIdentifier>{eba4b43d-dbd8-4170-9853-e3234db6dfc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tremor">
+      <UniqueIdentifier>{c4a5e1da-1ff3-4c81-893c-97364ed7ed4b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\core\cart_hw\svp\svp.c">
+      <Filter>Source Files\cart_hw\svp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cart_hw\svp\ssp16.c">
+      <Filter>Source Files\cart_hw\svp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cart_hw\sram.c">
+      <Filter>Source Files\cart_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cart_hw\areplay.c">
+      <Filter>Source Files\cart_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cart_hw\ggenie.c">
+      <Filter>Source Files\cart_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cart_hw\md_cart.c">
+      <Filter>Source Files\cart_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cart_hw\sms_cart.c">
+      <Filter>Source Files\cart_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\xe_a1p.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\activator.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\gamepad.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\input.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\lightgun.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\mouse.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\paddle.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\sportspad.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\teamplayer.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\input_hw\terebi_oekaki.c">
+      <Filter>Source Files\input_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libretro.c">
+      <Filter>Source Files\libretro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\m68k\s68kcpu.c">
+      <Filter>Source Files\m68k</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\m68k\m68kcpu.c">
+      <Filter>Source Files\m68k</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\ntsc\sms_ntsc.c">
+      <Filter>Source Files\ntsc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\ntsc\md_ntsc.c">
+      <Filter>Source Files\ntsc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\sound\ym2612.c">
+      <Filter>Source Files\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\sound\eq.c">
+      <Filter>Source Files\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\sound\psg.c">
+      <Filter>Source Files\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\sound\sound.c">
+      <Filter>Source Files\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\sound\ym2413.c">
+      <Filter>Source Files\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\z80\z80.c">
+      <Filter>Source Files\z80</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\vdp_render.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\genesis.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\io_ctrl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\loadrom.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\mem68k.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\membnk.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\memz80.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\state.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\system.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\vdp_ctrl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cd_hw\scd.c">
+      <Filter>Source Files\cd_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cd_hw\cd_cart.c">
+      <Filter>Source Files\cd_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cd_hw\cdc.c">
+      <Filter>Source Files\cd_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cd_hw\cdd.c">
+      <Filter>Source Files\cd_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cd_hw\gfx.c">
+      <Filter>Source Files\cd_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cd_hw\pcm.c">
+      <Filter>Source Files\cd_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\scrc32.c">
+      <Filter>Source Files\libretro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cart_hw\eeprom_spi.c">
+      <Filter>Source Files\cart_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cart_hw\eeprom_93c.c">
+      <Filter>Source Files\cart_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\cart_hw\eeprom_i2c.c">
+      <Filter>Source Files\cart_hw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\sound\blip_buf.c">
+      <Filter>Source Files\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\window.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\bitwise.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\block.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\codebook.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\floor0.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\floor1.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\framing.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\info.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\mapping0.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\mdct.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\registry.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\res012.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\sharedbook.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\synthesis.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\core\tremor\vorbisfile.c">
+      <Filter>Source Files\tremor</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

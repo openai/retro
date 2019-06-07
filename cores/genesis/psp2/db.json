@@ -1,0 +1,4466 @@
+{
+	"SceAppMgr": {
+		"nid": 1,
+		"modules": {
+			"SceAppMgr": {
+				"nid": 2,
+				"kernel": false,
+				"functions": {
+					"sceAppMgrAcquireBgmPort": 2949557142,
+					"sceAppMgrReleaseBgmPort": 4084301367,
+					"sceAppMgrSetInfobarState": 2911904417
+				},
+				"variables": {
+				}
+			},
+			"SceAppMgrUser": {
+				"nid": 4,
+				"kernel": false,
+				"functions": {
+					"_sceAppMgrGetAppState": 1585852826,
+					"sceAppMgrLoadExec": 3866577596,
+					"sceAppMgrReceiveSystemEvent": 280327775,
+					"sceAppMgrSetNetworkDisconnectionWarningDialogState": 3813847708
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceAppUtil": {
+		"nid": 5,
+		"modules": {
+			"SceAppUtil": {
+				"nid": 6,
+				"kernel": false,
+				"functions": {
+					"sceAppUtilAddCookieWebBrowser": 3380436382,
+					"sceAppUtilAddcontMount": 1404223520,
+					"sceAppUtilAddcontUmount": 456568716,
+					"sceAppUtilAppEventParseIncomingDialog": 573144409,
+					"sceAppUtilAppEventParseLiveArea": 256828767,
+					"sceAppUtilAppEventParseNearGift": 2000160257,
+					"sceAppUtilAppEventParseNpAppDataMessage": 1810733912,
+					"sceAppUtilAppEventParseNpBasicJoinablePresence": 684184822,
+					"sceAppUtilAppEventParseNpInviteMessage": 2722719764,
+					"sceAppUtilAppEventParseScreenShotNotification": 720645482,
+					"sceAppUtilAppEventParseTriggerUtil": 2381212011,
+					"sceAppUtilAppEventParseWebBrowser": 2396460789,
+					"sceAppUtilAppParamGetInt": 3447707258,
+					"sceAppUtilBgdlGetStatus": 2532604118,
+					"sceAppUtilDrmClose": 1779696792,
+					"sceAppUtilDrmOpen": 767016507,
+					"sceAppUtilInit": 3674203761,
+					"sceAppUtilLaunchWebBrowser": 4053599267,
+					"sceAppUtilLoadSafeMemory": 874829682,
+					"sceAppUtilMusicMount": 3052260351,
+					"sceAppUtilMusicUmount": 2818448375,
+					"sceAppUtilPhotoMount": 4001726541,
+					"sceAppUtilPhotoUmount": 2521938241,
+					"sceAppUtilPspSaveDataGetDirNameList": 2571241245,
+					"sceAppUtilPspSaveDataLoad": 1946339050,
+					"sceAppUtilReceiveAppEvent": 3993878233,
+					"sceAppUtilResetCookieWebBrowser": 1336594739,
+					"sceAppUtilSaveDataDataRemove": 3519458190,
+					"sceAppUtilSaveDataDataSave": 1618364346,
+					"sceAppUtilSaveDataGetQuota": 3311462166,
+					"sceAppUtilSaveDataMount": 3860091824,
+					"sceAppUtilSaveDataSlotCreate": 2123360618,
+					"sceAppUtilSaveDataSlotDelete": 644511302,
+					"sceAppUtilSaveDataSlotGetParam": 2482034847,
+					"sceAppUtilSaveDataSlotSearch": 3859118725,
+					"sceAppUtilSaveDataSlotSetParam": 2556625206,
+					"sceAppUtilSaveDataUmount": 3950117890,
+					"sceAppUtilSaveSafeMemory": 2643117687,
+					"sceAppUtilShutdown": 2988486667,
+					"sceAppUtilStoreBrowse": 2247791854,
+					"sceAppUtilSystemParamGetInt": 1576770720,
+					"sceAppUtilSystemParamGetString": 1852482151
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceAtrac": {
+		"nid": 7,
+		"modules": {
+			"SceAtrac": {
+				"nid": 8,
+				"kernel": false,
+				"functions": {
+					"sceAtracAddStreamData": 1399156508,
+					"sceAtracCreateDecoderGroup": 29342092,
+					"sceAtracDecode": 700927715,
+					"sceAtracDeleteDecoderGroup": 1822617738,
+					"sceAtracGetContentInfo": 1759494553,
+					"sceAtracGetDecoderGroupInfo": 3207880797,
+					"sceAtracGetDecoderStatus": 2427785900,
+					"sceAtracGetInternalError": 1738019636,
+					"sceAtracGetLoopInfo": 3698753587,
+					"sceAtracGetNextOutputPosition": 2896558540,
+					"sceAtracGetOutputSamples": 934540085,
+					"sceAtracGetOutputableSamples": 1530318261,
+					"sceAtracGetRemainSamples": 3693602754,
+					"sceAtracGetStreamInfo": 3644890711,
+					"sceAtracGetSubBufferInfo": 3889814607,
+					"sceAtracGetVacantSize": 2614826231,
+					"sceAtracIsSubBufferNeeded": 1915703300,
+					"sceAtracQueryDecoderGroupMemSize": 439661361,
+					"sceAtracReleaseHandle": 9368145,
+					"sceAtracResetNextOutputPosition": 3625808512,
+					"sceAtracSetDataAndAcquireHandle": 3516495480,
+					"sceAtracSetLoopNum": 1545791783,
+					"sceAtracSetOutputSamples": 123407459,
+					"sceAtracSetSubBuffer": 657149114
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceAudio": {
+		"nid": 9,
+		"modules": {
+			"SceAudio": {
+				"nid": 10,
+				"kernel": false,
+				"functions": {
+					"sceAudioOutGetAdopt": 318445415,
+					"sceAudioOutGetConfig": 2626607850,
+					"sceAudioOutGetRestSample": 2589159620,
+					"sceAudioOutOpenPort": 1539523044,
+					"sceAudioOutOutput": 47923039,
+					"sceAudioOutReleasePort": 1776477877,
+					"sceAudioOutSetAlcMode": 2483872873,
+					"sceAudioOutSetConfig": 3099200775,
+					"sceAudioOutSetVolume": 1679195921
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceAudioIn": {
+		"nid": 11,
+		"modules": {
+			"SceAudioIn": {
+				"nid": 12,
+				"kernel": false,
+				"functions": {
+					"sceAudioInGetAdopt": 1449837619,
+					"sceAudioInGetStatus": 798229367,
+					"sceAudioInInput": 1670044973,
+					"sceAudioInOpenPort": 968166849,
+					"sceAudioInReleasePort": 979482820
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceAudiodec": {
+		"nid": 13,
+		"modules": {
+			"SceAudiodecUser": {
+				"nid": 14,
+				"kernel": false,
+				"functions": {
+					"sceAudiodecClearContext": 4147092324,
+					"sceAudiodecCreateDecoder": 1308441258,
+					"sceAudiodecCreateDecoderExternal": 1443388923,
+					"sceAudiodecDecode": 3436886532,
+					"sceAudiodecDecodeNFrames": 2149100187,
+					"sceAudiodecDecodeNStreams": 1760864715,
+					"sceAudiodecDeleteDecoder": 3886173718,
+					"sceAudiodecDeleteDecoderExternal": 3840542139,
+					"sceAudiodecGetContextSize": 3681626812,
+					"sceAudiodecGetInternalError": 2285571317,
+					"sceAudiodecInitLibrary": 1146891503,
+					"sceAudiodecTermLibrary": 1165073309
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceAudioenc": {
+		"nid": 15,
+		"modules": {
+			"SceAudioencUser": {
+				"nid": 16,
+				"kernel": false,
+				"functions": {
+					"sceAudioencClearContext": 2475095085,
+					"sceAudioencCreateEncoder": 1690323688,
+					"sceAudioencCreateEncoderExternal": 2602470882,
+					"sceAudioencDeleteEncoder": 3334102758,
+					"sceAudioencDeleteEncoderExternal": 1429112962,
+					"sceAudioencEncode": 3630019228,
+					"sceAudioencGetContextSize": 3939807032,
+					"sceAudioencGetInternalError": 1159874256,
+					"sceAudioencGetOptInfo": 3491521443,
+					"sceAudioencInitLibrary": 1995328966,
+					"sceAudioencTermLibrary": 2872234018
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceAvPlayer": {
+		"nid": 17,
+		"modules": {
+			"SceAvPlayer": {
+				"nid": 18,
+				"kernel": false,
+				"functions": {
+					"sceAvPlayerAddSource": 3162753277,
+					"sceAvPlayerClose": 2057476909,
+					"sceAvPlayerCurrentTime": 2152582861,
+					"sceAvPlayerDisableStream": 355884750,
+					"sceAvPlayerEnableStream": 1880259256,
+					"sceAvPlayerGetAudioData": 2702164562,
+					"sceAvPlayerGetStreamInfo": 887280496,
+					"sceAvPlayerGetVideoData": 2344821275,
+					"sceAvPlayerGetVideoDataEx": 580414673,
+					"sceAvPlayerInit": 1283750623,
+					"sceAvPlayerIsActive": 776991583,
+					"sceAvPlayerJumpToTime": 1534964924,
+					"sceAvPlayerPause": 889025611,
+					"sceAvPlayerPostInit": 1062327178,
+					"sceAvPlayerResume": 301930029,
+					"sceAvPlayerSetLooping": 3960486623,
+					"sceAvPlayerSetTrickSpeed": 2262880085,
+					"sceAvPlayerStart": 717963799,
+					"sceAvPlayerStop": 3174425440,
+					"sceAvPlayerStreamCount": 752381910
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceCamera": {
+		"nid": 19,
+		"modules": {
+			"SceCamera": {
+				"nid": 20,
+				"kernel": false,
+				"functions": {
+					"sceCameraClose": 3446545660,
+					"sceCameraGetAntiFlicker": 2681916313,
+					"sceCameraGetAutoControlHold": 111287227,
+					"sceCameraGetBacklight": 2379295019,
+					"sceCameraGetBrightness": 2245367069,
+					"sceCameraGetContrast": 2411627710,
+					"sceCameraGetDeviceLocation": 659486545,
+					"sceCameraGetEV": 2338218311,
+					"sceCameraGetEffect": 2123297714,
+					"sceCameraGetExposureCeiling": 1604694459,
+					"sceCameraGetGain": 741791475,
+					"sceCameraGetISO": 1321032808,
+					"sceCameraGetNightmode": 313982758,
+					"sceCameraGetReverse": 1156973631,
+					"sceCameraGetSaturation": 1649374803,
+					"sceCameraGetSharpness": 2859647964,
+					"sceCameraGetWhiteBalance": 3690963418,
+					"sceCameraGetZoom": 114524524,
+					"sceCameraIsActive": 272266680,
+					"sceCameraOpen": 2757949441,
+					"sceCameraRead": 2041955038,
+					"sceCameraSetAntiFlicker": 3809645962,
+					"sceCameraSetAutoControlHold": 973974461,
+					"sceCameraSetBacklight": 2919698500,
+					"sceCameraSetBrightness": 2564232584,
+					"sceCameraSetContrast": 117123328,
+					"sceCameraSetEV": 1655697592,
+					"sceCameraSetEffect": 3922907057,
+					"sceCameraSetExposureCeiling": 83053550,
+					"sceCameraSetGain": 3864854150,
+					"sceCameraSetISO": 1022767265,
+					"sceCameraSetNightmode": 1059463998,
+					"sceCameraSetReverse": 292942967,
+					"sceCameraSetSaturation": 4193765949,
+					"sceCameraSetSharpness": 3517299467,
+					"sceCameraSetWhiteBalance": 1296372908,
+					"sceCameraSetZoom": 4148576790,
+					"sceCameraStart": 2835263029,
+					"sceCameraStop": 500812238
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceClipboard": {
+		"nid": 21,
+		"modules": {
+			"SceClipboard": {
+				"nid": 22,
+				"kernel": false,
+				"functions": {
+					"sceClipboardGetText": 1538329794,
+					"sceClipboardSetText": 1135168830
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceCodecEnginePerf": {
+		"nid": 23,
+		"modules": {
+			"SceCodecEnginePerf": {
+				"nid": 24,
+				"kernel": false,
+				"functions": {
+					"sceCodecEnginePmonGetProcessorLoad": 748529425,
+					"sceCodecEnginePmonReset": 1568005986,
+					"sceCodecEnginePmonStart": 104196983,
+					"sceCodecEnginePmonStop": 3538923169
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceCodecEngine": {
+		"nid": 25,
+		"modules": {
+			"SceCodecEngineUser": {
+				"nid": 26,
+				"kernel": false,
+				"functions": {
+					"sceCodecEngineAllocMemoryFromUnmapMemBlock": 440030181,
+					"sceCodecEngineCloseUnmapMemBlock": 2515155774,
+					"sceCodecEngineFreeMemoryFromUnmapMemBlock": 1781629725,
+					"sceCodecEngineOpenUnmapMemBlock": 4038379666
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceCommonDialog": {
+		"nid": 27,
+		"modules": {
+			"SceCommonDialog": {
+				"nid": 28,
+				"kernel": false,
+				"functions": {
+					"sceCameraImportDialogAbort": 2287122852,
+					"sceCameraImportDialogGetResult": 2066979490,
+					"sceCameraImportDialogGetStatus": 2259579668,
+					"sceCameraImportDialogInit": 3844455856,
+					"sceCameraImportDialogTerm": 2396047420,
+					"sceCommonDialogGetWorkerThreadId": 3569578869,
+					"sceCommonDialogIsRunning": 70923582,
+					"sceCommonDialogSetConfigParam": 3201119688,
+					"sceCommonDialogUpdate": 2421362479,
+					"sceCrossControllerDialogAbort": 3720686150,
+					"sceCrossControllerDialogGetResult": 2385898107,
+					"sceCrossControllerDialogGetStatus": 1153034545,
+					"sceCrossControllerDialogInit": 591002581,
+					"sceCrossControllerDialogTerm": 1851207359,
+					"sceImeDialogAbort": 1498030606,
+					"sceImeDialogGetResult": 783536198,
+					"sceImeDialogGetStatus": 3473158653,
+					"sceImeDialogInit": 510673855,
+					"sceImeDialogTerm": 2206874356,
+					"sceMsgDialogAbort": 214327573,
+					"sceMsgDialogClose": 3264664470,
+					"sceMsgDialogGetResult": 3141270665,
+					"sceMsgDialogGetStatus": 1090978206,
+					"sceMsgDialogInit": 1969222256,
+					"sceMsgDialogProgressBarInc": 2078335115,
+					"sceMsgDialogProgressBarSetMsg": 22062161,
+					"sceMsgDialogProgressBarSetValue": 2631556621,
+					"sceMsgDialogTerm": 2175596181,
+					"sceNetCheckDialogAbort": 764337929,
+					"sceNetCheckDialogGetPS3ConnectInfo": 960919092,
+					"sceNetCheckDialogGetResult": 2959068830,
+					"sceNetCheckDialogGetStatus": 2150050090,
+					"sceNetCheckDialogInit": 2743749133,
+					"sceNetCheckDialogTerm": 2347047957,
+					"sceNpFriendListDialogAbort": 1492787298,
+					"sceNpFriendListDialogGetResult": 3533694471,
+					"sceNpFriendListDialogGetStatus": 534106995,
+					"sceNpFriendListDialogInit": 2482831046,
+					"sceNpFriendListDialogTerm": 1250430058,
+					"sceNpMessageDialogAbort": 1202416900,
+					"sceNpMessageDialogGetResult": 2127125601,
+					"sceNpMessageDialogGetStatus": 705496591,
+					"sceNpMessageDialogInit": 1161143128,
+					"sceNpMessageDialogTerm": 2058686307,
+					"sceNpProfileDialogAbort": 721600063,
+					"sceNpProfileDialogGetResult": 1956425724,
+					"sceNpProfileDialogGetStatus": 4261306434,
+					"sceNpProfileDialogInit": 1577778680,
+					"sceNpProfileDialogTerm": 79052143,
+					"sceNpSnsFacebookDialogAbort": 2116201779,
+					"sceNpSnsFacebookDialogGetResult": 918940069,
+					"sceNpSnsFacebookDialogGetResultLongToken": 2825396996,
+					"sceNpSnsFacebookDialogGetStatus": 343298280,
+					"sceNpSnsFacebookDialogInit": 1747054747,
+					"sceNpSnsFacebookDialogTerm": 3726588200,
+					"sceNpTrophySetupDialogAbort": 3694422393,
+					"sceNpTrophySetupDialogGetResult": 3815795157,
+					"sceNpTrophySetupDialogGetStatus": 3282408775,
+					"sceNpTrophySetupDialogInit": 2653684425,
+					"sceNpTrophySetupDialogTerm": 2819654365,
+					"scePhotoImportDialogAbort": 1259492737,
+					"scePhotoImportDialogGetResult": 3629465932,
+					"scePhotoImportDialogGetStatus": 52561624,
+					"scePhotoImportDialogInit": 1945009308,
+					"scePhotoImportDialogTerm": 2145762679,
+					"scePhotoReviewDialogAbort": 1962879627,
+					"scePhotoReviewDialogGetResult": 4288895064,
+					"scePhotoReviewDialogGetStatus": 4109762762,
+					"scePhotoReviewDialogInit": 3449357173,
+					"scePhotoReviewDialogTerm": 3338711775,
+					"scePspSaveDataDialogContinue": 1245758335,
+					"scePspSaveDataDialogGetResult": 1640259090,
+					"scePspSaveDataDialogInit": 1146662995,
+					"scePspSaveDataDialogTerm": 3101917052,
+					"sceSaveDataDialogAbort": 20873076,
+					"sceSaveDataDialogContinue": 421080203,
+					"sceSaveDataDialogFinish": 1816760907,
+					"sceSaveDataDialogGetResult": 3003078510,
+					"sceSaveDataDialogGetStatus": 1847951430,
+					"sceSaveDataDialogGetSubStatus": 3120906954,
+					"sceSaveDataDialogInit": 3209840890,
+					"sceSaveDataDialogProgressBarInc": 3185576579,
+					"sceSaveDataDialogProgressBarSetValue": 1546792222,
+					"sceSaveDataDialogSubClose": 1096638568,
+					"sceSaveDataDialogTerm": 563257610,
+					"sceStoreCheckoutDialogAbort": 3600406964,
+					"sceStoreCheckoutDialogGetResult": 132980262,
+					"sceStoreCheckoutDialogGetStatus": 1879358254,
+					"sceStoreCheckoutDialogInit": 1391253669,
+					"sceStoreCheckoutDialogTerm": 3079140528,
+					"sceTwDialogAbort": 2615916411,
+					"sceTwDialogGetResult": 2280911934,
+					"sceTwDialogGetStatus": 3584472179,
+					"sceTwDialogInit": 2481265412,
+					"sceTwDialogTerm": 654479451,
+					"sceTwLoginDialogAbort": 3052227122,
+					"sceTwLoginDialogGetResult": 1602175305,
+					"sceTwLoginDialogGetStatus": 2328633099,
+					"sceTwLoginDialogTerm": 3594026532
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceCoredump": {
+		"nid": 29,
+		"modules": {
+			"SceCoredump": {
+				"nid": 30,
+				"kernel": false,
+				"functions": {
+					"sceCoredumpRegisterCoredumpHandler": 52282910,
+					"sceCoredumpUnregisterCoredumpHandler": 1614258883
+				},
+				"variables": {
+				}
+			},
+			"SceCoredumpNounlink": {
+				"nid": 32,
+				"kernel": false,
+				"functions": {
+					"sceCoredumpWriteUserData": 3744685519
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceCtrl": {
+		"nid": 35,
+		"modules": {
+			"SceCtrl": {
+				"nid": 36,
+				"kernel": false,
+				"functions": {
+					"sceCtrlClearRapidFire": 3626585244,
+					"sceCtrlGetSamplingMode": 3967101615,
+					"sceCtrlPeekBufferNegative": 273600935,
+					"sceCtrlPeekBufferPositive": 2848181974,
+					"sceCtrlReadBufferNegative": 368668592,
+					"sceCtrlReadBufferPositive": 1743235971,
+					"sceCtrlSetRapidFire": 3922422216,
+					"sceCtrlSetSamplingMode": 2761404752
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceDTrace": {
+		"nid": 37,
+		"modules": {
+			"SceDTrace": {
+				"nid": 38,
+				"kernel": false,
+				"functions": {
+					"sceDTraceAddHelperDof": 2759329751,
+					"sceDTraceClientClose": 3089310865,
+					"sceDTraceClientIoctl": 1676723445,
+					"sceDTraceClientOpen": 1980785385,
+					"sceDTraceHelperIoctl": 1094468110,
+					"sceDTraceRemoveHelperDof": 4073267322
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceDbg": {
+		"nid": 39,
+		"modules": {
+			"SceDbg": {
+				"nid": 40,
+				"kernel": false,
+				"functions": {
+					"sceDbgAssertionHandler": 452159371,
+					"sceDbgLoggingHandler": 1711647513,
+					"sceDbgSetBreakOnErrorState": 3981050042,
+					"sceDbgSetBreakOnWarningState": 1038806227,
+					"sceDbgSetMinimumLogLevel": 2484478714
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceDeci4p": {
+		"nid": 43,
+		"modules": {
+			"SceDeci4pUserp": {
+				"nid": 44,
+				"kernel": false,
+				"functions": {
+					"sceKernelDeci4pClose": 1672529167,
+					"sceKernelDeci4pDisableWatchpoint": 1514987415,
+					"sceKernelDeci4pEnableWatchpoint": 1002859480,
+					"sceKernelDeci4pIsProcessAttached": 3303135341,
+					"sceKernelDeci4pOpen": 676827112,
+					"sceKernelDeci4pRead": 2535332966,
+					"sceKernelDeci4pRegisterCallback": 1932992309,
+					"sceKernelDeci4pWrite": 3450055340
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceDeflt": {
+		"nid": 45,
+		"modules": {
+			"SceDeflt": {
+				"nid": 46,
+				"kernel": false,
+				"functions": {
+					"sceDeflateDecompress": 286085200,
+					"sceDeflateDecompressPartial": 632866722,
+					"sceGzipCrc32": 4146112758,
+					"sceGzipDecompress": 3821752739,
+					"sceGzipGetComment": 3132945871,
+					"sceGzipGetCompressedData": 3783542786,
+					"sceGzipGetInfo": 462313570,
+					"sceGzipGetName": 2931469286,
+					"sceGzipIsValid": 3738885169,
+					"sceZipGetInfo": 3661647844,
+					"sceZlibAdler32": 3447956580,
+					"sceZlibDecompress": 3817829709,
+					"sceZlibGetCompressedData": 3867190874,
+					"sceZlibGetInfo": 1275750493,
+					"sceZlibIsValid": 346057101
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceDisplay": {
+		"nid": 49,
+		"modules": {
+			"SceDisplay": {
+				"nid": 50,
+				"kernel": false,
+				"functions": {
+					"sceDisplayGetRefreshRate": 2693572109,
+					"sceDisplayGetVcount": 3070091450,
+					"sceDisplayRegisterVblankStartCallback": 1809796173,
+					"sceDisplayUnregisterVblankStartCallback": 2554555008,
+					"sceDisplayWaitSetFrameBuf": 2485343756,
+					"sceDisplayWaitSetFrameBufCB": 2169278639,
+					"sceDisplayWaitSetFrameBufMulti": 2107139240,
+					"sceDisplayWaitSetFrameBufMultiCB": 1048145653,
+					"sceDisplayWaitVblankStart": 1469442200,
+					"sceDisplayWaitVblankStartCB": 2025069458,
+					"sceDisplayWaitVblankStartMulti": 3708425144,
+					"sceDisplayWaitVblankStartMultiCB": 99776356
+				},
+				"variables": {
+				}
+			},
+			"SceDisplayUser": {
+				"nid": 52,
+				"kernel": false,
+				"functions": {
+					"sceDisplayGetFrameBuf": 1118727100,
+					"sceDisplaySetFrameBuf": 2051083108
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceFace": {
+		"nid": 53,
+		"modules": {
+			"SceFace": {
+				"nid": 54,
+				"kernel": false,
+				"functions": {
+					"sceFaceAgeGetWorkingMemorySize": 1944680733,
+					"sceFaceAgeRangeEstimate": 401857657,
+					"sceFaceAgeRangeIntegrate": 3079980747,
+					"sceFaceAllParts": 3844205423,
+					"sceFaceAllPartsGetWorkingMemorySize": 3473400260,
+					"sceFaceAttribute": 1743804506,
+					"sceFaceAttributeGetWorkingMemorySize": 2835719271,
+					"sceFaceDetection": 4077147028,
+					"sceFaceDetectionGetWorkingMemorySize": 4065035549,
+					"sceFaceDetectionLocal": 2104586845,
+					"sceFaceEstimatePoseRegion": 4158975007,
+					"sceFaceIdentifyGetFeature": 4166181725,
+					"sceFaceIdentifyGetWorkingMemorySize": 1147711572,
+					"sceFaceIdentifySimilarity": 2408488881,
+					"sceFaceParts": 2270495634,
+					"sceFacePartsEx": 1892274069,
+					"sceFacePartsGetWorkingMemorySize": 1887148573,
+					"sceFacePartsResultCheck": 3432560953,
+					"sceFaceShapeFit": 1693732897,
+					"sceFaceShapeGetWorkingMemorySize": 3229688103,
+					"sceFaceShapeTrack": 930106857
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceFiber": {
+		"nid": 55,
+		"modules": {
+			"SceFiber": {
+				"nid": 56,
+				"kernel": false,
+				"functions": {
+					"_sceFiberAttachContextAndRun": 2097970651,
+					"_sceFiberAttachContextAndSwitch": 3758856958,
+					"_sceFiberInitializeImpl": 4064946572,
+					"_sceFiberInitializeWithInternalOptionImpl": 3332635067,
+					"sceFiberFinalize": 3781228612,
+					"sceFiberGetInfo": 412457396,
+					"sceFiberGetSelf": 1095601317,
+					"sceFiberOptParamInitialize": 2149233460,
+					"sceFiberPopUserMarkerWithHud": 1321213852,
+					"sceFiberPushUserMarkerWithHud": 2621524745,
+					"sceFiberReturnToThread": 994218527,
+					"sceFiberRun": 2113024579,
+					"sceFiberStartContextSizeCheck": 3444849265,
+					"sceFiberStopContextSizeCheck": 1744242791,
+					"sceFiberSwitch": 3827839300
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceFios2": {
+		"nid": 57,
+		"modules": {
+			"SceFios2": {
+				"nid": 58,
+				"kernel": false,
+				"functions": {
+					"sceFiosArchiveGetDecompressorThreadCount": 1902883105,
+					"sceFiosArchiveGetMountBufferSize": 361066880,
+					"sceFiosArchiveGetMountBufferSizeSync": 3744682748,
+					"sceFiosArchiveMount": 2464639933,
+					"sceFiosArchiveMountSync": 3296862838,
+					"sceFiosArchiveSetDecompressorThreadCount": 3440281296,
+					"sceFiosArchiveUnmount": 4263386408,
+					"sceFiosArchiveUnmountSync": 2993537613,
+					"sceFiosCancelAllOps": 512887581,
+					"sceFiosChangeStat": 3536689906,
+					"sceFiosChangeStatSync": 3347175348,
+					"sceFiosCloseAllFiles": 4166787211,
+					"sceFiosDHClose": 4140486599,
+					"sceFiosDHCloseSync": 524076072,
+					"sceFiosDHGetPath": 725642731,
+					"sceFiosDHOpen": 3935851962,
+					"sceFiosDHOpenSync": 884750099,
+					"sceFiosDHRead": 1923131473,
+					"sceFiosDHReadSync": 3085409453,
+					"sceFiosDateFromComponents": 671950922,
+					"sceFiosDateFromSceDateTime": 1858164442,
+					"sceFiosDateGetCurrent": 1549351966,
+					"sceFiosDateToComponents": 1560243872,
+					"sceFiosDateToSceDateTime": 2499674094,
+					"sceFiosDebugDumpDH": 1153038571,
+					"sceFiosDebugDumpDate": 362487720,
+					"sceFiosDebugDumpError": 1374058463,
+					"sceFiosDebugDumpFH": 1426500779,
+					"sceFiosDebugDumpOp": 3828929776,
+					"sceFiosDelete": 1984821882,
+					"sceFiosDeleteSync": 2865056580,
+					"sceFiosDevctl": 651181600,
+					"sceFiosDevctlSync": 3288727773,
+					"sceFiosDirectoryCreate": 2442718603,
+					"sceFiosDirectoryCreateSync": 3761746038,
+					"sceFiosDirectoryCreateWithMode": 3721838443,
+					"sceFiosDirectoryCreateWithModeSync": 2730889446,
+					"sceFiosDirectoryDelete": 3667093372,
+					"sceFiosDirectoryDeleteSync": 3109499206,
+					"sceFiosDirectoryExists": 1221922199,
+					"sceFiosDirectoryExistsSync": 1919812030,
+					"sceFiosExists": 1863506085,
+					"sceFiosExistsSync": 308215092,
+					"sceFiosFHClose": 2827934888,
+					"sceFiosFHCloseSync": 1159209768,
+					"sceFiosFHGetOpenParams": 3311253307,
+					"sceFiosFHGetPath": 924072675,
+					"sceFiosFHGetSize": 3317851521,
+					"sceFiosFHIoctl": 3060415944,
+					"sceFiosFHIoctlSync": 2339154770,
+					"sceFiosFHOpen": 3211369428,
+					"sceFiosFHOpenSync": 3286746075,
+					"sceFiosFHOpenWithMode": 334489072,
+					"sceFiosFHOpenWithModeSync": 3999800861,
+					"sceFiosFHPread": 1783752328,
+					"sceFiosFHPreadSync": 3800059993,
+					"sceFiosFHPreadv": 2085489730,
+					"sceFiosFHPreadvSync": 1296234844,
+					"sceFiosFHPwrite": 3474958959,
+					"sceFiosFHPwriteSync": 513158999,
+					"sceFiosFHPwritev": 3150557141,
+					"sceFiosFHPwritevSync": 1948966340,
+					"sceFiosFHRead": 2962947039,
+					"sceFiosFHReadSync": 1989433625,
+					"sceFiosFHReadv": 2108731311,
+					"sceFiosFHReadvSync": 466188282,
+					"sceFiosFHSeek": 2808036426,
+					"sceFiosFHStat": 3648802295,
+					"sceFiosFHStatSync": 4173245576,
+					"sceFiosFHSync": 3833983838,
+					"sceFiosFHSyncSync": 2835991779,
+					"sceFiosFHTell": 3623039280,
+					"sceFiosFHTruncate": 725173563,
+					"sceFiosFHTruncateSync": 4277747895,
+					"sceFiosFHWrite": 3865252750,
+					"sceFiosFHWriteSync": 2554340581,
+					"sceFiosFHWritev": 2559432703,
+					"sceFiosFHWritevSync": 645819619,
+					"sceFiosFileDelete": 3058116491,
+					"sceFiosFileDeleteSync": 3039833648,
+					"sceFiosFileExists": 2270750255,
+					"sceFiosFileExistsSync": 591070988,
+					"sceFiosFileGetSize": 2044312400,
+					"sceFiosFileGetSizeSync": 2022839747,
+					"sceFiosFileRead": 2215117153,
+					"sceFiosFileReadSync": 474516274,
+					"sceFiosFileTruncate": 3310435859,
+					"sceFiosFileTruncateSync": 1846694584,
+					"sceFiosFileWrite": 1120041189,
+					"sceFiosFileWriteSync": 321613286,
+					"sceFiosGetAllDHs": 1745978530,
+					"sceFiosGetAllFHs": 2427163029,
+					"sceFiosGetAllOps": 2405597996,
+					"sceFiosGetDefaultOpAttr": 3365402279,
+					"sceFiosGetGlobalDefaultOpAttr": 811089867,
+					"sceFiosGetSuspendCount": 359575516,
+					"sceFiosIOFilterAdd": 3579544917,
+					"sceFiosIOFilterCache": 1116639869,
+					"sceFiosIOFilterGetInfo": 2090538219,
+					"sceFiosIOFilterPsarcDearchiver": 91378418,
+					"sceFiosIOFilterRemove": 585322520,
+					"sceFiosInitialize": 2001480709,
+					"sceFiosIsIdle": 688933875,
+					"sceFiosIsInitialized": 4109717001,
+					"sceFiosIsSuspended": 3527831205,
+					"sceFiosIsValidHandle": 3003769639,
+					"sceFiosOpCancel": 956625413,
+					"sceFiosOpDelete": 3840578298,
+					"sceFiosOpGetActualCount": 562709486,
+					"sceFiosOpGetAttr": 2885609222,
+					"sceFiosOpGetBuffer": 1757689572,
+					"sceFiosOpGetError": 3205078550,
+					"sceFiosOpGetOffset": 4061270969,
+					"sceFiosOpGetPath": 359994827,
+					"sceFiosOpGetRequestCount": 2618328261,
+					"sceFiosOpIsCancelled": 209836046,
+					"sceFiosOpIsDone": 463099742,
+					"sceFiosOpReschedule": 2525801917,
+					"sceFiosOpSyncWait": 3869666416,
+					"sceFiosOpSyncWaitForIO": 538999289,
+					"sceFiosOpWait": 717725180,
+					"sceFiosOpWaitUntil": 3431086919,
+					"sceFiosOverlayAdd": 665732747,
+					"sceFiosOverlayGetInfo": 4106663722,
+					"sceFiosOverlayGetList": 470534869,
+					"sceFiosOverlayModify": 821389060,
+					"sceFiosOverlayRemove": 4089990415,
+					"sceFiosOverlayResolveSync": 2317631092,
+					"sceFiosPathNormalize": 2172243194,
+					"sceFiosPathcmp": 1584763770,
+					"sceFiosPathncmp": 3424766025,
+					"sceFiosPrintf": 2944379615,
+					"sceFiosRename": 635673061,
+					"sceFiosRenameSync": 50530036,
+					"sceFiosResolve": 3501300895,
+					"sceFiosResolveSync": 2146645911,
+					"sceFiosResume": 3207412929,
+					"sceFiosSetGlobalDefaultOpAttr": 1311757073,
+					"sceFiosShutdownAndCancelOps": 1535985860,
+					"sceFiosStat": 4278497138,
+					"sceFiosStatSync": 2897933280,
+					"sceFiosSuspend": 1359565788,
+					"sceFiosSync": 234039318,
+					"sceFiosSyncSync": 114914857,
+					"sceFiosTerminate": 688174393,
+					"sceFiosTimeGetCurrent": 3882651331,
+					"sceFiosTimeIntervalFromNanoseconds": 900212535,
+					"sceFiosTimeIntervalToNanoseconds": 964425254,
+					"sceFiosUpdateParameters": 420807978,
+					"sceFiosVprintf": 1537523053
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceFpu": {
+		"nid": 59,
+		"modules": {
+			"SceFpu": {
+				"nid": 60,
+				"kernel": false,
+				"functions": {
+					"sceFpuAcosf": 1688795646,
+					"sceFpuAsinf": 1293607153,
+					"sceFpuAtan2f": 3366230171,
+					"sceFpuAtanf": 1409230511,
+					"sceFpuCosf": 3680942729,
+					"sceFpuExp10f": 895820582,
+					"sceFpuExp2f": 2745731792,
+					"sceFpuExpf": 4020333678,
+					"sceFpuLog10f": 2881184104,
+					"sceFpuLog2f": 428351176,
+					"sceFpuLogf": 2473528615,
+					"sceFpuPowf": 3747753558,
+					"sceFpuSinf": 870427668,
+					"sceFpuTanf": 1874698697
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceGameUpdate": {
+		"nid": 61,
+		"modules": {
+			"SceGameUpdate": {
+				"nid": 62,
+				"kernel": false,
+				"functions": {
+					"sceGameUpdateAbort": 336683015,
+					"sceGameUpdateInit": 792728135,
+					"sceGameUpdateRun": 1013015096,
+					"sceGameUpdateTerm": 1222146490
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceGxm": {
+		"nid": 63,
+		"modules": {
+			"SceGxm": {
+				"nid": 64,
+				"kernel": false,
+				"functions": {
+					"sceGxmAddRazorGpuCaptureBuffer": 3924299891,
+					"sceGxmBeginCommandList": 2488090499,
+					"sceGxmBeginScene": 2268397390,
+					"sceGxmBeginSceneEx": 1191825242,
+					"sceGxmColorSurfaceGetClip": 132116043,
+					"sceGxmColorSurfaceGetData": 766902892,
+					"sceGxmColorSurfaceGetDitherMode": 537564897,
+					"sceGxmColorSurfaceGetFormat": 4089562822,
+					"sceGxmColorSurfaceGetGammaMode": 3993718256,
+					"sceGxmColorSurfaceGetScaleMode": 1849665357,
+					"sceGxmColorSurfaceGetStrideInPixels": 4080900480,
+					"sceGxmColorSurfaceGetType": 1392372066,
+					"sceGxmColorSurfaceInit": 3977211429,
+					"sceGxmColorSurfaceInitDisabled": 1630943738,
+					"sceGxmColorSurfaceIsEnabled": 235846487,
+					"sceGxmColorSurfaceSetClip": 2252697467,
+					"sceGxmColorSurfaceSetData": 1400677376,
+					"sceGxmColorSurfaceSetDitherMode": 1157790635,
+					"sceGxmColorSurfaceSetFormat": 1603942934,
+					"sceGxmColorSurfaceSetGammaMode": 4123563587,
+					"sceGxmColorSurfaceSetScaleMode": 1805053431,
+					"sceGxmCreateContext": 3897353652,
+					"sceGxmCreateDeferredContext": 614292224,
+					"sceGxmCreateRenderTarget": 544930155,
+					"sceGxmDepthStencilSurfaceGetBackgroundDepth": 647714494,
+					"sceGxmDepthStencilSurfaceGetBackgroundMask": 2245320446,
+					"sceGxmDepthStencilSurfaceGetBackgroundStencil": 2868643371,
+					"sceGxmDepthStencilSurfaceGetForceLoadMode": 794608140,
+					"sceGxmDepthStencilSurfaceGetForceStoreMode": 1414176858,
+					"sceGxmDepthStencilSurfaceGetFormat": 2231632781,
+					"sceGxmDepthStencilSurfaceGetStrideInSamples": 291669897,
+					"sceGxmDepthStencilSurfaceInit": 3399303633,
+					"sceGxmDepthStencilSurfaceInitDisabled": 2753409238,
+					"sceGxmDepthStencilSurfaceIsEnabled": 136446177,
+					"sceGxmDepthStencilSurfaceSetBackgroundDepth": 854753520,
+					"sceGxmDepthStencilSurfaceSetBackgroundMask": 4069157002,
+					"sceGxmDepthStencilSurfaceSetBackgroundStencil": 4124308456,
+					"sceGxmDepthStencilSurfaceSetForceLoadMode": 205827287,
+					"sceGxmDepthStencilSurfaceSetForceStoreMode": 313173935,
+					"sceGxmDestroyContext": 3990642610,
+					"sceGxmDestroyDeferredContext": 3601006383,
+					"sceGxmDestroyRenderTarget": 194299146,
+					"sceGxmDisplayQueueAddEntry": 3965462197,
+					"sceGxmDisplayQueueFinish": 3112983309,
+					"sceGxmDraw": 3154483964,
+					"sceGxmDrawInstanced": 348448723,
+					"sceGxmDrawPrecomputed": 3980359864,
+					"sceGxmEndCommandList": 920148246,
+					"sceGxmEndScene": 4264562223,
+					"sceGxmExecuteCommandList": 3907074525,
+					"sceGxmFinish": 120838318,
+					"sceGxmFragmentProgramGetPassType": 3456830070,
+					"sceGxmFragmentProgramGetProgram": 3773019128,
+					"sceGxmFragmentProgramIsEnabled": 1464350334,
+					"sceGxmGetContextType": 706465243,
+					"sceGxmGetDeferredContextFragmentBuffer": 4194835717,
+					"sceGxmGetDeferredContextVdmBuffer": 2911645370,
+					"sceGxmGetDeferredContextVertexBuffer": 2271423388,
+					"sceGxmGetNotificationRegion": 2346615386,
+					"sceGxmGetParameterBufferThreshold": 1790918518,
+					"sceGxmGetPrecomputedDrawSize": 1102829458,
+					"sceGxmGetPrecomputedFragmentStateSize": 2245952774,
+					"sceGxmGetPrecomputedVertexStateSize": 2642659899,
+					"sceGxmGetRenderTargetMemSize": 2995898713,
+					"sceGxmInitialize": 2968642796,
+					"sceGxmIsDebugVersion": 2268792768,
+					"sceGxmMapFragmentUsseMemory": 8651462,
+					"sceGxmMapMemory": 3323868412,
+					"sceGxmMapVertexUsseMemory": 4198724880,
+					"sceGxmMidSceneFlush": 727450692,
+					"sceGxmNotificationWait": 2672070265,
+					"sceGxmPadHeartbeat": 1025899753,
+					"sceGxmPopUserMarker": 1335915430,
+					"sceGxmPrecomputedDrawInit": 2711089302,
+					"sceGxmPrecomputedDrawSetAllVertexStreams": 3066492273,
+					"sceGxmPrecomputedDrawSetParams": 2286750984,
+					"sceGxmPrecomputedDrawSetParamsInstanced": 981145139,
+					"sceGxmPrecomputedDrawSetVertexStream": 1821598228,
+					"sceGxmPrecomputedFragmentStateGetDefaultUniformBuffer": 3469432906,
+					"sceGxmPrecomputedFragmentStateInit": 3801601967,
+					"sceGxmPrecomputedFragmentStateSetAllTextures": 3280199225,
+					"sceGxmPrecomputedFragmentStateSetAllUniformBuffers": 1517829571,
+					"sceGxmPrecomputedFragmentStateSetDefaultUniformBuffer": 2435016792,
+					"sceGxmPrecomputedFragmentStateSetTexture": 689015793,
+					"sceGxmPrecomputedFragmentStateSetUniformBuffer": 3025334779,
+					"sceGxmPrecomputedVertexStateGetDefaultUniformBuffer": 3193596143,
+					"sceGxmPrecomputedVertexStateInit": 3197337485,
+					"sceGxmPrecomputedVertexStateSetAllTextures": 3289157927,
+					"sceGxmPrecomputedVertexStateSetAllUniformBuffers": 59344413,
+					"sceGxmPrecomputedVertexStateSetDefaultUniformBuffer": 884958435,
+					"sceGxmPrecomputedVertexStateSetTexture": 1781132038,
+					"sceGxmPrecomputedVertexStateSetUniformBuffer": 3690561238,
+					"sceGxmProgramCheck": 3985337449,
+					"sceGxmProgramFindParameterByName": 662148292,
+					"sceGxmProgramFindParameterBySemantic": 1664920148,
+					"sceGxmProgramGetDefaultUniformBufferSize": 2409888195,
+					"sceGxmProgramGetFragmentProgramInputs": 3331475209,
+					"sceGxmProgramGetOutputRegisterFormat": 3776316337,
+					"sceGxmProgramGetParameter": 117412177,
+					"sceGxmProgramGetParameterCount": 3587570893,
+					"sceGxmProgramGetSize": 3210616976,
+					"sceGxmProgramGetType": 79379545,
+					"sceGxmProgramGetVertexProgramOutputs": 4211197925,
+					"sceGxmProgramIsDepthReplaceUsed": 2304851698,
+					"sceGxmProgramIsDiscardUsed": 43732764,
+					"sceGxmProgramIsEquivalent": 3795616652,
+					"sceGxmProgramIsFragColorUsed": 273622004,
+					"sceGxmProgramIsNativeColorUsed": 2754182743,
+					"sceGxmProgramIsSpriteCoordUsed": 3862713304,
+					"sceGxmProgramParameterGetArraySize": 3685273697,
+					"sceGxmProgramParameterGetCategory": 429382679,
+					"sceGxmProgramParameterGetComponentCount": 3173619921,
+					"sceGxmProgramParameterGetContainerIndex": 3143116413,
+					"sceGxmProgramParameterGetIndex": 1851907573,
+					"sceGxmProgramParameterGetName": 1794673245,
+					"sceGxmProgramParameterGetResourceIndex": 1551488410,
+					"sceGxmProgramParameterGetSemantic": 3873031374,
+					"sceGxmProgramParameterGetSemanticIndex": 3093086526,
+					"sceGxmProgramParameterGetType": 2073043907,
+					"sceGxmProgramParameterIsRegFormat": 2266910729,
+					"sceGxmProgramParameterIsSamplerCube": 4155152267,
+					"sceGxmPushUserMarker": 846644341,
+					"sceGxmRemoveRazorGpuCaptureBuffer": 73982962,
+					"sceGxmRenderTargetGetDriverMemBlock": 1230321463,
+					"sceGxmReserveFragmentDefaultUniformBuffer": 2065673142,
+					"sceGxmReserveVertexDefaultUniformBuffer": 2534508819,
+					"sceGxmSetBackDepthBias": 397655942,
+					"sceGxmSetBackDepthFunc": 2957157586,
+					"sceGxmSetBackDepthWriteEnable": 3247140971,
+					"sceGxmSetBackFragmentProgramEnable": 3798681652,
+					"sceGxmSetBackLineFillLastPixelEnable": 3364796162,
+					"sceGxmSetBackPointLineWidth": 2378895067,
+					"sceGxmSetBackPolygonMode": 4134455038,
+					"sceGxmSetBackStencilFunc": 443074770,
+					"sceGxmSetBackStencilRef": 2255095063,
+					"sceGxmSetBackVisibilityTestEnable": 399460025,
+					"sceGxmSetBackVisibilityTestIndex": 2927134462,
+					"sceGxmSetBackVisibilityTestOp": 3359574707,
+					"sceGxmSetCullMode": 3788141230,
+					"sceGxmSetDefaultRegionClipAndViewport": 1624207502,
+					"sceGxmSetDeferredContextFragmentBuffer": 3333684432,
+					"sceGxmSetDeferredContextVdmBuffer": 194843598,
+					"sceGxmSetDeferredContextVertexBuffer": 667603239,
+					"sceGxmSetFragmentDefaultUniformBuffer": 2820991780,
+					"sceGxmSetFragmentProgram": 2905557209,
+					"sceGxmSetFragmentTexture": 700665333,
+					"sceGxmSetFragmentUniformBuffer": 3926901520,
+					"sceGxmSetFrontDepthBias": 2863234945,
+					"sceGxmSetFrontDepthFunc": 347964191,
+					"sceGxmSetFrontDepthWriteEnable": 4079796020,
+					"sceGxmSetFrontFragmentProgramEnable": 1465473192,
+					"sceGxmSetFrontLineFillLastPixelEnable": 1466293919,
+					"sceGxmSetFrontPointLineWidth": 108339587,
+					"sceGxmSetFrontPolygonMode": 4254277789,
+					"sceGxmSetFrontStencilFunc": 3093584538,
+					"sceGxmSetFrontStencilRef": 2410085956,
+					"sceGxmSetFrontVisibilityTestEnable": 809865495,
+					"sceGxmSetFrontVisibilityTestIndex": 308436020,
+					"sceGxmSetFrontVisibilityTestOp": 3504590234,
+					"sceGxmSetPrecomputedFragmentState": 4170524496,
+					"sceGxmSetPrecomputedVertexState": 3076680339,
+					"sceGxmSetRegionClip": 1892182120,
+					"sceGxmSetTwoSidedEnable": 233418423,
+					"sceGxmSetUniformDataF": 1708985476,
+					"sceGxmSetUserMarker": 3349728119,
+					"sceGxmSetVertexDefaultUniformBuffer": 3331836645,
+					"sceGxmSetVertexProgram": 838830781,
+					"sceGxmSetVertexStream": 2304635625,
+					"sceGxmSetVertexTexture": 2662610959,
+					"sceGxmSetVertexUniformBuffer": 3330282980,
+					"sceGxmSetViewport": 1051932683,
+					"sceGxmSetViewportEnable": 2169463275,
+					"sceGxmSetVisibilityBuffer": 2003299401,
+					"sceGxmSetWBufferEnable": 4007160181,
+					"sceGxmSetWClampEnable": 469284947,
+					"sceGxmSetWClampValue": 3499504494,
+					"sceGxmSetWarningEnabled": 315722557,
+					"sceGxmSetYuvProfile": 3005814768,
+					"sceGxmShaderPatcherAddRefFragmentProgram": 1288884639,
+					"sceGxmShaderPatcherAddRefVertexProgram": 265414025,
+					"sceGxmShaderPatcherCreate": 84092504,
+					"sceGxmShaderPatcherCreateFragmentProgram": 1322443933,
+					"sceGxmShaderPatcherCreateMaskUpdateFragmentProgram": 2755867687,
+					"sceGxmShaderPatcherCreateVertexProgram": 3082528469,
+					"sceGxmShaderPatcherDestroy": 3936727296,
+					"sceGxmShaderPatcherForceUnregisterProgram": 1661815598,
+					"sceGxmShaderPatcherGetBufferMemAllocated": 3331641401,
+					"sceGxmShaderPatcherGetFragmentProgramRefCount": 743788784,
+					"sceGxmShaderPatcherGetFragmentUsseMemAllocated": 1016978250,
+					"sceGxmShaderPatcherGetHostMemAllocated": 2646329116,
+					"sceGxmShaderPatcherGetProgramFromId": 2840176643,
+					"sceGxmShaderPatcherGetUserData": 2527586013,
+					"sceGxmShaderPatcherGetVertexProgramRefCount": 2711711734,
+					"sceGxmShaderPatcherGetVertexUsseMemAllocated": 2100265921,
+					"sceGxmShaderPatcherRegisterProgram": 726828130,
+					"sceGxmShaderPatcherReleaseFragmentProgram": 3190244305,
+					"sceGxmShaderPatcherReleaseVertexProgram": 2887774938,
+					"sceGxmShaderPatcherSetUserData": 4189650173,
+					"sceGxmShaderPatcherUnregisterProgram": 4043550602,
+					"sceGxmSyncObjectCreate": 1784681441,
+					"sceGxmSyncObjectDestroy": 2291853452,
+					"sceGxmTerminate": 3056066150,
+					"sceGxmTextureGetData": 1396817222,
+					"sceGxmTextureGetFormat": 3899183795,
+					"sceGxmTextureGetGammaMode": 4064267905,
+					"sceGxmTextureGetHeight": 1411424390,
+					"sceGxmTextureGetLodBias": 770006437,
+					"sceGxmTextureGetLodMin": 3193063980,
+					"sceGxmTextureGetMagFilter": 2927606609,
+					"sceGxmTextureGetMinFilter": 2449893062,
+					"sceGxmTextureGetMipFilter": 3465857557,
+					"sceGxmTextureGetMipmapCount": 4156010980,
+					"sceGxmTextureGetNormalizeMode": 1361819756,
+					"sceGxmTextureGetPalette": 219716656,
+					"sceGxmTextureGetStride": 2965197555,
+					"sceGxmTextureGetType": 4133308695,
+					"sceGxmTextureGetUAddrMode": 719464328,
+					"sceGxmTextureGetVAddrMode": 1175678121,
+					"sceGxmTextureGetWidth": 308952755,
+					"sceGxmTextureInitCube": 299666889,
+					"sceGxmTextureInitCubeArbitrary": 3823066683,
+					"sceGxmTextureInitLinear": 1209118411,
+					"sceGxmTextureInitLinearStrided": 1719254768,
+					"sceGxmTextureInitSwizzled": 3581072711,
+					"sceGxmTextureInitSwizzledArbitrary": 1572846124,
+					"sceGxmTextureInitTiled": 3874544423,
+					"sceGxmTextureSetData": 2237142212,
+					"sceGxmTextureSetFormat": 4237571478,
+					"sceGxmTextureSetGammaMode": 2799301850,
+					"sceGxmTextureSetHeight": 2934439377,
+					"sceGxmTextureSetLodBias": 3059672823,
+					"sceGxmTextureSetLodMin": 3080602589,
+					"sceGxmTextureSetMagFilter": 4201209815,
+					"sceGxmTextureSetMinFilter": 1097295075,
+					"sceGxmTextureSetMipFilter": 480902667,
+					"sceGxmTextureSetMipmapCount": 3537651267,
+					"sceGxmTextureSetNormalizeMode": 3465403088,
+					"sceGxmTextureSetPalette": 3714755578,
+					"sceGxmTextureSetStride": 1490086666,
+					"sceGxmTextureSetUAddrMode": 1115780670,
+					"sceGxmTextureSetVAddrMode": 309123747,
+					"sceGxmTextureSetWidth": 782334142,
+					"sceGxmTextureValidate": 1395769043,
+					"sceGxmTransferCopy": 1647389688,
+					"sceGxmTransferDownscale": 3507453613,
+					"sceGxmTransferFill": 1776156510,
+					"sceGxmTransferFinish": 1159896121,
+					"sceGxmUnmapFragmentUsseMemory": 2160913851,
+					"sceGxmUnmapMemory": 2190239976,
+					"sceGxmUnmapVertexUsseMemory": 160511221,
+					"sceGxmVertexFence": 3763501014,
+					"sceGxmVertexProgramGetProgram": 3159503374,
+					"sceGxmWaitEvent": 2346272147
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceHandwriting": {
+		"nid": 65,
+		"modules": {
+			"SceHandwriting": {
+				"nid": 66,
+				"kernel": false,
+				"functions": {
+					"sceHandwritingGetBufferSize": 1278905673,
+					"sceHandwritingInit": 1148131102,
+					"sceHandwritingRecognize": 316995994,
+					"sceHandwritingRegisterDelete": 1805952289,
+					"sceHandwritingRegisterGetResult": 3095807246,
+					"sceHandwritingRegisterInfo": 1764902537,
+					"sceHandwritingRegisterInit": 1983470995,
+					"sceHandwritingRegisterSet": 2043305279,
+					"sceHandwritingRegisterTerm": 1790695029,
+					"sceHandwritingSetMode": 162503672,
+					"sceHandwritingTerm": 896215345
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceHeap": {
+		"nid": 67,
+		"modules": {
+			"SceHeap": {
+				"nid": 68,
+				"kernel": false,
+				"functions": {
+					"sceHeapAllocHeapMemory": 3069971361,
+					"sceHeapAllocHeapMemoryWithOption": 3569391721,
+					"sceHeapCreateHeap": 2807503576,
+					"sceHeapDeleteHeap": 2704330764,
+					"sceHeapFreeHeapMemory": 3500145681,
+					"sceHeapGetMallinfo": 2904966576,
+					"sceHeapGetTotalFreeSize": 1992667139,
+					"sceHeapIsAllocatedHeapMemory": 2857387567,
+					"sceHeapReallocHeapMemory": 2657556154,
+					"sceHeapReallocHeapMemoryWithOption": 12488643
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceHmac": {
+		"nid": 69,
+		"modules": {
+			"SceHmac": {
+				"nid": 70,
+				"kernel": false,
+				"functions": {
+					"sceHmacMd5BlockInit": 3605148365,
+					"sceHmacMd5BlockResult": 2613888132,
+					"sceHmacMd5BlockUpdate": 2681485801,
+					"sceHmacMd5Digest": 1860896211,
+					"sceHmacSha0BlockInit": 3561974578,
+					"sceHmacSha0BlockResult": 95294566,
+					"sceHmacSha0BlockUpdate": 2629300463,
+					"sceHmacSha0Digest": 3434682244,
+					"sceHmacSha1BlockInit": 2720553626,
+					"sceHmacSha1BlockResult": 3501150662,
+					"sceHmacSha1BlockUpdate": 1861248144,
+					"sceHmacSha1Digest": 1434918279,
+					"sceHmacSha224BlockInit": 960493244,
+					"sceHmacSha224BlockResult": 716467125,
+					"sceHmacSha224BlockUpdate": 3077974507,
+					"sceHmacSha224Digest": 899601182,
+					"sceHmacSha256BlockInit": 2527935079,
+					"sceHmacSha256BlockResult": 1515328783,
+					"sceHmacSha256BlockUpdate": 211789399,
+					"sceHmacSha256Digest": 3797211553,
+					"sceHmacSha384BlockInit": 3079075231,
+					"sceHmacSha384BlockResult": 3123743962,
+					"sceHmacSha384BlockUpdate": 3245181622,
+					"sceHmacSha384Digest": 2621130820,
+					"sceHmacSha512BlockInit": 657453054,
+					"sceHmacSha512BlockResult": 1679925237,
+					"sceHmacSha512BlockUpdate": 3970447762,
+					"sceHmacSha512Digest": 2413809243
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceHttp": {
+		"nid": 71,
+		"modules": {
+			"SceHttp": {
+				"nid": 72,
+				"kernel": false,
+				"functions": {
+					"sceHttpAbortRequest": 3932251695,
+					"sceHttpAbortRequestForce": 1027909349,
+					"sceHttpAbortWaitRequest": 1122492401,
+					"sceHttpAddCookie": 3202062477,
+					"sceHttpAddRequestHeader": 2068951330,
+					"sceHttpAddRequestHeaderRaw": 834670522,
+					"sceHttpAuthCacheFlush": 2936246860,
+					"sceHttpCookieExport": 1113193374,
+					"sceHttpCookieFlush": 229419220,
+					"sceHttpCookieImport": 2650047106,
+					"sceHttpCreateConnection": 2930978942,
+					"sceHttpCreateConnectionWithURL": 3323380224,
+					"sceHttpCreateEpoll": 2090446695,
+					"sceHttpCreateRequest": 2955428464,
+					"sceHttpCreateRequestWithURL": 3177030096,
+					"sceHttpCreateTemplate": 1646534059,
+					"sceHttpDeleteConnection": 4042677269,
+					"sceHttpDeleteRequest": 1027418541,
+					"sceHttpDeleteTemplate": 3968199931,
+					"sceHttpDestroyEpoll": 131725499,
+					"sceHttpGetAcceptEncodingGZIPEnabled": 3153738794,
+					"sceHttpGetAllResponseHeaders": 301384319,
+					"sceHttpGetAuthEnabled": 1730643788,
+					"sceHttpGetAutoRedirect": 1856861163,
+					"sceHttpGetCookie": 1881279482,
+					"sceHttpGetCookieEnabled": 460256878,
+					"sceHttpGetCookieStats": 2398531413,
+					"sceHttpGetEpoll": 1711183935,
+					"sceHttpGetEpollId": 2651004284,
+					"sceHttpGetIcmOption": 1638182366,
+					"sceHttpGetLastErrno": 2590557150,
+					"sceHttpGetMemoryPoolStats": 4186759081,
+					"sceHttpGetNonblock": 3596043964,
+					"sceHttpGetResponseContentLength": 4118860548,
+					"sceHttpGetStatusCode": 654775953,
+					"sceHttpInit": 558442201,
+					"sceHttpParseResponseHeader": 61261982,
+					"sceHttpParseStatusLine": 396121819,
+					"sceHttpReadData": 2128492921,
+					"sceHttpRedirectCacheFlush": 2343254385,
+					"sceHttpRemoveRequestHeader": 1588983112,
+					"sceHttpRequestGetAllHeaders": 3131264280,
+					"sceHttpSendRequest": 2628094873,
+					"sceHttpSetAcceptEncodingGZIPEnabled": 1922418436,
+					"sceHttpSetAuthEnabled": 300696272,
+					"sceHttpSetAuthInfoCallback": 3768821901,
+					"sceHttpSetAutoRedirect": 881400895,
+					"sceHttpSetConnectTimeOut": 595372142,
+					"sceHttpSetCookieEnabled": 2934272931,
+					"sceHttpSetCookieMaxNum": 1571442159,
+					"sceHttpSetCookieMaxNumPerDomain": 1667208735,
+					"sceHttpSetCookieMaxSize": 3921707941,
+					"sceHttpSetCookieRecvCallback": 3572705827,
+					"sceHttpSetCookieSendCallback": 297810023,
+					"sceHttpSetCookieTotalMaxSize": 1547731132,
+					"sceHttpSetDefaultAcceptEncodingGZIPEnabled": 514046876,
+					"sceHttpSetEpoll": 253743539,
+					"sceHttpSetEpollId": 1558930772,
+					"sceHttpSetIcmOption": 597134524,
+					"sceHttpSetNonblock": 665422810,
+					"sceHttpSetRecvTimeOut": 2495551854,
+					"sceHttpSetRedirectCallback": 1309152893,
+					"sceHttpSetRequestContentLength": 935529616,
+					"sceHttpSetResolveRetry": 2595581607,
+					"sceHttpSetResolveTimeOut": 2220209587,
+					"sceHttpSetSendTimeOut": 2330193928,
+					"sceHttpSslIsCtxCreated": 759108225,
+					"sceHttpTerm": 3372705382,
+					"sceHttpUnsetEpoll": 3484539467,
+					"sceHttpUriBuild": 1197884452,
+					"sceHttpUriEscape": 497198707,
+					"sceHttpUriMerge": 1963097373,
+					"sceHttpUriParse": 491123278,
+					"sceHttpUriSweepPath": 1349745215,
+					"sceHttpUriUnescape": 309646104,
+					"sceHttpWaitRequest": 2499224938,
+					"sceHttpWaitRequestCB": 1214581379,
+					"sceHttpsDisableOption": 3335914499,
+					"sceHttpsDisableOptionPrivate": 6657589,
+					"sceHttpsEnableOption": 2680039529,
+					"sceHttpsEnableOptionPrivate": 1925908289,
+					"sceHttpsFreeCaList": 1456037268,
+					"sceHttpsGetCaList": 4145718669,
+					"sceHttpsGetSslError": 729398752,
+					"sceHttpsLoadCert": 2928507955,
+					"sceHttpsSetSslCallback": 2693947447,
+					"sceHttpsUnloadCert": 2239202111
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceIme": {
+		"nid": 73,
+		"modules": {
+			"SceIme": {
+				"nid": 74,
+				"kernel": false,
+				"functions": {
+					"sceImeClose": 2291827745,
+					"sceImeOpen": 235210259,
+					"sceImeSetCaret": 3627298090,
+					"sceImeSetPreeditGeometry": 2065627813,
+					"sceImeSetText": 4089289334,
+					"sceImeUpdate": 1909885322
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceJpeg": {
+		"nid": 79,
+		"modules": {
+			"SceJpegUser": {
+				"nid": 80,
+				"kernel": false,
+				"functions": {
+					"sceJpegCreateSplitDecoder": 305874740,
+					"sceJpegCsc": 1650699970,
+					"sceJpegDecodeMJpeg": 1645588629,
+					"sceJpegDecodeMJpegYCbCr": 712416216,
+					"sceJpegDeleteSplitDecoder": 3733807009,
+					"sceJpegFinishMJpeg": 1652827544,
+					"sceJpegGetOutputInfo": 893102512,
+					"sceJpegInitMJpeg": 2955966267,
+					"sceJpegInitMJpegWithParam": 1367434151,
+					"sceJpegMJpegCsc": 3258453562,
+					"sceJpegSplitDecodeMJpeg": 1167649948
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceJpegEnc": {
+		"nid": 77,
+		"modules": {
+			"SceJpegEncUser": {
+				"nid": 78,
+				"kernel": false,
+				"functions": {
+					"sceJpegEncoderCsc": 2185919823,
+					"sceJpegEncoderEncode": 3322800460,
+					"sceJpegEncoderEnd": 3363481673,
+					"sceJpegEncoderGetContextSize": 727024717,
+					"sceJpegEncoderInit": 2296025780,
+					"sceJpegEncoderInitWithParam": 781182045,
+					"sceJpegEncoderSetCompressionRatio": 2998413548,
+					"sceJpegEncoderSetHeaderMode": 794341676,
+					"sceJpegEncoderSetOutputAddr": 634727831,
+					"sceJpegEncoderSetValidRegion": 2500981692
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceKernel": {
+		"nid": 81,
+		"modules": {
+			"SceCpu": {
+				"nid": 34,
+				"kernel": false,
+				"functions": {
+				},
+				"variables": {
+				}
+			},
+			"SceDebugLed": {
+				"nid": 42,
+				"kernel": false,
+				"functions": {
+					"sceKernelGetGPI": 351634127,
+					"sceKernelSetGPO": 2028405459
+				},
+				"variables": {
+				}
+			},
+			"SceDipsw": {
+				"nid": 48,
+				"kernel": false,
+				"functions": {
+					"sceKernelCheckDipsw": 477642674,
+					"sceKernelClearDipsw": 2148457665,
+					"sceKernelSetDipsw": 2171622356
+				},
+				"variables": {
+				}
+			},
+			"SceIofilemgr": {
+				"nid": 76,
+				"kernel": false,
+				"functions": {
+					"sceIoClose": 3339421830,
+					"sceIoDclose": 1110057498,
+					"sceIoGetPriority": 4070863521,
+					"sceIoGetProcessDefaultPriority": 231010747,
+					"sceIoGetThreadDefaultPriority": 2708917507,
+					"sceIoLseek32": 1227172763,
+					"sceIoRead": 4256375443,
+					"sceIoSetPriority": 347264364,
+					"sceIoSetProcessDefaultPriority": 2133506991,
+					"sceIoSetThreadDefaultPriority": 1227956488,
+					"sceIoSyncByFd": 374419289,
+					"sceIoWrite": 888133750
+				},
+				"variables": {
+				}
+			},
+			"SceLibKernel": {
+				"nid": 82,
+				"kernel": false,
+				"functions": {
+					"SceKernelStackChkGuard": 1146666227,
+					"__sce_aeabi_idiv0": 1131656520,
+					"__sce_aeabi_ldiv0": 4213397576,
+					"__stack_chk_fail": 929635320,
+					"__stack_chk_guard": 2478352999,
+					"_sceKernelCreateLwMutex": 3092182808,
+					"sceClibAbort": 791437382,
+					"sceClibDprintf": 1128329079,
+					"sceClibLookCtypeTable": 3639327614,
+					"sceClibMemchr": 1081958739,
+					"sceClibMemcmp": 2630008799,
+					"sceClibMemcmpConstTime": 268472751,
+					"sceClibMemcpy": 350870487,
+					"sceClibMemcpyChk": 529854277,
+					"sceClibMemmove": 1936151496,
+					"sceClibMemmoveChk": 2709547260,
+					"sceClibMemset": 1663664343,
+					"sceClibMemsetChk": 3516624325,
+					"sceClibMspaceCalloc": 1736668333,
+					"sceClibMspaceCreate": 1000222746,
+					"sceClibMspaceDestroy": 2920948204,
+					"sceClibMspaceFree": 2622928081,
+					"sceClibMspaceIsHeapEmpty": 3520435969,
+					"sceClibMspaceMalloc": 2263840384,
+					"sceClibMspaceMallocStats": 2361512846,
+					"sceClibMspaceMallocStatsFast": 1938686754,
+					"sceClibMspaceMallocUsableSize": 1184899705,
+					"sceClibMspaceMemalign": 1015315799,
+					"sceClibMspaceRealloc": 2001244630,
+					"sceClibMspaceReallocalign": 1483392653,
+					"sceClibPrintf": 4196842594,
+					"sceClibSnprintf": 2361000917,
+					"sceClibSnprintfChk": 3269568837,
+					"sceClibStrcatChk": 254321813,
+					"sceClibStrchr": 1631614647,
+					"sceClibStrcmp": 2734378397,
+					"sceClibStrcpyChk": 3115757658,
+					"sceClibStrlcat": 1892401877,
+					"sceClibStrlcatChk": 1288396969,
+					"sceClibStrlcpy": 752864540,
+					"sceClibStrlcpyChk": 2892821979,
+					"sceClibStrncasecmp": 3041659876,
+					"sceClibStrncat": 2742969219,
+					"sceClibStrncatChk": 1218363103,
+					"sceClibStrncmp": 1712136045,
+					"sceClibStrncpy": 3294156298,
+					"sceClibStrncpyChk": 2629702773,
+					"sceClibStrnlen": 2891538024,
+					"sceClibStrrchr": 1853000366,
+					"sceClibStrstr": 3798288779,
+					"sceClibStrtoll": 777526152,
+					"sceClibTolower": 1280602556,
+					"sceClibToupper": 2956153736,
+					"sceClibVdprintf": 2881915196,
+					"sceClibVprintf": 1587787470,
+					"sceClibVsnprintf": 4201374823,
+					"sceClibVsnprintfChk": 3056105579,
+					"sceIoChstat": 692596607,
+					"sceIoChstatByFd": 1854945970,
+					"sceIoDevctl": 78843058,
+					"sceIoDopen": 2837986768,
+					"sceIoDread": 2626381348,
+					"sceIoGetstat": 3164976675,
+					"sceIoGetstatByFd": 1475923237,
+					"sceIoIoctl": 1420537082,
+					"sceIoLseek": 2579109694,
+					"sceIoMkdir": 2523976607,
+					"sceIoOpen": 1818274913,
+					"sceIoPread": 1378966231,
+					"sceIoPwrite": 2415916456,
+					"sceIoRemove": 3792621811,
+					"sceIoRename": 4147635049,
+					"sceIoRmdir": 3925417672,
+					"sceIoSync": 2561469805,
+					"sceKernelAtomicAddAndGet16": 1230787308,
+					"sceKernelAtomicAddAndGet32": 780446011,
+					"sceKernelAtomicAddAndGet64": 3066993562,
+					"sceKernelAtomicAddAndGet8": 2407258432,
+					"sceKernelAtomicAddUnless16": 485796427,
+					"sceKernelAtomicAddUnless32": 1261698364,
+					"sceKernelAtomicAddUnless64": 4291720248,
+					"sceKernelAtomicAddUnless8": 2144945043,
+					"sceKernelAtomicAndAndGet16": 4186509182,
+					"sceKernelAtomicAndAndGet32": 1728697100,
+					"sceKernelAtomicAndAndGet64": 2933044080,
+					"sceKernelAtomicAndAndGet8": 2260277007,
+					"sceKernelAtomicClearAndGet16": 3426137973,
+					"sceKernelAtomicClearAndGet32": 2645167592,
+					"sceKernelAtomicClearAndGet64": 641862131,
+					"sceKernelAtomicClearAndGet8": 397672464,
+					"sceKernelAtomicClearMask16": 1609031672,
+					"sceKernelAtomicClearMask32": 3823045811,
+					"sceKernelAtomicClearMask64": 2503807370,
+					"sceKernelAtomicClearMask8": 3621035574,
+					"sceKernelAtomicCompareAndSet16": 3904901686,
+					"sceKernelAtomicCompareAndSet32": 287613396,
+					"sceKernelAtomicCompareAndSet64": 515767501,
+					"sceKernelAtomicCompareAndSet8": 847099072,
+					"sceKernelAtomicDecIfPositive16": 842471675,
+					"sceKernelAtomicDecIfPositive32": 3392312561,
+					"sceKernelAtomicDecIfPositive64": 2346885127,
+					"sceKernelAtomicDecIfPositive8": 2645288643,
+					"sceKernelAtomicGetAndAdd16": 1450498828,
+					"sceKernelAtomicGetAndAdd32": 638700299,
+					"sceKernelAtomicGetAndAdd64": 1675293565,
+					"sceKernelAtomicGetAndAdd8": 664972026,
+					"sceKernelAtomicGetAndAnd16": 2047651926,
+					"sceKernelAtomicGetAndAnd32": 136734101,
+					"sceKernelAtomicGetAndAnd64": 1210629187,
+					"sceKernelAtomicGetAndAnd8": 1406967851,
+					"sceKernelAtomicGetAndClear16": 1473085053,
+					"sceKernelAtomicGetAndClear32": 36085783,
+					"sceKernelAtomicGetAndClear64": 1131061429,
+					"sceKernelAtomicGetAndClear8": 2701685668,
+					"sceKernelAtomicGetAndOr16": 837066355,
+					"sceKernelAtomicGetAndOr32": 2555040374,
+					"sceKernelAtomicGetAndOr64": 3281094349,
+					"sceKernelAtomicGetAndOr8": 276457695,
+					"sceKernelAtomicGetAndSet16": 4156141052,
+					"sceKernelAtomicGetAndSet32": 2604918375,
+					"sceKernelAtomicGetAndSet64": 3626711674,
+					"sceKernelAtomicGetAndSet8": 645065227,
+					"sceKernelAtomicGetAndSub16": 2891028380,
+					"sceKernelAtomicGetAndSub32": 291262831,
+					"sceKernelAtomicGetAndSub64": 1256835302,
+					"sceKernelAtomicGetAndSub8": 3455442791,
+					"sceKernelAtomicGetAndXor16": 1848445854,
+					"sceKernelAtomicGetAndXor32": 947101231,
+					"sceKernelAtomicGetAndXor64": 1780071401,
+					"sceKernelAtomicGetAndXor8": 1934668511,
+					"sceKernelAtomicOrAndGet16": 2384760509,
+					"sceKernelAtomicOrAndGet32": 3283286008,
+					"sceKernelAtomicOrAndGet64": 2157689981,
+					"sceKernelAtomicOrAndGet8": 1365850417,
+					"sceKernelAtomicSet16": 1158414031,
+					"sceKernelAtomicSet32": 3063783579,
+					"sceKernelAtomicSet64": 3366204316,
+					"sceKernelAtomicSet8": 3915447714,
+					"sceKernelAtomicSubAndGet16": 3261840305,
+					"sceKernelAtomicSubAndGet32": 30002578,
+					"sceKernelAtomicSubAndGet64": 2612308299,
+					"sceKernelAtomicSubAndGet8": 2581690734,
+					"sceKernelAtomicXorAndGet16": 1867661717,
+					"sceKernelAtomicXorAndGet32": 1184106244,
+					"sceKernelAtomicXorAndGet64": 3720775278,
+					"sceKernelAtomicXorAndGet8": 1665855586,
+					"sceKernelBacktrace": 2302687208,
+					"sceKernelBacktraceSelf": 3513516976,
+					"sceKernelCallModuleExit": 367174749,
+					"sceKernelCallWithChangeStack": 2950869760,
+					"sceKernelCancelEvent": 1614460784,
+					"sceKernelCancelEventFlag": 705878455,
+					"sceKernelCancelEventWithSetPattern": 2954069973,
+					"sceKernelCancelMsgPipe": 4011113015,
+					"sceKernelCancelMutex": 558139661,
+					"sceKernelCancelRWLock": 420260171,
+					"sceKernelCancelSema": 1725349637,
+					"sceKernelCancelTimer": 2630841996,
+					"sceKernelChangeCurrentThreadAttr": 914571155,
+					"sceKernelCheckThreadStack": 2215194576,
+					"sceKernelCreateCond": 1347891162,
+					"sceKernelCreateEventFlag": 2232864832,
+					"sceKernelCreateLwCond": 1221061350,
+					"sceKernelCreateLwMutex": 3664693487,
+					"sceKernelCreateMsgPipe": 168870344,
+					"sceKernelCreateMutex": 3981652810,
+					"sceKernelCreateRWLock": 2254935325,
+					"sceKernelCreateSema": 467039078,
+					"sceKernelCreateSimpleEvent": 3873121428,
+					"sceKernelCreateThread": 3317767911,
+					"sceKernelCreateTimer": 576041637,
+					"sceKernelDeleteLwCond": 1914662067,
+					"sceKernelDeleteLwMutex": 609122002,
+					"sceKernelExitProcess": 1972754858,
+					"sceKernelGetCallbackInfo": 2296191944,
+					"sceKernelGetCondInfo": 1751440610,
+					"sceKernelGetCurrentThreadVfpException": 2742706263,
+					"sceKernelGetEventFlagInfo": 2342830273,
+					"sceKernelGetEventInfo": 3814660566,
+					"sceKernelGetEventPattern": 3852643430,
+					"sceKernelGetLwCondInfo": 3839833760,
+					"sceKernelGetLwCondInfoById": 2535398888,
+					"sceKernelGetLwMutexInfo": 4158190076,
+					"sceKernelGetLwMutexInfoById": 1212571965,
+					"sceKernelGetMsgPipeInfo": 1078382955,
+					"sceKernelGetMutexInfo": 2590786506,
+					"sceKernelGetOpenPsId": 639511604,
+					"sceKernelGetPMUSERENR": 4171866079,
+					"sceKernelGetProcessTime": 1279685311,
+					"sceKernelGetProcessTimeLow": 3925439409,
+					"sceKernelGetProcessTimeWide": 2970665251,
+					"sceKernelGetRWLockInfo": 127555387,
+					"sceKernelGetSemaInfo": 1499283366,
+					"sceKernelGetSystemInfo": 3760463786,
+					"sceKernelGetTLSAddr": 2996169569,
+					"sceKernelGetThreadCpuAffinityMask": 2354555946,
+					"sceKernelGetThreadCurrentPriority": 3308951624,
+					"sceKernelGetThreadExitStatus": 3587974852,
+					"sceKernelGetThreadId": 263811833,
+					"sceKernelGetThreadInfo": 2375832673,
+					"sceKernelGetThreadRunStatus": 3601862675,
+					"sceKernelGetTimerBase": 525983821,
+					"sceKernelGetTimerEventRemainingTime": 1974594366,
+					"sceKernelGetTimerInfo": 2117460234,
+					"sceKernelGetTimerTime": 941474560,
+					"sceKernelLoadModule": 3152552277,
+					"sceKernelLoadStartModule": 768363258,
+					"sceKernelLockLwMutex": 1189592699,
+					"sceKernelLockLwMutexCB": 826853046,
+					"sceKernelLockMutex": 495810885,
+					"sceKernelLockMutexCB": 735749412,
+					"sceKernelLockReadRWLock": 4201058063,
+					"sceKernelLockReadRWLockCB": 759849655,
+					"sceKernelLockWriteRWLock": 1738639291,
+					"sceKernelLockWriteRWLockCB": 2759291010,
+					"sceKernelPMonThreadGetCounter": 2578628373,
+					"sceKernelPollEvent": 606025268,
+					"sceKernelPollEventFlag": 532352993,
+					"sceKernelPrintBacktrace": 469935156,
+					"sceKernelPulseEventWithNotifyCallback": 2465293043,
+					"sceKernelReceiveMsgPipe": 1317133660,
+					"sceKernelReceiveMsgPipeCB": 867140251,
+					"sceKernelReceiveMsgPipeVector": 2676592775,
+					"sceKernelReceiveMsgPipeVectorCB": 3193650727,
+					"sceKernelSendMsgPipe": 212278946,
+					"sceKernelSendMsgPipeCB": 2781508780,
+					"sceKernelSendMsgPipeVector": 2496988919,
+					"sceKernelSendMsgPipeVectorCB": 2624552825,
+					"sceKernelSetEventWithNotifyCallback": 1609821842,
+					"sceKernelSetTimerEvent": 1646078267,
+					"sceKernelSetTimerTime": 4289556863,
+					"sceKernelSignalLwCond": 986069914,
+					"sceKernelSignalLwCondAll": 3844348428,
+					"sceKernelSignalLwCondTo": 4229581035,
+					"sceKernelStackChkFail": 3962073912,
+					"sceKernelStartModule": 1881417173,
+					"sceKernelStartThread": 4035830089,
+					"sceKernelStopModule": 992786953,
+					"sceKernelStopUnloadModule": 605419684,
+					"sceKernelTryLockLwMutex": 2795686165,
+					"sceKernelTryReceiveMsgPipe": 1444261894,
+					"sceKernelTryReceiveMsgPipeVector": 2263662847,
+					"sceKernelTrySendMsgPipe": 3754324192,
+					"sceKernelTrySendMsgPipeVector": 1624978543,
+					"sceKernelUnloadModule": 428315150,
+					"sceKernelUnlockLwMutex": 302709900,
+					"sceKernelWaitCond": 3364701357,
+					"sceKernelWaitCondCB": 1290022114,
+					"sceKernelWaitEvent": 302973871,
+					"sceKernelWaitEventCB": 2689140629,
+					"sceKernelWaitEventFlag": 2210456239,
+					"sceKernelWaitEventFlagCB": 3879186911,
+					"sceKernelWaitLwCond": 3783754370,
+					"sceKernelWaitLwCondCB": 2409974535,
+					"sceKernelWaitMultipleEvents": 274228248,
+					"sceKernelWaitMultipleEventsCB": 1113840585,
+					"sceKernelWaitSema": 209421131,
+					"sceKernelWaitSemaCB": 390501044,
+					"sceKernelWaitSignal": 2915734757,
+					"sceKernelWaitSignalCB": 608570291,
+					"sceKernelWaitThreadEnd": 3719533993,
+					"sceKernelWaitThreadEndCB": 3309912557,
+					"sceSblACMgrIsGameProgram": 2520730265
+				},
+				"variables": {
+				}
+			},
+			"SceModulemgr": {
+				"nid": 102,
+				"kernel": false,
+				"functions": {
+					"sceKernelGetModuleIdByAddr": 4118383740,
+					"sceKernelGetModuleInfo": 911760815,
+					"sceKernelGetModuleList": 787634207
+				},
+				"variables": {
+				}
+			},
+			"SceProcessmgr": {
+				"nid": 158,
+				"kernel": false,
+				"functions": {
+					"sceKernelGetStderr": 4200479450,
+					"sceKernelGetStdin": 3245506393,
+					"sceKernelGetStdout": 3853148764,
+					"sceKernelLibcClock": 2655377929,
+					"sceKernelLibcGettimeofday": 1267175513,
+					"sceKernelLibcGmtime_r": 3164878797,
+					"sceKernelLibcLocaltime_r": 2498773485,
+					"sceKernelLibcMktime": 2299255865,
+					"sceKernelLibcTime": 3784261,
+					"sceKernelPowerTick": 575834380
+				},
+				"variables": {
+				}
+			},
+			"SceSysmem": {
+				"nid": 220,
+				"kernel": false,
+				"functions": {
+					"sceKernelAllocMemBlock": 3117804510,
+					"sceKernelFindMemBlockByAddr": 2738592209,
+					"sceKernelFreeMemBlock": 2837321198,
+					"sceKernelGetFreeMemorySize": 2278316043,
+					"sceKernelGetMemBlockBase": 3102693400,
+					"sceKernelGetMemBlockInfoByAddr": 1074834789,
+					"sceKernelGetMemBlockInfoByRange": 7290292
+				},
+				"variables": {
+				}
+			},
+			"SceThreadmgr": {
+				"nid": 226,
+				"kernel": false,
+				"functions": {
+					"sceKernelCancelCallback": 812916466,
+					"sceKernelChangeActiveCpuMask": 1143800,
+					"sceKernelChangeThreadCpuAffinityMask": 353538420,
+					"sceKernelChangeThreadPriority": 3170974194,
+					"sceKernelChangeThreadVfpException": 3424189358,
+					"sceKernelCheckCallback": 3846062582,
+					"sceKernelCheckWaitableStatus": 3653072107,
+					"sceKernelClearEvent": 2066369320,
+					"sceKernelClearEventFlag": 1287158951,
+					"sceKernelCloseCond": 365334752,
+					"sceKernelCloseEventFlag": 2590569799,
+					"sceKernelCloseMsgPipe": 319135845,
+					"sceKernelCloseMutex": 65157878,
+					"sceKernelCloseRWLock": 4250654145,
+					"sceKernelCloseSema": 2732072862,
+					"sceKernelCloseSimpleEvent": 4277455443,
+					"sceKernelCloseTimer": 2900758090,
+					"sceKernelCreateCallback": 2979854313,
+					"sceKernelCreateThreadForUser": 3237672611,
+					"sceKernelDelayThread": 1265065221,
+					"sceKernelDelayThreadCB": 2617344225,
+					"sceKernelDeleteCallback": 3563677547,
+					"sceKernelDeleteCond": 2275307197,
+					"sceKernelDeleteEventFlag": 1480594988,
+					"sceKernelDeleteMsgPipe": 3884698871,
+					"sceKernelDeleteMutex": 3413668109,
+					"sceKernelDeleteRWLock": 3879094730,
+					"sceKernelDeleteSema": 3677525130,
+					"sceKernelDeleteSimpleEvent": 546111016,
+					"sceKernelDeleteThread": 465429465,
+					"sceKernelDeleteTimer": 2870887108,
+					"sceKernelExitDeleteThread": 488103631,
+					"sceKernelGetCallbackCount": 59131093,
+					"sceKernelGetProcessId": 2647346042,
+					"sceKernelGetThreadStackFreeSize": 1334459808,
+					"sceKernelGetThreadmgrUIDClass": 3379007359,
+					"sceKernelGetTimerBaseWide": 1572608352,
+					"sceKernelGetTimerTimeWide": 1056780645,
+					"sceKernelNotifyCallback": 2758292882,
+					"sceKernelOpenCond": 1992138799,
+					"sceKernelOpenEventFlag": 3155818657,
+					"sceKernelOpenMsgPipe": 236763638,
+					"sceKernelOpenMutex": 1390506370,
+					"sceKernelOpenRWLock": 3461415318,
+					"sceKernelOpenSema": 3420599751,
+					"sceKernelOpenSimpleEvent": 1310608888,
+					"sceKernelOpenTimer": 3068298983,
+					"sceKernelPollSema": 2255417416,
+					"sceKernelPulseEvent": 2368191190,
+					"sceKernelRegisterCallbackToEvent": 1996175337,
+					"sceKernelSendSignal": 3569575858,
+					"sceKernelSetEvent": 843192525,
+					"sceKernelSetEventFlag": 3969179639,
+					"sceKernelSetTimerTimeWide": 658197069,
+					"sceKernelSignalCond": 1859314396,
+					"sceKernelSignalCondAll": 3269962786,
+					"sceKernelSignalCondTo": 308933868,
+					"sceKernelSignalSema": 3870777809,
+					"sceKernelStartTimer": 1208557068,
+					"sceKernelStopTimer": 2258542368,
+					"sceKernelTryLockMutex": 1929125716,
+					"sceKernelTryLockReadRWLock": 4024280150,
+					"sceKernelTryLockWriteRWLock": 543996774,
+					"sceKernelUnlockMutex": 439824072,
+					"sceKernelUnlockReadRWLock": 1056510277,
+					"sceKernelUnlockWriteRWLock": 3021280151,
+					"sceKernelUnregisterCallbackFromEvent": 407251729,
+					"sceKernelUnregisterCallbackFromEventAll": 2290774881
+				},
+				"variables": {
+				}
+			},
+			"SceThreadmgrCoredumpTime": {
+				"nid": 228,
+				"kernel": false,
+				"functions": {
+					"sceKernelExitThread": 210385121
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceLibMonoBridge": {
+		"nid": 3563487460,
+		"modules": {
+			"SceLibMonoBridge": {
+				"nid": 3563487460,
+				"kernel": false,
+				"functions": {
+					"__aeabi_unwind_cpp_pr0": 3513950710,
+					"__aeabi_unwind_cpp_pr1": 1795195281,
+					"__ashldi3": 1072727588,
+					"__divdi3": 3386614786,
+					"__divsi3": 1218827958,
+					"__lshrdi3": 1773287266,
+					"__moddi3": 2586380030,
+					"__modsi3": 1066346147,
+					"__sce_aeabi_idiv0": 515872716,
+					"__sce_aeabi_ldiv0": 716421244,
+					"__udivdi3": 3622836687,
+					"__udivsi3": 4279282409,
+					"__umoddi3": 1727853093,
+					"__umodsi3": 901545061,
+					"environ": 2549094426,
+					"g_ascii_strcasecmp": 3327377993,
+					"g_file_vita_get_current_dir": 1415552424,
+					"g_file_vita_get_full_path": 3254221092,
+					"g_file_vita_set_current_dir": 32376887,
+					"getenv": 720085102,
+					"monoeg_assertion_message": 2698480471,
+					"monoeg_g_array_append_vals": 955012187,
+					"monoeg_g_array_free": 123287008,
+					"monoeg_g_array_insert_vals": 3989611634,
+					"monoeg_g_array_new": 99466405,
+					"monoeg_g_ascii_strdown": 997635418,
+					"monoeg_g_ascii_strncasecmp": 2094867675,
+					"monoeg_g_ascii_tolower": 4123135637,
+					"monoeg_g_ascii_xdigit_value": 1378678282,
+					"monoeg_g_build_path": 2235904656,
+					"monoeg_g_convert": 2993750498,
+					"monoeg_g_dir_close": 1391066801,
+					"monoeg_g_dir_open": 1871848474,
+					"monoeg_g_dir_read_name": 1174443068,
+					"monoeg_g_direct_equal": 2169025337,
+					"monoeg_g_direct_hash": 3632339737,
+					"monoeg_g_error_free": 1203838749,
+					"monoeg_g_file_get_contents": 95315812,
+					"monoeg_g_file_open_tmp": 1802815510,
+					"monoeg_g_file_test": 3482177235,
+					"monoeg_g_filename_from_uri": 145578159,
+					"monoeg_g_filename_from_utf8": 3675969578,
+					"monoeg_g_filename_to_uri": 3097702650,
+					"monoeg_g_find_program_in_path": 2862387422,
+					"monoeg_g_free": 266013917,
+					"monoeg_g_get_charset": 4139698643,
+					"monoeg_g_get_current_dir": 3055826697,
+					"monoeg_g_get_home_dir": 2113503614,
+					"monoeg_g_get_tmp_dir": 1625147249,
+					"monoeg_g_get_user_name": 2482991152,
+					"monoeg_g_getenv": 172677855,
+					"monoeg_g_hash_table_destroy": 2468087457,
+					"monoeg_g_hash_table_foreach": 3258730625,
+					"monoeg_g_hash_table_foreach_remove": 1232540170,
+					"monoeg_g_hash_table_foreach_steal": 2468671713,
+					"monoeg_g_hash_table_insert_replace": 205940841,
+					"monoeg_g_hash_table_iter_init": 2415490342,
+					"monoeg_g_hash_table_iter_next": 2717042656,
+					"monoeg_g_hash_table_lookup": 2846726895,
+					"monoeg_g_hash_table_lookup_extended": 2361264443,
+					"monoeg_g_hash_table_new": 931416297,
+					"monoeg_g_hash_table_new_full": 4206845496,
+					"monoeg_g_hash_table_remove": 1251821027,
+					"monoeg_g_hash_table_size": 766870722,
+					"monoeg_g_list_alloc": 3949626108,
+					"monoeg_g_list_append": 736877293,
+					"monoeg_g_list_copy": 903917213,
+					"monoeg_g_list_delete_link": 3764094623,
+					"monoeg_g_list_find": 3039807080,
+					"monoeg_g_list_foreach": 4137692751,
+					"monoeg_g_list_free": 843061339,
+					"monoeg_g_list_insert_before": 1975327837,
+					"monoeg_g_list_length": 3752089810,
+					"monoeg_g_list_nth": 439015031,
+					"monoeg_g_list_nth_data": 2772161024,
+					"monoeg_g_list_prepend": 466243228,
+					"monoeg_g_list_remove": 652630140,
+					"monoeg_g_list_remove_link": 483062395,
+					"monoeg_g_list_reverse": 1728666186,
+					"monoeg_g_list_sort": 3244276578,
+					"monoeg_g_locale_from_utf8": 3897175789,
+					"monoeg_g_locale_to_utf8": 1749433612,
+					"monoeg_g_log": 3396188001,
+					"monoeg_g_log_set_always_fatal": 2384023963,
+					"monoeg_g_log_set_fatal_mask": 1058053478,
+					"monoeg_g_logv": 2898321673,
+					"monoeg_g_markup_parse_context_end_parse": 4082606204,
+					"monoeg_g_markup_parse_context_free": 2190255348,
+					"monoeg_g_markup_parse_context_new": 879930642,
+					"monoeg_g_markup_parse_context_parse": 3400230009,
+					"monoeg_g_memdup": 1005924867,
+					"monoeg_g_path_get_basename": 945356240,
+					"monoeg_g_path_get_dirname": 1979869088,
+					"monoeg_g_path_is_absolute": 935149083,
+					"monoeg_g_print": 710678909,
+					"monoeg_g_printerr": 2812560276,
+					"monoeg_g_ptr_array_add": 3678950090,
+					"monoeg_g_ptr_array_free": 1718893900,
+					"monoeg_g_ptr_array_new": 866646594,
+					"monoeg_g_ptr_array_remove": 165192696,
+					"monoeg_g_ptr_array_remove_fast": 3310475767,
+					"monoeg_g_ptr_array_remove_index": 735141951,
+					"monoeg_g_ptr_array_remove_index_fast": 2629359943,
+					"monoeg_g_ptr_array_sized_new": 541478325,
+					"monoeg_g_queue_free": 1027735422,
+					"monoeg_g_queue_is_empty": 648566585,
+					"monoeg_g_queue_new": 1976814298,
+					"monoeg_g_queue_pop_head": 2367093830,
+					"monoeg_g_queue_push_head": 821252919,
+					"monoeg_g_set_prgname": 3958392136,
+					"monoeg_g_setenv": 2657877643,
+					"monoeg_g_shell_quote": 2442415283,
+					"monoeg_g_slist_append": 499988337,
+					"monoeg_g_slist_concat": 1452946116,
+					"monoeg_g_slist_copy": 2036775214,
+					"monoeg_g_slist_delete_link": 4148542397,
+					"monoeg_g_slist_find": 2448372612,
+					"monoeg_g_slist_foreach": 3289878233,
+					"monoeg_g_slist_free": 1069451664,
+					"monoeg_g_slist_free_1": 4285917378,
+					"monoeg_g_slist_insert_sorted": 2530251853,
+					"monoeg_g_slist_last": 2659364003,
+					"monoeg_g_slist_length": 1011853739,
+					"monoeg_g_slist_nth": 3810100301,
+					"monoeg_g_slist_nth_data": 946232863,
+					"monoeg_g_slist_prepend": 2860593477,
+					"monoeg_g_slist_remove": 718104447,
+					"monoeg_g_slist_reverse": 4053292630,
+					"monoeg_g_snprintf": 3284015770,
+					"monoeg_g_spaced_primes_closest": 230948585,
+					"monoeg_g_spawn_async_with_pipes": 3116982499,
+					"monoeg_g_str_equal": 876329708,
+					"monoeg_g_str_has_prefix": 2746938752,
+					"monoeg_g_str_hash": 1197256566,
+					"monoeg_g_strchomp": 1173316873,
+					"monoeg_g_strchug": 2269328518,
+					"monoeg_g_strconcat": 2975141082,
+					"monoeg_g_strdup_printf": 1315890592,
+					"monoeg_g_strdup_vprintf": 2802068418,
+					"monoeg_g_strerror": 2550904515,
+					"monoeg_g_strfreev": 1051845788,
+					"monoeg_g_string_append": 2217761518,
+					"monoeg_g_string_append_c": 1527975221,
+					"monoeg_g_string_append_len": 3734056517,
+					"monoeg_g_string_append_printf": 2422725148,
+					"monoeg_g_string_free": 2360295253,
+					"monoeg_g_string_new": 1251447295,
+					"monoeg_g_string_printf": 2896309683,
+					"monoeg_g_strjoin": 4188270417,
+					"monoeg_g_strlcpy": 692215894,
+					"monoeg_g_strndup": 300131236,
+					"monoeg_g_strreverse": 1587870144,
+					"monoeg_g_strsplit": 2124530944,
+					"monoeg_g_timer_destroy": 185810218,
+					"monoeg_g_timer_elapsed": 2634029018,
+					"monoeg_g_timer_new": 3016335263,
+					"monoeg_g_timer_start": 104173408,
+					"monoeg_g_timer_stop": 3535928487,
+					"monoeg_g_ucs4_to_utf16": 872053331,
+					"monoeg_g_unichar_tolower": 460687043,
+					"monoeg_g_unichar_type": 1335508353,
+					"monoeg_g_unichar_xdigit_value": 1643614777,
+					"monoeg_g_unsetenv": 725163679,
+					"monoeg_g_usleep": 1495195198,
+					"monoeg_g_utf16_to_ucs4": 423756114,
+					"monoeg_g_utf16_to_utf8": 3026257809,
+					"monoeg_g_utf8_strdown": 1859719483,
+					"monoeg_g_utf8_to_utf16": 1445445630,
+					"monoeg_g_utf8_validate": 3356107513,
+					"monoeg_malloc": 763508919,
+					"monoeg_malloc0": 1619877229,
+					"monoeg_realloc": 2410153905,
+					"monoeg_try_malloc": 2778423683,
+					"monoeg_try_realloc": 2969595084,
+					"pss_alloc_mem": 439239711,
+					"pss_alloc_raw": 1503324766,
+					"pss_code_mem_alloc": 4100369388,
+					"pss_code_mem_flush_icache": 286217851,
+					"pss_code_mem_free": 3026764563,
+					"pss_code_mem_initialize": 3598436267,
+					"pss_code_mem_lock": 1406153089,
+					"pss_code_mem_terminate": 1754907548,
+					"pss_code_mem_unlock": 1357445375,
+					"pss_create_semaphore": 1603704617,
+					"pss_crypto_close": 927481347,
+					"pss_crypto_fread": 407773628,
+					"pss_crypto_open": 1799431652,
+					"pss_crypto_read": 851084356,
+					"pss_delay_thread": 25502941,
+					"pss_delete_semaphore": 1632165453,
+					"pss_disable_ftz": 781986379,
+					"pss_free_mem": 475637835,
+					"pss_free_prng_provider": 3150924548,
+					"pss_free_raw": 3119495558,
+					"pss_get_errnoloc": 1635739452,
+					"pss_get_prng_provider": 2286511670,
+					"pss_get_thread_context": 1790616336,
+					"pss_get_ticks_32": 3969171407,
+					"pss_get_ticks_64": 3197106110,
+					"pss_get_ticks_since_111": 2565115208,
+					"pss_get_win32_filetime": 1141838074,
+					"pss_getpagesize": 3037942297,
+					"pss_getpid": 4178464210,
+					"pss_gettimeofday": 3864225523,
+					"pss_io_chstat": 136814901,
+					"pss_io_close": 2718030634,
+					"pss_io_dclose": 1428748273,
+					"pss_io_dopen": 496216611,
+					"pss_io_getstat": 1545638081,
+					"pss_io_lseek": 694155677,
+					"pss_io_mkdir": 3921674340,
+					"pss_io_open": 3935794002,
+					"pss_io_read": 938929602,
+					"pss_io_remove": 1895650351,
+					"pss_io_rename": 3061055123,
+					"pss_io_rmdir": 521626797,
+					"pss_io_write": 2945920503,
+					"pss_nanosleep": 2147211366,
+					"pss_net_accept": 3556269319,
+					"pss_net_bind": 3521724143,
+					"pss_net_connect": 3056985113,
+					"pss_net_epoll_create": 2978169764,
+					"pss_net_epoll_ctl": 861688883,
+					"pss_net_epoll_destroy": 3489381368,
+					"pss_net_epoll_wait": 423799299,
+					"pss_net_gethostname": 3007914469,
+					"pss_net_getpeername": 3027213036,
+					"pss_net_getsockname": 2460701859,
+					"pss_net_getsockopt": 3198743256,
+					"pss_net_htonl": 472868327,
+					"pss_net_htons": 4248761190,
+					"pss_net_init": 2530802406,
+					"pss_net_listen": 2261683325,
+					"pss_net_ntohl": 4175280885,
+					"pss_net_ntohs": 3565930165,
+					"pss_net_recv": 189827855,
+					"pss_net_recvfrom": 1912587653,
+					"pss_net_resolver_create": 2415712676,
+					"pss_net_resolver_start_aton": 1584593974,
+					"pss_net_resolver_start_ntoa": 1370759451,
+					"pss_net_send": 3752796083,
+					"pss_net_sendto": 1242569750,
+					"pss_net_setsockopt": 3556693095,
+					"pss_net_shutdown": 3738957568,
+					"pss_net_socket": 3400623724,
+					"pss_net_socket_close": 1692229302,
+					"pss_prng_fill": 2124534895,
+					"pss_resume_thread": 365238871,
+					"pss_set_thread_context": 1582979740,
+					"pss_set_win32_filetime": 4186003611,
+					"pss_signal_semaphore": 3114537329,
+					"pss_supports_fast_tls": 3744195915,
+					"pss_suspend_thread": 3291295646,
+					"pss_threads_initialize": 1080316884,
+					"pss_usb_transport_close1": 4160429679,
+					"pss_usb_transport_close2": 50187346,
+					"pss_usb_transport_connect": 2535240539,
+					"pss_usb_transport_recv": 3158758761,
+					"pss_usb_transport_send": 4223760298,
+					"pss_wait_semaphore": 1969031640,
+					"pthread_attr_init": 41162717,
+					"pthread_attr_setstacksize": 4080895950,
+					"pthread_cleanup_pop_": 1471212940,
+					"pthread_cleanup_push_": 2272584435,
+					"pthread_cond_broadcast": 1385621330,
+					"pthread_cond_destroy": 1263995747,
+					"pthread_cond_init": 621445560,
+					"pthread_cond_signal": 1260462889,
+					"pthread_cond_timedwait": 2138444014,
+					"pthread_cond_wait": 964454430,
+					"pthread_create": 3417654860,
+					"pthread_detach": 711616896,
+					"pthread_equal": 2294661596,
+					"pthread_exit": 1219796125,
+					"pthread_getspecific": 813913107,
+					"pthread_getspecific_for_thread": 1703007675,
+					"pthread_join": 3104801146,
+					"pthread_key_create": 3430491247,
+					"pthread_key_delete": 2811834095,
+					"pthread_mutex_destroy": 295764528,
+					"pthread_mutex_init": 3179195652,
+					"pthread_mutex_lock": 3947104383,
+					"pthread_mutex_trylock": 4113183835,
+					"pthread_mutex_unlock": 460053427,
+					"pthread_mutexattr_destroy": 1648156408,
+					"pthread_mutexattr_init": 976974919,
+					"pthread_mutexattr_settype": 3534177503,
+					"pthread_self": 3789430894,
+					"pthread_setspecific": 3986260507,
+					"pthread_vita_tls_create_np": 2118335466,
+					"pthread_vita_tls_get_np": 3564753464,
+					"pthread_vita_tls_set_np": 1211930290,
+					"sched_yield": 1194863029,
+					"unlink": 2075960128
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceLiveArea": {
+		"nid": 97,
+		"modules": {
+			"SceLiveAreaUtil": {
+				"nid": 98,
+				"kernel": false,
+				"functions": {
+					"sceLiveAreaGetFrameRevision": 3605930516,
+					"sceLiveAreaGetFrameUserData": 3606918783,
+					"sceLiveAreaGetRevision": 2201967882,
+					"sceLiveAreaGetStatus": 2145761343,
+					"sceLiveAreaReplaceAllAsync": 403073961,
+					"sceLiveAreaReplaceAllSync": 700865547,
+					"sceLiveAreaUpdateFrameAsync": 3543148637,
+					"sceLiveAreaUpdateFrameSync": 3486441109
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceLocation": {
+		"nid": 83,
+		"modules": {
+			"SceLibLocation": {
+				"nid": 84,
+				"kernel": false,
+				"functions": {
+					"sceLocationCancelGetLocation": 1901081169,
+					"sceLocationClose": 352220904,
+					"sceLocationConfirm": 3365266791,
+					"sceLocationConfirmAbort": 3821795445,
+					"sceLocationConfirmGetResult": 4278283283,
+					"sceLocationConfirmGetStatus": 1930426434,
+					"sceLocationDenyApplication": 2326740925,
+					"sceLocationGetHeading": 1319001817,
+					"sceLocationGetLocation": 364652488,
+					"sceLocationGetLocationWithTimeout": 385097424,
+					"sceLocationGetMethod": 411885572,
+					"sceLocationGetPermission": 1210458822,
+					"sceLocationInit": 163903092,
+					"sceLocationOpen": 3710326369,
+					"sceLocationReopen": 2985644133,
+					"sceLocationSetGpsEmulationFile": 3725237924,
+					"sceLocationSetThreadParameter": 2852285267,
+					"sceLocationStartHeadingCallback": 131391456,
+					"sceLocationStartLocationCallback": 315748586,
+					"sceLocationStopHeadingCallback": 2464497556,
+					"sceLocationStopLocationCallback": 3979839232,
+					"sceLocationTerm": 511711642
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceLocationExtension": {
+		"nid": 85,
+		"modules": {
+			"SceLibLocationExtension": {
+				"nid": 86,
+				"kernel": false,
+				"functions": {
+					"sceLocationCancelQueryLocationWifiHistory": 1188229188,
+					"sceLocationGetLocationWifiHistory": 2195627000,
+					"sceLocationQueryLocationWifiHistory": 662546709
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceMd5": {
+		"nid": 99,
+		"modules": {
+			"SceMd5": {
+				"nid": 100,
+				"kernel": false,
+				"functions": {
+					"sceMd5BlockInit": 1298413305,
+					"sceMd5BlockResult": 3108683651,
+					"sceMd5BlockUpdate": 155863298,
+					"sceMd5Digest": 3091578059
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceMotion": {
+		"nid": 103,
+		"modules": {
+			"SceMotion": {
+				"nid": 104,
+				"kernel": false,
+				"functions": {
+					"sceMotionGetAngleThreshold": 1234922631,
+					"sceMotionGetBasicOrientation": 1328070624,
+					"sceMotionGetDeadband": 288231086,
+					"sceMotionGetDeviceLocation": 75433482,
+					"sceMotionGetGyroBiasCorrection": 3902967205,
+					"sceMotionGetMagnetometerState": 1028133806,
+					"sceMotionGetSensorState": 1205238250,
+					"sceMotionGetState": 3182634855,
+					"sceMotionGetTiltCorrection": 3244630529,
+					"sceMotionMagnetometerOff": 3248961882,
+					"sceMotionMagnetometerOn": 304773624,
+					"sceMotionReset": 265473442,
+					"sceMotionRotateYaw": 552599672,
+					"sceMotionSetAngleThreshold": 3670747713,
+					"sceMotionSetDeadband": 2440995728,
+					"sceMotionSetGyroBiasCorrection": 2762467042,
+					"sceMotionSetTiltCorrection": 2936667355,
+					"sceMotionStartSampling": 671304393,
+					"sceMotionStopSampling": 2939341597
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceMt19937": {
+		"nid": 105,
+		"modules": {
+			"SceMt19937": {
+				"nid": 106,
+				"kernel": false,
+				"functions": {
+					"sceMt19937Init": 3998982780,
+					"sceMt19937UInt": 702823349
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceMusicExport": {
+		"nid": 107,
+		"modules": {
+			"SceMusicExport": {
+				"nid": 108,
+				"kernel": false,
+				"functions": {
+					"sceMusicExportFromFile": 134219129
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNearDialogUtil": {
+		"nid": 109,
+		"modules": {
+			"SceNearDialogUtil": {
+				"nid": 110,
+				"kernel": false,
+				"functions": {
+					"sceNearDialogAbort": 2005974452,
+					"sceNearDialogGetResult": 3563999831,
+					"sceNearDialogGetStatus": 323053357,
+					"sceNearDialogInit": 3834893240,
+					"sceNearDialogTerm": 2748655925,
+					"sceNearUtilityCloseDiscoveredGiftImage": 847888202,
+					"sceNearUtilityCloseReceivedGiftData": 674843863,
+					"sceNearUtilityConvertDiscoveredGiftParam": 4093378537,
+					"sceNearUtilityDeleteDiscoveredGift": 1156218787,
+					"sceNearUtilityDeleteGift": 1915652947,
+					"sceNearUtilityFinalize": 1388049605,
+					"sceNearUtilityGetDiscoveredGiftInfo": 2940682449,
+					"sceNearUtilityGetDiscoveredGiftSender": 3802727993,
+					"sceNearUtilityGetDiscoveredGiftStatus": 3607087458,
+					"sceNearUtilityGetDiscoveredGifts": 4135896404,
+					"sceNearUtilityGetGift": 2361211897,
+					"sceNearUtilityGetGiftStatus": 3434479432,
+					"sceNearUtilityGetLastNeighborFoundDateTime": 2641001172,
+					"sceNearUtilityGetMyStatus": 308638813,
+					"sceNearUtilityGetNeighbors": 1638302274,
+					"sceNearUtilityGetNewNeighbors": 1151398583,
+					"sceNearUtilityGetRecentNeighbors": 3663131377,
+					"sceNearUtilityIgnoreDiscoveredGift": 2957743734,
+					"sceNearUtilityInitialize": 3970141749,
+					"sceNearUtilityLaunchNearAppForDownload": 1841042616,
+					"sceNearUtilityLaunchNearAppForUpdate": 2368893598,
+					"sceNearUtilityOpenDiscoveredGiftImage": 3206237113,
+					"sceNearUtilityOpenReceivedGiftData": 1215032283,
+					"sceNearUtilityReadDiscoveredGiftImage": 537747779,
+					"sceNearUtilityReadReceivedGiftData": 818460579,
+					"sceNearUtilityRefresh": 1961187899,
+					"sceNearUtilitySetGift": 692491211,
+					"sceNearUtilitySetGift2": 3689918766
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNearUtil": {
+		"nid": 111,
+		"modules": {
+			"SceNearUtil": {
+				"nid": 112,
+				"kernel": false,
+				"functions": {
+					"sceNearCloseDiscoveredGiftImage": 2292616480,
+					"sceNearCloseReceivedGiftData": 792052118,
+					"sceNearConvertDiscoveredGiftParam": 2161558866,
+					"sceNearDeleteDiscoveredGift": 2361307866,
+					"sceNearDeleteGift": 1375866918,
+					"sceNearFinalize": 4282107265,
+					"sceNearFinalizeAndLaunchNearApp": 1061121426,
+					"sceNearGetDiscoveredGiftInfo": 2000338601,
+					"sceNearGetDiscoveredGiftSender": 4024889440,
+					"sceNearGetDiscoveredGiftStatus": 2790104376,
+					"sceNearGetDiscoveredGifts": 3731818585,
+					"sceNearGetGift": 3683363893,
+					"sceNearGetGiftStatus": 2403123228,
+					"sceNearGetLastNeighborFoundDateTime": 3549648782,
+					"sceNearGetMyStatus": 2935161386,
+					"sceNearGetNeighbors": 2904969055,
+					"sceNearGetNewNeighbors": 1814978831,
+					"sceNearGetRecentNeighbors": 3881458331,
+					"sceNearIgnoreDiscoveredGift": 906840601,
+					"sceNearInitialize": 3150600211,
+					"sceNearLaunchNearAppForDownload": 2989273117,
+					"sceNearLaunchNearAppForUpdate": 4080633716,
+					"sceNearOpenDiscoveredGiftImage": 4173418504,
+					"sceNearOpenReceivedGiftData": 109083811,
+					"sceNearReadDiscoveredGiftImage": 593811133,
+					"sceNearReadReceivedGiftData": 2973844957,
+					"sceNearRefresh": 785608418,
+					"sceNearSetGift": 342614582,
+					"sceNearSetGift2": 1288595988
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNet": {
+		"nid": 113,
+		"modules": {
+			"SceNet": {
+				"nid": 114,
+				"kernel": false,
+				"functions": {
+					"sceNetAccept": 450862001,
+					"sceNetBind": 311863627,
+					"sceNetClearDnsCache": 4274067053,
+					"sceNetConnect": 300267254,
+					"sceNetDumpAbort": 992274271,
+					"sceNetDumpCreate": 2952395341,
+					"sceNetDumpDestroy": 2195574627,
+					"sceNetDumpRead": 67381541,
+					"sceNetEpollAbort": 2482816232,
+					"sceNetEpollControl": 1283941548,
+					"sceNetEpollCreate": 4191224494,
+					"sceNetEpollDestroy": 2031471347,
+					"sceNetEpollWait": 1171141501,
+					"sceNetEpollWaitCB": 2463360871,
+					"sceNetErrnoLoc": 3816764586,
+					"sceNetEtherNtostr": 2217954994,
+					"sceNetEtherStrton": 4006008671,
+					"sceNetGetMacAddress": 113267992,
+					"sceNetGetSockIdInfo": 328004054,
+					"sceNetGetSockInfo": 2981062720,
+					"sceNetGetStatisticsInfo": 2825883621,
+					"sceNetGetpeername": 591975251,
+					"sceNetGetsockname": 476489435,
+					"sceNetGetsockopt": 3127189602,
+					"sceNetHtonl": 1278259260,
+					"sceNetHtonll": 314675721,
+					"sceNetHtons": 2678268027,
+					"sceNetInetNtop": 2558761844,
+					"sceNetInetPton": 3589189704,
+					"sceNetInit": 3942900325,
+					"sceNetListen": 2056102036,
+					"sceNetNtohl": 3538593349,
+					"sceNetNtohll": 4214437542,
+					"sceNetNtohs": 126112040,
+					"sceNetRecv": 37110711,
+					"sceNetRecvfrom": 2988839819,
+					"sceNetRecvmsg": 3734292222,
+					"sceNetResolverAbort": 954973527,
+					"sceNetResolverCreate": 1839371033,
+					"sceNetResolverDestroy": 895086744,
+					"sceNetResolverGetError": 2270098688,
+					"sceNetResolverStartAton": 69512742,
+					"sceNetResolverStartNtoa": 514922583,
+					"sceNetSend": 3822947545,
+					"sceNetSendmsg": 2579855790,
+					"sceNetSendto": 1390096853,
+					"sceNetSetDnsInfo": 3593400856,
+					"sceNetSetsockopt": 106235338,
+					"sceNetShowIfconfig": 1703645243,
+					"sceNetShowNetstat": 865000494,
+					"sceNetShowRoute": 1790162763,
+					"sceNetShutdown": 1776618421,
+					"sceNetSocket": 4035247331,
+					"sceNetSocketAbort": 2300320667,
+					"sceNetSocketClose": 696396621,
+					"sceNetTerm": 3929850502
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNetAdhocMatching": {
+		"nid": 115,
+		"modules": {
+			"SceNetAdhocMatching": {
+				"nid": 116,
+				"kernel": false,
+				"functions": {
+					"sceNetAdhocMatchingAbortSendData": 4269245214,
+					"sceNetAdhocMatchingCancelTarget": 83820812,
+					"sceNetAdhocMatchingCancelTargetWithOpt": 1425429325,
+					"sceNetAdhocMatchingCreate": 2074967714,
+					"sceNetAdhocMatchingDelete": 2077087881,
+					"sceNetAdhocMatchingGetHelloOpt": 2427453149,
+					"sceNetAdhocMatchingGetMembers": 2243050731,
+					"sceNetAdhocMatchingInit": 2383285934,
+					"sceNetAdhocMatchingSelectTarget": 2590711055,
+					"sceNetAdhocMatchingSendData": 2210456629,
+					"sceNetAdhocMatchingSetHelloOpt": 1704807172,
+					"sceNetAdhocMatchingStart": 4047378366,
+					"sceNetAdhocMatchingStop": 1672197682,
+					"sceNetAdhocMatchingTerm": 1847155921
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNetCtl": {
+		"nid": 117,
+		"modules": {
+			"SceNetCtl": {
+				"nid": 118,
+				"kernel": false,
+				"functions": {
+					"sceNetCtlAdhocDisconnect": 3980638106,
+					"sceNetCtlAdhocGetInAddr": 1897449885,
+					"sceNetCtlAdhocGetPeerList": 2002283609,
+					"sceNetCtlAdhocGetResult": 2061561113,
+					"sceNetCtlAdhocGetState": 157394273,
+					"sceNetCtlAdhocRegisterCallback": 4289320340,
+					"sceNetCtlAdhocUnregisterCallback": 2756124176,
+					"sceNetCtlCheckCallback": 3757850324,
+					"sceNetCtlGetIfStat": 3658679376,
+					"sceNetCtlGetNatInfo": 1306353993,
+					"sceNetCtlGetPhoneMaxDownloadableSize": 1337245345,
+					"sceNetCtlInetGetInfo": 2993489907,
+					"sceNetCtlInetGetResult": 1797319682,
+					"sceNetCtlInetGetState": 1831251048,
+					"sceNetCtlInetRegisterCallback": 3941491077,
+					"sceNetCtlInetUnregisterCallback": 3502489407,
+					"sceNetCtlInit": 1230807515,
+					"sceNetCtlTerm": 3440936520
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNgs": {
+		"nid": 119,
+		"modules": {
+			"SceNgs": {
+				"nid": 120,
+				"kernel": false,
+				"functions": {
+					"sceNgsAT9GetSectionDetails": 715105537,
+					"sceNgsModuleGetNumPresets": 1550974473,
+					"sceNgsModuleGetPreset": 3313670311,
+					"sceNgsPatchCreateRouting": 3597186204,
+					"sceNgsPatchGetInfo": 2557492668,
+					"sceNgsPatchRemoveRouting": 3502878298,
+					"sceNgsRackGetRequiredMemorySize": 1198725312,
+					"sceNgsRackGetVoiceHandle": 4263155945,
+					"sceNgsRackInit": 177399020,
+					"sceNgsRackRelease": 3713835275,
+					"sceNgsRackSetParamErrorCallback": 1397452351,
+					"sceNgsSystemGetRequiredMemorySize": 1827189615,
+					"sceNgsSystemInit": 3977563978,
+					"sceNgsSystemLock": 3118035442,
+					"sceNgsSystemRelease": 1243987644,
+					"sceNgsSystemSetFlags": 1691877395,
+					"sceNgsSystemSetParamErrorCallback": 1524441820,
+					"sceNgsSystemUnlock": 177466006,
+					"sceNgsSystemUpdate": 1750009868,
+					"sceNgsVoiceBypassModule": 2595782257,
+					"sceNgsVoiceDefGetAtrac9Voice": 351233440,
+					"sceNgsVoiceDefGetCompressorBuss": 235588456,
+					"sceNgsVoiceDefGetCompressorSideChainBuss": 452474130,
+					"sceNgsVoiceDefGetDelayBuss": 1299209790,
+					"sceNgsVoiceDefGetDistortionBuss": 2866351595,
+					"sceNgsVoiceDefGetEnvelopeBuss": 4139158577,
+					"sceNgsVoiceDefGetEqBuss": 4184085006,
+					"sceNgsVoiceDefGetMasterBuss": 2040603089,
+					"sceNgsVoiceDefGetMixerBuss": 3769403254,
+					"sceNgsVoiceDefGetPauserBuss": 558138838,
+					"sceNgsVoiceDefGetPitchShiftBuss": 4226094548,
+					"sceNgsVoiceDefGetReverbBuss": 2647609589,
+					"sceNgsVoiceDefGetSasEmuVoice": 525451962,
+					"sceNgsVoiceDefGetScreamAtrac9Voice": 3445859007,
+					"sceNgsVoiceDefGetScreamVoice": 3461594163,
+					"sceNgsVoiceDefGetSimpleAtrac9Voice": 1171204723,
+					"sceNgsVoiceDefGetSimpleVoice": 223582671,
+					"sceNgsVoiceDefGetTemplate1": 3920982711,
+					"sceNgsVoiceGetInfo": 1431388429,
+					"sceNgsVoiceGetModuleBypass": 1125905323,
+					"sceNgsVoiceGetModuleType": 3003586654,
+					"sceNgsVoiceGetOutputPatch": 27602490,
+					"sceNgsVoiceGetParamsOutOfRange": 1287522547,
+					"sceNgsVoiceGetStateData": 3384328372,
+					"sceNgsVoiceInit": 500952043,
+					"sceNgsVoiceKeyOff": 3138598717,
+					"sceNgsVoiceKill": 237574829,
+					"sceNgsVoiceLockParams": 2875977615,
+					"sceNgsVoicePatchSetVolume": 2747795388,
+					"sceNgsVoicePatchSetVolumes": 3178190832,
+					"sceNgsVoicePatchSetVolumesMatrix": 2700427309,
+					"sceNgsVoicePause": 3614994073,
+					"sceNgsVoicePlay": 4194963252,
+					"sceNgsVoiceResume": 1422899585,
+					"sceNgsVoiceSetFinishedCallback": 396817764,
+					"sceNgsVoiceSetModuleCallback": 619252136,
+					"sceNgsVoiceSetParamsBlock": 4219565233,
+					"sceNgsVoiceSetPreset": 2324227685,
+					"sceNgsVoiceUnlockParams": 1028053159,
+					"sceSulphaNgsGetDefaultConfig": 1608036059,
+					"sceSulphaNgsGetNeededMemory": 2034122380,
+					"sceSulphaNgsInit": 2949481039,
+					"sceSulphaNgsSetRackName": 622524073,
+					"sceSulphaNgsSetSampleName": 1424776077,
+					"sceSulphaNgsSetSynthName": 792687893,
+					"sceSulphaNgsSetVoiceName": 1351185853,
+					"sceSulphaNgsShutdown": 3508846513,
+					"sceSulphaNgsTrace": 3699117829
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpActivity": {
+		"nid": 121,
+		"modules": {
+			"SceNpActivity": {
+				"nid": 122,
+				"kernel": false,
+				"functions": {
+					"sceNpActivityInit": 3774869143,
+					"sceNpActivityPostStatus": 3162496119,
+					"sceNpActivityTerm": 2661584927
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpBasic": {
+		"nid": 123,
+		"modules": {
+			"SceNpBasic": {
+				"nid": 124,
+				"kernel": false,
+				"functions": {
+					"sceNpBasicCheckCallback": 538209004,
+					"sceNpBasicCheckIfPlayerIsBlocked": 4111812056,
+					"sceNpBasicGetBlockListEntries": 303148686,
+					"sceNpBasicGetBlockListEntryCount": 1082007151,
+					"sceNpBasicGetFriendContextState": 2594054177,
+					"sceNpBasicGetFriendListEntries": 4278708103,
+					"sceNpBasicGetFriendListEntryCount": 3745641224,
+					"sceNpBasicGetFriendOnlineStatus": 1367581877,
+					"sceNpBasicGetFriendRequestEntries": 2445239243,
+					"sceNpBasicGetFriendRequestEntryCount": 4271432794,
+					"sceNpBasicGetGameJoiningPresence": 2251442635,
+					"sceNpBasicGetGamePresenceOfFriend": 4018835900,
+					"sceNpBasicGetPlaySessionLog": 910504360,
+					"sceNpBasicGetPlaySessionLogSize": 4212096991,
+					"sceNpBasicGetRequestedFriendRequestEntries": 922804236,
+					"sceNpBasicGetRequestedFriendRequestEntryCount": 3104052256,
+					"sceNpBasicInit": 4021885593,
+					"sceNpBasicJoinGameAckResponseSend": 2358299657,
+					"sceNpBasicRecordPlaySessionLog": 990543687,
+					"sceNpBasicRegisterHandler": 652664904,
+					"sceNpBasicRegisterJoinGameAckHandler": 3760866396,
+					"sceNpBasicSendInGameDataMessage": 2052071589,
+					"sceNpBasicSetInGamePresence": 1373066594,
+					"sceNpBasicTerm": 949734203,
+					"sceNpBasicUnregisterHandler": 84598898,
+					"sceNpBasicUnregisterJoinGameAckHandler": 712394280,
+					"sceNpBasicUnsetInGamePresence": 3524010864
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpCommerce2": {
+		"nid": 125,
+		"modules": {
+			"SceNpCommerce2": {
+				"nid": 126,
+				"kernel": false,
+				"functions": {
+					"sceNpCommerce2AbortReq": 3880282720,
+					"sceNpCommerce2CreateCtx": 306075124,
+					"sceNpCommerce2CreateSessionCreateReq": 4256405364,
+					"sceNpCommerce2CreateSessionGetResult": 2934494175,
+					"sceNpCommerce2CreateSessionStart": 3151886438,
+					"sceNpCommerce2DestroyCtx": 1825733584,
+					"sceNpCommerce2DestroyGetCategoryContentsResult": 2631164920,
+					"sceNpCommerce2DestroyGetProductInfoListResult": 617872948,
+					"sceNpCommerce2DestroyGetProductInfoResult": 2918432091,
+					"sceNpCommerce2DestroyReq": 2756069204,
+					"sceNpCommerce2GetCategoryContentsCreateReq": 1559651808,
+					"sceNpCommerce2GetCategoryContentsGetResult": 3296516953,
+					"sceNpCommerce2GetCategoryContentsStart": 2001701072,
+					"sceNpCommerce2GetCategoryInfo": 3096295362,
+					"sceNpCommerce2GetCategoryInfoFromContentInfo": 1454903215,
+					"sceNpCommerce2GetContentInfo": 3729127503,
+					"sceNpCommerce2GetContentRatingDescriptor": 828087248,
+					"sceNpCommerce2GetContentRatingInfoFromCategoryInfo": 3601183232,
+					"sceNpCommerce2GetContentRatingInfoFromGameProductInfo": 2023021791,
+					"sceNpCommerce2GetGameProductInfo": 2735256726,
+					"sceNpCommerce2GetGameProductInfoFromContentInfo": 35506071,
+					"sceNpCommerce2GetGameProductInfoFromGetProductInfoListResult": 89178134,
+					"sceNpCommerce2GetGameSkuInfoFromGameProductInfo": 998015397,
+					"sceNpCommerce2GetPrice": 2295477983,
+					"sceNpCommerce2GetProductInfoCreateReq": 2964321993,
+					"sceNpCommerce2GetProductInfoGetResult": 909714106,
+					"sceNpCommerce2GetProductInfoListCreateReq": 3894119341,
+					"sceNpCommerce2GetProductInfoListGetResult": 1308347862,
+					"sceNpCommerce2GetProductInfoListStart": 415089853,
+					"sceNpCommerce2GetProductInfoStart": 3314855362,
+					"sceNpCommerce2GetSessionInfo": 4143068707,
+					"sceNpCommerce2GetShortfallOfLibhttpPool": 1483408793,
+					"sceNpCommerce2GetShortfallOfLibsslPool": 3126482820,
+					"sceNpCommerce2HidePsStoreIcon": 4291342731,
+					"sceNpCommerce2Init": 3342803098,
+					"sceNpCommerce2InitGetCategoryContentsResult": 1362487857,
+					"sceNpCommerce2InitGetProductInfoListResult": 689466919,
+					"sceNpCommerce2InitGetProductInfoResult": 294526046,
+					"sceNpCommerce2ShowPsStoreIcon": 2229627501,
+					"sceNpCommerce2StartEmptyStoreCheck": 1899162277,
+					"sceNpCommerce2StopEmptyStoreCheck": 2227386054,
+					"sceNpCommerce2Term": 3113834670
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpCommon": {
+		"nid": 127,
+		"modules": {
+			"SceNpCommon": {
+				"nid": 128,
+				"kernel": false,
+				"functions": {
+					"sceNpAuthAbortRequest": 3797427573,
+					"sceNpAuthCreateStartRequest": 3980527519,
+					"sceNpAuthDestroyRequest": 352065711,
+					"sceNpAuthGetEntitlementById": 4181213936,
+					"sceNpAuthGetEntitlementByIdPrefix": 3370458314,
+					"sceNpAuthGetEntitlementIdList": 863489335,
+					"sceNpAuthGetTicket": 1499499804,
+					"sceNpAuthGetTicketParam": 3252829697,
+					"sceNpAuthInit": 1142786894,
+					"sceNpAuthTerm": 1620293257,
+					"sceNpCmpNpId": 4220355301,
+					"sceNpCmpNpIdInOrder": 1808274698,
+					"sceNpCmpOnlineId": 2200420975,
+					"sceNpGetPlatformType": 3919578078,
+					"sceNpSetPlatformType": 3892826300
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpManager": {
+		"nid": 129,
+		"modules": {
+			"SceNpManager": {
+				"nid": 130,
+				"kernel": false,
+				"functions": {
+					"sceNpCheckCallback": 990570921,
+					"sceNpGetServiceState": 1409682934,
+					"sceNpInit": 81392772,
+					"sceNpManagerGetAccountRegion": 4270020967,
+					"sceNpManagerGetCachedParam": 1138509985,
+					"sceNpManagerGetChatRestrictionFlag": 1623553457,
+					"sceNpManagerGetContentRatingFlag": 2936042418,
+					"sceNpManagerGetNpId": 1016378548,
+					"sceNpRegisterServiceStateCallback": 1143184437,
+					"sceNpTerm": 434375393,
+					"sceNpUnregisterServiceStateCallback": 3655787884
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpMatching2": {
+		"nid": 131,
+		"modules": {
+			"SceNpMatching2": {
+				"nid": 132,
+				"kernel": false,
+				"functions": {
+					"sceNpMatching2AbortContextStart": 4068769339,
+					"sceNpMatching2AbortRequest": 1961585897,
+					"sceNpMatching2ContextStart": 3140384089,
+					"sceNpMatching2ContextStop": 1348752606,
+					"sceNpMatching2CreateContext": 2918545633,
+					"sceNpMatching2CreateJoinRoom": 2173342873,
+					"sceNpMatching2DestroyContext": 915056473,
+					"sceNpMatching2GetLobbyInfoList": 2263337341,
+					"sceNpMatching2GetMemoryInfo": 2077466192,
+					"sceNpMatching2GetRoomDataExternalList": 1541978223,
+					"sceNpMatching2GetRoomDataInternal": 3323754990,
+					"sceNpMatching2GetRoomMemberDataExternalList": 297729960,
+					"sceNpMatching2GetRoomMemberDataInternal": 684082103,
+					"sceNpMatching2GetRoomMemberIdListLocal": 3068706905,
+					"sceNpMatching2GetRoomPasswordLocal": 3526117769,
+					"sceNpMatching2GetServerLocal": 1707146989,
+					"sceNpMatching2GetSignalingOptParamLocal": 1230842694,
+					"sceNpMatching2GetUserInfoList": 2018644774,
+					"sceNpMatching2GetWorldInfoList": 3230053728,
+					"sceNpMatching2GrantRoomOwner": 2252701733,
+					"sceNpMatching2Init": 3954310772,
+					"sceNpMatching2JoinLobby": 2261702831,
+					"sceNpMatching2JoinRoom": 871880110,
+					"sceNpMatching2KickoutRoomMember": 2818708372,
+					"sceNpMatching2LeaveLobby": 510711221,
+					"sceNpMatching2LeaveRoom": 3367029230,
+					"sceNpMatching2RegisterContextCallback": 4192425318,
+					"sceNpMatching2RegisterLobbyEventCallback": 1011907914,
+					"sceNpMatching2RegisterLobbyMessageCallback": 1311871954,
+					"sceNpMatching2RegisterRoomEventCallback": 4102461723,
+					"sceNpMatching2RegisterRoomMessageCallback": 4199650459,
+					"sceNpMatching2RegisterSignalingCallback": 476101723,
+					"sceNpMatching2SearchRoom": 3565924115,
+					"sceNpMatching2SendLobbyChatMessage": 2475204615,
+					"sceNpMatching2SendRoomChatMessage": 3770549520,
+					"sceNpMatching2SendRoomMessage": 2073071001,
+					"sceNpMatching2SetDefaultRequestOptParam": 4087626832,
+					"sceNpMatching2SetRoomDataExternal": 2408098942,
+					"sceNpMatching2SetRoomDataInternal": 2490911372,
+					"sceNpMatching2SetRoomMemberDataInternal": 3540610133,
+					"sceNpMatching2SetSignalingOptParam": 1850224767,
+					"sceNpMatching2SetUserInfo": 4031364801,
+					"sceNpMatching2SignalingCancelPeerNetInfo": 2915897388,
+					"sceNpMatching2SignalingGetConnectionInfo": 542737944,
+					"sceNpMatching2SignalingGetConnectionStatus": 1313625533,
+					"sceNpMatching2SignalingGetLocalNetInfo": 2033256454,
+					"sceNpMatching2SignalingGetPeerNetInfo": 4039843283,
+					"sceNpMatching2SignalingGetPeerNetInfoResult": 4257723081,
+					"sceNpMatching2SignalingGetPingInfo": 2283762728,
+					"sceNpMatching2Term": 19162140
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpMessage": {
+		"nid": 133,
+		"modules": {
+			"SceNpMessage": {
+				"nid": 134,
+				"kernel": false,
+				"functions": {
+					"sceNpMessageAbort": 1887119042,
+					"sceNpMessageGetAttachedData": 2120843160,
+					"sceNpMessageGetMessage": 1363821344,
+					"sceNpMessageGetMessageEntries": 3362483623,
+					"sceNpMessageGetMessageEntry": 1880187777,
+					"sceNpMessageGetMessageEntryCount": 498935506,
+					"sceNpMessageInit": 630039724,
+					"sceNpMessageInitWithParam": 649024262,
+					"sceNpMessageSetAttachedDataUsedFlag": 4113803066,
+					"sceNpMessageSyncMessage": 901652933,
+					"sceNpMessageTerm": 939667617
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpParty": {
+		"nid": 135,
+		"modules": {
+			"SceNpPartyGameUtil": {
+				"nid": 136,
+				"kernel": false,
+				"functions": {
+					"sceNpPartyCheckCallback": 3054707970,
+					"sceNpPartyGetMemberInfo": 90233249,
+					"sceNpPartyGetMemberVoiceInfo": 4213181037,
+					"sceNpPartyGetMembers": 1108095209,
+					"sceNpPartyGetState": 2677648887,
+					"sceNpPartyInit": 3003422252,
+					"sceNpPartyRegisterHandler": 843871984,
+					"sceNpPartyTerm": 4112821547
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpScore": {
+		"nid": 137,
+		"modules": {
+			"SceNpScore": {
+				"nid": 138,
+				"kernel": false,
+				"functions": {
+					"sceNpScoreAbortRequest": 2817080545,
+					"sceNpScoreCensorComment": 2697547078,
+					"sceNpScoreCensorCommentAsync": 2852896654,
+					"sceNpScoreChangeModeForOtherSaveDataOwners": 2087246107,
+					"sceNpScoreCreateRequest": 3540851091,
+					"sceNpScoreCreateTitleCtx": 1451618853,
+					"sceNpScoreDeleteRequest": 4294069169,
+					"sceNpScoreDeleteTitleCtx": 4113475722,
+					"sceNpScoreGetBoardInfo": 16322171,
+					"sceNpScoreGetBoardInfoAsync": 1020893006,
+					"sceNpScoreGetGameData": 3752682707,
+					"sceNpScoreGetGameDataAsync": 3460393363,
+					"sceNpScoreGetRankingByNpId": 3135593268,
+					"sceNpScoreGetRankingByNpIdAsync": 1171070208,
+					"sceNpScoreGetRankingByNpIdPcId": 2266966186,
+					"sceNpScoreGetRankingByNpIdPcIdAsync": 3459945796,
+					"sceNpScoreGetRankingByRange": 1115501586,
+					"sceNpScoreGetRankingByRangeAsync": 3294511053,
+					"sceNpScoreInit": 70452895,
+					"sceNpScorePollAsync": 2670361289,
+					"sceNpScoreRecordGameData": 3263572839,
+					"sceNpScoreRecordGameDataAsync": 1079458071,
+					"sceNpScoreRecordScore": 839647863,
+					"sceNpScoreRecordScoreAsync": 615552564,
+					"sceNpScoreSanitizeComment": 1876034586,
+					"sceNpScoreSanitizeCommentAsync": 362289240,
+					"sceNpScoreSetPlayerCharacterId": 1406630019,
+					"sceNpScoreSetTimeout": 1593067585,
+					"sceNpScoreTerm": 542177679,
+					"sceNpScoreWaitAsync": 829635571
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpSignaling": {
+		"nid": 139,
+		"modules": {
+			"SceNpSignaling": {
+				"nid": 140,
+				"kernel": false,
+				"functions": {
+					"sceNpSignalingActivateConnection": 2466233827,
+					"sceNpSignalingCancelPeerNetInfo": 1346953543,
+					"sceNpSignalingCreateCtx": 4152292995,
+					"sceNpSignalingDeactivateConnection": 995550914,
+					"sceNpSignalingDestroyCtx": 3936662003,
+					"sceNpSignalingGetConnectionFromNpId": 1052898474,
+					"sceNpSignalingGetConnectionFromPeerAddress": 1805545023,
+					"sceNpSignalingGetConnectionInfo": 1367883438,
+					"sceNpSignalingGetConnectionStatus": 2209602058,
+					"sceNpSignalingGetCtxOpt": 2635879171,
+					"sceNpSignalingGetLocalNetInfo": 1482811322,
+					"sceNpSignalingGetMemoryInfo": 2572835444,
+					"sceNpSignalingGetPeerNetInfo": 1566968901,
+					"sceNpSignalingGetPeerNetInfoResult": 3733272304,
+					"sceNpSignalingInit": 1265291079,
+					"sceNpSignalingSetCtxOpt": 189332187,
+					"sceNpSignalingTerm": 3163106584,
+					"sceNpSignalingTerminateConnection": 2752772290
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpSnsFacebook": {
+		"nid": 141,
+		"modules": {
+			"SceNpSnsFacebook": {
+				"nid": 142,
+				"kernel": false,
+				"functions": {
+					"sceNpSnsFacebookAbortRequest": 855320353,
+					"sceNpSnsFacebookCreateRequest": 2633088118,
+					"sceNpSnsFacebookDeleteRequest": 2771910544,
+					"sceNpSnsFacebookGetAccessToken": 2592599785,
+					"sceNpSnsFacebookGetLongAccessToken": 2747859997,
+					"sceNpSnsFacebookInit": 2153085600,
+					"sceNpSnsFacebookTerm": 2803787847
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpTrophy": {
+		"nid": 143,
+		"modules": {
+			"SceNpTrophy": {
+				"nid": 144,
+				"kernel": false,
+				"functions": {
+					"sceNpTrophyAbortHandle": 3579604812,
+					"sceNpTrophyCreateContext": 3298808639,
+					"sceNpTrophyCreateHandle": 1320970615,
+					"sceNpTrophyDestroyContext": 1458949029,
+					"sceNpTrophyDestroyHandle": 4279509105,
+					"sceNpTrophyGetGameIcon": 4265092393,
+					"sceNpTrophyGetGameInfo": 3123412778,
+					"sceNpTrophyGetGroupIcon": 462172562,
+					"sceNpTrophyGetGroupInfo": 142279989,
+					"sceNpTrophyGetTrophyIcon": 2495264976,
+					"sceNpTrophyGetTrophyInfo": 2762857873,
+					"sceNpTrophyGetTrophyUnlockState": 3369247966,
+					"sceNpTrophyInit": 877750328,
+					"sceNpTrophyTerm": 3219190415,
+					"sceNpTrophyUnlockTrophy": 3013061156
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpTus": {
+		"nid": 145,
+		"modules": {
+			"SceNpTus": {
+				"nid": 146,
+				"kernel": false,
+				"functions": {
+					"sceNpTssGetData": 3637889722,
+					"sceNpTssGetDataAsync": 479032232,
+					"sceNpTssGetDataNoLimit": 2558332952,
+					"sceNpTssGetDataNoLimitAsync": 2047873940,
+					"sceNpTssGetSmallStorage": 2359585268,
+					"sceNpTssGetSmallStorageAsync": 3931672355,
+					"sceNpTssGetStorage": 4231007870,
+					"sceNpTssGetStorageAsync": 2306006927,
+					"sceNpTusAbortRequest": 744427874,
+					"sceNpTusAddAndGetVariable": 1083833430,
+					"sceNpTusAddAndGetVariableAsync": 173868529,
+					"sceNpTusAddAndGetVariableVUser": 3788952783,
+					"sceNpTusAddAndGetVariableVUserAsync": 3143523881,
+					"sceNpTusChangeModeForOtherSaveDataOwners": 2292372817,
+					"sceNpTusCreateRequest": 2581361696,
+					"sceNpTusCreateTitleCtx": 4057551518,
+					"sceNpTusDeleteMultiSlotData": 4140977655,
+					"sceNpTusDeleteMultiSlotDataAsync": 217761059,
+					"sceNpTusDeleteMultiSlotDataVUser": 1107029369,
+					"sceNpTusDeleteMultiSlotDataVUserAsync": 2611549324,
+					"sceNpTusDeleteMultiSlotVariable": 611169544,
+					"sceNpTusDeleteMultiSlotVariableAsync": 4228665689,
+					"sceNpTusDeleteMultiSlotVariableVUser": 1107513593,
+					"sceNpTusDeleteMultiSlotVariableVUserAsync": 994365668,
+					"sceNpTusDeleteRequest": 3026935167,
+					"sceNpTusDeleteTitleCtx": 3577558674,
+					"sceNpTusGetData": 2524429782,
+					"sceNpTusGetDataAsync": 2285552714,
+					"sceNpTusGetDataVUser": 3434735505,
+					"sceNpTusGetDataVUserAsync": 2660113656,
+					"sceNpTusGetMultiSlotDataStatus": 3648934380,
+					"sceNpTusGetMultiSlotDataStatusAsync": 1376351683,
+					"sceNpTusGetMultiSlotDataStatusVUser": 1358718991,
+					"sceNpTusGetMultiSlotDataStatusVUserAsync": 3593284107,
+					"sceNpTusGetMultiSlotVariable": 1588616314,
+					"sceNpTusGetMultiSlotVariableAsync": 3530268492,
+					"sceNpTusGetMultiSlotVariableVUser": 4271036107,
+					"sceNpTusGetMultiSlotVariableVUserAsync": 4179134444,
+					"sceNpTusGetMultiUserDataStatus": 4107537177,
+					"sceNpTusGetMultiUserDataStatusAsync": 3230277214,
+					"sceNpTusGetMultiUserDataStatusVUser": 2943436966,
+					"sceNpTusGetMultiUserDataStatusVUserAsync": 1972622741,
+					"sceNpTusGetMultiUserVariable": 3311755570,
+					"sceNpTusGetMultiUserVariableAsync": 3153055014,
+					"sceNpTusGetMultiUserVariableVUser": 57983271,
+					"sceNpTusGetMultiUserVariableVUserAsync": 3575331309,
+					"sceNpTusInit": 2987663245,
+					"sceNpTusPollAsync": 3221472648,
+					"sceNpTusSetData": 870488089,
+					"sceNpTusSetDataAsync": 2678825445,
+					"sceNpTusSetDataVUser": 1779916661,
+					"sceNpTusSetDataVUserAsync": 428461137,
+					"sceNpTusSetMultiSlotVariable": 2750418662,
+					"sceNpTusSetMultiSlotVariableAsync": 2786782640,
+					"sceNpTusSetMultiSlotVariableVUser": 2585674866,
+					"sceNpTusSetMultiSlotVariableVUserAsync": 781877200,
+					"sceNpTusSetTimeout": 3300615335,
+					"sceNpTusTerm": 2128360371,
+					"sceNpTusTryAndSetVariable": 2963732537,
+					"sceNpTusTryAndSetVariableAsync": 1150582023,
+					"sceNpTusTryAndSetVariableVUser": 1797936363,
+					"sceNpTusTryAndSetVariableVUserAsync": 1368024249,
+					"sceNpTusWaitAsync": 956803260
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceNpUtility": {
+		"nid": 147,
+		"modules": {
+			"SceNpUtility": {
+				"nid": 148,
+				"kernel": false,
+				"functions": {
+					"sceNpBandwidthTestAbort": 850421956,
+					"sceNpBandwidthTestGetStatus": 3773561846,
+					"sceNpBandwidthTestInitStart": 136290620,
+					"sceNpBandwidthTestShutdown": 1490628349,
+					"sceNpLookupAbortRequest": 41256900,
+					"sceNpLookupAvatarImage": 4256214599,
+					"sceNpLookupAvatarImageAsync": 673961020,
+					"sceNpLookupCreateRequest": 2655185186,
+					"sceNpLookupCreateTitleCtx": 1360060798,
+					"sceNpLookupDeleteRequest": 2338360310,
+					"sceNpLookupDeleteTitleCtx": 867583641,
+					"sceNpLookupInit": 2454103667,
+					"sceNpLookupNpId": 2980137081,
+					"sceNpLookupNpIdAsync": 1401404091,
+					"sceNpLookupPollAsync": 4242252340,
+					"sceNpLookupSetTimeout": 2966019141,
+					"sceNpLookupTerm": 22591003,
+					"sceNpLookupUserProfile": 1780216873,
+					"sceNpLookupUserProfileAsync": 3844627983,
+					"sceNpLookupWaitAsync": 3482677027,
+					"sceNpWordFilterAbortRequest": 920282670,
+					"sceNpWordFilterCensorComment": 2735623703,
+					"sceNpWordFilterCensorCommentAsync": 3914729487,
+					"sceNpWordFilterCreateRequest": 1904411772,
+					"sceNpWordFilterCreateTitleCtx": 276125852,
+					"sceNpWordFilterDeleteRequest": 1720768738,
+					"sceNpWordFilterDeleteTitleCtx": 3034947977,
+					"sceNpWordFilterInit": 19418222,
+					"sceNpWordFilterPollAsync": 3135556895,
+					"sceNpWordFilterSanitizeComment": 811625605,
+					"sceNpWordFilterSanitizeCommentAsync": 1089237617,
+					"sceNpWordFilterSetTimeout": 2672086597,
+					"sceNpWordFilterTerm": 2098466672,
+					"sceNpWordFilterWaitAsync": 833816746
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"ScePerf": {
+		"nid": 149,
+		"modules": {
+			"ScePerf": {
+				"nid": 150,
+				"kernel": false,
+				"functions": {
+					"_pLibPerfCaptureFlagPtr": 2473221937,
+					"_sceCpuRazorPopFiberUserMarker": 1161489670,
+					"_sceCpuRazorPushFiberUserMarker": 2407223852,
+					"_sceRazorCpuInit": 2060889136,
+					"_sceRazorCpuWriteFiberUltPkt": 1084069482,
+					"scePerfArmPmonGetCounterValue": 1630708887,
+					"scePerfArmPmonReset": 890574645,
+					"scePerfArmPmonSelectEvent": 1674308235,
+					"scePerfArmPmonSetCounterValue": 318162696,
+					"scePerfArmPmonSoftwareIncrement": 1113896167,
+					"scePerfArmPmonStart": 3386468821,
+					"scePerfArmPmonStop": 3517189972,
+					"scePerfGetTimebaseFrequency": 2028621819,
+					"scePerfGetTimebaseValue": 3180729829,
+					"sceRazorCpuGetActivityMonitorTraceBuffer": 4160269774,
+					"sceRazorCpuGetUserMarkerTraceBuffer": 232927700,
+					"sceRazorCpuIsCapturing": 2376629045,
+					"sceRazorCpuPopMarker": 3694273731,
+					"sceRazorCpuPushMarker": 3286125578,
+					"sceRazorCpuPushMarkerWithHud": 1557924330,
+					"sceRazorCpuStartActivityMonitor": 1059711287,
+					"sceRazorCpuStartCapture": 3669376963,
+					"sceRazorCpuStartUserMarkerTrace": 2933090880,
+					"sceRazorCpuStopActivityMonitor": 2640025121,
+					"sceRazorCpuStopCapture": 2620130754,
+					"sceRazorCpuStopUserMarkerTrace": 1263001924,
+					"sceRazorCpuSync": 1326679523
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"ScePgf": {
+		"nid": 151,
+		"modules": {
+			"ScePgf": {
+				"nid": 152,
+				"kernel": false,
+				"functions": {
+					"sceFontClose": 1249022953,
+					"sceFontDoneLib": 133044019,
+					"sceFontFindFont": 1359355271,
+					"sceFontFindOptimumFont": 2382081563,
+					"sceFontFlush": 2106372411,
+					"sceFontGetCharGlyphImage": 2873469651,
+					"sceFontGetCharGlyphImage_Clip": 3948451120,
+					"sceFontGetCharImageRect": 1892182846,
+					"sceFontGetCharInfo": 1876015717,
+					"sceFontGetFontInfo": 4181807010,
+					"sceFontGetFontInfoByIndexNumber": 2869118776,
+					"sceFontGetFontList": 3580742890,
+					"sceFontGetNumFontList": 2676237063,
+					"sceFontNewLib": 274049955,
+					"sceFontOpen": 3173907711,
+					"sceFontOpenUserFile": 3798001472,
+					"sceFontOpenUserMemory": 2990462076,
+					"sceFontPixelToPointH": 2654532822,
+					"sceFontPixelToPointV": 2068177617,
+					"sceFontPointToPixelH": 968470271,
+					"sceFontPointToPixelV": 66129608,
+					"sceFontSetAltCharacterCode": 2371568863,
+					"sceFontSetResolution": 3729221452
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"ScePhotoExport": {
+		"nid": 153,
+		"modules": {
+			"ScePhotoExport": {
+				"nid": 154,
+				"kernel": false,
+				"functions": {
+					"scePhotoExportFromData": 1884365601,
+					"scePhotoExportFromFile": 2231214021,
+					"scePhotoExportIsAvailableFromData": 3873877973,
+					"scePhotoExportIsAvailableFromFile": 1448474993
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"ScePower": {
+		"nid": 155,
+		"modules": {
+			"ScePower": {
+				"nid": 156,
+				"kernel": false,
+				"functions": {
+					"scePowerGetBatteryFullCapacity": 4246249727,
+					"scePowerGetBatteryLifePercent": 545640797,
+					"scePowerGetBatteryLifeTime": 2398830498,
+					"scePowerGetBatteryRemainCapacity": 2499126591,
+					"scePowerIsBatteryCharging": 508101633,
+					"scePowerIsLowBattery": 3540474150,
+					"scePowerIsPowerOnline": 2269384542,
+					"scePowerIsSuspendRequired": 2023860118,
+					"scePowerRegisterCallback": 79132270,
+					"scePowerSetConfigurationMode": 1021413302,
+					"scePowerUnregisterCallback": 3752377080,
+                    "scePowerGetArmClockFrequency": 2881943695,
+                    "scePowerSetArmClockFrequency": 1960532709,
+                    "scePowerSetConfigurationMode": 1021413302
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"ScePspnetAdhoc": {
+		"nid": 159,
+		"modules": {
+			"ScePspnetAdhoc": {
+				"nid": 160,
+				"kernel": false,
+				"functions": {
+					"sceNetAdhocGetPdpStat": 34179945,
+					"sceNetAdhocGetPtpStat": 3831433217,
+					"sceNetAdhocGetSocketAlert": 3391397715,
+					"sceNetAdhocInit": 2273336851,
+					"sceNetAdhocPdpCreate": 4075557581,
+					"sceNetAdhocPdpDelete": 3082200674,
+					"sceNetAdhocPdpRecv": 292698508,
+					"sceNetAdhocPdpSend": 3043113146,
+					"sceNetAdhocPollSocket": 1424843629,
+					"sceNetAdhocPtpAccept": 168043485,
+					"sceNetAdhocPtpClose": 2692988796,
+					"sceNetAdhocPtpConnect": 1664015121,
+					"sceNetAdhocPtpFlush": 2908706573,
+					"sceNetAdhocPtpListen": 2405971984,
+					"sceNetAdhocPtpOpen": 2169079333,
+					"sceNetAdhocPtpRecv": 43118427,
+					"sceNetAdhocPtpSend": 172897007,
+					"sceNetAdhocSetSocketAlert": 838097745,
+					"sceNetAdhocTerm": 1812679025,
+					"sceNetAdhocctlGetAddrByName": 3542286612,
+					"sceNetAdhocctlGetAdhocId": 1236235438,
+					"sceNetAdhocctlGetEtherAddr": 2752452576,
+					"sceNetAdhocctlGetNameByAddr": 4238960118,
+					"sceNetAdhocctlGetParameter": 85820264,
+					"sceNetAdhocctlGetPeerInfo": 341126065,
+					"sceNetAdhocctlGetPeerList": 896180830,
+					"sceNetAdhocctlInit": 3808337366,
+					"sceNetAdhocctlTerm": 2544369765
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"ScePvf": {
+		"nid": 161,
+		"modules": {
+			"ScePvf": {
+				"nid": 162,
+				"kernel": false,
+				"functions": {
+					"__scePvfSetFt2DoneLibCHook": 1477717361,
+					"__scePvfSetFt2LibCHook": 2574344643,
+					"scePvfClose": 3531784764,
+					"scePvfDoneLib": 3782678508,
+					"scePvfFindFont": 2555272190,
+					"scePvfFindOptimumFont": 660733612,
+					"scePvfFlush": 1753216869,
+					"scePvfGetCharGlyphImage": 937052522,
+					"scePvfGetCharGlyphImage_Clip": 2774505279,
+					"scePvfGetCharGlyphOutline": 396855099,
+					"scePvfGetCharImageRect": 1813748911,
+					"scePvfGetCharInfo": 2827939248,
+					"scePvfGetFontInfo": 2869722354,
+					"scePvfGetFontInfoByIndexNumber": 4091668669,
+					"scePvfGetFontList": 1727190887,
+					"scePvfGetKerningInfo": 3163616865,
+					"scePvfGetNumFontList": 4140083285,
+					"scePvfGetVertCharGlyphImage": 2330477370,
+					"scePvfGetVertCharGlyphImage_Clip": 4007311492,
+					"scePvfGetVertCharGlyphOutline": 3972730094,
+					"scePvfGetVertCharImageRect": 1692461707,
+					"scePvfGetVertCharInfo": 3100645653,
+					"scePvfIsElement": 2667679525,
+					"scePvfIsVertElement": 3866536072,
+					"scePvfNewLib": 1927644786,
+					"scePvfOpen": 3813946555,
+					"scePvfOpenDefaultJapaneseFontOnSharedMemory": 4277024570,
+					"scePvfOpenDefaultLatinFontOnSharedMemory": 2629573190,
+					"scePvfOpenUserFile": 3577041423,
+					"scePvfOpenUserFileWithSubfontIndex": 272968582,
+					"scePvfOpenUserMemory": 2657477869,
+					"scePvfOpenUserMemoryWithSubfontIndex": 2819977451,
+					"scePvfPixelToPointH": 4117453723,
+					"scePvfPixelToPointV": 3449979602,
+					"scePvfPointToPixelH": 2448437146,
+					"scePvfPointToPixelV": 893803479,
+					"scePvfReleaseCharGlyphOutline": 3066989025,
+					"scePvfSetAltCharacterCode": 2198218178,
+					"scePvfSetCharSize": 4051361357,
+					"scePvfSetEM": 3753277381,
+					"scePvfSetEmboldenRate": 1853388578,
+					"scePvfSetResolution": 3292811187,
+					"scePvfSetSkewValue": 1037081545
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceRazorCapture": {
+		"nid": 163,
+		"modules": {
+			"SceRazorCapture": {
+				"nid": 164,
+				"kernel": false,
+				"functions": {
+					"sceRazorCaptureIsInProgress": 2434665120,
+					"sceRazorCaptureSetTrigger": 3910579512,
+					"sceRazorCaptureSetTriggerNextFrame": 1028357736,
+					"sceRazorGpuCaptureEnableSalvage": 3753757772,
+					"sceRazorGpuCaptureIsInProgress": 3526724603,
+					"sceRazorGpuCaptureSetCaptureAllMemory": 1779008045,
+					"sceRazorGpuCaptureSetCaptureBeforeKick": 2397523639,
+					"sceRazorGpuCaptureSetTrigger": 1193579226,
+					"sceRazorGpuCaptureSetTriggerNextFrame": 2645196444,
+					"sceRazorGpuCaptureStartSalvageMode": 1057559503
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceRazorHud": {
+		"nid": 165,
+		"modules": {
+			"SceRazorHud": {
+				"nid": 166,
+				"kernel": false,
+				"functions": {
+					"sceRazorCpuHudSetUserMarkerTraceBuffer": 3974325231,
+					"sceRazorCpuHudUserMarkerEnableAllThreads": 4247325207,
+					"sceRazorCpuHudUserMarkerEnableThreadId": 1845210169,
+					"sceRazorGpuLiveSetBuffer": 701431210,
+					"sceRazorGpuLiveSetMetricsGroup": 1876315622,
+					"sceRazorGpuLiveStart": 3026420476,
+					"sceRazorGpuLiveStop": 3174435433,
+					"sceRazorGpuLiveTriggerDebugDump": 3166146793,
+					"sceRazorGpuPerfGetMode": 3815807812,
+					"sceRazorGpuTraceRingBufferSize": 1945645911,
+					"sceRazorGpuTraceRingBufferUsed": 2052190624,
+					"sceRazorGpuTraceSetFilename": 4167561185,
+					"sceRazorGpuTraceSetMetricsGroup": 3219839863,
+					"sceRazorGpuTraceTrigger": 1384817863,
+					"sceRazorHudReloadSettings": 3754953646,
+					"sceRazorHudSetDisplayEnabled": 2012411398,
+					"sceRazorHudSetDisplayFrameCount": 3426289760
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceRtc": {
+		"nid": 167,
+		"modules": {
+			"SceRtc": {
+				"nid": 168,
+				"kernel": false,
+				"functions": {
+					"sceRtcGetAccumulativeTime": 629926124
+				},
+				"variables": {
+				}
+			},
+			"SceRtcUser": {
+				"nid": 170,
+				"kernel": false,
+				"functions": {
+					"sceRtcCheckValid": 3613534517,
+					"sceRtcCompareTick": 3342356824,
+					"sceRtcConvertLocalTimeToUtc": 168157697,
+					"sceRtcConvertUtcToLocalTime": 310559798,
+					"sceRtcFormatRFC2822": 343875896,
+					"sceRtcFormatRFC2822LocalTime": 1120571061,
+					"sceRtcFormatRFC3339": 3437898580,
+					"sceRtcFormatRFC3339LocalTime": 1948405929,
+					"sceRtcGetCurrentClock": 1895688433,
+					"sceRtcGetCurrentClockLocalTime": 91418076,
+					"sceRtcGetCurrentNetworkTick": 3453822462,
+					"sceRtcGetCurrentTick": 603427444,
+					"sceRtcGetDayOfWeek": 792015339,
+					"sceRtcGetDayOfYear": 3049580895,
+					"sceRtcGetDaysInMonth": 1240155478,
+					"sceRtcGetDosTime": 2460740527,
+					"sceRtcGetLastAdjustedTick": 2169039196,
+					"sceRtcGetLastReincarnatedTick": 2831246869,
+					"sceRtcGetTick": 4071766242,
+					"sceRtcGetTickResolution": 2165511091,
+					"sceRtcGetTime64_t": 3382042114,
+					"sceRtcGetTime_t": 2380725943,
+					"sceRtcGetWin32FileTime": 2325078297,
+					"sceRtcIsLeapYear": 4051687605,
+					"sceRtcParseDateTime": 591908370,
+					"sceRtcParseRFC3339": 756592364,
+					"sceRtcSetDosTime": 4172425991,
+					"sceRtcSetTick": 3448370276,
+					"sceRtcSetTime64_t": 2797824874,
+					"sceRtcSetTime_t": 976433025,
+					"sceRtcSetWin32FileTime": 2811922502,
+					"sceRtcTickAddDays": 1490959472,
+					"sceRtcTickAddHours": 1863925589,
+					"sceRtcTickAddMicroseconds": 2921781536,
+					"sceRtcTickAddMinutes": 1278576753,
+					"sceRtcTickAddMonths": 1663153322,
+					"sceRtcTickAddSeconds": 2543517049,
+					"sceRtcTickAddTicks": 1163518683,
+					"sceRtcTickAddWeeks": 3876832832,
+					"sceRtcTickAddYears": 3748412955
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceRudp": {
+		"nid": 87,
+		"modules": {
+			"SceLibRudp": {
+				"nid": 88,
+				"kernel": false,
+				"functions": {
+					"sceRudpActivate": 4044692881,
+					"sceRudpBind": 2339791112,
+					"sceRudpCreateContext": 1999374312,
+					"sceRudpEnableInternalIOThread": 977886825,
+					"sceRudpEnd": 1050711582,
+					"sceRudpFlush": 2370157138,
+					"sceRudpGetContextStatus": 3592467799,
+					"sceRudpGetLocalInfo": 1304704658,
+					"sceRudpGetMaxSegmentSize": 1755654241,
+					"sceRudpGetNumberOfPacketsToRead": 1560568013,
+					"sceRudpGetOption": 3867149795,
+					"sceRudpGetRemoteInfo": 273567035,
+					"sceRudpGetSizeReadable": 1802816034,
+					"sceRudpGetSizeWritable": 2917242588,
+					"sceRudpGetStatus": 3615041733,
+					"sceRudpInit": 583641641,
+					"sceRudpInitiate": 1186346429,
+					"sceRudpNetReceived": 740193134,
+					"sceRudpPollCancel": 2847485694,
+					"sceRudpPollControl": 409373656,
+					"sceRudpPollCreate": 2487064300,
+					"sceRudpPollDestroy": 3383541232,
+					"sceRudpPollWait": 1435602044,
+					"sceRudpProcessEvents": 618884665,
+					"sceRudpRead": 816399246,
+					"sceRudpSetEventHandler": 963257558,
+					"sceRudpSetMaxSegmentSize": 3789395525,
+					"sceRudpSetOption": 3179783626,
+					"sceRudpTerminate": 1428892990,
+					"sceRudpWrite": 1774837269
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSas": {
+		"nid": 171,
+		"modules": {
+			"SceSas": {
+				"nid": 172,
+				"kernel": false,
+				"functions": {
+					"sceSasCore": 2051437234,
+					"sceSasCoreWithMix": 3175704963,
+					"sceSasExit": 3145557904,
+					"sceSasGetDryPeak": 3060015734,
+					"sceSasGetEndState": 8283110,
+					"sceSasGetEnvelope": 694851856,
+					"sceSasGetGrain": 736773564,
+					"sceSasGetNeededMemorySize": 403466276,
+					"sceSasGetOutputmode": 741794128,
+					"sceSasGetPauseState": 4246342847,
+					"sceSasGetPreMasterPeak": 359137658,
+					"sceSasGetWetPeak": 1125445865,
+					"sceSasInit": 1151031668,
+					"sceSasInitWithGrain": 2181914498,
+					"sceSasSetADSR": 413527970,
+					"sceSasSetADSRmode": 1376254418,
+					"sceSasSetDistortion": 18319550,
+					"sceSasSetEffect": 2957266537,
+					"sceSasSetEffectParam": 3134539424,
+					"sceSasSetEffectType": 3455245781,
+					"sceSasSetEffectVolume": 1441651706,
+					"sceSasSetGrain": 726278268,
+					"sceSasSetKeyOff": 1581428139,
+					"sceSasSetKeyOn": 3359169391,
+					"sceSasSetNoise": 4056300729,
+					"sceSasSetOutputmode": 1155380164,
+					"sceSasSetPause": 1506257375,
+					"sceSasSetPitch": 742957196,
+					"sceSasSetSL": 3730974648,
+					"sceSasSetSimpleADSR": 3972926904,
+					"sceSasSetVoice": 729151932,
+					"sceSasSetVoicePCM": 2977263356,
+					"sceSasSetVolume": 199761997
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceScreenShot": {
+		"nid": 173,
+		"modules": {
+			"SceScreenShot": {
+				"nid": 174,
+				"kernel": false,
+				"functions": {
+					"sceScreenShotCapture": 3574201096,
+					"sceScreenShotDisable": 1353621497,
+					"sceScreenShotDisableNotification": 3665863208,
+					"sceScreenShotEnable": 1994814673,
+					"sceScreenShotEnableNotification": 2170958846,
+					"sceScreenShotGetParam": 3135890740,
+					"sceScreenShotSetOverlayImage": 1885431387,
+					"sceScreenShotSetParam": 98261447
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt11213": {
+		"nid": 175,
+		"modules": {
+			"SceSfmt11213": {
+				"nid": 176,
+				"kernel": false,
+				"functions": {
+					"sceSfmt11213FillArray32": 4251542917,
+					"sceSfmt11213FillArray64": 2051090985,
+					"sceSfmt11213GenRand32": 4213710039,
+					"sceSfmt11213GenRand64": 2951599841,
+					"sceSfmt11213InitByArray": 3136680024,
+					"sceSfmt11213InitGenRand": 2415158473
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt1279": {
+		"nid": 177,
+		"modules": {
+			"SceSfmt1279": {
+				"nid": 178,
+				"kernel": false,
+				"functions": {
+					"sceSfmt1279FillArray32": 3891673144,
+					"sceSfmt1279FillArray64": 3677893355,
+					"sceSfmt1279GenRand32": 2605336799,
+					"sceSfmt1279GenRand64": 2730880532,
+					"sceSfmt1279InitByArray": 3260914382,
+					"sceSfmt1279InitGenRand": 48814342
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt132049": {
+		"nid": 179,
+		"modules": {
+			"SceSfmt132049": {
+				"nid": 180,
+				"kernel": false,
+				"functions": {
+					"sceSfmt132049FillArray32": 3633424799,
+					"sceSfmt132049FillArray64": 1756199014,
+					"sceSfmt132049GenRand32": 2036307524,
+					"sceSfmt132049GenRand64": 3151497924,
+					"sceSfmt132049InitByArray": 3697879370,
+					"sceSfmt132049InitGenRand": 3698009008
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt19937": {
+		"nid": 181,
+		"modules": {
+			"SceSfmt19937": {
+				"nid": 182,
+				"kernel": false,
+				"functions": {
+					"sceSfmt19937FillArray32": 2714129624,
+					"sceSfmt19937FillArray64": 3880495132,
+					"sceSfmt19937GenRand32": 4032131415,
+					"sceSfmt19937GenRand64": 3866043650,
+					"sceSfmt19937InitByArray": 2890493068,
+					"sceSfmt19937InitGenRand": 721079051
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt216091": {
+		"nid": 183,
+		"modules": {
+			"SceSfmt216091": {
+				"nid": 184,
+				"kernel": false,
+				"functions": {
+					"sceSfmt216091FillArray32": 3712112368,
+					"sceSfmt216091FillArray64": 2714654248,
+					"sceSfmt216091GenRand32": 1251421645,
+					"sceSfmt216091GenRand64": 590781119,
+					"sceSfmt216091InitByArray": 2848941590,
+					"sceSfmt216091InitGenRand": 2262688935
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt2281": {
+		"nid": 185,
+		"modules": {
+			"SceSfmt2281": {
+				"nid": 186,
+				"kernel": false,
+				"functions": {
+					"sceSfmt2281FillArray32": 3146373360,
+					"sceSfmt2281FillArray64": 398528045,
+					"sceSfmt2281GenRand32": 2226866907,
+					"sceSfmt2281GenRand64": 1019507014,
+					"sceSfmt2281InitByArray": 2872759385,
+					"sceSfmt2281InitGenRand": 3102056635
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt4253": {
+		"nid": 187,
+		"modules": {
+			"SceSfmt4253": {
+				"nid": 188,
+				"kernel": false,
+				"functions": {
+					"sceSfmt4253FillArray32": 1503771132,
+					"sceSfmt4253FillArray64": 23608541,
+					"sceSfmt4253GenRand32": 2274484975,
+					"sceSfmt4253GenRand64": 1812880956,
+					"sceSfmt4253InitByArray": 3302468141,
+					"sceSfmt4253InitGenRand": 3925396378
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt44497": {
+		"nid": 189,
+		"modules": {
+			"SceSfmt44497": {
+				"nid": 190,
+				"kernel": false,
+				"functions": {
+					"sceSfmt44497FillArray32": 473444906,
+					"sceSfmt44497FillArray64": 2425295138,
+					"sceSfmt44497GenRand32": 4167688156,
+					"sceSfmt44497GenRand64": 3557927334,
+					"sceSfmt44497InitByArray": 383298142,
+					"sceSfmt44497InitGenRand": 3474754616
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt607": {
+		"nid": 191,
+		"modules": {
+			"SceSfmt607": {
+				"nid": 192,
+				"kernel": false,
+				"functions": {
+					"sceSfmt607FillArray32": 2726866361,
+					"sceSfmt607FillArray64": 354472968,
+					"sceSfmt607GenRand32": 2316040281,
+					"sceSfmt607GenRand64": 1585973346,
+					"sceSfmt607InitByArray": 3429739424,
+					"sceSfmt607InitGenRand": 1990580426
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSfmt86243": {
+		"nid": 193,
+		"modules": {
+			"SceSfmt86243": {
+				"nid": 194,
+				"kernel": false,
+				"functions": {
+					"sceSfmt86243FillArray32": 3264734897,
+					"sceSfmt86243FillArray64": 4160743548,
+					"sceSfmt86243GenRand32": 1453062403,
+					"sceSfmt86243GenRand64": 2384841640,
+					"sceSfmt86243InitByArray": 2176219829,
+					"sceSfmt86243InitGenRand": 804529544
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSha0": {
+		"nid": 195,
+		"modules": {
+			"SceSha0": {
+				"nid": 196,
+				"kernel": false,
+				"functions": {
+					"sceSha0BlockInit": 3170294586,
+					"sceSha0BlockResult": 3204536516,
+					"sceSha0BlockUpdate": 938420988,
+					"sceSha0Digest": 3516570280
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSha1": {
+		"nid": 197,
+		"modules": {
+			"SceSha1": {
+				"nid": 198,
+				"kernel": false,
+				"functions": {
+					"sceSha1BlockInit": 2973590954,
+					"sceSha1BlockResult": 26598111,
+					"sceSha1BlockUpdate": 2416386142,
+					"sceSha1Digest": 3777059997
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSha224": {
+		"nid": 199,
+		"modules": {
+			"SceSha224": {
+				"nid": 200,
+				"kernel": false,
+				"functions": {
+					"sceSha224BlockInit": 1401881806,
+					"sceSha224BlockResult": 2741948261,
+					"sceSha224BlockUpdate": 3053257056,
+					"sceSha224Digest": 323408496
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSha256": {
+		"nid": 201,
+		"modules": {
+			"SceSha256": {
+				"nid": 202,
+				"kernel": false,
+				"functions": {
+					"sceSha256BlockInit": 3800119119,
+					"sceSha256BlockResult": 2606478522,
+					"sceSha256BlockUpdate": 3672941048,
+					"sceSha256Digest": 2738292636
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSha384": {
+		"nid": 203,
+		"modules": {
+			"SceSha384": {
+				"nid": 204,
+				"kernel": false,
+				"functions": {
+					"sceSha384BlockInit": 58371047,
+					"sceSha384BlockResult": 819317017,
+					"sceSha384BlockUpdate": 1268374456,
+					"sceSha384Digest": 2785199764
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSha512": {
+		"nid": 205,
+		"modules": {
+			"SceSha512": {
+				"nid": 206,
+				"kernel": false,
+				"functions": {
+					"sceSha512BlockInit": 3759647181,
+					"sceSha512BlockResult": 638872086,
+					"sceSha512BlockUpdate": 1720877544,
+					"sceSha512Digest": 1572911382
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSha512t": {
+		"nid": 207,
+		"modules": {
+			"SceSha512t": {
+				"nid": 208,
+				"kernel": false,
+				"functions": {
+					"sceSha512tBlockInit": 2030459826,
+					"sceSha512tBlockResult": 1715625398,
+					"sceSha512tBlockUpdate": 3308625400,
+					"sceSha512tDigest": 15017760
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceShutterSound": {
+		"nid": 209,
+		"modules": {
+			"SceShutterSound": {
+				"nid": 210,
+				"kernel": false,
+				"functions": {
+					"sceShutterSoundPlay": 2147183993
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSmart": {
+		"nid": 211,
+		"modules": {
+			"SceSmart": {
+				"nid": 212,
+				"kernel": false,
+				"functions": {
+					"sceSmartCreateLearnedImageTarget": 1513178222,
+					"sceSmartDestroyTarget": 208281000,
+					"sceSmartGetTargetInfo": 602798746,
+					"sceSmartInit": 1486331012,
+					"sceSmartRelease": 1138716060,
+					"sceSmartSceneMappingDispatchAndQuery": 4044348881,
+					"sceSmartSceneMappingDispatchAndQueryWithMask": 1302243351,
+					"sceSmartSceneMappingEnableMask": 2085040610,
+					"sceSmartSceneMappingFixMap": 2842401147,
+					"sceSmartSceneMappingForceLocalize": 1832944083,
+					"sceSmartSceneMappingGetInitializationPointInfo": 2589428265,
+					"sceSmartSceneMappingGetLandmarkInfo": 2976929770,
+					"sceSmartSceneMappingGetNodePointInfo": 1618652341,
+					"sceSmartSceneMappingGetNumInitializationPoints": 3750759209,
+					"sceSmartSceneMappingGetNumLandmarks": 576776379,
+					"sceSmartSceneMappingGetNumNodePoints": 827970444,
+					"sceSmartSceneMappingLoadMap": 2517854163,
+					"sceSmartSceneMappingPropagateResult": 1520354893,
+					"sceSmartSceneMappingRegisterTarget": 1438875441,
+					"sceSmartSceneMappingRemoveLandmark": 2670772522,
+					"sceSmartSceneMappingReset": 3249357756,
+					"sceSmartSceneMappingRun": 3354122067,
+					"sceSmartSceneMappingRunCore": 3408969037,
+					"sceSmartSceneMappingSaveMap": 1225196063,
+					"sceSmartSceneMappingSetDenseMapMode": 3884348760,
+					"sceSmartSceneMappingStart": 2745707417,
+					"sceSmartSceneMappingStop": 1391155172,
+					"sceSmartSceneMappingUnregisterTarget": 1745341079,
+					"sceSmartTargetTrackingDispatchAndQuery": 2145850117,
+					"sceSmartTargetTrackingGetResults": 1686928917,
+					"sceSmartTargetTrackingQuery": 671664331,
+					"sceSmartTargetTrackingRegisterTarget": 2328550740,
+					"sceSmartTargetTrackingReset": 2762036661,
+					"sceSmartTargetTrackingRun": 3218636641,
+					"sceSmartTargetTrackingRun2": 610189962,
+					"sceSmartTargetTrackingRunWorker": 2330408266,
+					"sceSmartTargetTrackingSetSearchPolicy": 892619406,
+					"sceSmartTargetTrackingStart": 1511137132,
+					"sceSmartTargetTrackingStop": 3301312448,
+					"sceSmartTargetTrackingUnregisterTarget": 1860204585
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSqlite": {
+		"nid": 213,
+		"modules": {
+			"SceSqlite": {
+				"nid": 214,
+				"kernel": false,
+				"functions": {
+					"sceSqliteConfigMallocMethods": 540337591,
+					"sqlite3_aggregate_context": 2861294711,
+					"sqlite3_aggregate_count": 1789928754,
+					"sqlite3_auto_extension": 611549795,
+					"sqlite3_backup_finish": 2477176815,
+					"sqlite3_backup_init": 2447225130,
+					"sqlite3_backup_pagecount": 550524111,
+					"sqlite3_backup_remaining": 2573358091,
+					"sqlite3_backup_step": 706076801,
+					"sqlite3_bind_blob": 1059216738,
+					"sqlite3_bind_double": 3724574491,
+					"sqlite3_bind_int": 346803148,
+					"sqlite3_bind_int64": 1138321391,
+					"sqlite3_bind_null": 4287273332,
+					"sqlite3_bind_parameter_count": 399831051,
+					"sqlite3_bind_parameter_index": 3570574808,
+					"sqlite3_bind_parameter_name": 2530457081,
+					"sqlite3_bind_text": 1631237897,
+					"sqlite3_bind_text16": 2635066095,
+					"sqlite3_bind_value": 2321972522,
+					"sqlite3_bind_zeroblob": 2029757136,
+					"sqlite3_blob_bytes": 2692411107,
+					"sqlite3_blob_close": 3229983069,
+					"sqlite3_blob_open": 3545972309,
+					"sqlite3_blob_read": 1899575972,
+					"sqlite3_blob_write": 3182717903,
+					"sqlite3_busy_handler": 3048592007,
+					"sqlite3_busy_timeout": 2928555568,
+					"sqlite3_changes": 4060543905,
+					"sqlite3_clear_bindings": 1762215906,
+					"sqlite3_close": 2113489785,
+					"sqlite3_collation_needed": 2204932515,
+					"sqlite3_collation_needed16": 1399875278,
+					"sqlite3_column_blob": 4263739095,
+					"sqlite3_column_bytes": 906051556,
+					"sqlite3_column_bytes16": 1134499339,
+					"sqlite3_column_count": 2238163166,
+					"sqlite3_column_decltype": 1525230951,
+					"sqlite3_column_decltype16": 3763920480,
+					"sqlite3_column_double": 3297140887,
+					"sqlite3_column_int": 3853957633,
+					"sqlite3_column_int64": 2428111752,
+					"sqlite3_column_name": 3158453750,
+					"sqlite3_column_name16": 1861854786,
+					"sqlite3_column_text": 2389234288,
+					"sqlite3_column_text16": 3619515254,
+					"sqlite3_column_type": 3685899331,
+					"sqlite3_column_value": 573043229,
+					"sqlite3_commit_hook": 1269722683,
+					"sqlite3_complete": 774419111,
+					"sqlite3_complete16": 1319842171,
+					"sqlite3_config": 2529547144,
+					"sqlite3_context_db_handle": 1948621833,
+					"sqlite3_create_collation": 3323683835,
+					"sqlite3_create_collation16": 4160657864,
+					"sqlite3_create_collation_v2": 1259408114,
+					"sqlite3_create_function": 2958309527,
+					"sqlite3_create_function16": 1985346117,
+					"sqlite3_create_module": 2305868895,
+					"sqlite3_create_module_v2": 446938138,
+					"sqlite3_data_count": 1636899125,
+					"sqlite3_db_config": 2918917568,
+					"sqlite3_db_handle": 744637086,
+					"sqlite3_db_mutex": 2833595686,
+					"sqlite3_db_status": 3051335530,
+					"sqlite3_declare_vtab": 2116705935,
+					"sqlite3_enable_load_extension": 2617011975,
+					"sqlite3_enable_shared_cache": 4027141101,
+					"sqlite3_errcode": 2812994279,
+					"sqlite3_errmsg": 2885389166,
+					"sqlite3_errmsg16": 4041087639,
+					"sqlite3_exec": 594667626,
+					"sqlite3_expired": 4171911563,
+					"sqlite3_extended_errcode": 2434298498,
+					"sqlite3_extended_result_codes": 949142712,
+					"sqlite3_file_control": 3137957821,
+					"sqlite3_finalize": 3059136482,
+					"sqlite3_free": 3421555338,
+					"sqlite3_free_table": 535587161,
+					"sqlite3_get_autocommit": 152093643,
+					"sqlite3_get_auxdata": 961528267,
+					"sqlite3_get_table": 4071333001,
+					"sqlite3_global_recover": 4102947355,
+					"sqlite3_initialize": 3257595431,
+					"sqlite3_interrupt": 1018655148,
+					"sqlite3_last_insert_rowid": 806900129,
+					"sqlite3_libversion": 652501796,
+					"sqlite3_libversion_number": 1501754372,
+					"sqlite3_limit": 3738359063,
+					"sqlite3_load_extension": 3387592223,
+					"sqlite3_malloc": 4028492693,
+					"sqlite3_memory_alarm": 1458435351,
+					"sqlite3_memory_highwater": 791927510,
+					"sqlite3_memory_used": 2387570389,
+					"sqlite3_mprintf": 3861913964,
+					"sqlite3_mutex_alloc": 4005004191,
+					"sqlite3_mutex_enter": 1625000384,
+					"sqlite3_mutex_free": 954807266,
+					"sqlite3_mutex_leave": 1415232987,
+					"sqlite3_mutex_try": 562917390,
+					"sqlite3_next_stmt": 3528939818,
+					"sqlite3_open": 2387634265,
+					"sqlite3_open16": 2283728344,
+					"sqlite3_open_v2": 2716437057,
+					"sqlite3_os_end": 2632434883,
+					"sqlite3_os_init": 3174058038,
+					"sqlite3_overload_function": 2942831936,
+					"sqlite3_prepare": 203117833,
+					"sqlite3_prepare16": 3327643576,
+					"sqlite3_prepare16_v2": 1114472914,
+					"sqlite3_prepare_v2": 3159088372,
+					"sqlite3_profile": 1219987873,
+					"sqlite3_progress_handler": 420896004,
+					"sqlite3_randomness": 1512411327,
+					"sqlite3_realloc": 3520026161,
+					"sqlite3_release_memory": 2409233381,
+					"sqlite3_reset": 2800534036,
+					"sqlite3_reset_auto_extension": 3291049981,
+					"sqlite3_result_blob": 2429417665,
+					"sqlite3_result_double": 3265643256,
+					"sqlite3_result_error": 104594122,
+					"sqlite3_result_error16": 2871716682,
+					"sqlite3_result_error_code": 291840572,
+					"sqlite3_result_error_nomem": 2488169594,
+					"sqlite3_result_error_toobig": 2879324054,
+					"sqlite3_result_int": 1553783252,
+					"sqlite3_result_int64": 250718727,
+					"sqlite3_result_null": 1843434626,
+					"sqlite3_result_text": 1768644202,
+					"sqlite3_result_text16": 989188614,
+					"sqlite3_result_text16be": 3997077610,
+					"sqlite3_result_text16le": 2220576706,
+					"sqlite3_result_value": 157697170,
+					"sqlite3_result_zeroblob": 1028013303,
+					"sqlite3_rollback_hook": 1744125291,
+					"sqlite3_set_authorizer": 2012951640,
+					"sqlite3_set_auxdata": 312345033,
+					"sqlite3_shutdown": 2578818211,
+					"sqlite3_sleep": 1804128724,
+					"sqlite3_snprintf": 3424164161,
+					"sqlite3_soft_heap_limit": 3510995879,
+					"sqlite3_sourceid": 1288394914,
+					"sqlite3_sql": 137115348,
+					"sqlite3_status": 3636737450,
+					"sqlite3_step": 3397866935,
+					"sqlite3_stmt_status": 4155241978,
+					"sqlite3_strnicmp": 316865560,
+					"sqlite3_temp_directory": 451682164,
+					"sqlite3_test_control": 843927293,
+					"sqlite3_thread_cleanup": 389848075,
+					"sqlite3_threadsafe": 2746751194,
+					"sqlite3_total_changes": 44935469,
+					"sqlite3_trace": 4229069443,
+					"sqlite3_transfer_bindings": 1858081509,
+					"sqlite3_update_hook": 3943038599,
+					"sqlite3_user_data": 2030010875,
+					"sqlite3_value_blob": 3382061873,
+					"sqlite3_value_bytes": 1399385887,
+					"sqlite3_value_bytes16": 1292931085,
+					"sqlite3_value_double": 4059220414,
+					"sqlite3_value_int": 1208591648,
+					"sqlite3_value_int64": 2790792196,
+					"sqlite3_value_numeric_type": 2176308285,
+					"sqlite3_value_text": 2126082902,
+					"sqlite3_value_text16": 1539193026,
+					"sqlite3_value_text16be": 998877837,
+					"sqlite3_value_text16le": 21521318,
+					"sqlite3_value_type": 3320757085,
+					"sqlite3_version": 3087877063,
+					"sqlite3_vfs_find": 208525507,
+					"sqlite3_vfs_register": 1710570396,
+					"sqlite3_vfs_unregister": 1775190385,
+					"sqlite3_vmprintf": 3325501828
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSsl": {
+		"nid": 215,
+		"modules": {
+			"SceSsl": {
+				"nid": 216,
+				"kernel": false,
+				"functions": {
+					"sceSslFreeSslCertName": 3342239716,
+					"sceSslGetIssuerName": 1093079525,
+					"sceSslGetMemoryPoolStats": 3173003874,
+					"sceSslGetNameEntryCount": 2514570406,
+					"sceSslGetNameEntryInfo": 713390183,
+					"sceSslGetNotAfter": 4125981544,
+					"sceSslGetNotBefore": 1893638516,
+					"sceSslGetSerialNumber": 2417777685,
+					"sceSslGetSubjectName": 2603555777,
+					"sceSslInit": 1014182678,
+					"sceSslTerm": 63860282
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSulpha": {
+		"nid": 217,
+		"modules": {
+			"SceSulpha": {
+				"nid": 218,
+				"kernel": false,
+				"functions": {
+					"sceSulphaAgentsGetNeededMemory": 3312790379,
+					"sceSulphaAgentsRegister": 2061190477,
+					"sceSulphaAgentsUnregister": 713782487,
+					"sceSulphaEventAdd": 2965551566,
+					"sceSulphaEventDelete": 3587806633,
+					"sceSulphaEventNew": 3210867640,
+					"sceSulphaEventReport": 3161073715,
+					"sceSulphaFileConnect": 2036900152,
+					"sceSulphaFileDisconnect": 2976807816,
+					"sceSulphaGetAgent": 3732810001,
+					"sceSulphaGetDefaultConfig": 2795527248,
+					"sceSulphaGetNeededMemory": 3576584794,
+					"sceSulphaGetTimestamp": 703650322,
+					"sceSulphaInit": 844043663,
+					"sceSulphaLogHandler": 1550325190,
+					"sceSulphaLogSetLevel": 2501711261,
+					"sceSulphaNetworkInit": 3026619114,
+					"sceSulphaNetworkShutdown": 264706930,
+					"sceSulphaNodeDelete": 3561791366,
+					"sceSulphaNodeNew": 2753262594,
+					"sceSulphaSetBookmark": 1578492260,
+					"sceSulphaShutdown": 276237223,
+					"sceSulphaUpdate": 2450442175
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSysmodule": {
+		"nid": 221,
+		"modules": {
+			"SceSysmodule": {
+				"nid": 222,
+				"kernel": false,
+				"functions": {
+					"sceSysmoduleIsLoaded": 1393138554,
+					"sceSysmoduleLoadModule": 2040534538,
+					"sceSysmoduleUnloadModule": 836270085
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceSystemGesture": {
+		"nid": 223,
+		"modules": {
+			"SceSystemGesture": {
+				"nid": 224,
+				"kernel": false,
+				"functions": {
+					"sceSystemGestureCreateTouchRecognizer": 3275125616,
+					"sceSystemGestureFinalizePrimitiveTouchRecognizer": 3011989764,
+					"sceSystemGestureGetPrimitiveTouchEventByIndex": 3763828581,
+					"sceSystemGestureGetPrimitiveTouchEventByPrimitiveID": 1208313033,
+					"sceSystemGestureGetPrimitiveTouchEvents": 3343963098,
+					"sceSystemGestureGetPrimitiveTouchEventsCount": 3132681419,
+					"sceSystemGestureGetTouchEventByEventID": 1433450558,
+					"sceSystemGestureGetTouchEventByIndex": 1953644871,
+					"sceSystemGestureGetTouchEvents": 2023589500,
+					"sceSystemGestureGetTouchEventsCount": 330113560,
+					"sceSystemGestureGetTouchRecognizerInformation": 4040891109,
+					"sceSystemGestureInitializePrimitiveTouchRecognizer": 1618518155,
+					"sceSystemGestureResetPrimitiveTouchRecognizer": 4250559748,
+					"sceSystemGestureResetTouchRecognizer": 227810192,
+					"sceSystemGestureUpdatePrimitiveTouchRecognizer": 3746326106,
+					"sceSystemGestureUpdateTouchRecognizer": 2233446724,
+					"sceSystemGestureUpdateTouchRecognizerRectangle": 2849712630
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceTouch": {
+		"nid": 229,
+		"modules": {
+			"SceTouch": {
+				"nid": 230,
+				"kernel": false,
+				"functions": {
+					"sceTouchDisableTouchForce": 1092174865,
+					"sceTouchEnableTouchForce": 2978181314,
+					"sceTouchGetPanelInfo": 279104037,
+					"sceTouchGetSamplingState": 642979110,
+					"sceTouchPeek": 4278726128,
+					"sceTouchRead": 379198808,
+					"sceTouchSetSamplingState": 463232276
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceUlt": {
+		"nid": 231,
+		"modules": {
+			"SceUlt": {
+				"nid": 232,
+				"kernel": false,
+				"functions": {
+					"_sceUltConditionVariableCreate": 3614053740,
+					"_sceUltConditionVariableOptParamInitialize": 100924609,
+					"_sceUltMutexCreate": 1526646689,
+					"_sceUltMutexOptParamInitialize": 618167813,
+					"_sceUltQueueCreate": 349838260,
+					"_sceUltQueueDataResourcePoolCreate": 1082484775,
+					"_sceUltQueueDataResourcePoolOptParamInitialize": 2320468130,
+					"_sceUltQueueOptParamInitialize": 4154994723,
+					"_sceUltReaderWriterLockCreate": 800123698,
+					"_sceUltReaderWriterLockOptParamInitialize": 3627239967,
+					"_sceUltSemaphoreCreate": 3713619500,
+					"_sceUltSemaphoreOptParamInitialize": 2385623550,
+					"_sceUltUlthreadCreate": 2972255093,
+					"_sceUltUlthreadOptParamInitialize": 2134324086,
+					"_sceUltUlthreadRuntimeCreate": 2262672302,
+					"_sceUltUlthreadRuntimeOptParamInitialize": 2223431142,
+					"_sceUltWaitingQueueResourcePoolCreate": 1660504382,
+					"_sceUltWaitingQueueResourcePoolOptParamInitialize": 4010364469,
+					"sceUltConditionVariableDestroy": 1396838098,
+					"sceUltConditionVariableSignal": 2682768287,
+					"sceUltConditionVariableSignalAll": 3954637854,
+					"sceUltConditionVariableWait": 751891836,
+					"sceUltGetConditionVariableInfo": 3349825401,
+					"sceUltGetMutexInfo": 1490607590,
+					"sceUltGetQueueDataResourcePoolInfo": 1963882850,
+					"sceUltGetQueueInfo": 342897037,
+					"sceUltGetReaderWriterLockInfo": 280230774,
+					"sceUltGetSemaphoreInfo": 637437171,
+					"sceUltGetUlthreadInfo": 3045676608,
+					"sceUltGetUlthreadRuntimeInfo": 1332379046,
+					"sceUltGetWaitingQueueResourcePoolInfo": 81549810,
+					"sceUltMutexDestroy": 4005400658,
+					"sceUltMutexLock": 2010250,
+					"sceUltMutexTryLock": 3851643497,
+					"sceUltMutexUnlock": 2306642071,
+					"sceUltQueueDataResourcePoolDestroy": 730674161,
+					"sceUltQueueDataResourcePoolGetWorkAreaSize": 3973742574,
+					"sceUltQueueDestroy": 4084753118,
+					"sceUltQueuePop": 450202195,
+					"sceUltQueuePush": 2816970745,
+					"sceUltQueueTryPop": 706383526,
+					"sceUltQueueTryPush": 1832217385,
+					"sceUltReaderWriterLockDestroy": 2986260379,
+					"sceUltReaderWriterLockLockRead": 2597353008,
+					"sceUltReaderWriterLockLockWrite": 4126555692,
+					"sceUltReaderWriterLockTryLockRead": 640270421,
+					"sceUltReaderWriterLockTryLockWrite": 2488250914,
+					"sceUltReaderWriterLockUnlockRead": 562906947,
+					"sceUltReaderWriterLockUnlockWrite": 710361589,
+					"sceUltSemaphoreAcquire": 4062237614,
+					"sceUltSemaphoreDestroy": 2395304992,
+					"sceUltSemaphoreRelease": 1698131501,
+					"sceUltSemaphoreTryAcquire": 2937413741,
+					"sceUltUlthreadExit": 507518456,
+					"sceUltUlthreadGetSelf": 2811807191,
+					"sceUltUlthreadJoin": 1665676161,
+					"sceUltUlthreadRuntimeDestroy": 1318745180,
+					"sceUltUlthreadRuntimeGetWorkAreaSize": 1412810118,
+					"sceUltUlthreadTryJoin": 3033499820,
+					"sceUltUlthreadYield": 3402988461,
+					"sceUltWaitingQueueResourcePoolDestroy": 3387516692,
+					"sceUltWaitingQueueResourcePoolGetWorkAreaSize": 1682808873
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceVideodec": {
+		"nid": 233,
+		"modules": {
+			"SceVideodecUser": {
+				"nid": 234,
+				"kernel": false,
+				"functions": {
+					"sceAvcdecCreateDecoder": 3895178907,
+					"sceAvcdecCsc": 2997102811,
+					"sceAvcdecCscInternal": 3271606086,
+					"sceAvcdecDecode": 3591965190,
+					"sceAvcdecDecodeAvailableSize": 1142322147,
+					"sceAvcdecDecodeFlush": 636686368,
+					"sceAvcdecDecodeStop": 2521356371,
+					"sceAvcdecDeleteDecoder": 2316187038,
+					"sceAvcdecQueryDecoderMemSize": 2548653787,
+					"sceM4vdecCreateDecoder": 398896286,
+					"sceM4vdecCsc": 3032232539,
+					"sceM4vdecDecode": 1648780507,
+					"sceM4vdecDecodeAvailableSize": 2832144706,
+					"sceM4vdecDecodeFlush": 2084965749,
+					"sceM4vdecDecodeStop": 2278543931,
+					"sceM4vdecDeleteDecoder": 246605031,
+					"sceM4vdecQueryDecoderMemSize": 3330022016,
+					"sceVideodecInitLibrary": 4054803875,
+					"sceVideodecInitLibraryWithUnmapMem": 587888895,
+					"sceVideodecQueryMemSize": 1731312429,
+					"sceVideodecTermLibrary": 979323172
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceVoice": {
+		"nid": 235,
+		"modules": {
+			"SceVoice": {
+				"nid": 236,
+				"kernel": false,
+				"functions": {
+					"sceVoiceCheckTopology": 2269140174,
+					"sceVoiceConnectIPortToOPort": 1770773166,
+					"sceVoiceCreatePort": 4199438257,
+					"sceVoiceDeletePort": 2923845197,
+					"sceVoiceDisconnectIPortFromOPort": 1593991412,
+					"sceVoiceEnd": 2895676734,
+					"sceVoiceGetBitRate": 3492544692,
+					"sceVoiceGetMuteFlag": 3373529065,
+					"sceVoiceGetPortAttr": 1945577792,
+					"sceVoiceGetPortInfo": 1496567035,
+					"sceVoiceGetResourceInfo": 1850119438,
+					"sceVoiceGetVolume": 2271004685,
+					"sceVoiceInit": 2153562639,
+					"sceVoicePausePort": 600224107,
+					"sceVoicePausePortAll": 967456900,
+					"sceVoiceReadFromOPort": 165990796,
+					"sceVoiceResetPort": 1578952976,
+					"sceVoiceResumePort": 769872913,
+					"sceVoiceResumePortAll": 529792012,
+					"sceVoiceSetBitRate": 49646959,
+					"sceVoiceSetMuteFlag": 194923234,
+					"sceVoiceSetMuteFlagAll": 3683707588,
+					"sceVoiceSetPortAttr": 2601333904,
+					"sceVoiceSetVolume": 3644287462,
+					"sceVoiceStart": 3001905755,
+					"sceVoiceStop": 3280375286,
+					"sceVoiceUpdatePort": 3464846416,
+					"sceVoiceWriteToIPort": 170060814
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"SceVoiceQoS": {
+		"nid": 237,
+		"modules": {
+			"SceVoiceQoS": {
+				"nid": 238,
+				"kernel": false,
+				"functions": {
+					"sceVoiceQoSConnect": 3771059950,
+					"sceVoiceQoSCreateLocalEndpoint": 2864008164,
+					"sceVoiceQoSCreateRemoteEndpoint": 3132720935,
+					"sceVoiceQoSDeleteLocalEndpoint": 1761263471,
+					"sceVoiceQoSDeleteRemoteEndpoint": 3270690673,
+					"sceVoiceQoSDisconnect": 1014630576,
+					"sceVoiceQoSEnd": 4211831931,
+					"sceVoiceQoSGetConnectionAttribute": 3894119748,
+					"sceVoiceQoSGetLocalEndpoint": 3853800061,
+					"sceVoiceQoSGetLocalEndpointAttribute": 3380718395,
+					"sceVoiceQoSGetRemoteEndpoint": 2271910812,
+					"sceVoiceQoSGetStatus": 3386643493,
+					"sceVoiceQoSInit": 1264582428,
+					"sceVoiceQoSReadPacket": 761345353,
+					"sceVoiceQoSSetConnectionAttribute": 3881271407,
+					"sceVoiceQoSSetLocalEndpointAttribute": 1410132901,
+					"sceVoiceQoSWritePacket": 803336847
+				},
+				"variables": {
+				}
+			}
+		}
+	},
+	"UVL": {
+		"nid": 239,
+		"modules": {
+			"UVL": {
+				"nid": 240,
+				"kernel": false,
+				"functions": {
+					"uvl_exit": 2188098479,
+					"uvl_printf": 2583709312,
+					"uvl_alloc_code_mem": 3169499185,
+					"uvl_unlock_mem": 2563885341,
+					"uvl_lock_mem": 4006189094,
+					"uvl_flush_icache": 3361423372,
+					"uvl_debug_log": 3572863016,
+					"uvl_load": 3907594580
+				},
+				"variables": {
+				}
+			}
+		}
+	}
+}
