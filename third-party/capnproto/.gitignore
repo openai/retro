@@ -1,0 +1,74 @@
+# Kenton's personal backup script.
+/backup.sh
+
+# Eclipse-generated stuff.
+.cproject
+.project
+.pydevproject
+.settings
+.dist-buildwrapper
+/c++/gen/
+
+# Code you may want to map in from elsewhere.
+/c++/src/base
+/c++/src/capnp/compilerbin
+/c++/src/ekam
+/c++/src/os
+/c++/src/protobuf
+/c++/src/snappy
+/c++/src/samples
+
+# Ekam build artifacts.
+/c++/tmp/
+/c++/bin/
+
+# setup-ekam.sh
+/c++/.ekam
+
+# super-test.sh
+/tmp-staging
+
+# Jekyll-generated site
+/doc/_site
+
+# Checkout of gh-pages made by /doc/push-site.sh
+/doc/.gh-pages
+
+# cabal-install artifacts
+/compiler/dist/
+
+# Make artefacts
+/c++/.libs/
+/c++/Makefile
+/c++/Makefile.in
+/c++/**/*.o
+/c++/**/*.lo
+/c++/**/.deps/
+/c++/**/.dirstamp
+/c++/stamp-h1
+/c++/**/*.log
+/c++/test_capnpc_middleman
+/c++/**/test*.capnp.*
+/c++/*.la
+/c++/**/*.trs
+/c++/aclocal.m4
+/c++/autom4te.cache/
+/c++/build-aux/
+/c++/capnp
+/c++/capnp-evolution-test
+/c++/*.pc
+/c++/capnp-test
+/c++/capnpc-c++
+/c++/capnpc-capnp
+/c++/config.*
+/c++/configure
+/c++/libtool
+/c++/m4/libtool.m4
+/c++/m4/ltoptions.m4
+/c++/m4/ltsugar.m4
+/c++/m4/ltversion.m4
+/c++/m4/lt~obsolete.m4
+/c++/samples/addressbook
+
+# editor artefacts
+*~
