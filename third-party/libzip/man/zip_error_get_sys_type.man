@@ -1,0 +1,56 @@
+.TH "ZIP_ERROR_GET_SYS_TYPE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_error_get_sys_type\fR
+\- get type of system error code (obsolete interface)
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_error_get_sys_type\fR(\fIint\ ze\fR);
+.PD
+.SH "DESCRIPTION"
+The function
+\fBzip_error_get_sys_type\fR()
+is deprecated; use
+zip_error_init_with_code(3)
+and
+zip_error_system_type(3)
+instead.
+.PP
+Replace
+.nf
+.sp
+.RS 6n
+int i = zip_error_get_sys_type(ze);
+.RE
+.fi
+with
+.nf
+.sp
+.RS 6n
+zip_error_t error;
+zip_error_init_with_code(&error, ze);
+int i = zip_error_system_type(&error);
+.RE
+.fi
+.SH "SEE ALSO"
+libzip(3),
+zip_error_init_with_code(3),
+zip_error_system_type(3)
+.SH "HISTORY"
+\fBzip_error_get_sys_type\fR()
+was added in libzip 0.6.
+It was deprecated in libzip 1.0, use
+\fBzip_error_system_type\fR()
+instead.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,53 @@
+.TH "ZIP_ERROR_INIT" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_error_init\fR,
+\fBzip_error_init_with_code\fR
+\- initialize zip_error structure
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIvoid\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_error_init\fR(\fIzip_error_t\ *error\fR);
+.PD
+.PP
+\fIvoid\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_error_init_with_code\fR(\fIzip_error_t\ *error\fR, \fIint\ ze\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_error_init\fR()
+function initializes the zip_error pointed to by
+\fIerror\fR.
+\fI*error\fR
+must be allocated before calling
+\fBzip_error_init\fR().
+.PP
+The
+\fBzip_error_init_with_code\fR()
+function does the same, but additionally sets the zip error code to
+\fIze\fR
+and sets the system error code to the current
+errno(3)
+value, if appropriate.
+.SH "SEE ALSO"
+libzip(3),
+zip_error_fini(3)
+.SH "HISTORY"
+\fBzip_error_init\fR()
+and
+\fBzip_error_init_with_code\fR()
+were added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,51 @@
+.TH "ZIP_SOURCE_READ" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_source_read\fR
+\- read data from zip source
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_int64_t\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_read\fR(\fIzip_source_t\ *source\fR, \fIvoid\ *data\fR, \fIzip_uint64_t\ len\fR);
+.PD
+.SH "DESCRIPTION"
+The function
+\fBzip_source_read\fR()
+reads up to
+\fIlen\fR
+bytes of data from
+\fIsource\fR
+at the current read offset into the buffer
+\fIdata\fR.
+.PP
+The zip source
+\fIsource\fR
+has to be opened for reading by calling
+zip_source_open(3)
+first.
+.SH "RETURN VALUES"
+Upon successful completion the number of bytes read is returned.
+Upon reading end-of-file, zero is returned.
+Otherwise, \-1 is returned and the error information in
+\fIsource\fR
+is set to indicate the error.
+.SH "SEE ALSO"
+libzip(3),
+zip_source(3),
+zip_source_seek(3),
+zip_source_tell(3),
+zip_source_write(3)
+.SH "HISTORY"
+\fBzip_source_read\fR()
+was added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,38 @@
+.TH "ZIP_FCLOSE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_fclose\fR
+\- close file in zip archive
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_fclose\fR(\fIzip_file_t\ *file\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_fclose\fR()
+function closes
+\fIfile\fR
+and frees the memory allocated for it.
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, the error code is returned.
+.SH "SEE ALSO"
+libzip(3),
+zip_fopen(3),
+zip_fread(3),
+zip_fseek(3)
+.SH "HISTORY"
+\fBzip_fclose\fR()
+was added in libzip 0.6.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,51 @@
+.TH "ZIP_FREAD" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_fread\fR
+\- read from file
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_int64_t\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_fread\fR(\fIzip_file_t\ *file\fR, \fIvoid\ *buf\fR, \fIzip_uint64_t\ nbytes\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_fread\fR()
+function reads at most
+\fInbytes\fR
+bytes from
+\fIfile\fR
+into
+\fIbuf\fR.
+.SH "RETURN VALUES"
+If successful, the number of bytes actually read is returned.
+Otherwise, \-1 is returned.
+.SH "SEE ALSO"
+libzip(3),
+zip_fclose(3),
+zip_fopen(3),
+zip_fseek(3)
+.SH "HISTORY"
+\fBzip_fread\fR()
+was added in libzip 0.6.
+In libzip 0.10 the return type was changed from
+\fIssize_t\fR
+to
+\fIzip_int64_t\fR.
+In libzip 0.10 the type of
+\fInbytes\fR
+was changed from
+\fIsize_t\fR
+to
+\fIzip_uint64_t\fR.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

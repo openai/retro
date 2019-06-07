@@ -1,0 +1,40 @@
+.TH "ZIP_ERROR_STRERROR" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_error_strerror\fR
+\- create human-readable string for zip_error
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIconst char *\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_error_strerror\fR(\fIzip_error_t\ *ze\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_error_strerror\fR()
+function returns an error message string corresponding to
+\fIze\fR
+like
+strerror(3).
+This string will stay valid until the next call to
+\fBzip_error_strerror\fR()
+or until
+zip_error_fini(3)
+is called.
+.SH "SEE ALSO"
+libzip(3),
+strerror(3),
+zip_error_fini(3)
+.SH "HISTORY"
+\fBzip_error_strerror\fR()
+was added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

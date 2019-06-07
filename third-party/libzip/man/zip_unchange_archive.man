@@ -1,0 +1,37 @@
+.TH "ZIP_UNCHANGE_ARCHIVE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_unchange_archive\fR
+\- undo global changes to zip archive
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_unchange_archive\fR(\fIzip_t\ *archive\fR);
+.PD
+.SH "DESCRIPTION"
+Revert all global changes to the archive
+\fIarchive\fR.
+This reverts changes to the archive comment and global flags.
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, \-1 is returned and the error code in
+\fIarchive\fR
+is set to indicate the error.
+.SH "SEE ALSO"
+libzip(3),
+zip_unchange(3),
+zip_unchange_all(3)
+.SH "HISTORY"
+\fBzip_unchange_archive\fR()
+was added in libzip 0.7.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

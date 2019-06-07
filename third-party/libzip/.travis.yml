@@ -1,0 +1,19 @@
+language: c
+compiler:
+  - clang
+  - gcc
+os:
+ - linux
+ - osx
+script:
+ - mkdir build
+ - cd build
+ - cmake ..
+ - make
+ - make test
+notifications:
+  email:
+    recipients:
+      - build-status@libzip.org
+    on_success: change
+    on_failure: change

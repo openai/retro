@@ -1,0 +1,65 @@
+.TH "ZIPMERGE" "1" "December 18, 2017" "NiH" "General Commands Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzipmerge\fR
+\- merge zip archives
+.SH "SYNOPSIS"
+.HP 9n
+\fBzipmerge\fR
+[\fB\-DhIiSsV\fR]
+\fItarget-zip\fR
+\fIsource-zip\fR\ [\fIsource-zip\ ...\fR]
+.SH "DESCRIPTION"
+\fBzipmerge\fR
+merges the source zip archives
+\fIsource-zip\fR
+into the target zip archive
+\fItarget-zip\fR.
+By default, files in the source zip archives overwrite
+existing files of the same name in the target zip archive.
+.PP
+Supported options:
+.TP 5n
+\fB\-D\fR
+Ignore directory components in file name comparisons.
+This option is slow for archives with many files.
+.TP 5n
+\fB\-h\fR
+Display a short help message and exit.
+.TP 5n
+\fB\-I\fR
+Ignore case in file name comparisons
+This option is slow for archives with many files.
+.TP 5n
+\fB\-i\fR
+Ask before overwriting files.
+See also
+\fB\-s\fR.
+.TP 5n
+\fB\-S\fR
+Do not overwrite files that have the same size and
+CRC32 in both the source and target archives.
+.TP 5n
+\fB\-s\fR
+When
+\fB\-i\fR
+is given, do not before overwriting files that have the same size
+and CRC32.
+.TP 5n
+\fB\-V\fR
+Display version information and exit.
+.SH "EXIT STATUS"
+\fBzipmerge\fR
+exits 0 on success and >1 if an error occurred.
+.SH "SEE ALSO"
+zipcmp(1),
+ziptool(1),
+libzip(3)
+.SH "HISTORY"
+\fBzipmerge\fR
+was added in libzip 0.6.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

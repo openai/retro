@@ -1,0 +1,42 @@
+.TH "ZIP_FTELL" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_ftell\fR
+\- tell position in file
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_int64_t\fR
+.PD 0
+.HP 4n
+\fBzip_ftell\fR(\fIzip_file_t\ *file\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_ftell\fR()
+function reports the current offset in the file.
+.PP
+\fBzip_ftell\fR
+only works on uncompressed (stored) data.
+When called on compressed data it will return an error.
+.SH "RETURN VALUES"
+If successful,
+\fBzip_ftell\fR
+returns the current file position.
+Otherwise, \-1 is returned.
+.SH "SEE ALSO"
+libzip(3),
+zip_fclose(3),
+zip_fopen(3),
+zip_fread(3),
+zip_fseek(3)
+.SH "HISTORY"
+\fBzip_ftell\fR()
+was added in libzip 1.2.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

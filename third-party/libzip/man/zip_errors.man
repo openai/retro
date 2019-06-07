@@ -1,0 +1,112 @@
+.TH "ZIP_ERRORS" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_errors\fR
+\- list of all libzip error codes
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.SH "DESCRIPTION"
+The following error codes are used by libzip:
+.TP 23n
+[\fRZIP_ER_CHANGED\fR]
+Entry has been changed.
+.TP 23n
+[\fRZIP_ER_CLOSE\fR]
+Closing zip archive failed.
+.TP 23n
+[\fRZIP_ER_COMPNOTSUPP\fR]
+Compression method not supported.
+.TP 23n
+[\fRZIP_ER_COMPRESSED_DATA\fR]
+Compressed data invalid.
+.TP 23n
+[\fRZIP_ER_CRC\fR]
+CRC error.
+.TP 23n
+[\fRZIP_ER_DELETED\fR]
+Entry has been deleted.
+.TP 23n
+[\fRZIP_ER_ENCRNOTSUPP\fR]
+Encryption method not supported.
+.TP 23n
+[\fRZIP_ER_EOF\fR]
+Premature end of file.
+.TP 23n
+[\fRZIP_ER_EXISTS\fR]
+File already exists.
+.TP 23n
+[\fRZIP_ER_INCONS\fR]
+Zip archive inconsistent.
+.TP 23n
+[\fRZIP_ER_INTERNAL\fR]
+Internal error.
+.TP 23n
+[\fRZIP_ER_INUSE\fR]
+Resource still in use.
+.TP 23n
+[\fRZIP_ER_INVAL\fR]
+Invalid argument.
+.TP 23n
+[\fRZIP_ER_MEMORY\fR]
+Malloc failure.
+.TP 23n
+[\fRZIP_ER_MULTIDISK\fR]
+Multi-disk zip archives not supported.
+.TP 23n
+[\fRZIP_ER_NOENT\fR]
+No such file.
+.TP 23n
+[\fRZIP_ER_NOPASSWD\fR]
+No password provided.
+.TP 23n
+[\fRZIP_ER_NOZIP\fR]
+Not a zip archive.
+.TP 23n
+[\fRZIP_ER_OK\fR]
+No error.
+.TP 23n
+[\fRZIP_ER_OPEN\fR]
+Can't open file.
+.TP 23n
+[\fRZIP_ER_OPNOTSUPP\fR]
+Operation not supported.
+.TP 23n
+[\fRZIP_ER_RDONLY\fR]
+Read-only archive.
+.TP 23n
+[\fRZIP_ER_READ\fR]
+Read error.
+.TP 23n
+[\fRZIP_ER_REMOVE\fR]
+Can't remove file.
+.TP 23n
+[\fRZIP_ER_RENAME\fR]
+Renaming temporary file failed.
+.TP 23n
+[\fRZIP_ER_SEEK\fR]
+Seek error.
+.TP 23n
+[\fRZIP_ER_TELL\fR]
+Tell error.
+.TP 23n
+[\fRZIP_ER_TMPOPEN\fR]
+Failure to create temporary file.
+.TP 23n
+[\fRZIP_ER_WRITE\fR]
+Write error.
+.TP 23n
+[\fRZIP_ER_WRONGPASSWD\fR]
+Wrong password provided.
+.TP 23n
+[\fRZIP_ER_ZIPCLOSED\fR]
+Containing zip archive was closed.
+.TP 23n
+[\fRZIP_ER_ZLIB\fR]
+Zlib error.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

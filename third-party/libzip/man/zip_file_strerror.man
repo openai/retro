@@ -1,0 +1,63 @@
+.TH "ZIP_FILE_STRERROR" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_file_strerror\fR,
+\fBzip_strerror\fR
+\- get string representation for a zip error
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIconst char *\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_file_strerror\fR(\fIzip_file_t\ *file\fR);
+.PD
+.PP
+\fIconst char *\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_strerror\fR(\fIzip_t\ *archive\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_strerror\fR()
+function returns a string describing the last error for the zip archive
+\fIarchive\fR,
+while the
+\fBzip_file_strerror\fR()
+function does the same for a zip file
+\fIfile\fR
+(one file in an archive).
+The returned string must not be modified or freed, and becomes invalid when
+\fIarchive\fR
+or
+\fIfile\fR,
+respectively,
+is closed or on the next call to
+\fBzip_strerror\fR()
+or
+\fBzip_file_strerror\fR(),
+respectively,
+for the same archive.
+.SH "RETURN VALUES"
+\fBzip_file_strerror\fR()
+and
+\fBzip_strerror\fR()
+return a pointer to the error string.
+.SH "SEE ALSO"
+libzip(3),
+zip_error_to_str(3)
+.SH "HISTORY"
+\fBzip_file_strerror\fR()
+and
+\fBzip_strerror\fR()
+were added in libzip 0.6.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

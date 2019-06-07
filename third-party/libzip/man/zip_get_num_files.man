@@ -1,0 +1,48 @@
+.TH "ZIP_GET_NUM_FILES" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_get_num_files\fR
+\- get number of files in archive (obsolete interface)
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_get_num_files\fR(\fIzip_t\ *archive\fR);
+.PD
+.SH "DESCRIPTION"
+\fIThis function is deprecated\fR.
+\fIUse\fR
+zip_get_num_entries(3)
+\fIinstead\fR.
+.PP
+The
+\fBzip_get_num_files\fR()
+function returns the number of files in
+\fIarchive\fR.
+.SH "RETURN VALUES"
+\fBzip_get_num_files\fR()
+returns the number of files in the zip archive,
+or \-1 if
+\fIarchive\fR
+is
+\fRNULL\fR.
+.SH "SEE ALSO"
+libzip(3),
+zip_fopen_index(3),
+zip_stat_index(3)
+.SH "HISTORY"
+\fBzip_get_num_files\fR()
+was added in libzip 0.6.
+It was deprecated in libzip 0.11, use
+\fBzip_get_num_entries\fR(\fIinstead\fR)
+instead.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,66 @@
+.TH "ZIP_GET_ARCHIVE_FLAG" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_get_archive_flag\fR
+\- get status flags for zip
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_get_archive_flag\fR(\fIzip_t\ *archive\fR, \fIzip_flags_t\ flag\fR, \fIzip_flags_t\ flags\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_get_archive_flag\fR()
+function returns if the flag
+\fIflag\fR
+is set for the archive
+\fIarchive\fR.
+The archive flags might have been changed with
+\fBzip_set_archive_flag\fR();
+if
+\fIflags\fR
+is set to
+\fRZIP_FL_UNCHANGED\fR,
+the original unchanged flags are tested.
+.PP
+Supported flags are:
+.TP 20n
+\fRZIP_AFL_RDONLY\fR
+The archive is read-only.
+.SH "RETURN VALUES"
+\fBzip_get_archive_flag\fR()
+returns 1 if
+\fIflag\fR
+is set for
+\fIarchive\fR,
+0 if not,
+and \-1 if an error occurred.
+.SH "SEE ALSO"
+libzip(3),
+zip_set_archive_flag(3)
+.SH "HISTORY"
+\fBzip_get_archive_flag\fR()
+was added in libzip 0.9.
+In libzip 0.11 the type of
+\fIflag\fR
+was changed from
+\fIint\fR
+to
+\fIzip_flags_t m\fR
+and the type of
+\fIflags\fR
+was changed from
+\fIint\fR
+to
+\fIzip_flags_t\fR.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

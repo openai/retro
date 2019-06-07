@@ -1,0 +1,104 @@
+.TH "ZIP_CLOSE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_close\fR
+\- close zip archive
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_close\fR(\fIzip_t\ *archive\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_close\fR()
+function writes any changes made to
+\fIarchive\fR
+to disk.
+If
+\fIarchive\fR
+contains no files, the file is completely removed (no empty archive is
+written).
+If successful,
+\fIarchive\fR
+is freed.
+If writing fails,
+\fBzip_close\fR()
+fails;
+\fIarchive\fR
+is left unchanged and must still be freed.
+.PP
+To close and free a zip archive without saving changes, use
+zip_discard(3).
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, \-1 is returned and the error code in
+\fIarchive\fR
+is set to indicate the error.
+.SH "ERRORS"
+\fBzip_close\fR()
+will fail if:
+.TP 19n
+[\fRZIP_ER_EOF\fR]
+Unexpected end-of-file found while reading from a file.
+.TP 19n
+[\fRZIP_ER_INTERNAL\fR]
+The callback function of an added or replaced file returned an
+error but failed to report which.
+.TP 19n
+[\fRZIP_ER_INVAL\fR]
+The
+\fIpath\fR
+argument is
+\fRNULL\fR.
+.TP 19n
+[\fRZIP_ER_MEMORY\fR]
+Required memory could not be allocated.
+.TP 19n
+[\fRZIP_ER_NOZIP\fR]
+File is not a zip archive.
+.TP 19n
+[\fRZIP_ER_READ\fR]
+A file read failed.
+.TP 19n
+[\fRZIP_ER_RENAME\fR]
+A temporary file could not be renamed to its final name.
+.TP 19n
+[\fRZIP_ER_SEEK\fR]
+A file seek failed.
+.TP 19n
+[\fRZIP_ER_TMPOPEN\fR]
+A temporary file could not be created.
+.TP 19n
+[\fRZIP_ER_WRITE\fR]
+A file write failed.
+.TP 19n
+[\fRZIP_ER_ZLIB\fR]
+An error occurred while (de)compressing a stream with
+zlib(3).
+.PD 0
+.PP
+Additionally, any errors returned by the callback function
+for added or replaced files will be passed back.
+.PD
+.SH "SEE ALSO"
+libzip(3),
+zip_discard(3),
+zip_error_get(3),
+zip_fdopen(3),
+zip_open(3),
+zip_register_progress_callback_with_state(3),
+zip_strerror(3)
+.SH "HISTORY"
+\fBzip_close\fR()
+was added in libzip 0.6.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

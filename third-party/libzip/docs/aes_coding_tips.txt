@@ -1,0 +1,253 @@
+AES Coding Tips for Developers
+
+NOTE: WinZip^(R) users do not need to read or understand the information
+contained on this page. It is intended for developers of Zip file utilities.
+
+This document contains information that may be helpful to developers and other
+interested parties who wish to support the AE-1 and AE-2 AES encryption formats
+in their own Zip file utilities. WinZip Computing makes no warranties regarding
+the information provided in this document. In particular, WinZip Computing does
+not represent or warrant that the information provided here is free from errors
+or is suitable for any particular use, or that the file formats described here
+will be supported in future versions of WinZip. You should test and validate
+all code and techniques in accordance with good programming practice.
+
+This information supplements the basic encryption specification document found
+here.
+
+This document assumes that you are using Dr. Brian Gladman's AES encryption
+package. Dr. Gladman has generously made public a sample application that
+demonstrates the use of his encryption/decryption and other routines, and the
+code samples shown below are derived from this sample application. Dr.
+Gladman's AES library and the sample application are available from the AES
+project page on Dr. Gladman's web site.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Generating a salt value
+
+Please read the discussion of salt values in the encryption specification.
+
+Dr. Gladman has provided a pseudo-random number generator in the files PRNG.C
+and PRNG.H. You may find this suitable for generating salt values. These files
+are included in the sample package available through the AES project page on
+Dr. Gladman's web site.
+
+Here are guidelines for using Dr. Gladman's generator. Note that the generator
+is used rather like an I/O stream: it is opened (initialized), used, and
+finally closed. To obtain the best results, it is recommended that you
+initialize the generator when your application starts and close it when your
+application closes. (If you are coding in C++, you may wish to wrap these
+actions in a C++ class that initializes the generator on construction and
+closes it on destruction.)
+
+ 1. You will need to provide an entropy function in your code for
+    initialization of the generator. The entropy function need not be
+    particularly sophisticated for this use. Here is one possibility for such a
+    function, based primarily upon the Windows performance counter:
+
+    int entropy_fun(
+     unsigned char buf[],
+     unsigned int len)
+        {
+        unsigned __int64 pentium_tsc[1];
+        unsigned int     i;
+        static unsigned int num = 0;
+        // this sample code returns the following sequence of entropy information
+        // - the current 8-byte Windows performance counter value
+        // - an 8-byte representation of the current date/time
+        // - an 8-byte value built from the current process ID and thread ID
+        // - all subsequent calls return the then-current 8-byte performance
+        //      counter value
+        switch (num)
+            {
+        case 1:
+            ++num;
+            // use a value that is unlikely to repeat across system reboots
+            GetSystemTimeAsFileTime((FILETIME *)pentium_tsc);
+            break;
+        case 2:
+            ++num;
+            {
+            // use a value that distinguishes between different instances of this
+            // code that might be running on different processors at the same time
+            unsigned __int32 processtest = GetCurrentProcessId();
+            unsigned __int32 threadtest = GetCurrentThreadId();
+            pentium_tsc[0] = processtest;
+            pentium_tsc[0] = (pentium_tsc[0] << 32) + threadtest;
+            }
+            break;
+        case 0:
+            ++num;
+            // fall through to default case
+        default:
+            // use a rapidly-changing value
+            //  Note: check QueryPerformanceFrequency() first to
+            //  ensure that QueryPerformanceCounter() will work.
+            QueryPerformanceCounter((LARGE_INTEGER *)pentium_tsc);
+            break;
+            }
+        for(i = 0; i < 8 && i < len; ++i)
+            buf[i] = ((unsigned char*)pentium_tsc)[i];
+        return i;
+        }
+
+    Note: the required prototype for the entropy function is defined in PRNG.H.
+
+ 2. Initialize the generator by calling prng_init(), providing the addresses of
+    your entropy function and of an instance of a prng_ctx structure (defined
+    in PRNG.H). The prng_ctx variable maintains a context for the generator and
+    is used as a parameter for the other generator functions. Therefore, the
+    variable's state must be maintained until the generator is closed.
+
+    prng_ctx ctx;
+    prng_init(entropy_fun, &ctx);
+
+    You only need to do this once per application session (as long as you keep
+    the "stream" open).
+
+ 3. To obtain a sequence of random bytes of arbitrary size, use prng_rand().
+    This code obtains 16 random bytes, suitable for use as a salt value for
+    256-bit AES encryption:
+
+    unsigned char buffer[16];
+    prng_rand(buffer, sizeof(buffer), &ctx);
+
+    Note that the ctx parameter is the same prng_ctx variable that was used in
+    the initialization call.
+
+ 4. When you are done with the generator (this would normally be when your
+    application closes), close it by calling prng_end:
+
+    prng_end(&ctx);
+
+    Again, the ctx parameter is the same prng_ctx variable that was used in the
+    initialization call.
+
+Encryption and decryption
+
+The actual encryption and decryption of data are handled quite similarly, and
+again are rather stream-like: a stream is "opened", data is passed to it for
+encryption or decryption, and then it is closed. The password verifier is
+returned when the stream is opened, and the authentication code is returned
+when the stream is closed.
+
+Here is the basic technique:
+
+ 1. Initialize the "stream" for encryption or decryption and obtain the
+    password verification value.
+
+    There is no difference in the initialization, regardless of whether you are
+    encrypting or decrypting:
+
+    fcrypt_ctx zctx;     // the encryption context
+    int rc = fcrypt_init(
+      KeySize,       // extra data value indicating key size
+      pszPassword,     // the password
+      strlen(pszPassword), // number of bytes in password
+      achSALT,       // the salt
+      achPswdVerifier,   // on return contains password verifier
+      &zctx);       // encryption context
+
+    The return value is 0 if the initialization was successful; non-zero values
+    indicate errors. Note that passwords are null-terminated ANSI strings;
+    embedded nulls must not be used. (To avoid incompatibilities between the
+    various character sets in use, especially in different versions of Windows,
+    users should be encouraged to use passwords containing only the "standard"
+    characters in the range 32-127.)
+
+    The function returns the password verification value in achPswdVerifier,
+    which must be a 2-byte buffer. If you are encrypting, store this value in
+    the Zip file as indicated by the encryption specification. If you are
+    decrypting, compare this returned value to the value stored in the Zip
+    file. If they are different, then either the password provided by your user
+    was incorrect or the encrypted file has been altered in some way since it
+    was encrypted. (Note that if they match, there is still a 1 in 65,536
+    chance that an incorrect password was provided.)
+
+    The initialized encryption context (zctx) is used as a parameter to the
+    encryption/decryption functions. Therefore, its state must be maintained
+    until the "stream" is closed.
+
+ 2. Encrypt or decrypt the data.
+
+    To encrypt:
+
+    fcrypt_encrypt(
+      pchData, // pointer to the data to encrypt
+      cb,   // how many bytes to encrypt
+      &zctx); // encryption context
+
+    To decrypt:
+
+    fcrypt_decrypt(
+      pchData, // pointer to the data to decrypt
+      cb,   // how many bytes to decrypt
+      &zctx); // decryption context
+
+    You may need to call the encrypt or decrypt function multiple times,
+    passing in successive chunks of data in the buffer. For AE-1 and AE-2
+    compatibility, the buffer size must be a multiple of 16 bytes except for
+    the last buffer, which may be smaller. For efficiency, a larger buffer size
+    such as 32,768 would generally be used.
+
+    Note: to encrypt zero-length files, simply skip this step. You will still
+    obtain and use the password verifier (step 1) and authentication code (step
+    3).
+
+ 3. Close the "stream" and obtain the authentication code.
+
+    When encryption/decryption is complete, close the "stream" as follows:
+
+    int rc = fcrypt_end(
+      achMAC, // on return contains the authentication code
+      &zctx); // encryption context
+
+    The return value is the size of the authentication code, which will always
+    be 10 for AE-1 and AE-2. The authentication code itself is returned in your
+    buffer at achMAC, which is an array of char, sized to hold at least 10
+    characters. If you are encrypting, store this value in the Zip file as
+    indicated by the encryption specification; if you are decrypting, compare
+    this value to the value stored in the Zip file. If the values are
+    different, either the password is incorrect or the encrypted data has been
+    altered subsequent to storage.
+
+    Note that decryption can fail even if the encrypted data is unaltered and
+    the password verifier was correct in step 1. The password verifier is
+    useful as a quick way to detect most incorrect passwords, but it is not
+    perfect and on rare occasions (1 out of 65,536) it will fail to detect an
+    incorrect password. It is therefore important for you to check the
+    authentication code on completion even though the password verifier was
+    correct.
+
+Notes
+
+  • Dr. Gladman's AES code depends on the byte order (little-endian or
+    big-endian) used by the computing platform the code will run on. This is
+    determined by a C preprocessor constant called PLATFORM_BYTE_ORDER, which
+    is defined in the file AESOPT.H. You should be sure that
+    PLATFORM_BYTE_ORDER gets the proper value for your platform; if it does
+    not, you will need to define it yourself to the correct value. When using
+    the Microsoft compiler on Intel platforms it does get the proper value,
+    which on these platforms is AES_LITTLE_ENDIAN. We have, however, had a
+    report that it does not default properly when Borland C++ Builder is used,
+    and that manual assignment is necessary. For additional information on this
+    topic, refer to the comments within AESOPT.H.
+
+Change history
+
+Changes made in document version 1.04, July, 2008:
+
+ A. Sample Entropy Function
+
+    The sample entropy function was changed to include information near the
+    very beginning of the entropy stream that's unique to the day and to the
+    process and thread.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Document version: 1.04
+Last modified: July 21, 2008
+
+Copyright(C) 2003-2016 WinZip International LLC.
+All Rights Reserved

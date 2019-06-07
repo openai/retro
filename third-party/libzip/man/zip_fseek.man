@@ -1,0 +1,48 @@
+.TH "ZIP_FSEEK" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_fseek\fR
+\- seek in file
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_int8_t\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_fseek\fR(\fIzip_file_t\ *file\fR, \fIzip_int64_t\ offset\fR, \fIint\ whence\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_fseek\fR()
+function seeks to the specified
+\fIoffset\fR
+relative to
+\fIwhence\fR,
+just like
+fseek(3).
+.PP
+\fBzip_fseek\fR
+only works on uncompressed (stored) data.
+When called on compressed data it will return an error.
+.SH "RETURN VALUES"
+If successful,
+\fBzip_fseek\fR
+returns 0.
+Otherwise, \-1 is returned.
+.SH "SEE ALSO"
+libzip(3),
+zip_fclose(3),
+zip_fopen(3),
+zip_fread(3),
+zip_ftell(3)
+.SH "HISTORY"
+\fBzip_fseek\fR()
+was added in libzip 1.2.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

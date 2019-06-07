@@ -1,0 +1,34 @@
+.TH "ZIP_DISCARD" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_discard\fR
+\- close zip archive and discard changes
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIvoid\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_discard\fR(\fIzip_t\ *archive\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_discard\fR()
+function closes
+\fIarchive\fR
+and frees the memory allocated for it.
+Any changes to the archive are not written to disk and discarded.
+.SH "SEE ALSO"
+libzip(3),
+zip_close(3)
+.SH "HISTORY"
+\fBzip_discard\fR()
+was added in libzip 0.11.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

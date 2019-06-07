@@ -1,0 +1,78 @@
+.TH "ZIP_FILE_RENAME" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_file_rename\fR
+\- rename file in zip archive
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_file_rename\fR(\fIzip_t\ *archive\fR, \fIzip_uint64_t\ index\fR, \fIconst\ char\ *name\fR, \fIzip_flags_t\ flags\fR);
+.PD
+.SH "DESCRIPTION"
+The file at position
+\fIindex\fR
+in the zip archive
+\fIarchive\fR
+is renamed to
+\fIname\fR.
+The
+\fIflags\fR
+argument can be any of:
+.TP 22n
+\fRZIP_FL_ENC_GUESS\fR
+Guess encoding of
+\fIname\fR
+(default).
+.TP 22n
+\fRZIP_FL_ENC_UTF_8\fR
+Interpret
+\fIname\fR
+as UTF-8.
+.TP 22n
+\fRZIP_FL_ENC_CP437\fR
+Interpret
+\fIname\fR
+as code page 437 (CP-437).
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, \-1 is returned and the error code in
+\fIarchive\fR
+is set to indicate the error.
+.SH "ERRORS"
+\fBzip_rename\fR()
+fails if:
+.TP 19n
+[\fRZIP_ER_DELETED\fR]
+The file to be renamed has been deleted from the archive.
+.TP 19n
+[\fRZIP_ER_EXISTS\fR]
+There is already a file called
+\fIname\fR
+in the archive.
+.TP 19n
+[\fRZIP_ER_INVAL\fR]
+\fIindex\fR
+is not a valid file index in
+\fIarchive\fR,
+\fIname is\fR
+\fRNULL\fR,
+the empty string, or not a valid UTF-8 encoded string.
+Also a file cannot be renamed to a directory or vice versa.
+Directories are denoted by a trailing slash.
+.SH "SEE ALSO"
+libzip(3),
+zip_unchange(3)
+.SH "HISTORY"
+\fBzip_file_rename\fR()
+was added in libzip 0.11.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

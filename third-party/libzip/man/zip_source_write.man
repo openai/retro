@@ -1,0 +1,53 @@
+.TH "ZIP_SOURCE_WRITE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_source_write\fR
+\- write data to zip source
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_int64_t\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_write\fR(\fIzip_source_t\ *source\fR, \fIconst\ void\ *data\fR, \fIzip_uint64_t\ len\fR);
+.PD
+.SH "DESCRIPTION"
+The function
+\fBzip_source_write\fR()
+writes
+\fIlen\fR
+bytes from the buffer
+\fIdata\fR
+to the zip source
+\fIsource\fR
+at the current write offset.
+.PP
+The zip source
+\fIsource\fR
+has to be prepared for writing by calling
+zip_source_begin_write(3)
+first.
+.SH "RETURN VALUES"
+Upon successful completion the number of bytes written is returned.
+Otherwise, \-1 is returned and the error information in
+\fIsource\fR
+is set to indicate the error.
+.SH "SEE ALSO"
+libzip(3),
+zip_source(3),
+zip_source_begin_write(3),
+zip_source_commit_write(3),
+zip_source_rollback_write(3),
+zip_source_seek_write(3),
+zip_source_tell_write(3)
+.SH "HISTORY"
+\fBzip_source_write\fR()
+was added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

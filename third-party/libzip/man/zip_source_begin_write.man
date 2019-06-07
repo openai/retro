@@ -1,0 +1,67 @@
+.TH "ZIP_SOURCE_BEGIN_WRITE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_source_begin_write\fR,
+\fBzip_source_begin_write_cloning\fR
+\- prepare zip source for writing
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_begin_write\fR(\fIzip_source_t\ *source\fR);
+.PD
+.PP
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_begin_write_cloning\fR(\fIzip_source_t\ *source\fR, \fIzip_uint64_t\ offset\fR);
+.PD
+.SH "DESCRIPTION"
+The functions
+\fBzip_source_begin_write\fR()
+and
+\fBzip_source_begin_write_cloning\fR()
+prepare
+\fIsource\fR
+for writing.
+Usually this involves creating temporary files or allocating buffers.
+.PP
+\fBzip_source_begin_write_cloning\fR()
+preserves the first
+\fIoffset\fR
+bytes of the original file.
+This is done efficiently, and writes to
+\fIsource\fR
+won't overwrite the original data until
+\fBzip_commit_write\fR()
+is called.
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, \-1 is returned and the error information in
+\fIsource\fR
+is set to indicate the error.
+.SH "SEE ALSO"
+libzip(3),
+zip_source(3),
+zip_source_commit_write(3),
+zip_source_rollback_write(3),
+zip_source_seek_write(3),
+zip_source_tell_write(3),
+zip_source_write(3)
+.SH "HISTORY"
+\fBzip_source_begin_write\fR()
+was added in libzip 1.0.
+.PP
+\fBzip_source_begin_write_cloning\fR()
+was added in libzip 1.4.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

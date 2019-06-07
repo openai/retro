@@ -1,0 +1,80 @@
+#ifndef HAD_CONFIG_H
+#define HAD_CONFIG_H
+#ifndef _HAD_ZIPCONF_H
+#include "zipconf.h"
+#endif
+/* BEGIN DEFINES */
+#cmakedefine HAVE___PROGNAME
+#cmakedefine HAVE__CHMOD
+#cmakedefine HAVE__CLOSE
+#cmakedefine HAVE__DUP
+#cmakedefine HAVE__FDOPEN
+#cmakedefine HAVE__FILENO
+#cmakedefine HAVE__OPEN
+#cmakedefine HAVE__SETMODE
+#cmakedefine HAVE__SNPRINTF
+#cmakedefine HAVE__STRDUP
+#cmakedefine HAVE__STRICMP
+#cmakedefine HAVE__STRTOI64
+#cmakedefine HAVE__STRTOUI64
+#cmakedefine HAVE__UMASK
+#cmakedefine HAVE__UNLINK
+#cmakedefine HAVE_CLONEFILE
+#cmakedefine HAVE_FILENO
+#cmakedefine HAVE_FSEEKO
+#cmakedefine HAVE_FTELLO
+#cmakedefine HAVE_GETPROGNAME
+#cmakedefine HAVE_LIBBZ2
+#cmakedefine HAVE_OPEN
+#cmakedefine HAVE_MKSTEMP
+#cmakedefine HAVE_SETMODE
+#cmakedefine HAVE_SNPRINTF
+#cmakedefine HAVE_SSIZE_T_LIBZIP
+#cmakedefine HAVE_STRCASECMP
+#cmakedefine HAVE_STRDUP
+#cmakedefine HAVE_STRICMP
+#cmakedefine HAVE_STRTOLL
+#cmakedefine HAVE_STRTOULL
+#cmakedefine HAVE_STRUCT_TM_TM_ZONE
+#cmakedefine HAVE_STDBOOL_H
+#cmakedefine HAVE_STRINGS_H
+#cmakedefine HAVE_UNISTD_H
+#cmakedefine __INT8_LIBZIP ${__INT8_LIBZIP}
+#cmakedefine INT8_T_LIBZIP ${INT8_T_LIBZIP}
+#cmakedefine UINT8_T_LIBZIP ${UINT8_T_LIBZIP}
+#cmakedefine __INT16_LIBZIP ${__INT16_LIBZIP}
+#cmakedefine INT16_T_LIBZIP ${INT16_T_LIBZIP}
+#cmakedefine UINT16_T_LIBZIP ${UINT16_T_LIBZIP}
+#cmakedefine __INT32_LIBZIP ${__INT32_LIBZIP}
+#cmakedefine INT32_T_LIBZIP ${INT32_T_LIBZIP}
+#cmakedefine UINT32_T_LIBZIP ${UINT32_T_LIBZIP}
+#cmakedefine __INT64_LIBZIP ${__INT64_LIBZIP}
+#cmakedefine INT64_T_LIBZIP ${INT64_T_LIBZIP}
+#cmakedefine UINT64_T_LIBZIP ${UINT64_T_LIBZIP}
+#cmakedefine SIZEOF_OFF_T ${SIZEOF_OFF_T}
+#cmakedefine SIZE_T_LIBZIP ${SIZE_T_LIBZIP}
+#cmakedefine SSIZE_T_LIBZIP ${SSIZE_T_LIBZIP}
+#cmakedefine HAVE_DIRENT_H
+#cmakedefine HAVE_FTS_H
+#cmakedefine HAVE_NDIR_H
+#cmakedefine HAVE_SYS_DIR_H
+#cmakedefine HAVE_SYS_NDIR_H
+#cmakedefine WORDS_BIGENDIAN
+#cmakedefine HAVE_SHARED
+/* END DEFINES */
+#define PACKAGE "@PACKAGE@"
+#define VERSION "@VERSION@"
+
+#ifndef HAVE_SSIZE_T_LIBZIP
+#  if SIZE_T_LIBZIP == INT_LIBZIP
+typedef int ssize_t;
+#  elif SIZE_T_LIBZIP == LONG_LIBZIP
+typedef long ssize_t;
+#  elif SIZE_T_LIBZIP == LONG_LONG_LIBZIP
+typedef long long ssize_t;
+#  else
+#error no suitable type for ssize_t found
+#  endif
+#endif
+
+#endif /* HAD_CONFIG_H */
