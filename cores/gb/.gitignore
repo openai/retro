@@ -1,0 +1,9 @@
+*.o
+*.so
+*.dll
+*.dylib
+*.a
+*.js
+*.bc
+.npmignore
+package.json
