@@ -4,16 +4,6 @@ if(POLICY CMP0048)
 endif()
 
 find_package(Git QUIET)
-if(NOT EXISTS ${CMAKE_SOURCE_DIR}/third-party/pybind11/include)
-    message(STATUS "Submodules seem to be missing. Attempting to clone now.")
-    execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init RESULT_VARIABLE SUCCESS)
-    if(SUCCESS EQUAL 0)
-        message(STATUS "Submodules cloned!")
-    else()
-        message(FATAL_ERROR "Failed to check out submodules. Aborting.")
-    endif()
-    unset(SUCCESS)
-endif()
 
 find_package(PythonInterp REQUIRED)
 
