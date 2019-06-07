@@ -1,0 +1,328 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\libretro.cxx" />
+    <ClCompile Include="..\..\stella\src\common\Base.cxx" />
+    <ClCompile Include="..\..\stella\src\common\SoundSDL.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\AtariVox.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Booster.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Cart.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Cart0840.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Cart2K.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Cart3E.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Cart3F.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Cart4A50.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Cart4K.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Cart4KSC.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartAR.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartBF.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartBFSC.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartCM.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartCTY.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartCV.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartDF.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartDFSC.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartDPC.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartDPCPlus.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartE0.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartE7.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartEF.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartEFSC.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartF0.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartF4.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartF4SC.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartF6.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartF6SC.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartF8.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartF8SC.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartFA.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartFA2.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartFE.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartMC.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartSB.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartUA.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CartX07.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\CompuMate.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Console.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Control.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Driving.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Genesis.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Joystick.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Keyboard.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\KidVid.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\M6502.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\M6532.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\MD5.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\MindLink.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\MT24LC256.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\NullDev.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Paddles.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Props.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\PropsSet.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Random.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\SaveKey.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Serializer.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Settings.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\StateManager.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Switches.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\System.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\Thumbulator.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\TIA.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\TIASnd.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\TIATables.cxx" />
+    <ClCompile Include="..\..\stella\src\emucore\TrackBall.cxx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\libretro.h" />
+    <ClInclude Include="..\..\stella\src\common\Array.hxx" />
+    <ClInclude Include="..\..\stella\src\common\Base.hxx" />
+    <ClInclude Include="..\..\stella\src\common\MouseControl.hxx" />
+    <ClInclude Include="..\..\stella\src\common\SharedPtr.hxx" />
+    <ClInclude Include="..\..\stella\src\common\SoundSDL.hxx" />
+    <ClInclude Include="..\..\stella\src\common\Stack.hxx" />
+    <ClInclude Include="..\..\stella\src\common\StellaKeys.hxx" />
+    <ClInclude Include="..\..\stella\src\common\StringList.hxx" />
+    <ClInclude Include="..\..\stella\src\common\Variant.hxx" />
+    <ClInclude Include="..\..\stella\src\common\Version.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\AtariVox.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Booster.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Cart.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Cart0840.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Cart2K.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Cart3E.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Cart3F.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Cart4A50.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Cart4K.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Cart4KSC.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartAR.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartBF.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartBFSC.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartCM.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartCTY.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartCTYTunes.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartCV.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartDF.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartDFSC.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartDPC.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartDPCPlus.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartE0.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartE7.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartEF.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartEFSC.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartF0.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartF4.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartF4SC.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartF6.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartF6SC.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartF8.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartF8SC.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartFA.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartFA2.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartFE.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartMC.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartSB.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartUA.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CartX07.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\CompuMate.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Console.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Control.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\DefProps.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Device.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Driving.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Event.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\EventHandler.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\FrameBuffer.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Genesis.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Joystick.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Keyboard.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\KidVid.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\M6502.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\M6532.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\MD5.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\MindLink.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\MT24LC256.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\NullDev.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\OSystem.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Paddles.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Props.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\PropsSet.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Random.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\SaveKey.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Serializable.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Serializer.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\SerialPort.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Settings.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Sound.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\StateManager.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Switches.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\System.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\Thumbulator.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\TIA.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\TIASnd.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\TIATables.hxx" />
+    <ClInclude Include="..\..\stella\src\emucore\TrackBall.hxx" />
+    <ClInclude Include="..\..\stella\stubs\Stubs.hxx" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A8A38628-FB5D-473D-8019-29FA83CD1156}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>msvc2010</RootNamespace>
+    <ProjectName>stella_libretro</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\msvc-2015\$(Configuration)\</OutDir>
+    <IncludePath>$(ProjectDir)..\..\stella\src\debugger;$(ProjectDir)..\..\stella\src\tools;$(ProjectDir)..\..\stella\src\emucore;$(ProjectDir)..\..\stella\src\cheat;$(ProjectDir)..\..\stella\src\common;$(ProjectDir)..\..\stella\src\yacc;$(ProjectDir)..\..\stella\stubs;$(ProjectDir)..\..\stella\src\gui;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\msvc-2015\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SOUND_SUPPORT;WIN32;_DEBUG;_WINDOWS;_USRDLL;MSVC2010_EXPORTS;%(PreprocessorDefinitions);__LIBRETRO__;HAVE_INTTYPES</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\stella\stubs;$(ProjectDir)..\..\stella\src\gui;$(ProjectDir)..\..\stella\src\debugger;$(ProjectDir)..\..\stella\src\emucore;$(ProjectDir)..\..\stella\src\common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4800</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>libretro.def</ModuleDefinitionFile>
+      <OutputFile>$(OutDir)stella_libretro$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SOUND_SUPPORT;WIN32;_DEBUG;_WINDOWS;_USRDLL;MSVC2010_EXPORTS;%(PreprocessorDefinitions);__LIBRETRO__;HAVE_INTTYPES</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\stella\stubs;$(ProjectDir)..\..\stella\src\gui;$(ProjectDir)..\..\stella\src\debugger;$(ProjectDir)..\..\stella\src\emucore;$(ProjectDir)..\..\stella\src\common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4800</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SOUND_SUPPORT;WIN32;NDEBUG;_WINDOWS;_USRDLL;MSVC2010_EXPORTS;%(PreprocessorDefinitions);__LIBRETRO__;HAVE_INTTYPES</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\stella\stubs;$(ProjectDir)..\..\stella\src\gui;$(ProjectDir)..\..\stella\src\debugger;$(ProjectDir)..\..\stella\src\emucore;$(ProjectDir)..\..\stella\src\common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4800</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>libretro.def</ModuleDefinitionFile>
+      <OutputFile>$(OutDir)stella_libretro$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SOUND_SUPPORT;WIN32;NDEBUG;_WINDOWS;_USRDLL;MSVC2010_EXPORTS;%(PreprocessorDefinitions);__LIBRETRO__;HAVE_INTTYPES</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\stella\stubs;$(ProjectDir)..\..\stella\src\gui;$(ProjectDir)..\..\stella\src\debugger;$(ProjectDir)..\..\stella\src\emucore;$(ProjectDir)..\..\stella\src\common</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4800</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>libretro.def</ModuleDefinitionFile>
+      <OutputFile>$(OutDir)stella_libretro$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

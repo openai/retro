@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/libretro/stella-libretro.git
+	branch = b0b63615fc2c7a30470fc1ac31ffdc18fdf4518b
+	commit = b0b63615fc2c7a30470fc1ac31ffdc18fdf4518b
+	parent = 72f0e18a9feb16f0975c90ed50bc82e8ccad5907
+	method = rebase
+	cmdver = 0.4.0

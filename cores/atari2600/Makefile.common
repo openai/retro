@@ -1,0 +1,77 @@
+LIBRETRO_COMM_DIR = $(CORE_DIR)/../libretro-common
+INCFLAGS := -I. -I$(CORE_DIR) -I$(CORE_DIR)/src -I$(CORE_DIR)/stubs -I$(CORE_DIR)/src/emucore -I$(CORE_DIR)/src/common -I$(CORE_DIR)/src/gui
+
+ifneq (,$(findstring msvc2003,$(platform)))
+INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
+endif
+
+SOURCES_CXX := $(CORE_DIR)/src/common/Base.cxx \
+	$(CORE_DIR)/src/common/SoundSDL.cxx \
+	$(CORE_DIR)/src/emucore/AtariVox.cxx \
+	$(CORE_DIR)/src/emucore/Booster.cxx \
+	$(CORE_DIR)/src/emucore/Cart.cxx \
+	$(CORE_DIR)/src/emucore/Cart0840.cxx \
+	$(CORE_DIR)/src/emucore/Cart2K.cxx \
+	$(CORE_DIR)/src/emucore/Cart3E.cxx \
+	$(CORE_DIR)/src/emucore/Cart3F.cxx \
+	$(CORE_DIR)/src/emucore/Cart4A50.cxx \
+	$(CORE_DIR)/src/emucore/Cart4K.cxx \
+	$(CORE_DIR)/src/emucore/Cart4KSC.cxx \
+	$(CORE_DIR)/src/emucore/CartAR.cxx \
+	$(CORE_DIR)/src/emucore/CartBF.cxx \
+	$(CORE_DIR)/src/emucore/CartBFSC.cxx \
+	$(CORE_DIR)/src/emucore/CartCM.cxx \
+	$(CORE_DIR)/src/emucore/CartCTY.cxx \
+	$(CORE_DIR)/src/emucore/CartCV.cxx \
+	$(CORE_DIR)/src/emucore/CartDF.cxx \
+	$(CORE_DIR)/src/emucore/CartDFSC.cxx \
+	$(CORE_DIR)/src/emucore/CartDPC.cxx \
+	$(CORE_DIR)/src/emucore/CartDPCPlus.cxx \
+	$(CORE_DIR)/src/emucore/CartE0.cxx \
+	$(CORE_DIR)/src/emucore/CartE7.cxx \
+	$(CORE_DIR)/src/emucore/CartEF.cxx \
+	$(CORE_DIR)/src/emucore/CartEFSC.cxx \
+	$(CORE_DIR)/src/emucore/CartF0.cxx \
+	$(CORE_DIR)/src/emucore/CartF4.cxx \
+	$(CORE_DIR)/src/emucore/CartF4SC.cxx \
+	$(CORE_DIR)/src/emucore/CartF6.cxx \
+	$(CORE_DIR)/src/emucore/CartF6SC.cxx \
+	$(CORE_DIR)/src/emucore/CartF8.cxx \
+	$(CORE_DIR)/src/emucore/CartF8SC.cxx \
+	$(CORE_DIR)/src/emucore/CartFA.cxx \
+	$(CORE_DIR)/src/emucore/CartFA2.cxx \
+	$(CORE_DIR)/src/emucore/CartFE.cxx \
+	$(CORE_DIR)/src/emucore/CartMC.cxx \
+	$(CORE_DIR)/src/emucore/CartSB.cxx \
+	$(CORE_DIR)/src/emucore/CartUA.cxx \
+	$(CORE_DIR)/src/emucore/CartX07.cxx \
+	$(CORE_DIR)/src/emucore/CompuMate.cxx \
+	$(CORE_DIR)/src/emucore/Console.cxx \
+	$(CORE_DIR)/src/emucore/Control.cxx \
+	$(CORE_DIR)/src/emucore/Driving.cxx \
+	$(CORE_DIR)/src/emucore/Genesis.cxx \
+	$(CORE_DIR)/src/emucore/Joystick.cxx \
+	$(CORE_DIR)/src/emucore/Keyboard.cxx \
+	$(CORE_DIR)/src/emucore/KidVid.cxx \
+	$(CORE_DIR)/src/emucore/M6502.cxx \
+	$(CORE_DIR)/src/emucore/M6532.cxx \
+	$(CORE_DIR)/src/emucore/MD5.cxx \
+	$(CORE_DIR)/src/emucore/MindLink.cxx \
+	$(CORE_DIR)/src/emucore/MT24LC256.cxx \
+	$(CORE_DIR)/src/emucore/NullDev.cxx \
+	$(CORE_DIR)/src/emucore/Paddles.cxx \
+	$(CORE_DIR)/src/emucore/Props.cxx \
+	$(CORE_DIR)/src/emucore/PropsSet.cxx \
+	$(CORE_DIR)/src/emucore/Random.cxx \
+	$(CORE_DIR)/src/emucore/SaveKey.cxx \
+	$(CORE_DIR)/src/emucore/Serializer.cxx \
+	$(CORE_DIR)/src/emucore/Settings.cxx \
+	$(CORE_DIR)/src/emucore/StateManager.cxx \
+	$(CORE_DIR)/src/emucore/Switches.cxx \
+	$(CORE_DIR)/src/emucore/System.cxx \
+	$(CORE_DIR)/src/emucore/Thumbulator.cxx \
+	$(CORE_DIR)/src/emucore/TIA.cxx \
+	$(CORE_DIR)/src/emucore/TIASnd.cxx \
+	$(CORE_DIR)/src/emucore/TIATables.cxx \
+	$(CORE_DIR)/src/emucore/TrackBall.cxx \
+	$(LIBRETRO_DIR)/libretro.cxx
