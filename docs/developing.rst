@@ -56,20 +56,9 @@ Building
 
 .. code-block:: shell
 
-    git clone --recursive https://github.com/openai/retro.git gym-retro
+    git clone https://github.com/openai/retro.git gym-retro
     cd gym-retro
     pip3 install -e .
-
-Updating submodules
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When doing a `git pull` sometimes submodules will be updated. Usually this should be handled automatically, but in case of errors this can be quickly fixed by running the following steps before rebuilding:
-
-.. code-block:: shell
-
-    git submodule deinit -f --all
-    rm -rf .git/modules
-    git submodule update --init
 
 Install Retro UI from source
 --------------------------------------

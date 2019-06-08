@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/nih-at/libzip.git
+	branch = ab882fdd77c85f6c4723543b0d054943420a2786
+	commit = ab882fdd77c85f6c4723543b0d054943420a2786
+	parent = ff08e4ee6539d0a278532457538ef254d5029dfd
+	method = rebase
+	cmdver = 0.4.0

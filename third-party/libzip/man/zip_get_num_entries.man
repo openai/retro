@@ -1,0 +1,55 @@
+.TH "ZIP_GET_NUM_ENTRIES" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_get_num_entries\fR
+\- get number of files in archive
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_int64_t\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_get_num_entries\fR(\fIzip_t\ *archive\fR, \fIzip_flags_t\ flags\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_get_num_entries\fR()
+function returns the number of files in
+\fIarchive\fR.
+If
+\fIflags\fR
+is set to
+\fRZIP_FL_UNCHANGED\fR,
+the original number of entries is returned.
+.SH "RETURN VALUES"
+\fBzip_get_num_entries\fR()
+returns the number of files in the zip archive,
+or \-1 if
+\fIarchive\fR
+is
+\fRNULL\fR.
+.SH "SEE ALSO"
+libzip(3),
+zip_fopen_index(3),
+zip_stat_index(3)
+.SH "HISTORY"
+\fBzip_get_num_entries\fR()
+was added in libzip 0.10.
+In libzip 0.11 the return type was changed from
+\fIzip_uint64_t\fR
+to
+\fIzip_int64_t\fR.
+In libzip 0.11 the type of
+\fIflags\fR
+was changed from
+\fIint\fR
+to
+\fIzip_flags_t\fR.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

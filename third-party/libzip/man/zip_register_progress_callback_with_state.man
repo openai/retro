@@ -1,0 +1,60 @@
+.TH "ZIP_REGISTER_PROGRESS_CALLBACK_WITH_STATE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_register_progress_callback_with_state\fR
+\- provide updates during zip_close
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fItypedef void (*zip_progress_callback)(zip_t *, double, void *);\fR
+.sp
+\fIvoid\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_register_progress_callback_with_state\fR(\fIzip_t\ *archive\fR, \fIdouble\ precision\fR, \fIzip_progress_callback\ callback\fR, \fIvoid\ (*ud_free)(void\ *)\fR, \fIvoid\ *ud\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_register_progress_callback_with_state\fR()
+function registers a callback function
+\fIcallback\fR
+for the zip archive
+\fIarchive\fR.
+The
+\fIprecision\fR
+argument is a double in the range from 0.00 to 1.0 that defines the
+smallest change for which the callback should be called (to avoid too
+frequent calls).
+The
+\fIud_free\fR
+function is called during cleanup for deleting the userdata supplied in
+\fIud\fR.
+.PP
+The callback function is called during
+zip_close(3)
+in regular intervals (after every zip archive entry that's completely
+written to disk, and while writing data for entries) with zip archive
+\fIarchive\fR,
+the current progression state as a
+\fIdouble\fR,
+and the user-provided user-data
+\fIud\fR
+as arguments.
+The progression state is a
+\fIdouble\fR
+in the range from 0.0 to 1.0.
+This can be used to provide progress indicators for user interfaces.
+.SH "SEE ALSO"
+libzip(3),
+zip_close(3)
+.SH "HISTORY"
+\fBzip_register_progress_callback_with_state\fR()
+was added in libzip 1.3.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

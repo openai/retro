@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/capnproto/capnproto.git
+	branch = c949a18da5f041a36cc218c5c4b79c7705999b4f
+	commit = c949a18da5f041a36cc218c5c4b79c7705999b4f
+	parent = 70e481b689249b9be5591c50a1395adfce79f958
+	method = rebase
+	cmdver = 0.4.0

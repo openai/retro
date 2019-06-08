@@ -1,0 +1,91 @@
+.TH "ZIP_FILE_SET_ENCRYPTION" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_file_set_encryption\fR
+\- set encryption method for file in zip
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_file_set_encryption\fR(\fIzip_t\ *archive\fR, \fIzip_uint64_t\ index\fR, \fIzip_uint16_t\ method\fR, \fIconst\ char\ *password\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_file_set_encryption\fR()
+function sets the encryption method for the file at position
+\fIindex\fR
+in the zip archive to
+\fImethod\fR
+using the password
+\fIpassword\fR.
+The
+\fImethod\fR
+is the same as returned by
+zip_stat(3).
+For the
+\fImethod\fR
+argument, currently only the following values are supported:
+.TP 19n
+\fRZIP_EM_NONE\fR
+No encryption.
+.TP 19n
+\fRZIP_EM_AES_128\fR
+Winzip AES-128 encryption.
+.TP 19n
+\fRZIP_EM_AES_192\fR
+Winzip AES-192 encryption.
+.TP 19n
+\fRZIP_EM_AES_256\fR
+Winzip AES-256 encryption.
+.PP
+If
+\fIpassword\fR
+is
+\fRNULL\fR,
+the default password provided by
+zip_set_default_password(3)
+is used.
+.PP
+The current encryption method for a file in a zip archive can be
+determined using
+zip_stat(3).
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, \-1 is returned and the error information in
+\fIarchive\fR
+is set to indicate the error.
+.SH "ERRORS"
+\fBzip_file_set_encryption\fR()
+fails if:
+.TP 19n
+[\fRZIP_ER_ENCRNOTSUPP\fR]
+Unsupported compression method requested.
+.TP 19n
+[\fRZIP_ER_INVAL\fR]
+\fIindex\fR
+is not a valid file index in
+\fIarchive\fR,
+or the argument combination is invalid.
+.TP 19n
+[\fRZIP_ER_MEMORY\fR]
+Required memory could not be allocated.
+.TP 19n
+[\fRZIP_ER_RDONLY\fR]
+Read-only zip file, no changes allowed.
+.SH "SEE ALSO"
+libzip(3),
+zip_set_default_password(3),
+zip_stat(3)
+.SH "HISTORY"
+\fBzip_file_set_encryption\fR()
+was added in libzip 1.2.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

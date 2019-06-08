@@ -1,0 +1,171 @@
+.TH "ZIP_STAT" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_stat\fR,
+\fBzip_stat_index\fR
+\- get information about file
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_stat\fR(\fIzip_t\ *archive\fR, \fIconst\ char\ *fname\fR, \fIzip_flags_t\ flags\fR, \fIzip_stat_t\ *sb\fR);
+.PD
+.PP
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_stat_index\fR(\fIzip_t\ *archive\fR, \fIzip_uint64_t\ index\fR, \fIzip_flags_t\ flags\fR, \fIzip_stat_t\ *sb\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_stat\fR()
+function obtains information about the file named
+\fIfname\fR
+in
+\fIarchive\fR.
+The
+\fIflags\fR
+argument specifies how the name lookup should be done.
+Its values are described in
+zip_name_locate(3).
+Also,
+\fRZIP_FL_UNCHANGED\fR
+may be
+\fIor\fR'ed
+to it to request information about the original file in the archive,
+ignoring any changes made.
+.PP
+The
+\fBzip_stat_index\fR()
+function obtains information about the file at position
+\fIindex\fR.
+.PP
+The
+\fIsb\fR
+argument is a pointer to a
+\fIstruct zip_stat\fR
+(shown below), into which information about the file is placed.
+.nf
+.sp
+.RS 0n
+struct zip_stat {
+    zip_uint64_t valid;                 /* which fields have valid values */
+    const char *name;                   /* name of the file */
+    zip_uint64_t index;                 /* index within archive */
+    zip_uint64_t size;                  /* size of file (uncompressed) */
+    zip_uint64_t comp_size;             /* size of file (compressed) */
+    time_t mtime;                       /* modification time */
+    zip_uint32_t crc;                   /* crc of file data */
+    zip_uint16_t comp_method;           /* compression method used */
+    zip_uint16_t encryption_method;     /* encryption method used */
+    zip_uint32_t flags;                 /* reserved for future use */
+};
+.RE
+.fi
+The structure pointed to by
+\fIsb\fR
+must be allocated before calling
+\fBzip_stat\fR()
+or
+\fBzip_stat_index\fR().
+.PP
+The
+\fIvalid\fR
+field of the structure specifies which other fields are valid.
+Check if the flag defined by the following defines are in
+\fIvalid\fR
+before accessing the fields:
+.RS 6n
+.PD 0
+.TP 30n
+\fRZIP_STAT_NAME\fR
+\fIname\fR
+.TP 30n
+\fRZIP_STAT_INDEX\fR
+\fIindex\fR
+.TP 30n
+\fRZIP_STAT_SIZE\fR
+\fIsize\fR
+.TP 30n
+\fRZIP_STAT_COMP_SIZE\fR
+\fIcomp_size\fR
+.TP 30n
+\fRZIP_STAT_MTIME\fR
+\fImtime\fR
+.TP 30n
+\fRZIP_STAT_CRC\fR
+\fIcrc\fR
+.TP 30n
+\fRZIP_STAT_COMP_METHOD\fR
+\fIcomp_method\fR
+.TP 30n
+\fRZIP_STAT_ENCRYPTION_METHOD\fR
+\fIencryption_method\fR
+.TP 30n
+\fRZIP_STAT_FLAGS\fR
+\fIflags\fR
+.RE
+.PD
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, \-1 is returned and the error information in
+\fIarchive\fR
+is set to indicate the error.
+.SH "ERRORS"
+The function
+\fBzip_stat\fR()
+can fail for any of the errors specified for the routine
+zip_name_locate(3).
+.PP
+The function
+\fBzip_stat_index\fR()
+fails and sets the error information to
+\fRZIP_ER_INVAL\fR
+if
+\fIindex\fR
+is invalid.
+If
+\fRZIP_FL_UNCHANGED\fR
+is not set and no information can be obtained from the source
+callback, the error information is set to
+\fRZIP_ER_CHANGED\fR.
+.SH "SEE ALSO"
+libzip(3),
+zip_get_num_entries(3),
+zip_name_locate(3),
+zip_stat_init(3)
+.SH "HISTORY"
+\fBzip_stat\fR()
+was added in libzip 0.6.
+In libzip 0.11 the type of
+\fIflags\fR
+was changed from
+\fIint\fR
+to
+\fIzip_flags_t\fR.
+.PP
+\fBzip_stat_index\fR()
+was added in libzip 0.6.
+In libzip 0.10 the type of
+\fIindex\fR
+was changed from
+\fIint\fR
+to
+\fIzip_uint64_t\fR.
+In libzip 0.11 the type of
+\fIflags\fR
+was changed from
+\fIint\fR
+to
+\fIzip_flags_t\fR.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

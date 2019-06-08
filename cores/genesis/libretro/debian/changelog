@@ -1,0 +1,14 @@
+libretro-genesisplusgx (1.7.4-0ubuntu3) UNRELEASED; urgency=low
+
+  * Updated to latest git.
+  * Debian folder from hunterk PPA to upstream
+  * Updated debian package and fixed lintian errors/warnings
+
+ -- Sérgio Benjamim <sergio_br2@yahoo.com.br>  Mon, 14 Jul 2014 22:40:00 -0300
+
+
+libretro-genesisplusgx (1.7.4-0ubuntu2) UNRELEASED; urgency=low
+
+  * Updated to latest git.
+
+ -- Hunter Kaller (hizzlekizzle) <hunter_kaller@yahoo.com>  Wed, 12 Mar 2014 13:24:59 -0500

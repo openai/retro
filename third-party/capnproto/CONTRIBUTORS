@@ -1,0 +1,22 @@
+The following people have made large code contributions to this repository.
+Those contributions are copyright the respective authors and licensed by them
+under the same MIT license terms as the rest of the library.
+
+Kenton Varda <kenton@sandstorm.io>: Primary Author
+Jason Choy <jjwchoy@gmail.com>: kj/threadlocal.h and other iOS tweaks, `name` annotation in C++ code generator
+Remy Blank <rblank@google.com> (contributions copyright Google Inc.): KJ Timers
+Joshua Warner <joshuawarner32@gmail.com>: cmake build, AnyStruct/AnyList, other stuff
+Scott Purdy <scott@fer.io>: kj/std iostream interface
+Bryan Borham <bjboreham@gmail.com>: Initial MSVC support
+Philip Quinn <p@partylemon.com>: cmake build and other assorted bits
+Brian Taylor <el.wubo@gmail.com>: emacs syntax highlighting
+Ben Laurie <ben@links.org>: discovered and responsibly disclosed security bugs
+Kamal Marhubi <kamal@marhubi.com>: JSON parser
+Oliver Kuckertz <oliver.kuckertz@mologie.de>: FdObserver POLLPRI support
+Harris Hancock <vortrab@gmail.com>: MSVC support
+Branislav Katreniak <branislav.katreniak@digitalstrom.com>: JSON decode
+Matthew Maurer <matthew.r.maurer@gmail.com>: Canonicalization Support
+David Renshaw <david@sandstorm.io>: bugfixes and miscellaneous maintenance
+
+This file does not list people who maintain their own Cap'n Proto
+implementations as separate projects.  Those people are awesome too!  :)

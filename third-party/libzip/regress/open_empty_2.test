@@ -1,0 +1,6 @@
+# zip_open: 0 size file is recognized as empty zip
+program tryopen
+file testfile.txt testfile.txt testfile.txt
+args testfile.txt
+return 0
+stdout opening 'testfile.txt' succeeded, 0 entries

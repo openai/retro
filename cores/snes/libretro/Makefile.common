@@ -1,0 +1,55 @@
+LIBRETRO_COMM_DIR = $(CORE_DIR)/libretro/libretro-common
+INCFLAGS   = -I$(CORE_DIR)/libretro -I$(CORE_DIR) -I$(CORE_DIR)/apu/ -I$(CORE_DIR)/apu/bapu
+
+ifneq (,$(findstring msvc2003,$(platform)))
+INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
+endif
+
+SOURCES_C   :=
+SOURCES_CXX := $(CORE_DIR)/apu/apu.cpp \
+				 $(CORE_DIR)/apu/bapu/dsp/sdsp.cpp \
+				 $(CORE_DIR)/apu/bapu/dsp/SPC_DSP.cpp \
+				 $(CORE_DIR)/apu/bapu/smp/smp.cpp \
+				 $(CORE_DIR)/apu/bapu/smp/smp_state.cpp \
+				 $(CORE_DIR)/bsx.cpp \
+				 $(CORE_DIR)/c4.cpp \
+				 $(CORE_DIR)/c4emu.cpp \
+				 $(CORE_DIR)/cheats.cpp \
+				 $(CORE_DIR)/cheats2.cpp \
+				 $(CORE_DIR)/clip.cpp \
+				 $(CORE_DIR)/conffile.cpp \
+				 $(CORE_DIR)/controls.cpp \
+				 $(CORE_DIR)/cpu.cpp \
+				 $(CORE_DIR)/cpuexec.cpp \
+				 $(CORE_DIR)/cpuops.cpp \
+				 $(CORE_DIR)/crosshairs.cpp \
+				 $(CORE_DIR)/dma.cpp \
+				 $(CORE_DIR)/dsp.cpp \
+				 $(CORE_DIR)/dsp1.cpp \
+				 $(CORE_DIR)/dsp2.cpp \
+				 $(CORE_DIR)/dsp3.cpp \
+				 $(CORE_DIR)/dsp4.cpp \
+				 $(CORE_DIR)/fxinst.cpp \
+				 $(CORE_DIR)/fxemu.cpp \
+				 $(CORE_DIR)/gfx.cpp \
+				 $(CORE_DIR)/globals.cpp \
+				 $(CORE_DIR)/logger.cpp \
+				 $(CORE_DIR)/memmap.cpp \
+				 $(CORE_DIR)/obc1.cpp \
+				 $(CORE_DIR)/msu1.cpp \
+				 $(CORE_DIR)/ppu.cpp \
+				 $(CORE_DIR)/stream.cpp \
+				 $(CORE_DIR)/sa1.cpp \
+				 $(CORE_DIR)/sa1cpu.cpp \
+				 $(CORE_DIR)/sdd1.cpp \
+				 $(CORE_DIR)/sdd1emu.cpp \
+				 $(CORE_DIR)/seta.cpp \
+				 $(CORE_DIR)/seta010.cpp \
+				 $(CORE_DIR)/seta011.cpp \
+				 $(CORE_DIR)/seta018.cpp \
+				 $(CORE_DIR)/snapshot.cpp \
+				 $(CORE_DIR)/snes9x.cpp \
+				 $(CORE_DIR)/spc7110.cpp \
+				 $(CORE_DIR)/srtc.cpp \
+				 $(CORE_DIR)/tile.cpp \
+				 $(CORE_DIR)/libretro/libretro.cpp

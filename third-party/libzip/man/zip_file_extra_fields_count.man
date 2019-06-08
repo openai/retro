@@ -1,0 +1,92 @@
+.TH "ZIP_FILE_EXTRA_FIELDS_COUNT" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_file_extra_fields_count\fR,
+\fBzip_file_extra_fields_count_by_id\fR
+\- count extra fields for file in zip
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_int16_t\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_file_extra_fields_count\fR(\fIzip_t\ *archive\fR, \fIzip_uint64_t\ index\fR, \fIzip_flags_t\ flags\fR);
+.PD
+.PP
+\fIzip_int16_t\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_file_extra_fields_count_by_id\fR(\fIzip_t\ *archive\fR, \fIzip_uint64_t\ index\fR, \fIzip_uint16_t\ extra_field_id\fR, \fIzip_flags_t\ flags\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_file_extra_fields_count\fR()
+function counts the extra fields for the file at position
+\fIindex\fR
+in the zip archive.
+.PP
+The following
+\fIflags\fR
+are supported:
+.RS 6n
+.TP 18n
+\fRZIP_FL_CENTRAL\fR
+Count extra fields from the archive's central directory.
+.TP 18n
+\fRZIP_FL_LOCAL\fR
+Count extra fields from the local file headers.
+.TP 18n
+\fRZIP_FL_UNCHANGED\fR
+Count the original unchanged extra fields, ignoring any changes made.
+.RE
+.PP
+The
+\fBzip_file_extra_fields_count_by_id\fR()
+function counts the extra fields with ID (two-byte signature)
+\fIextra_field_id\fR.
+The other arguments are the same as for
+\fBzip_file_extra_fields_count\fR().
+.PP
+Extra fields that are the same in the central directory and the local file
+header are merged into one.
+Therefore, the counts with
+\fRZIP_FL_CENTRAL\fR
+and
+\fRZIP_FL_LOCAL\fR
+do not need to add up to the same value as when given
+\fRZIP_FL_CENTRAL|ZIP_FL_LOCAL\fR
+at the same time.
+.SH "RETURN VALUES"
+Upon successful completion, the requested number of extra fields is returned.
+Otherwise, \-1 is returned and the error code in
+\fIarchive\fR
+is set to indicate the error.
+.SH "ERRORS"
+\fBzip_file_extra_fields_count\fR()
+and
+\fBzip_file_extra_fields_count_by_id\fR()
+fail if:
+.TP 19n
+[\fRZIP_ER_NOENT\fR]
+\fIindex\fR
+is not a valid file index in
+\fIarchive\fR.
+.SH "SEE ALSO"
+libzip(3),
+zip_file_extra_field_delete(3),
+zip_file_extra_field_get(3),
+zip_file_extra_field_set(3)
+.SH "HISTORY"
+\fBzip_file_extra_fields_count\fR()
+and
+\fBzip_file_extra_fields_count_by_id\fR()
+were added in libzip 0.11.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

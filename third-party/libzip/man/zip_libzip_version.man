@@ -1,0 +1,39 @@
+.TH "ZIP_LIBZIP_VERSION" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_libzip_version\fR
+\- return run-time version of library
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIconst char *\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_libzip_version\fR(\fIvoid\fR);
+.PD
+.SH "DESCRIPTION"
+\fBzip_libzip_version\fR
+returns the version number of the library as string in the format
+\(Lq$MAJOR.$MINOR.$MICRO$SUFFIX\(Rq
+where
+\fI$MAJOR\fR
+is the major version,
+\fI$MINOR\fR
+the minor,
+\fI$MICRO\fR
+the micro, and
+\fI$SUFFIX\fR
+a suffix that's only set for development versions.
+.SH "SEE ALSO"
+libzip(3)
+.SH "HISTORY"
+\fBzip_libzip_version\fR()
+was added in libzip 1.3.1.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

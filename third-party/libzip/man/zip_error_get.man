@@ -1,0 +1,107 @@
+.TH "ZIP_ERROR_GET" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_error_get\fR,
+\fBzip_file_error_get\fR
+\- get error codes for archive or file (obsolete interface)
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIvoid\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_error_get\fR(\fIzip_t\ *archive\fR, \fIint\ *zep\fR, \fIint\ *sep\fR);
+.PD
+.PP
+\fIvoid\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_file_error_get\fR(\fIzip_file_t\ *file\fR, \fIint\ *zep\fR, \fIint\ *sep\fR);
+.PD
+.SH "DESCRIPTION"
+The functions
+\fBzip_error_get\fR()
+and
+\fBzip_file_error_get\fR()
+are deprecated.
+Use
+zip_error_code_system(3),
+zip_error_code_zip(3),
+zip_file_get_error(3),
+and
+zip_get_error(3)
+instead.
+.PP
+For
+\fBzip_error_get\fR(),
+replace
+.nf
+.sp
+.RS 6n
+int ze, se;
+zip_error_get(za, &ze, &se);
+.RE
+.fi
+with
+.nf
+.sp
+.RS 6n
+int ze, se;
+zip_error_t *error = zip_get_error(za);
+ze = zip_error_code_zip(error);
+se = zip_error_code_system(error);
+.RE
+.fi
+For
+\fBzip_file_error_get\fR(),
+replace
+.nf
+.sp
+.RS 6n
+int ze, se;
+zip_file_error_get(zf, &ze, &se);
+.RE
+.fi
+with
+.nf
+.sp
+.RS 6n
+int ze, se;
+zip_error_t *error = zip_file_get_error(zf);
+ze = zip_error_code_zip(error);
+se = zip_error_code_system(error);
+.RE
+.fi
+.SH "SEE ALSO"
+libzip(3),
+zip_error_code_system(3),
+zip_error_code_zip(3),
+zip_file_get_error(3),
+zip_get_error(3)
+.SH "HISTORY"
+\fBzip_error_get\fR()
+was added in libzip 0.6.
+It was deprecated in libzip 1.0, use
+\fBzip_get_error\fR(),
+\fBzip_error_code_zip\fR(),
+/
+\fBzip_error_code_system\fR()
+instead.
+.PP
+\fBzip_file_error_get\fR()
+was added in libzip 0.6.
+It was deprecated in libzip 1.0, use
+\fBzip_file_get_error\fR(),
+\fBzip_error_code_zip\fR(),
+/
+\fBzip_error_code_system\fR()
+instead.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,47 @@
+.TH "ZIP_ERROR_CLEAR" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_error_clear\fR,
+\fBzip_file_error_clear\fR
+\- clear error state for archive or file
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIvoid\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_error_clear\fR(\fIzip_t\ *archive\fR);
+.PD
+.PP
+\fIvoid\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_file_error_clear\fR(\fIzip_file_t\ *file\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_error_clear\fR()
+function clears the error state for the zip archive
+\fIarchive\fR.
+.PP
+The
+\fBzip_file_error_clear\fR()
+function does the same for the zip file
+\fIfile\fR.
+.SH "SEE ALSO"
+libzip(3),
+zip_error_get(3)
+.SH "HISTORY"
+\fBzip_error_clear\fR()
+and
+\fBzip_file_error_clear\fR()
+were added in libzip 0.8.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

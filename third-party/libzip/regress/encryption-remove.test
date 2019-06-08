@@ -1,0 +1,4 @@
+# test AES decryption support, remove encryption from file that has it
+return 0
+args encrypt.zzip  set_password foofoofoo  set_file_encryption 1 none ""
+file encrypt.zzip encrypt-aes128.zip encrypt-none.zip

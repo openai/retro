@@ -1,0 +1,161 @@
+# Copyright (c) 2013-2014 Sandstorm Development Group, Inc. and contributors
+# Licensed under the MIT License:
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+# This file is intended to test that various error cases are detected as errors.  The error
+# output is matched against a golden file.  The file name has the .nobuild extension to make
+# sure that a build system which automatically builds .capnp files does not try to build this one.
+
+#
+
+@0xccd0890aa4926a9b;
+# Can't really test the missing-ID error because the output is intentionally unpredictable.
+
+const notType :Int32 = 123;
+annotation notFieldAnnotation(struct) :Int32;
+annotation fieldAnnotation(field) :Int32;
+
+struct Foo {
+  dupName @0 :Int32;
+  dupName @1 :Int32;
+  dupNumber1 @2 :Int32;
+  dupNumber2 @2 :Int32;
+
+  missingNumber @4 :Int32;
+  next @5 :Int32;
+
+  emptyUnion :union {}
+  emptyGroup :group {}
+
+  singletonUnion :union {
+    field @6 :Int32;
+  }
+
+  union {
+    dupName @7 :Int32;
+    f8 @8 :Int32;
+  }
+  union {
+    f9 @9 :Int32;
+    f10 @10 :Int32;
+  }
+
+  struct wrongTypeStyle {}
+  WrongFieldStyle @11 :Int32;
+  under_score @12 :Int32;
+
+  containsStruct :group {
+    f13 @13 :Int32;
+    struct CantNestHere {}
+  }
+
+  retroUnion @16! :union {
+    f14 @14 :Int32;
+    f15 @15 :Int32;
+  }
+
+  missingColonAndEclamation @18 union {
+    f19 @19 :Int32;
+    f20 @20 :Int32;
+  }
+
+  missingExclamation @21 :union {
+    f22 @22 :Int32;
+    f23 @23 :Int32;
+  }
+
+  missingColon @24! union {
+    f19 @25 :Int32;
+    f20 @26 :Int32;
+  }
+
+  unnamedInNamed :union {
+    f27 @27 :Int32;
+    f28 @28 :Int32;
+    union {
+      # content is ignored
+    }
+  }
+
+  listWithoutParam @31 :List;
+  listWithTooManyParams @32 :List(Int32, Int64);
+  listAnyPointer @33 :List(AnyPointer);
+  notAType @34 :notType;
+  noParams @35 :Foo(Int32);
+
+  defaultOutOfRange @36 :Int16 = 1234567;
+  defaultOutOfRange2 @37 :UInt16 = -1;
+  defaultWrongType @38 :Text = 123;
+  defaultWrongType2 @39 :Text = [123];
+  defaultWrongType3 @40 :Text = (foo = 123, bar = 456);
+  defaultTooBigToBeNegative @41 :Int64 = -0x8000000000000001;
+  defaultNotConstant @42 :Int32 = .Foo;
+  defaultConstantNotQualified @43 :Int32 = notType;
+
+  notAnnotation @44 :Int32 $Foo(123);
+  badAnnotation @45 :Int32 $notFieldAnnotation(123);
+  notVoidAnnotation @46 :Int32 $fieldAnnotation;
+
+  undefinedImport @17 :import "noshuchfile.capnp".Bar;
+  undefinedAbsolute @47 : .NoSuch;
+  undefinedRelative @29 :NoSuch;
+  undefinedMember @30 :Foo.NoSuch;
+}
+
+struct Bar {
+  x @3 :Text;
+  someGroup :group {
+    defaultMissingFieldName @2 :Bar = (x = "abcd", 456);
+    defaultNoSuchField @0 :Bar = (nosuchfield = 123);
+    defaultGroupMismatch @1 :Bar = (someGroup = 123);
+  }
+}
+
+
+using Bar;
+
+enum DupEnumerants {
+  dupName @0;
+  dupName @1;
+  dupNumber1 @2;
+  dupNumber2 @2;
+}
+
+const recursive: UInt32 = .recursive;
+
+struct Generic(T, U) {
+}
+
+struct UseGeneric {
+  tooFew @0 :Generic(Text);
+  tooMany @1 :Generic(Text, Data, List(Int32));
+  doubleBind @2 :Generic(Text, Data)(Data, Text);
+  primitiveBinding @3 :Generic(Text, Int32);
+}
+
+const embedBadType :UInt32 = embed "binary";
+const embedNoSuchFile :Data = embed "no-such-file";
+
+using Baz = import "nosuchfile-unused.capnp".Baz;
+# Check that an import in an unused `using` still reports error.
+
+interface TestInterface {
+  foo @0 (a :UInt32 = null);
+}

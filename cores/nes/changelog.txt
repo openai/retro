@@ -1,0 +1,2237 @@
+0.98.13:
+
+	SDL:  Fixed button configuration when using joystick hats.  Thanks to
+	ShaolinMan for pointing out the code errors.
+
+	Readded checks in ines.c for some common bad dumps and non-working hacked
+	games.
+
+	Sprite hit emulation is more precise(as it was in 0.97.5).
+
+	Fixed mapper 185 emulation to work properly with the Japanese
+	version of "Spy vs Spy", and hopefully with the GOOD dump
+	of Banana(I don't think one exists).
+
+	Added per-game hacks for Shougi Meikan '92 and Shougi Meikan '93.
+
+	Fixed a bug in SetupCartMirroring() that could cause some games to have corrupted
+	mirroring if loaded in a certain order.  This was a rather major, long-standing
+	bug. :/
+
+	Added many iNES header corrections.
+
+	Fixed emulation of the "ISB" and "DCP" invalid opcodes.
+
+	Optimized the PPU background drawing code with inline assembly.  Older/some(?) versions
+	of gcc may produce bad code(from previous experience with inline
+	assembly in gcc), but 3.4.1 seems to do ok.
+
+	Optimized some of the low-quality sound emulation code.
+
+	Added a command-line option to the configure script to enable the FCE Ultra 
+	debugger(disabled by default).  It reduces executable size, and may increase speed
+	of execution slightly.
+
+	In unix-netplay.c, replaced the ioctl() on a socket to read the number of bytes available to read
+	with a select().  I've also added some "BEOS" #ifdefs.  I don't know if they will
+	work properly.
+
+	Replaced archaic include of "malloc.h" in unix-netplay.c with "stdlib.h".
+	Also in unix-netplay.c, I've added:
+
+		#ifndef SOL_TCP
+		#define SOL_TCP IPPROTO_TCP
+		#endif
+
+	Fixed a bug in sdl-sound.c that would prevent FCE Ultra from being compiled
+	on certain platforms(Mac OS X).
+
+	Fixed variable declarations in the following files to be compatible
+	with C compilers that don't adhere to C99(or was it C98...):
+		movie.c
+		drivers/sexyal/convertgen.c and drivers/sexyal/convert.inc
+		drivers/pc/unix-netplay.c
+
+0.98.12:
+
+	Win32:  Fixed the behavior of the sound logging function.
+
+	Fixed a bug that was causing 2xscale/3xscale to be broken
+	when clipping the leftmost and rightmost 8 columns.
+
+	Added an iNES header correction entry for JustBreed.
+
+	Modified the MMC5 "ELROM" board emulation to not emulate WRAM.
+
+	Corrected various pieces of code that were causing compiler warnings.
+
+	Win32:  Scaling settings(x, y, stretch to fill screen) are now respected while
+	using a special scaler in full screen mode, though if x or y scale is
+	less than what is needed for a particular scaler, it will be
+	adjusted.
+
+	Win32:  The window will be reblitted when it becomes invalidated while
+	a game is loaded(such as when you're resizing the window).
+
+	When the PPU is in a "dead" state after starting up, the graphics
+	buffer is now cleared.  Previously, particularly in the Windows port, when
+	a game was closed, and a new game was loaded, the last image from
+	the previous game would be displayed for a short time.
+
+	Win32:  Blit skipping will now occur when sound is disabled and FCE Ultra is
+	running behind the desired frame rate.
+
+	Win32:  Blit-skipping behavior can now be configured to some extent in the "Timing" configuration 
+	window.
+
+	Win32: Added a "Recent Directories" submenu to the "File" menu.
+
+	Removed some debugging code that shouldn't have been enabled in 0.98.11.
+
+0.98.11:
+
+	Win32:  Special scalers are now also supported in windowed mode.  For Scale2x/Scale3x,
+	the fastest "desktop" bit depth is 16bpp.  For hq2x/hq3x, it is 32bpp.
+
+	The shared video blitting code(drivers/common/vidblit.c) can now blit using Scale2x
+	and Scale3x to any target bit depth(8bpp, 16bpp, 24bpp, and 32bpp) instead of just
+	8bpp, as it was before.
+	HQ2x  and HQ3x can now blit to 16bpp, 24bpp(untested), and 32bpp.  The 16bpp and
+	24bpp targets are done doing post-processing conversion, after HQ2x/HQ3x, which
+	really does hurt speed.
+
+	Changed a few names in the credits section of the documentation to their
+	aliases.  Names you didn't get to pick to have are so troublesome. :b
+	I also made various fixes/updates to the documentation.
+
+	Updated the FAQ with some information regard video mode bit depths and speed.
+
+	SDL:  Disabled the fast-forward-key speed-limiting code.  I thought I had
+	done this before...
+
+	Fixed a major bug in the movie recording code, and added some code to automatically detect
+	and fix playback of broken movies from earlier versions.
+
+	Did a little swapping thing with mapper 90 and 209.  I moved back Mortal Kombat 3
+	to mapper 90, and moved Shin Samurai Spirits 2 to mapper 209.  Sorry for any confusion.
+	Mapper 90 should be considered as having the fancy nametable select mode disabled, with
+	mapper 209 having it enabled.
+
+	Added support for mapper 160, which turns out to be the same hardware as mapper
+	90.  Joy.
+
+	Improved mapper 90 emulation.  This mapper really needs low-level
+	emulation for IRQs to work right, though. :/  
+
+	Win32:  Fixed the "hide left/right 8 video columns" feature.
+
+	Since FCE Ultra is ending(or has already exceeded? :b) its actively-updated life, 
+	I've gone ahead and added per-game hacks for "Kick Master" and the PAL version
+	of "Star Wars".  See the documentation for more details.
+
+	Minor optimizations to the high-quality sound emulation code.  The FIR filter
+	code is the bottleneck, though, so these changes won't have much of an effect
+	on overall speed.
+
+	Altered MMC3 IRQ emulation(and the hooks in ppu.c for it).
+
+        Fixed a rather major typo in the VRC7-emulation code.
+
+0.98.10:
+
+	Reimplemented network play.  It now requires a standalone network play server, which
+	will be released as a later time.  For fun, "starmen.net" is running this server,
+	which is publicly accessible.
+	I also made various code fixes/improvements to allow for network play, particularly
+	with the command handling code.
+
+	Reworked much of the VS Unisystem emulation code, partially based on information from
+	MAME.  The following games are now supported:
+
+         Battle City
+         Castlevania
+         Clu Clu Land
+         Dr. Mario
+         Duck Hunt
+         Excitebike
+         Excitebike (Japanese)
+         Freedom Force
+         Goonies, The
+         Gradius
+         Gumshoe
+         Hogan's Alley
+         Ice Climber
+         Ladies Golf
+         Mach Rider
+         Mach Rider (Japanese)
+         Mighty Bomb Jack (Japanese)
+         Ninja Jajamaru Kun (Japanese)
+         Pinball
+         Pinball (Japanese)
+         Platoon
+         RBI Baseball
+         Slalom
+         Soccer
+         Star Luster
+         Stroke and Match Golf
+         Stroke and Match Golf - Ladies
+         Stroke and Match Golf (Japanese)
+         Super Mario Bros.
+         Super Sky Kid
+         Super Xevious
+         Tetris   
+         TKO Boxing
+         Top Gun   
+
+	Win32-native:  Fixed a bug in the debugger's breakpoint list that appeared when
+	one tried to delete a breakpoint(the control accidentally had auto-sort enabled, 
+	causing a discrepancy between what was displayed and what was contained in internal 
+	data structures).
+
+	The current disk image XOR original disk image is now stored in save states.  This
+	should greatly increase compressability(important for network play), and make
+	it a little more legal to distribute such save states now.
+
+	Modified the save state format to allow for more precise and larger version numbers.
+
+	Various minor code changes.
+
+	Fixed initialization of the FCEUGameInfo structure, which previously led
+	to problems with sound output on the SexyAL-using ports(Linux).
+
+	Apparently I added support for mapper 255 a while back.  Documentation updated.
+
+	Added iNES header correction information for Armored Scrum Object and Alpha Mission.
+
+	Merged banksw.h into ines.c, fixed some of its prototypes in ines.h.
+
+0.98.9:
+
+	Win32-native:  Fixed the speed throttling used when sound is disabled.  In previous
+	0.98.x Win32-native releases, emulation was running at 1/2 the speed it should
+	have been when sound was disabled.
+
+	Win32-native:  Moved settings in the "Miscellaneous" configuration window
+	to where they should have been in the first place, and added "GUI" and "Timing"
+	configuration windows to accommodate some.
+
+	Win32-native:  Fixed the handling of the "Scroll Lock" key used to disable and
+	enable Family BASIC Keyboard input.
+
+	Updated documentation to handle some slight differences in the Win32-native
+	port("Win32-native" is what the Win32 port using native APIs, as opposed to something
+	like GTK+ and SDL, will be referred to in documentation now).  I also made
+	some other minor wording adjustments to the documentation.
+
+	Added an iNES header correction for Dragonball.
+
+0.98.8:
+
+	Fixed a typo in sound.c that caused only part of the sound registers
+	to be saved in save states.
+
+	Win32: Switched over to the DirectDraw7 interface, from DirectDraw4's.
+	The surface Flip() method will now block, which results in somewhat
+	smoother animation/scrolling, especially when combined with the
+	auto blit-skip implemented in 0.98.6 when sound is enabled.
+
+	Win32: Undid a change made in the last release that limited the
+	speed of fast-forwarding when using the tilde key.  I really do
+	need to implement some sort of unified timing/blit skip system...
+
+	Win32: Added an option, disabled by default, to ask for confirmation
+	before exiting FCE Ultra.
+
+	Win32:  Added an option, enabled by default, to disable the system 
+	screen saver while a game is loaded.
+
+	Win32:  Added a new video synchronization mode, a "lazy" wait for
+	vblank/vertical retrace.  It calls Sleep(0) in its wait loop.  This
+	still uses all available cpu cycles, but it is much more friendly
+	to other processes than the old-style wait for vblank.
+
+	Win32:  Added support for joystick POV hats.
+
+0.98.7:
+
+	Fixed a bug in the debugger's disassembler when disassembling
+	opcode 0xBC.
+
+	Fixed the behavior of the right mouse button with zapper emulation, to 
+	correspond with what it is documented as doing.
+
+	Win32:  Added proper support for maximizing the window.
+
+	Win32:  Rewrote most of the input and input configuration code.
+
+	Win32:  Changed the configurable aspect ratio to something sensical, the current
+	display's pixel aspect ratio, default of 1:1(square pixels).
+
+	Win32:  Made the default full-screen video mode the custom video mode.  I should have 
+	done this a long time ago to make custom video mode configuration more straighforward
+	for users...
+
+	Added some JACK audio code to be used by the SDL build.  I'll test it and complete
+	it later.
+
+0.98.6:	Made several code modifications to work with older versions of gcc.
+
+	Fixed more header file network play #ifdef-age.
+
+	Fixed a typo in cart.h.
+
+	Fixed some funky code in FCEU_memmove().
+	
+	Fixed some source code causing compiler warnings.
+
+	Fixed SexyAL's format conversion code to not rely on deprecated casting semantics.
+
+	Readded the native Win32 code, and made many improvements.  The major thing
+	that needs to be done now with it is to rewrite the input handling code and input 
+	configuration code.
+
+0.98.5:
+	Added LL to the 64-bit integer constants in ines.c
+
+	Fixed OpenGL support under Mac OS X.
+
+	Added the ability to hide background and/or sprites with the F4 key.
+
+0.98.4:
+	Moved NETWORK #ifdef's to netplay.c to simplify things.
+
+	Fixed gzip file loading code(I think).  I'm still a bit unsure about the semantics
+	of dup() and close(), though.
+
+	Corrected FDS code to try loading the FDS image before loading the BIOS.
+
+	Readded "native" SDL sound code, used for Mac OS X(and maybe BeOS).
+
+0.98.3:
+	Removed the wxWindows GUI code.  GTK+ 2 code will take its place,
+	once it is ready.
+
+	Added reset and power commands to the movie format.  More commands(such as insert
+	disk, eject disk, flip dip switch, etc.) will be added simultaneously as work
+	on network play continues.
+
+        Modified SexyAL OSS code to not adjust the number of fragments to a power of 2.
+        It works fine on my card, allowing finer-grained buffer size control,
+        but I'm not sure it will work with all chips.
+
+	Fixed parsing of the "-specialfs" command-line argument.
+
+	Added the hq3x scaler.
+
+	Updated to the latest Scale2x code.  I also added the Scale3x scaler.
+
+	Changed the keyboard assignments for toggling full screen to "Alt" + "Enter".
+
+	FCEUI_SaveState() and FCEUI_LoadState() changed.  Porters should read
+	driver.h.
+
+	Miscellaneous changes to accommodate new network play plan.  It's not close
+	to being finished.
+
+	Altered RTI emulation.  In Paris Dakar Rally's NMI handler, it does "CLI ; RTI".  
+	Previously, FCE Ultra would generate an interrupt right after RTI occured, due to the 
+	presumed latency that RTI had with the I flag.  I changed it so there is no latency, so
+	no interrupt will occur in this case(interrupts kill this game).  The interrupt source
+	is the "frame IRQ", which it never disables, if anyone cares.
+	This change does break the "Stars SE" demo, though.  Hmm.
+
+	"FCEUGameInfo" is now a pointer, rather than just a statically-allocated structure.
+	This may cause some null-dereferencing-related crashes, but it should help keep
+	code a little cleaner(maybe?).
+
+	Played around with the FDS FM code some more.  It's still not right.  Bah.
+
+	Hacked in support for entering Datach/Barcode World barcodes without a GUI, using the 
+	F8 key and the numeric keys.
+
+	Added code to save/load movies.  Movie support will only record/play back the
+	states of the four emulated gamepads.
+
+	Modified the sound code to use timestamp/timestampbase differently.  In addition,
+	timestampbase is now saved in save states("timestamp" doesn't need to be saved, since
+	it's reset to 0 at the end of each emulated frame).
+
+0.98.2:
+	Fixed a few problems with the SDL command-line build code
+	for Win32.  Also, SDL 1.2.7 seems to have a bug that breaks FCE Ultra's
+	full-screen/windowed switching capabilities(at least under Win32).
+	Stupid everything.
+
+	Minor SexyAL changes.
+
+	Updated documentation.
+
+0.98.1:
+
+	Increased the volume of the FME07 sound channels.
+
+	Fixed a bug in the SexyAL endian conversion code.
+
+	Made the SexyAL chunk conversion loop work.
+
+	Replaced the old OPL2 emulator with a modified version of
+	Mitsutaka Okazaki's YM2413 emulator for the VRC7 sound emulation.
+
+	Decreased the pitch of the FME 07 expansion sound channels by one octave.
+
+	Decreased volume of output of $5011 in MMC5 emulation code.
+
+
+0.98.0:	Some changes I made aren't listed below.  Ah well.  The magnitude
+	of the changes was too great...
+
+
+	Default sound volume is 100(%), which makes a lot more sense than 75%, but not much.
+	It's multiplied by 3/4 internally now.
+
+	Added support for the Datach barcode reader(GUI interface only).  The emulation code
+	was adapted from the VirtuaNES source code.
+
+	Reassigned the Datach games to mapper 157, from 16, with CRC32 checks.
+
+	Increased the maximum number of screen snapshots in the snapshots directory
+	to 99999(from 999).
+
+	Reassigned the following games to mapper 210, using CRC32 checks:
+		Chibi Maruko Chan
+		Dream Master
+		Family Circuit '91
+		Famista '92
+		Famista '93
+		Famista '94
+		Heisei Tensai Bakabon
+		Top Striker
+		Wagyan Land 2
+		Wagyan Land 3
+	If you use a hack/translation of one or more of these games, you will of course
+	need to manually change the mapper number in the header for it to work properly in
+	FCE Ultra.  Family Circuit '91 still may not fit in with the rest of these games,
+	but it's definitely not a "stock" mapper 19 setup.
+
+	Fixed an OpenGL palette bug when using scanlines(previously, I think it was
+	setting the palette of the scanlines overlay texture instead of the actual image
+	texture in some instances).  The bug showed up on games that make use of the color
+	deemphasis bits.
+
+	Rewrote a lot of the PPU background rendering code to be more accurate(and
+	obfuscated!).  This eliminates the X-offset hack I made earlier.
+
+	Removed some of the NSF visualization code, and altered the look of the NSF
+	display slightly.  The NSF waveform visualization code will now take into
+	account the current volume setting.
+
+	Changed the default key bindings for the standard emulated gamepad
+	to something more compatible with window managers.  I may change it back, but probably
+	not, since it is easily configurable now.
+
+	Updated the MMC5, VRC6, and FME07 low-quality sound emulation code
+	with the compatible parts of the high-quality sound emulation code for those chips.
+
+	Adjusted timing of horizontal scroll update(near the beginning of hblank.  I made
+	it occur sooner).  I also added a hack to allow X-offset(fine X scroll) changes mid
+	scanline, however, it is extremely ugly, and may not work correctly for everything
+	(doing it correctly would probably kill speed).
+	I mainly did it to fix games like F-1 Race and Mach Rider, and other racing
+	games that are extremely sensitive to horizontal scrolling timing.
+
+	Some FDS IRQ emulation changes to fix some screen corruption problems
+	in "Kaettekita Mario Bros".
+
+	Removed zlib(the code, not support).
+	I also removed support for compiling without zlib(it's small, simple, provides 
+	very useful functions, and may provide critical features for fceu in the future).
+
+	*undone, breaks debugger, FIXME.* Replaced some inline functions with macros in x6502.c.
+
+	Increased the speed of Namco 106 sound emulation in HQ sound mode.
+
+	Many many sound emulation changes and adjustments based on blargg's tests.
+	The default sound volume is about 150% what it was before, because the sound range
+	has changed(now -soundvol 100 is like -soundvol 200 on older builds), and the
+	default "soundvol" setting is 75.  100 clips on some Namco games, and 200 clips
+	on many games, so I'll probably have the configurable volume range as [0:125].
+	What exactly is "%" supposed to mean in this case....  100% of what?!
+
+	When using low-quality sound emulation mode, total emulation speed is about 10%
+	less than previous builds.  The change in speed for high-quality sound emulation 
+	mode is significantly less.
+
+	Added beginnings of SexyAL to source code tree, removed SDL sound support, and
+	old OSS code.
+
+	Copied over some autoconf/automake stuff from phamicom.  It stills needs a bit
+	of work...
+
+	Fixed DMC IRQ emulation.  Fixes many CodeMasters games.  Finally. ^_^
+
+	Restructured a lot of files, changed the interface between driver and
+	emulator code slightly.
+
+	* Insert stuff here *
+
+November 28, 2003	-	Snapshot
+
+	Removed the DOS, Linux SVGAlib, and Win32 targets.  *GASP*
+	Win32 support will return(eventually), using SDL + wxWindows.
+	SDL can use svgalib or GGI anyway, so it shouldn't be a huge loss.
+	DOS support will only return if someone ports SDL to DOS. ^_^
+	It would be nice if SDL could accept modelines.  Maybe in SDL 2.0...
+	
+	Merged fce.c and svga.c into fceu.c, and fce.h and svga.h into fceu.h.
+
+	Reassigned "Mortal Kombat 3 - Special 56 Peoples" to mapper 209.
+
+	Added emulation of the "Oeka Kids" tablet.
+
+	Added emulation of the Family Trainer.
+
+	Added emulation of the "Ultimate Quiz King" buzzers.
+
+	Added emulation of the Mahjong controller.
+
+	Added emulation of HyperShot controllers.
+
+	Fixed loading of NSFs with load addresses below $8000.
+
+	Cleaned and simplified some of the NES APU code.
+
+	Altered mapper 65 emulation.  Fixes Kaiketsu Yanchamaru 3.  Does it break anything?
+
+	Wrote a small FAQ file.
+
+	Fixed displaying of garbage and other unpleasantness on the first scanline.  I need
+	to clean up that code, though.
+
+	Fixed color deemphasis emulation when all bits are set.  For some
+	reason, I had commented out the code.  Bleh.
+
+	NSF player now writes $C0 to $4017 if the FDS is being used(the FDS
+	BIOS writes $C0 to $4017).  $40 for all other NSFs.
+
+	Added support for iNES mapper 58(nnnesterj).
+
+	Added support for iNES mapper 208.
+
+	Reassigned "Fudou Myouou Den" to mapper 207(CRC32 checks).
+
+	Reassigned "Karnov" to mapper 206(CRC32 checks).
+
+	Fixed the mapper 95 code, which was horribly broken.
+
+	Differentiated between mappers 33 and 48.  Added CRC checks to assign
+	some games to mapper 48.  "Flintstones 2" and "Don Doko Don 2" are
+	the games that need to be assigned to 48.  Are there others?
+
+	Replaced usage of TriggerIRQ to X6502_IRQBegin/X6502_IRQEnd combos in
+	various mapper emulation files.  67, 33/48, 40, 73, 42, 65, 6, 182
+	Removed function TriggerIRQ() from x6502.c
+
+	Fixed the sound volume of the VRC7 emulation in high-quality sound mode.  
+	Decreased(slightly) the volume of VRC7 emulation in both high-quality sound modes.
+
+	Decreased the volume of the MMC5 expansion sound channels.
+
+	Decreased the volume of the FME-7/mapper 69 expansion sound channels.
+
+	Added FCEU_gmalloc(), which will call exit() if memory allocation fails,
+	otherwise it is guaranteed to return a memory block.
+	This will be used in the mapper code mainly.  It should only
+	be used for small memory chunks.  The reasoning is that if 64 some like KB of
+	RAM or less can't be allocated, for example, it'd probably be best to 
+	exit the emulator ASAP.  It also helps to simplify code logic, and 
+	help (me) with modularization.
+	The behavior of this may change in the future.  I still need to think about it.
+	I should probably save the configuration file regularly(or much better,
+	use the registry) on the Windows port, though.
+
+	Cleaned up the save-state saving/loading code a bit, and added
+	support for linked save state structures for better modularity and
+	less code duplication.
+
+	Merged the iNES and UNIF MMC1, MMC3, and MMC5 code more completely.
+	I may need to sanify CHR RAM and WRAM allocation for pedanticness, 
+	though.  Also worked on Tengen RAMBO-1 emulation, and mapper 90 emulation.
+	***THIS MAKES SAVE STATES FOR GAMES THAT USE THESE EXPANSION CHIPS INCOMPATIBLE
+	WITH PREVIOUS VERSIONS***
+	I plan on doing the same thing with other mappers/boards in the future, though.
+	Always on the quest for 1.0...
+
+November 12, 2003	-	0.97.5 Release
+
+	Windows:  Added limited support for arguments that change configuration
+	to be passed to FCE Ultra.  Example:  fceu -pal 1 c:\streetgangs.nes
+	It may be useful in frontends.
+
+	Fixed filename generation for automatic IPS patching when a file
+	with no extension is loaded.  Before this change, FCEU would
+	look for "game..ips" with a file named "game".
+
+	Converted and updated the cheat guide in(to) HTML.
+
+	Added support for iNES mappers 202,203,231 from info from cah4e3.
+	Fixed support for mappers 60, 200.
+
+	Fixed various major bugs in the breakpoint deletion code.
+
+	UN*X:  Added support for OSS(/dev/dsp) devices that don't support mono
+	sound.
+
+	Increased PPU startup idle time to 2 frames.  Fixes that
+	unlicensed "Earthworm Jim 3" game.  Does it break anything?
+
+November 9, 2003	-	0.97.4 Release
+
+	Fixed another obscure PPU emulation screen corruption bug.
+
+	Added support for Game Genie cheats in the cheat interface.
+
+	Windows:  Reworked the cheat interface, merging the cheat search
+	and cheat list windows into one.
+
+	Windows:  Greatly improved the CPU debugger.
+	The code still needs a lot of cleaning, though.
+
+	Readjusted VRC6 IRQ emulation timing.
+
+	Added support for the UNIF MMC3 board TEROM.  The maximum PRG/CHR sizes
+	may not be correct in this implementation, though.
+
+November 8, 2003	-	0.97.3 Release
+
+	Added a control to set the highest quality sound mode in Windows.
+	This change requires that any users who previously set 
+	"high quality sound" to set it again.
+
+	Fixed the volume of high-quality sound mode again.  The changes
+	I made earlier didn't affect all the filter coefficients.
+
+November 8, 2003	-	0.97.2 Release
+
+	Made a minor optimization to writes to palette memory.
+
+	Altered VRC6 IRQ emulation timing slightly.
+
+	Fixed a weirdo PPU emulation bug that could cause garbage on the right
+	side of the screen in certain situations.  Thanks to FrenziedPanda for
+	bugging me enough to make me look into the problem and fix it.
+	I should be on the lookout to see if the fix breaks anything, though.
+
+	Fixed the volume of high-quality sound mode(-soundq 1).  It was
+	at 1/4 the volume it should have been.  I compensated by increasing
+	the precision of the filter coefficients, which increased the sound
+	quality of that mode slightly without hurting performance.
+
+November 7, 2003	-	0.97.1 Release
+
+	Fixed mapper 105 emulation.  I had begun merging it into the
+	rest of the MMC1 code for 0.97, but I hadn't finished it.
+
+	Changed things like RdMem(_PC++); to RdMem(_PC); _PC++;
+	Darn evil global variables.  I need to fix them.  Screw speed.
+
+	Expanded checks for the global variable "fceuindbg"(used in debug
+	mode to prevent reads in the debugger from altering any registers).
+
+November 6, 2003	-	0.97 Release
+	* Note:  I still had much more I had wanted to get done for 0.97,
+	but I lost even more interest.  The Windows port still doesn't
+	have a way to enable the "highest" sound emulation mode, nor the
+	low pass filter code, not to mention that the lowpass filter code
+	isn't complete(I would need to design a high-order FIR filter from an IIR
+	filter to work properly-have the correct rolloff, among other
+	things-at finite playback rates).
+
+	Fixed a bug in the IPS patcher.  The recorded size wasn't being updated
+	after a successful realloc() was made, which could lead to corrupted patch
+	data from some patches.
+
+	Added support for mappers 200, 201 from submitted code.	
+
+	Rewrote mapper 15 support to make more sense(well, depending
+	on your point of view...).
+
+	Fixed 256KB CHR select support for mapper 115.
+
+	Added support for mapper 12 from code from cah4e3.
+
+October 16, 2003	-	Snapshot
+
+	Fixed support for mapper 245(for nonencrypted/non-smynes-screwed up
+	ROM images only.  Fixes "Yong Zhe Dou E Long [...] Dragon Quest 7".
+
+	Added support for mappers 60, 62, 230, 244 from submitted code.
+
+	Modified mapper 90 emulation to allow game-select on reset
+	for "Final Fight 3".
+
+	Modified mapper 45 emulation to allow "Super 8-in-1" to work.
+
+	Added a low-pass filter, and an option to enable it(CLI ports).
+
+	0x00 is now written to $4011 in the NSF player code instead of 0x40.
+	Fixed some other similar sound register init problems that I had fixed
+	in Festalon but forgot to fix in FCEU.  Grrr.
+
+	Removed some unnecessary 64-bit integer usage from FIR sound filtering
+	code.
+
+	Added a new sound quality mode.  Higher than high, it's highest(in
+	FCE Ultra, for now).  Still need to fix the interface to allow
+	enabling it in the Windows port.
+
+	Added some code for lower-level MMC3 IRQ emulation.  It isn't completed
+	, and will not work properly as-is.  I'm still playing around with 
+	it occasionally.
+	
+	Fixed the sprite overflow flag(I think I fixed it), that was broken in an earlier
+	pre-0.97 release.
+
+	Fixed support for iNES mapper 193.
+
+	Command line arguments "-pal" and "-gg" now take extra arguments(1/0)
+	and are remembered in the configuration file.
+
+September 27, 2003	-	Snapshot
+
+	Added support for iNES mapper 50.
+
+	Modified the UNIF board initialization code.  Hopefully, this
+	new interface will eventually be used with the iNES code.
+
+	Miscellaneous code cleanups.
+
+	/dev/dsp is now set to 8(previously 9) buffers of 128 samples in length
+	in the SDL code.
+
+	Tried to make the save state code more expandable and modular.
+
+	Moved a lot of the PPU code into ppu.c.
+
+	Added more extensive debugging code to the 6502 emulator, to allow
+	for memory read/write hooks(including zero page addressing modes).
+
+	Readadjusted DMC timings when PAL emulation is enabled.  It looks
+	like it was correct before I had made the August 2 change.  Thanks
+	to Bananmos for the information.  I think. :/
+
+        Added support for iNES mapper 193 from information from virtuanes.
+        I think my dump of it is "bad", though.  PRG and CHR pages look   
+        like they are in the wrong order(logical vs physical?  Who's to say
+        what's physical?).
+
+September 1, 2003	-	Snapshot
+
+	Fixed some minor initialization issues with iNES mappers 7 and 34.
+
+	Added support for UNIF board NES-GNROM.
+
+	Removed support for save states created with versions of FCE Ultra
+	less than 0.56.
+
+	Replaced SDL sound buffering code with a lock-free FIFO implementation
+	written by David Olofson, with a few modifications by myself.
+
+	Fixed a VRC7 NSF bug(it showed up under the reworked driver/file
+	loading order in the cli code).
+
+	The board in "Rolling Thunder" has "RAMBO 1" on it, not "RAMBO-1".
+
+August 9, 2003	-	Snapshot
+
+	Removed the old plain text documentation and replaced it with
+	a new document in HTML.  It is not completed yet, though.
+
+	Rewrote the SDL-native audio code to be less wacky and more
+	thread-safe(hopefully).  I'm still waiting for a new SDL audio
+	API...
+
+	Altered the MMC5 IRQ timing.  Fixes minor graphical glitches
+	in Castlevania 3.  Does it break anything?
+
+	Removed some debugging code that got into the last snapshot.
+
+August 5, 2003	- Snapshot
+
+	Added some code in the IPS patcher to allow for expanding the size of files.
+
+	Fixed a double free() bug with a mapper 51 game(in ines.c).
+
+	Added support for "Alien Syndrome" (US release) as iNES mapper 158.
+	It looks like a derivative of the normal RAMBO-1 board(or is that
+	the name of the chip?), similar to TKSROM/TLSROM(mapper 118).
+
+	Improved the "native" SDL sound code.  It will now call SDL_Delay(),
+	among other nice things.  The code could probably be improved more,
+	though.
+
+	Added support for decimal components in xscale/yscale in the SDL
+	port.  Set the default xscale for windowed mode to 2.40(to get a
+	more correct aspect ratio, assuming the display is currently at
+	a 4:3 aspect ratio).
+
+	Modified args.c to handle floating-point numbers.
+
+August 2, 2003  -       Snapshot.
+
+	Disabled texture wrapping with OpenGL(there were problems at the edges
+	of the screen with linear interpolation).  Bah.  Now the edges
+	are too bright...
+
+	Improved the accuracy of the DMC timing when PAL emulation is enabled.
+	I still don't think it's totally correct, though.
+
+	Changed the default settings for the SDL code.  Full screen
+	is now 640x480x8bpp by default, xscale and yscale are 2 for both full
+	screen and windowed, opengl support is enabled, linear interpolation
+	for OpenGL is enabled, and X-axis stretching is 
+	enabled(in full screen).
+
+	"Scanlines" were enabled in 8bpp to 8bpp blits in 
+	drivers/common/vidblit.c when they shouldn't have been.  Fixed.
+
+	Fixed OpenGL code under big-endian platforms.
+
+August 1, 2003	-	Snapshot.
+	
+	Various code clean-ups.
+
+	Played around with adding a GTK+ GUI to the SDL code.
+
+	Rewrote part of the hq sound rectangle wave code.
+
+	Replaced the high-quality sound inline assembly filter code with 
+	slightly faster C code.
+
+	Hacked around with GP32 support.  I don't know if the GP32 would
+	be fast enough, though.
+
+	Skipped frames will now have D5 of $2002 set at the beginning
+	of the frame.  Fixes "Bee 52".  I must see if it breaks anything.
+
+	Added OpenGL support to the SDL code.
+
+	Removed the PPU drawing inline assembly code, replacing it with a faster
+	algorithm written in C.
+
+	"Disabling" the 8-sprite limitation will no longer cause
+	"Bee 52" to break.  However, the "Solstice" wizard will still
+	have the weird thing growing out of his face in the introduction,
+	since it depends on no more sprites to be rendered.
+
+	Added entry for that Black Bass game for header corrections in
+	ines.c
+
+	Strip color burst bit(D0 of $2001) is only "emulated" if bg or
+	sprite rendering are turned on, at the end of the scanline.
+	Doing it with pixel/tile granularity would require modifying
+	the sprite graphics data copying routine, which I don't
+	feel like doing.  Fixes that crazy Sayoonara demo by Chris Covell.
+	I also modified the NES RAM initialization code.
+
+	Adjusted VRC7 IRQ emulation for better Lagrange Point goodness.
+
+	Added support for iNES mapper 91. (VirtuaNES)
+
+0.96:
+	Improved RAMBO-1(mapper 64) emulation.  "Skull and Crossbones" is
+	now playable.
+
+0.95:
+
+	timestamp and timestampbase are no longer saved/loaded to/from
+	save states.  They were causing too many problems I didn't
+	want to fix, and I never intended them to be saved in save states
+	when I wrote the code that uses them.
+	I think the reason they were being saved was that I wanted to make it
+	possible to add movie support and network play save state loading
+	(distributing the save state over the network).  So if someone in
+	the future wants to add these features, the issues(primarily with
+	zapper emulation and sound emulation) with saving the time stamp will 
+	need to be resolved.
+
+	Fixed some crashing bugs when save states are loaded when
+	high-quality sound emulation is enabled.  It is like patching
+	holes in a swiss-cheese boat.  All the holes may be patched, but
+	it looks ugly.  At least it tastes good...
+	TODO:  Look into saving more data in the save states, especially
+	data that is based off of "timestamp" and "timestampbase".  Also
+	look into validating this data.  Right now, corrupt save state data
+	might cause memory corruption in FCE Ultra.
+
+	Fixed some bugs in the NSF player.
+
+	Cleaned up more code.
+
+	Reduced the usage of TriggerIRQ().
+
+	Split the palette code into a new file, palette.c, from svga.c
+
+	Low-G-Man(NTSC and PAL versions) are now recognized by CRC32 value,
+	and WRAM will be disabled if they are loaded.  A warning/status message
+	will also be printed regarding this issue.
+
+	Decreased the volume of the DMC/PCM channel in low-quality sound
+	emulation.
+
+	Low-quality sound emulation now uses 32-bit integers for much
+	better speed.
+
+	FCEUI_CRC32() wasn't returning anything.  D'oh.  Fixed.
+
+	Added somewhat crude support for games that switch background CHR data
+	mid-scanline (this is needed in games such as Mother, Pirates!, 
+	Business Wars, and Marble Madness).
+	
+	Altered NMI, IRQ, and BRK emulation again.  Fixes some games, 
+	like Bases Loaded 2 and Dynamite Bowling, and maybe some others.
+	I had to increase the size of the IRQlow variable for delayed
+	NMI execution...  I also had to add a delay between PPU reset
+	and the PPU actually doing anything, to fix "Knight Rider".
+
+	Fixed a mapper 90 save state bug.
+
+	/dev/dsp code now searches for /dev/dsp before /dev/dspX (where X is
+	a non-negative integer).
+
+	SDL joystick axes configuration is now done from the joystick.
+
+	Tweaked various Konami mappers' IRQ counter emulation.
+
+	Added custom SDL throttle code that gives up time slices instead of
+	using 100% cpu.
+
+	Fixed an issue with sprite priorities on MSB-first platforms.
+
+	Modified powerpad.c to avoid a symbol conflict when compiling on the
+	Power PC architecture.
+
+0.94r3:
+	sound.c:
+		Fixed a divide-by-zero bug that occurred when a virtual
+		reset(like by pressing F10) occurred when sound emulation was 
+		disabled.
+
+0.94r2:
+	drivers/common/vidblit.c:
+		Fixed code for 32bpp blur effect.
+
+	drivers/cli/sdl-video.c:   
+		Added error message for unsupported bit depths.
+
+	mappers/simple.c, ines.c:
+		Used this bug fix pseudo-release as an excuse to add
+		support for mapper 107.  Information taken from virtuanes.
+
+0.94(fixed release)
+---
+	Fixed call to InitUNIXDSPSound in svgalib.c
+
+	Added man pages.
+
+0.94
+---
+	Added support for rapid fire A/B buttons on physical joysticks
+	in SDL/svgalib/DOS code.
+
+	Implemented "high-quality" Namco 106 emulation(used for hq sound mode).
+	  In this case, "high-quality" means sounding more like it should, 
+	 not necessarily cleaner.  I'm not certain that it's totally correct, 
+  	 but it's in the right direction.
+
+	RAM cheats should no longer affect Game Genie emulation.  I still
+	need to completely verify this.  There may be some sort of race 
+	condition.
+
+	Removed various minor speed hacks in the name of style and 
+	correctness(and to make maintaining FCE Ultra easier for those
+	people who are not me). :)
+
+	Removed NSF cpu hacks, as I changed code to make them unnecessary.
+
+	Fixed another FDS IRQ emulation bug.  "Famicom Grand Prix II" works
+	now.
+
+	Fixed a memory leak and a heap corruption bug in "file.c".
+
+	Added support for on-the-fly IPS patching.  
+	Place the IPS file in the same directory as the file to load,
+	and name it filename.ips.
+
+	Examples:	Boat.nes - Boat.nes.ips
+			Boat.zip - Boat.zip.ips
+			Boat.nes.gz - Boat.nes.gz.ips
+			Boat	 - Boat.ips
+
+        Some operating systems and environments will hide file extensions.
+        Keep this in mind if you are having trouble.
+          
+	Patching is supported for all supported formats(iNES, FDS, UNIF, and
+	NSF), but it will probably only be useful for the iNES format.  It
+	can be used with the FDS format, but be warned that it will permanently
+	patch your disk image, as the disk image is written back to disk
+	when the game is unloaded(unless the disk image is in a zip file, in
+	which case it isn't written back to disk).  UNIF files can't be
+	patched well with the IPS format because they are chunk-based with no 
+	fixed offsets.  Support for a UNIF patching format may be added
+	in the future(probably by someone else.).
+
+	Added more games to the list in ines.c for having battery-backed
+	WRAM, for header corrections.
+	
+	Copied over the 96KHz filter coefficients from Festalon that I forgot
+	to do in 0.92.  Oops.
+
+
+0.93
+---
+
+	Reduced the volume of the FDS sound channel.
+
+	Fixed a bug in the FDS IRQ emulation code that caused "Lutter" to not work.
+
+	Fixed a bug in unif.c that would cause a crash if a unif file were
+	loaded without a board name being specified(as could happen
+	with a corrupted nsf).
+
+	Fixed a bug in general.c relating to relative filenames(running
+	fce ultra like "./fceu ../big.nes" would work, but "./fceu ../big"
+	would not work- it crashed).
+
+	
+
+0.92r2
+---
+	Fixed dpcm irq bug that broke Cobra Triangle.
+
+.92
+---
+
+	Removed NSF player background, and added some special effects goodies.
+
+	Changed the NSF player to use the emulated gamepad as input instead
+	of having special NSF-player-only keys.
+
+	Added support for mapper 249(using nonencrypted games), thanks to SARO
+	for info.  SMYNES sucks.  
+
+	Updated video blitting library-thing(vidblit.c) with more special 
+	effects, and removed 24bpp support.
+
+	SDL cleanupification.
+
+	Added support for mapper 61.
+
+	nnnesterj:  Added support for mapper 57.
+
+	Fixed mapper number for "Golden Game 150 in 1".  Changed it to 235
+	from 43. 
+
+	DDraw back buffer surfaces are now created in system memory if the
+	hardware blitter can't do stretching.
+
+	Restructured file wrapping code.
+
+	Added new cheat search methods.
+
+	Fixed a major cheat unloading memory bug(and memory leak).
+
+	Emulated that funky nonlinear DAC effect for hi-quality sound.
+
+	More fixes/cleanups to FDS emulation code.
+
+	Tweaked PPU timing a bit.
+
+	Improved network play.
+
+	Holding the enter key down will no longer do fun stuff to the nsf
+	player.
+
+	Improved NSF player.  It should support streaming pcm nsfs now...
+
+	Changed FDS keyboard keys around a bit.  F6 is the disk select key,
+	and F8 is the disk insert/eject key.
+	F8 to insert VS Unisystem coin, F6 to view/toggle dip switches.
+	Hopefully people won't complain after blindly hitting the save state 
+	buttons. :)
+
+	Many fixes and improvements to the Windows port.  No more cpu-consuming
+	wait loops(specifically, sound).  Added a message window.
+
+	FDS sound emulation improvements.
+
+	FDS disks are now auto-inserted on power on(or was it loading a new
+	game...).
+
+	Changed the default last rendered scanline to 231.
+
+	ines header corrections are now printed as status messages, not errors.
+
+        Rearranged input updating code.
+
+	Fixed a sprite transfer bug.  Fixes PAL version of Rainbow Islands.
+
+	Debugger hooks added.
+
+	Small optimizations in Refreshline and FetchSpriteData to hopefully
+	offset the slight slowdown in the cpu core.
+
+	MapperHBIRQHook is now called differently(depending on hi/low bg/spr
+	addresses).
+
+	Added support for unif board UNL-8237.
+
+	Added support for mapper 144(death race).
+
+	Added partial support for mapper 74.
+
+	Fixed a cpu emulation bug in GETIYWR.  It would sometimes set "target"
+	to 0x10000, which was a BAD THING(overflow; now it wraps).
+
+	Tried to add support for mapper 241.  Needs special keyboard emulation.
+	I think.
+
+	Internal RAM is now initialized to something other than 0.  Fixes
+	Minna no Taabou no Nakayoshi Dai Sakusen.
+
+	Reassigned "The Money Game" to mapper 155.  It doesn't seem to
+	respect the WRAM enable/disable bits.  Silly game.  And
+	Tatakae!! Rahmen Man.
+
+	Added support for mapper 115(still needs 256KB CHR select), 241, 114,88.
+
+	Attempted to add support for mappers 91, 187.
+
+	Modified frame IRQ to not break so many damn games.
+
+	Fixed sprite hit detection loop.
+
+	Improved support for mappers 80, 90,117,154, 189.  
+	nnnester and virtuanes.
+
+	Reassigned "Devil Man" to mapper 154.
+
+        Removed bogus Trojan header fix in ines.c.
+
+
+
+.81-post:
+----
+	Fixed/Worked around(?) compilation problems on gcc 3.2.x.
+
+.81:
+----
+
+	More SDL goodies.
+
+	Renamed "Makefile.olinuxsdl" to "Makefile.unixsdl"
+
+	More SDL fixes and cleanups.
+
+	BeOS port is now compiled with the "-no-fpic" flag, which allows
+	me to use my inline assembly.  The executable work fine as far as
+	I can tell.
+
+	Added "Makefile.beos".  gcc doesn't like my inline assembly
+	used in RefreshLine(),so this port will likely be slightly slower than
+	other x86 ports.
+
+	Added a check to make sure SIGBUS is not equal to SIGSEGV in
+	drivers/cli/main.c.  Needed for compiling under BeOS.
+
+	Renamed the "PI" member of the X6502 structure due to conflicts with
+	a defined symbol with some math header files.
+
+	Merged fcelineasm.h into fceline.h
+
+	Fixed(possibly) a possible problem in fcelineasm.h with input register
+	clobbering.
+
+	More SDL changes.
+
+	Added speed throttling code to the CLI code, and added a command
+	line switch "-nothrottle".
+
+	Lots of restructuring/rewriting/merging of the MMC3 code.
+
+	Updated DOS code to use the generic CLI wrapper.
+
+	Reads from $4090 and $4092 now return the current envelope setting
+	in FDS sound emulation.  I'm not sure if this is correct...  Affects
+	"Ai Senshi Nicole" and "Bio Miracle Bokutte Upa".
+
+	Added native SDL sound support to the SDL code.  the "olinuxsdl"
+	now uses this code by default instead of the unixdsp sound code.
+
+        Modified MMC3 IRQ counter emulation.  I'll need to watch out to see
+        if it breaks any games.  Fixes:  MegaMan 3, Gun Nac, Klax(Japanese).
+
+	Changed a few memory reads in x6502.c to use RdRAM instead of RdMem,
+	resulting in a slight speed increase.
+
+	Cleaned up mapper 250 emulation code.
+
+	Added support for iNES mapper 51(thanks to Kevin Horton for the
+	information).
+
+	Merged some iNES mappers corresponding to bootleg multicarts
+	based on MMC3s with mbshare/mmc3.c.
+
+	Added support for iNES mapper 52(thanks to Kevin Horton for the
+        information).
+
+	Made some hacks to the MMC3 emulation code so that I can add support
+	for pirate MMC3 multicarts more easily.  I should clean it up later.
+	Moved mapper 44 emulation code to mbshare/mmc3.c.
+
+	Saving screen snapshots will no longer corrupt the frame buffer
+	for one frame(unless memory couldn't be allocated).
+
+	Fixed screen snapshot saving(it was sort of broken due to the
+	changes made to the driver<->emulator interface code; status
+	messages were being saved to the image).  FCEUI_SaveSnapshot()
+	no longer returns a value(the request to save a screen snapshot is
+	serviced before status information would be written in the next frame).
+
+	nosprites is now set to 0 before RefreshSprite() returns, to prevent
+	problems if a game turns off the bg and sprites when FetchSpriteData()
+	for the next scanline is called but then turns on sprites when
+	the actual scanline is drawn.
+
+	PPU_hook() is now called more often if PPU_hook is non-null.
+	Made changes to mappers 118, 95, 9, and 10 to compensate.
+	No games seem to be broken, and I added support for mapper 96
+	(though the games aren't very playable because the special controller
+	isn't emulated).
+
+	Romance of the 3 Kingdoms is now recognized to use 16KB ex-WRAM.
+
+	Added support for mapper 185...sort of.  I think this is another
+	instance of incompatible hardware being lumped onto one mapper number.
+	Sigh.
+
+	Added support for "Famicom Jump 2" as iNES mapper 153.
+	If a good(as far as I can tell) dump is loaded, FCE Ultra will
+	automatically fix the mapper number.
+	I also made some changes to the mapper 16 IRQ emulation code.
+
+	BRK now sets the I flag.
+
+	Reads from $4015 no longer reset DPCM IRQ.
+
+	Changed emulation of RTI instruction slightly.
+
+	X.IRQlow is now set to 0 in PowerNES().
+
+	The VS Unisystem bit in the iNES header is no longer looked at(
+	I was having too many problems with this bit being set when it
+	shouldn't have been).  Now, VS Unisystem emulation is enabled
+	when a known VS Unisystem game is loaded.  I also rewrote the VS 
+	Unisystem detection function.
+
+	iNES mapper 1 now supports pageable CHR RAM if no CHR ROM is present.
+	Fixes "Family School".
+
+	Mapper 70 no longer has a mirroring control emulated, and I extended
+	the number of 8KB CHR pages supported to 16.
+
+	Cleaned up iNES MMC5 save RAM loading/saving code and added
+	support for MMC1 games with 16KB of RAM(the second 8KB are saved),
+	via CRC32s(currently only Genghis Khan(USA) and Nobunaga's Ambition(
+	USA and Japan) are recognized).
+
+	Added support for the MMC5 Koei game "Ishin no Arashi", in the iNES
+	format(I added an entry with its CRC32 value and the number of 8KB
+	WRAM banks it needs). 
+
+	Better iNES mapper 33/48 IRQ counter emulation.
+
+	Added the game "Uchuusen - Cosmo Carrier" to this list.  I'm
+	beginning to hate the iNES format more and more...or maybe
+	just Fanwen. :)
+
+	Added the mapper 32 game "Major League" to the list of games
+	that usually need iNES header correction...but in this case, the
+	iNES header cannot specify that this game needs to have one-screen
+	mirroring.
+
+	iNES header information is now printed before any header corrections
+	are made based on a database.
+
+	Fixed a bug in mapper 32 emulation.  "Ai Sensei no Oshiete"
+	works now.
+
+	Tried to add support for iNES mappers 245 and 249.
+
+	Fixed the MMC5 read handler to return the data last on the data
+	bus instead of 0xFF when a read was made to an unmapped address.
+	This seems to fix the lockup problems in "Bandit Kings of Ancient
+	China".
+
+	Reversed "Modified the time at which the "y scroll" register is updated
+        during hblank."  The changes broke Klax.
+
+	Added an unsigned 64-bit base timestamp variable "timestampbase".
+	Adding this to the 32-bit variable "timestamp" will return
+	the number of cycles executed since emulation started(in the future
+	I'll probably change it to since reset or power toggle).
+	This allowed me to replace "lastn" hack in the MMC1 code with
+	something better.
+
+	Changed my mind and undid the removal of support for old save states.
+
+	Removed support for old save states and in general I won't
+	try to support save states made with previous versions.
+
+	MMC1:  Writes to $8000-$FFFF with D7 set will now cause
+	the first MMC1 register to be OR'ed with 0x0C.  I'm not sure
+	if this is correct, but it doesn't seem to break anything
+	and it fixes Robocop 3.  I'll see if anyone reports games
+	not working in .81 that worked in .80.
+	
+	Worked on a generic driver interface wrapper very similar
+	to the driver interface FCE Ultra used to use(I'm getting
+	tired of all of the duplicated driver code).  Eventually,
+	the DOS, SVGAlib, and SDL ports will use this wrapper.
+
+	Similar change to the argument parsing code.
+
+	Changed configuration file saving-loading routines and the
+	configuration structure to allow for linking config structures
+	to each other).
+
+	Small fix to the emulation of the MMC5 split screen mode.
+
+	Made Linux SDL code compilable again.
+
+	Changes to MMC5 EXRAM emulation(read/write).
+
+	Fixes to the emulation of the MMC5's split screen mode, based on
+	observations while using CastleVania 3 and a Game Genie(on a real
+	NES).
+
+	Fixed a bug in ines.c that caused any calls to AddExState() from
+	a mapper initialization function to be effectively "erased"(ResetExState()
+	was called after the mapper was initialized).  Fixes the VRC7 sound 
+	state saving/loading stuff.
+
+	Finished adding support for the MMC5's split screen mode(this does
+	not mean that the support is complete, but at least the intro in
+	"Uchuu Keibitai SDF" works correctly now).
+
+	Worked on adding support for the MMC5's split screen mode.  Not
+	completed.
+
+	Reverted to .80's FDS sound code.
+
+	Modified the time at which the "y scroll" register is updated
+	during hblank.
+
+	NSF playing code will now disable FDS sound output on song init
+	(fixes some problems with the Zelda no Densetsu NSF rip).
+
+	Increased the emulated clock speed of the FDS sound emulation code
+	to give better quality output.
+
+	Modified NMI to occur a few cycles later.  Fixes BattleToads...but
+	it may have broken other games.  Also modified the way NMI's are
+	handled in x6502.c.
+
+	Modified ines.c to memset() GameMemBlock to 0 on virtual power toggle.
+	Also, trainers are now loaded into their own buffer instead of
+	directly into emulated WRAM and copied into emulated WRAM on
+	power toggle; I've been meaning to do this for quite some time.
+
+	Changes to the way the zapper cursor is drawn on the screen.
+
+	FCEUD_WriteSoundData(), FCEUD_BlitScreen(), and FCEUD_UpdateInput()
+	have been combined into one function: FCEUD_Update().
+
+	More fixes to the network play code, and a fix to the Windows network
+	play driver code that fixes(hopefully) a rather evil bug that caused
+	lockups when the remote stopped network play.
+
+	Added code to set the battery-backed bit in RAM if a game needs it,
+	based on CRC32.
+
+	Added more games to the list of games that commonly have bad iNES
+	headers, in ines.c
+
+	Updated docs and usage.h for DOS and Linux regarding the new video
+	mode and the new refresh rates.
+
+	Linux:  Fixed a bug with video mode 6(a few upper scanlines were being
+	cut off).  Increased the refresh rate of video mode 3 to 120hz.
+
+	Increased the refresh rate of video mode 2 to 65 hz in the Linux port.
+
+	Screen snapshots can now be taken while playing an NSF.
+	
+	Added a new sexy tweaked vga mode that I created to the Linux svgalib 
+	port.  It's 256x224 at a refresh rate of 103hz.  Hopefully it won't
+	blow up anyone's monitor. ;)
+	DOS port will follow eventually.
+
+	Modified Makefile.base to produce an executable named "fceu" instead
+	of "fce".
+
+	The plans(cycle-accurate ppu emulation) for .90 were a bit ambitious, 
+	and I still need to make other fixes before then.
+
+	Fixed some minor(usually) bugs with setting 256x240 tweaked VGA mode
+	in DOS and Linux ports.
+
+.80:
+----
+
+	Cleaned/fixed a few things in the mapper 19 emulation code.
+	Family Circuit '91 still doesn't work quite right...  I wonder if
+	it's a bad dump.
+
+	Added input override code to Windows port.
+
+	Added code to fix iNES header information in RAM and suggest
+	changes to the user.
+
+	Added support for iNES mapper 152(to be used with games set to 
+	mapper 70, that use one-screen mirroring instead of h/v mirroring).
+
+	Blits using the DirectX blitting function(method?) to the primary
+	surface are now done with the asynchronous flag set(if that
+	fails, a "normal" blit is tried).
+	
+	The DirectX blit buffer(secondary surface that FCE Ultra writes to
+	directly and then uses the DirectDraw blit function on to blit
+	to the primary buffer) is now created without specifying it
+	should be in system memory or video memory, except in the case
+	when no hardware blitting is available, and then DDraw is explicitly
+	told to create the surface in system memory.
+
+	Added Family Keyboard support to the DOS port.
+
+	Cleaned up the VRC7 sound emulation code.  I need to find a way
+	to save the current sound state in a save state.
+
+	Found out the real name of the "Space Shadow" gun; it's
+	called the "Hyper Shot".  I'm still not sure who made it, though.
+	Possibly Bandai did.  The interesting thing is that Konami
+	also made a Famicom accessory(dual square boxy things with two buttons
+	on each) with the same name(though there might not be a space in the
+	name).
+
+	Only the upper two bits read from $4016/$4017 are undefined.
+        Bit5 is always 0, though.  Fixed the bug in "input.c".
+	Silly kevtris' old documents.  New kevtris' brain is always good.
+
+	Family Keyboard support for the Windows port.
+
+	Added support for the Family Basic Keyboard to the Linux port, other
+	ports todo.
+	Might want to add support for the tape recorder at some time.
+	Also mapped the "Scroll Lock" key to disable/enable command keys
+	so that the FBK is more useable.  It doesn't disable CTRL C, 
+	though...
+
+	Changed a lot of inlined functions in x6502.c to macros so that
+	I could test out some optimization ideas.
+
+	DOS code updates for game input override support.
+
+	Small optimzation to opcode $4c, and relative jumps.
+
+	Added some code to ines.c to set controller information in 
+	FCEUGameInfo(returned by FCEUI_LoadGame()) based on crc32 values.
+
+	Updated user documentation and usage.h for DOS and SVGAlib input 
+	command-line changes.
+
+	Added an option to disable the four-score(to Windows and Linux ports
+	so far).
+
+	Updated Windows interface to support the new Famicom expansion
+	devices.
+
+	(Re)Added support for the Famicom 4-player device.
+
+	Improved Zapper emulation...sort of.  It still needs a lot of work. :/
+
+	Added *partial* support for the "Space Shadow" gun.
+
+	Added support for the Arkanoid controller(both NES and Famicom style).	
+
+	Added code to support the extension Famicom input devices.
+
+	Added PAL scanline start/end drawing settings to Windows port.
+
+	Added pause emulation key(F2) to Windows port.
+	
+	In the process of rewriting/fixing up input code stuff.
+
+	Minor bug fix to Power Pad emulation code.
+
+	VS Hogan's Alley and VS Duck Hunt automatically select the zapper
+	now(though it only works on the SVGAlib port).
+
+	Undid some FDS sound code changes introduced in 0.76 that totally
+	screwed up sound.  Oops.
+
+	Added code to allow different settings for first/last scanline
+	drawn while in PAL emulation mode, to the Linux and DOS ports.
+
+	Added convenience(it's not necessary, but it reduces redundant and
+	confusing code in the driver code) function 
+	FCEUI_GetCurrentVidSystem(int *slstart, int *slend).
+
+	Updated file "TODO".
+
+	Changed #include <unzip.h> to #include "zlib/unzip.h"
+	in file.c.
+
+	NSF 6502 player now initialized the stack pointer on reset.
+
+	Worked on de-emphasis emulation code quite a bit.  
+	The deemphasized palette calculated at the end of the frame is now
+	based on what deemphasis bits were set for the longest during
+	the screen(sampling interval is a scanline) update loop.
+	Added a "static" deemphasized palette at $40-$7F in the palette table.
+	This corresponds to the colors when all of the deemphasis bits are set.
+	I did this to fix the PAL game "Noah's Ark", without breaking
+	anything else.  The only downside is a slight speed loss(~2% on
+	my system when sound is disabled), but this is acceptable to me,
+	at least.
+	Maybe it's time to write hi/true-color ppu drawing code...
+
+
+	Fixed an out of bounds array access in svga.c in SetNESDeemph().
+	The variable "lastd" in svga.c was being initialized to the wrong value.
+	Thanks to "Jarod CANAL" for pointing this out.
+
+	Removed FCEUI_SetFirstRenderedLine or whatever it was called and
+	the function to set the last line.  Replaced with:
+ 	 void FCEUI_SetRenderedLines(int ntscf, int ntscl, int palf, int pall);
+
+	Changed SetVidSys(int w) to ResetVidSys() in fce.c.  Reenabled
+	PAL/NTSC emulation overrides based on game loaded(really only useful
+	for NSFs and UNIFs now).  
+
+	UNIF loading code now recognizes the chunk "CTRL" and tries
+	to use it.  Only the svgalib code supports overriding of input
+	settings based on game loaded, now, though...
+	The user is still going to have to configure powerpad settings
+	on his/her own.
+
+	Fixed return values of FCEU_fseek() and fixed a problem in unif.c
+	related to it.
+
+	Changed mechanism for how FCE Ultra tells the driver
+	code what type of system is being emulated.  A structure of
+	type "FCEUGI" is returned from FCEUI_LoadGame().
+
+	Fixed a major mapper 64 emulation bug introduced in 0.76.
+
+	Modified BlitVidHi() in drivers/win/video.c to speed it up.
+
+	Added support for loading the iNES-format Game Genie ROM image.
+
+	Removed ggrom.h and added code to load the Game Genie ROM
+	image from a file.
+
+	Added Windows netplay.c.  (new: the user exiting the emulator
+	while stuck in a blocking recv() or send() loop now works.)
+
+	Fixed a vram address register bug in fce.c that I created when I got 
+	rid of the pair/dpair data types.
+
+	Added new mappers/92.c
+
+	Removed mappers/92.c until I can contact LULU or rewrite it.
+
+	drivers/win changes.  Removed netplay.c until I can rewrite it.
+
+	Got rid of pair/dpair data types.
+
+	Got rid of silly "TempArray" thing.
+
+	Began adding GPL headers to files.  FCE Ultra is going to be in
+	a state of legal limbo for the next few days...
+
+	Replaced crc32.c and crc32.h, and added some #ifdef's and #defines
+	to use the crc32 code in zlib instead if zlib is linked with
+	FCE Ultra.
+
+	More fixes to sb.c.
+
+	Cleaned up drawing.h and ggrom.h(even though ggrom.h will *probably*
+	be removed before the next release).
+
+	Redid frameskip code.
+
+	Rewrote necessary pieces of sb.c and sb.h and fixed quite a few
+	bugs.  I still need to test it on various other sound cards, though.
+
+	Rewrote(more like "recreated in my own image") DOS keyboard driver.
+	Removed unused "keyscan.h" from drivers/svgalib
+
+	Rewrote part of(the parts that Marat wrote - the connection and
+	closing parts) the Linux TCP/IP network play code.  I guess it works, 
+	but I haven't tested it very much.  In any case, it's still dangerous
+	to use network play in FCE Ultra with SVGAlib, since recv() or send() 
+	might block and since the keyboard is in raw mode, you have a problem.
+	Maybe a future SVGAlib will fix the general problem of lockups if
+	keyboard_update() isn't called, though it is only partly SVGAlib's 
+	problem...
+
+	Fixed FCEU_fseek() when used with a compressed file in the PKZIP
+	format that has been loaded.  Fixes a UNIF loading problem.
+	Also added a check to the return value of FCEU_fseek() in unif.c.
+
+	Replaced Marat's 6502 emulation core with my own.  
+	It should be fully functional, but as always, I don't know if
+	I implemented the undocumented instructions correctly.
+	Several things are correct in this new core that were not in
+	Marat's(D flag is no longer cleared by interrupts, for example).
+
+	Altered mapper 16 irq counter emulation slightly.
+
+	Fixed the behavior of the SXA, SYA, and XAS opcodes based on the
+	documentation I have.  I'm not sure what happens when page crossing
+	occurs with those instructions on a real NES, though.
+	Also CHANGED(not fixed) emulation of opcode $8B("XAA").
+
+	Changed some of the M* functions(absolute indexed and maybe some others)
+	to perform dummy reads.
+
+	Changed some of the macros in m6502.c to inlined functions so
+	that I can modify and examine them more easily.
+
+.77:
+----
+
+	Fixed a silly network play bug(in the global network play code)
+	that caused excessive lag.
+
+	Added a "niceness" setting to the sound configuration dialog.
+	Removed obsolete information from the dialog.
+
+	Fixed speed throttling code in Windows port when PAL emulation is
+	disabled/enabled and a new game hasn't been loaded yet.
+
+	Commented out a printf() to debug stuff in fds.c(oops).
+
+	Applied PK's joystick patch to the osdl code.  It allows the user
+	to map axes and it fixes a joystick button mapping configuration saving
+	bug.
+
+	Added two command line options new to Linux port to DOS port.
+	Just need to test them...
+
+	Added some stuff to unif.c to allow for boards that can support
+	CHR RAM instead of CHR ROM(darn Sachen boards...).  Fixes UNIF
+	version of "Q-Boy". 
+
+	Added command line option "-snapname" to Linux port.  I'll add it
+	to the Windows port as well, but probably not to the DOS port.
+
+	Added clip option to Linux port.
+
+	Fixed sound logging(in Windows port) so that multiple recording
+	sessions now work.
+
+	Added an option to clip the leftmost and rightmost 8 columns
+	of graphics in the Windows port.
+
+	Added a submenu that lists recently opened files, in the Windows
+	port.
+		
+.76:
+----	
+
+	Updated porting.txt.
+
+	Added speed throttling code to Windows port that's used when sound is
+	disabled(and an option in the "Miscellaneous" 
+	configuration window to disable it).
+
+	Added cheat interface to DOS build.  
+
+	A few tweaks to the text cheat interface code in the cheat listing code.
+	Added a command to quickly toggle the status of the cheat(though a 
+	cheat can still be disabled/enabled by (M)odifying the cheat).
+
+	Support for UNIF UNL-TC-U01-1.5M board added. Same credits as below.
+
+	Rewrote mapper 228 code just for the heck of it(actually, I couldn't
+	figure out why some(about two) of the games in the Action 52 cart 
+	weren't working in .75(and .76).  I traced it back to .71, where an apparent bug in
+	the undocumented 6502 opcode emulation allowed it to work, which
+	was later fixed for the .72 release(opcode 0x7C)).  I'm thinking	
+	that the dump is bad...
+
+	Added a few crc32 checks to ines.c to check for and report when
+	a known(by me) bad(hacked or bad dump) game is loaded.
+
+	Added support for the following UNIF boards.  Thanks to Quietust
+	and Kevin Horton for the information.  Some problems still exist
+	with a few games that use these boards, though...
+
+		UNL-Sachen-8259B
+		UNL-Sachen-8259A
+		UNL-Sachen-74LS374N
+	        UNL-SA-016-1M
+	        UNL-SA-72007
+	        UNL-SA-72008
+	        UNL-SA-0036
+	        UNL-SA-0037
+
+	Fixes to some stuff in cart.c(for example, calling setprg32() when 
+	only 16kb of prg data is present now works).
+
+	Added support for iNES mapper 189.
+
+	Tried to add support for the UNIF board "UNL-H2288".  Failed.
+
+	Updated "cheat.txt" to fix a few typos and added an example of finding
+	and adding a cheat using the Linux port's text interface.  The actual
+	section on the Linux cheat interface still needs to be written, however.
+
+	Changed network play code in the Windows port and fixed a bug.
+	Fixed a similar bug in the Linux netplay code....sort of.
+
+	A few cosmetic changes to the dialogs in the Windows port.
+
+	Fixed sound initialization on the Windows port(it was being initialized
+	when FCE Ultra started even if it was disabled by the user.  Oops.).
+
+	Joystick button configuration code in Windows port changed slightly
+	to be more useable.
+
+	Changed reference to video mode 5 in the linux port to "1 per 4".
+	It may not be very meaningful, but it is certainly better
+	than "TV Emulation".  I'll change the Windows port reference later.
+
+	Documented video mode 7(320x240) for the Linux port.  Also added
+	a check for the FBDev driver in order to use this mode instead
+	of a tweaked vga mode if that driver is being used.
+
+	Added/Fixed cheat interface for Linux port.  It's still not perfect,
+	though.  The code is ugly...
+
+	Callback function for FCEUI_ListCheats() now receives
+	status information(enabled/disabled).
+
+	Callback functions for cheat functions now must return 0 to
+	stop listing cheats or 1 to continue.  
+
+	Fixed a problem(the cheat code was reading in cheats
+	for address $0000 from cheat files if any blank lines were present).
+
+	SDL port zlib changes(linked dynamically to zlib now).
+
+	More changes to envelope decay + looping on code.  No longer
+	depends on value @ $4017.  It now sounds correct based on some
+	tests I did with SMB3 and a GG, but Goonies 2 doesn't sound right(
+	based on a sound file sent to me by another person).
+
+	Added support for iNES mapper 140.  Thanks to Quietust for the
+	information.
+
+	I need to figure out how to deal with the problem of so many
+	bad NSFs that most people consider good...
+
+	Changed envelope decays a bit.  Their behavior now depends on bit
+	7 of $4017.  I don't know if this is right...
+
+	Addition of debug.c for some debugging stuff.
+
+	Updated zlib to 1.1.4.
+
+	Modified code in various files to allow UNIF games to override
+	current selected video system emulation(NTSC or PAL).  Need to
+	make sure this really works.
+
+	Changed sound.c to prevent desynchronization during network play.
+	This might slow down sound emulation slightly, especially when
+	sound emulation is disabled.  I really don't care...
+
+	Updating network play code.  More info later...
+
+	Moved the sound/video/etc output code in EmLoop() to the top of the
+	for(;;) loop so that initialization prior to calling EmLoop() will
+	be the same as initialization done during a call to a FCEUD_* function.
+
+	A few very small changes to sound emulation in fds.c.
+
+	Changed unlink() to remove() in cheat.c and removed the including
+	of the header file unistd.h.
+
+	Split up the cc=... statement in RefreshLine() to make it easier
+	to read and not ambiguous(to Borland's C compiler).
+
+	Changed a lot of the function declarations in cheat.c.  I'll need
+	to verify that cheat searching still works ok and that cheats still work
+	ok.  I'll also need to update the Windows(and Linux console) cheat code
+	to prevent compiler warnings.
+
+	Fixed various minor code problems(not minor if you want to use a
+	compiler besides gcc).   This is an ongoing process...  
+
+	Removed bit fields after reading about and thinking about possible
+	portability problems, though I kept some optimizations in fceline.h
+
+	Minor code simplification in drivers/win/joystick.c(replaced
+	"case 200 ... 207" and "case 208 ... 215".
+
+	Modified some code to use bit-fields in the graphics rendering code 
+	in fce.c and fceline.h.  gcc seems to be able to optimize the new
+	code to run faster.
+
+	Fixed m6502.c and fce.c to initialize variables on virtual power
+	toggle.  This should fix network play on the Windows port.
+	I'm also in the process of cleaning up fce.c. 
+
+.75:
+----
+	Fixed directories configuration stuff in Windows port(corresponds
+	to .75r2).
+
+	More changes to square wave channel envelope/volume emulation...
+	Changes described in the large paragraph some lines down have been
+	abandoned.
+
+	Added a command line switch to set the volume in the dos port.
+
+	Changed Windows sound configuration dialog.  Now buffer length is
+	specified in time, not samples.  I also added a volume control.
+
+	Reduced the volume on 8-bit sound output on all ports by 1/2.
+
+	Added a function FCEUI_SetSoundVolume().  Added support for setting
+	the volume via the command line in the Linux port, other ports coming
+	soon.
+
+	Changed FCEUD_WriteSoundData() again.  No longer has a "Check"
+	argument.  All clipping(ugh) is done internally now.
+
+	Added a directories configuration dialog to the Windows port.  I worked
+	on it too long and I became a zombie, so it might have a few bugs.
+	That's what guine...err...users are for. ;)  Don't expect me to do
+	anything like this for any other port, though.  I don't feel like
+	doing it on the DOS port, and the Linux and other UNIXy ports shouldn't
+	really need it.
+
+	Made some changes to the rectangle/square wave channel emulation to
+	fix the pops in SMB.  I have no idea if what I did is correct.  To
+	be honest, I'm not sure I know EXACTLY what I did, but it's something
+	like this:  Writes to $4003/$4007 now reset the duty cycle count
+	and reload the cycle counter with the current wavelength.  Writes to
+	$4003/$4007 now do not update the amplitude output of the channels; they
+	will be updated after the cycle counter hits 0(or below).
+
+	More information in iNES informational output.
+	
+	Minor changes to mappers/16.c.
+
+	Increased the volume of the VRC6's sawtooth wave channel.
+
+	Added more information to the RAM cheat guide.
+
+	Changed the triangle wave generation code slightly.  I decided
+	to remove support for the higher-frequency triangle waves, as they
+	are too cpu-costly to create and are probably not very audible on a 
+	real NES anyway.
+
+	Major changes to how sound is mixed.  This necessitated a high pass
+	DC-offset removing filter, and a low-pass filter just to make things
+	sound better. ^_^ 
+	Note:  FCEUD_WriteSoundData() no longer needs to clear the waveform
+	data referenced by the passed pointer; it's done internally now.
+
+	Fixed JMP ($xxxx) - now handles wrapping like it occurs on a real 6502
+	(hopefully; I'm assuming that the same holds true for the NES' cpu).
+
+	Added the ability to load a custom global palette in the DOS port.
+
+	Fixed bug in drivers/common/unixdsp.c(wrong return value if sample
+	rate was out of range).
+
+	Many sound fixes...	- Frequency sweeps, length counter stuff,...
+
+	Changed Windows port to use IDirectInput7 and IDirectInputDevice7
+	interfaces.
+
+	Fixed a Game Genie bug in the core emulation code.  It only appeared 
+	in the Windows port, though.  (Enabling gg emulation, loading a game,
+	and then disabling gg emulation and loading a new game while in the
+	gg code entry screen would cause the new loaded game to not work
+	correctly).
+
+	Modified windows port to use the config saving/loading stuff in
+	drivers/common/config.c
+
+	Mapper 45 cleanups/fixes.
+
+	Added the ability to load a custom global palette in the Linux port.
+	Yay.
+
+	Fixed a large number of overcomplicated code and silly bugs in
+	drivers/common/config.c.  This changes the format of the configuration
+	structure, too.  Also added support for saving/loading strings with
+	automatic memory allocation when strings are loaded.
+
+	Minor change in InitNetplay().
+
+	Fixed bad type conversions for pointers to functions and fixed
+	some bad declarations of functions.
+
+	Reenabled zlib support for the sdl build.  I need to pay attention
+	to patches that modify lines than don't fit on my screen.
+
+	Fixed vidblit.c to not emit so many warnings when compiling.
+
+.74:
+----
+
+	Stop sound in Windows port when user clicks l/m/r mouse buttons
+	in the non-client area of the window.
+
+	Added "Drag and drop" file open support to Windows port.
+
+	Various code cleanups.
+
+	mappers/33.c optimization.
+
+	Rewrote the function "FCEU_MakeFName()".
+
+	Removed crc32.h from mappers directory.
+
+	Modified some of the window resizing code in the Windows port.
+
+	Added support for waiting for vblank/double buffering to the Windows
+	port.
+
+	Added/Fixed support for iNES mapper 248.
+
+	After an NSF file is loaded, information about its header is now
+	displayed.
+
+	Fixed a typo in the Namco 106 extra ram handling code. 
+
+	Improved the quality of the Namco 106's extra sound channels. 
+	- Thank Mamiya and Applepie(real name?) for info.
+
+	When an NSF file is being played, FCE Ultra will no longer go through
+	its scanline rendering loop.  This speeds up NSF playback considerably.	
+
+	Updated "porting.txt".
+
+	Moved some stuff from DriverInterface() to their own functions.
+
+	Fixed some iNES mapper 18 IRQ counter emulation bugs.  "Ninja Jajamaru -
+	Ginga Dai Sakusen" now works.
+
+	Rewrote large pieces of the mapper 64 code.  "Skull and Crossbones" 
+	still doesn't work, though.
+
+	Changed format of iNES header information output, added "ROM CRC32" info.	
+
+	Modified the way cycle timing is done slightly.  No change
+        for NTSC emulation, but PAL emulation is a little more accurate.
+
+	Changed the behavior of indirect indexed(I hope I got that right ;))
+	instructions to behave more like a real 6502(junk reads are now 
+	performed).
+
+	A few optimizations/cleanups in m6502.c.
+
+0.73
+----
+
+	*  Fixed several bugs with sprite emulation.  Several games(such
+	   as "Trojan" and "VS Duck Hunt") that were broken in .71 and .72 now 
+	   work ok.
+	*  Added support for iNES mapper 82.  Thanks to those who work on
+	   "unofficial nester".
+	*  Added support for iNES mapper 250(used by "Time Diver Avenger").
+	*  Fixed the documentation to show that iNES mappers 48, 83, and 232
+	   are supported.
+	*  Removed various pieces of stale code and fixed a few minor bugs.
+	*  Fixed a triangle wave channel bug(the channel was sometimes enabled
+	   when it shouldn't have been).
+	*  Writing to $4010 with the upper bit clear now acknowledges the DPCM
+	   IRQ.  This appears to fix "Stunt Buggies".
+	*  Rewrote pieces of the Zapper emulation code to be cleaner and more
+	   accurate.
+	*  Rewrote the VS Unisystem dip switch drawing code.
+	*  Simplified the setting of VS Unisystem dip switches.  The "V" key 
+	   now toggles viewing AND editing of dip switches.
+
+0.72
+----
+
+	*  Various minor bug fixes.
+	*  Various code cleanups and size and speed optimizations.
+	*  Removed some (apparently) unused MMC5 sound emulation code.
+	*  Changed the behavior of $2003 and $4014 to better simulate what occurs
+	   in a real NES.
+	*  Fixed a few bugs in the undocumented 6502 opcode emulation code.
+	   The Game Genie code "NUTANT" for SMB 3 works correctly now, at
+	   least(previously it caused the game to lock up at the end of levels).
+	*  Rewrote large pieces of the 6502 memory fetching code, resulting
+	   in a slight slowdown in the speed of emulation.  Benefits include:
+	   Game Genie emulation now works(again) and 6502 emulation is more 
+	   accurate.
+	*  Added support for iNES mapper 72.  Thanks to rinao for the information.
+	*  Fixed support for iNES mapper 77(used by Napoleon Senki).
+	*  Fixed/Added support for iNES mapper 226.  Apparently I made a mistake
+	   in the documentation.  Thanks to Mark K. for the information.
+	*  Added support for iNES mapper 227.  Thanks to Mark K. for the 
+	   information.
+	*  Added support for iNES mapper 234(used by the Maxi-15).  Thanks
+	   to Mark K. for the information.  Note that many of the Maxi-15
+	   ROM images on the Internet have corrupt CHR data(graphics), or the
+	   mapper number is set incorrectly(usually to 11).  Use a utility to 
+	   fix the mapper number.
+	*  Added support for the following UNIF boards(prefixes omitted):
+		- EKROM (and fixed the reference to "Gemfire" in the documentation).
+		- HKROM
+	*  Added the ability to enable and disable individual RAM cheats.
+	*  Fixed some problems with the cheat search code(the NES' internal
+	   RAM was being searched differently than any external RAM, which
+	   was being search incorrectly).
+
+0.71
+----
+
+	*  Fixed a 6502 emulation bug that was causing some Koei games
+	   (ex: Nobunaga's Ambition, Genghis Khan) to not work.
+	*  Extensive PPU/CPU timing adjustments.
+	*  Fixed support for iNES mapper 40.
+	*  Added support for the following UNIF boards(prefixes omitted):
+		- ETROM
+		- ELROM
+		- EWROM
+	*  Fixed a few bugs in the UNIF code.
+	*  Added support for loading and saving cheat files and an interface
+	   to search for/add/delete/list cheats(no interface yet on Linux/DOS).
+	*  Fixed a few minor bugs in the Windows DX code.
+	*  Command line options to control the number of sound fragments
+	   and the fragment size have been added(Linux).
+
+0.70
+----
+
+	*  Adjusted PPU/CPU timing.
+	*  Removed(until I understand the problem) a hack to get one of the 
+	   games in the Caltron 6-in-1 to work.
+	*  Fixed an MMC3 IRQ emulation bug("Project Q" works better now).
+	*  Fixed a problem/misunderstanding regarding the upper scanline.  
+	   It can now be displayed again.
+	*  More accurate sprite hit emulation(fixes the title screen of
+	   "Ultimate Stuntman").
+	*  VRAM bank switching for iNES mapper 4 is now possible(and enabled
+	   for all mapper 4 games without CHR ROM).  Fixes "Tenchi o Kurau 2".
+	*  Added support for the Famicom's four-player adapter and the ability
+	   to enable it(it is disabled by default to prevent compatibility 
+	   problems).
+	*  Added an option(under miscellaneous configuration) to automatically
+	   open the "File Open" dialog box when FCE Ultra is started.
+        *  Sound sampling rate is now configurable. 
+	*  Fixed some bugs in the DirectSound code.
+	*  Joystick button configuration is a little more user friendly(and
+	   stable, hopefully) (Linux).
+
+0.62
+----
+
+	*  Added support for the Famicom Disk System's extra sound channel.
+	*  Updated the version of Tatsuyuki Satoh's OPL2 emulator used in 
+	   FCE Ultra from .36f to .37a.  The sound quality in "Lagrange Point"
+	   seems to have improved.
+	*  Added support for iNES mapper 242(used by "Wai Xing Zhan Shi").
+	*  Fixed a network play bug that could cause desynchronizations
+	   if more than one network play session occured since FCE Ultra
+	   was started.  This bug only showed up on the Windows port, though.
+	*  Increased the volume of the noise and triangle sound channels.
+	*  Fixed a save state loading bug.
+	*  Fixed a small memory leak that was being caused by the VRC7
+	   state loading code.
+	*  Fixed a bug that could cause FCE Ultra to crash if a virtual disk
+	   was being read and the user ejected the virtual disk.
+	*  Various minor bug fixes/code cleanups.
+	*  NTSC color "emulation" can now be enabled again(the code to
+	   enable it was broken in the last version). (Linux)
+
+0.61
+----
+
+	*  Speed optimizations in sprite rendering code.
+	*  Screen snapshots are now saved in the PNG format instead of the PCX
+	   format.
+	*  Fixed Game Genie emulation(it wasn't working in the last release).  
+	   Also added support for Game Genie emulation to the UNIF code.
+	*  Rewrote command line option parsing code.
+	*  Fixed a problem(if FCE Ultra was configured to connect to a remote
+	   host and the remote host was given as an IP address, and the IP
+	   address couldn't be reverse resolved, which is commonly the case
+	   on home LANs, the connection attempt would fail) in the network 
+	   play code.  I had misinterpreted the Winsock API documentation 
+	   when I wrote the code.  (Windows)
+
+0.60
+----
+
+        *  Various speed optimizations.
+        *  Sound is no longer messed up when a JAM/KIL opcode is emulated.
+        *  Fixed an overflow bug that occured when $4014 was written to
+           during certain(rare) conditions.
+        *  Fixed a few save state bugs.
+        *  Fixed a MMC1 CHR bank switching bug.
+        *  Added emulation of the MMC5's WRAM write-enable/disable registers.
+        *  Fixed a sound frame IRQ emulation bug.  "Qix" works now.
+	*  Added UNIF support.  Some of the board emulation is still a bit 
+	   buggy, though.  Look at the documentation for a list of supported
+	   boards.
+        *  Updated the "Palette Notes" section of the documentation.  Also
+           fixed a few other problems with the documentation.
+        *  Added support for loading files in the PKZIP and gzip
+           compressed file formats via zlib.
+	*  Added the ability to configure the first scanline and the last
+	   scanline to draw to the screen.  Enabling PAL emulation no longer
+	   will cause all 239 scanlines to be displayed, though an option
+	   to override these settings for when PAL emulation is enabled may
+	   be in the next version.
+        *  Fixed a bug that would cause the emulated D-pad of virtual gamepads
+           emulated through the keyboard to be duplicated through "higher"
+           virtual gamepads(gamepad 1 would affect 2,3,4; gamepad 2 would
+           affect 3,4; etc.). (Windows)
+
+0.55
+----
+        *  Rewrote window resizing code.  The window will now resize itself
+           to a multiple of the NES' screen dimensions nearest to the user
+           selected dimensions. (Windows)
+        *  Added an option to use buttons instead of axes on physical joysticks
+           for the emulated D-Pad.  This is useful for some digital joysticks. (Windows)
+        *  Fixed a bug that would cause FCE Ultra to crash if sound were
+           disabled during emulation.           (Windows)
+        *  Added the ability to "fast forward" emulation.
+        *  Added an option to allow more than 8 sprites per scanline to be
+           displayed.
+        *  Added an option to save all extra non-volatile game data
+           (such as battery-backed RAM) in a directory under FCE Ultra's
+           base directory(as opposed to the directory the game is located in).
+        *  Added an option to allow the emulator to change to a full screen
+           video mode once a new game is loaded. (Windows)
+        *  Rewrote pieces of DirectInput joystick handling code.  Hopefully
+           it should increase compatibility. (Windows)
+        *  Added the ability to automatically obtain button numbers when
+           configuring joysticks, by pressing buttons on the joystick.
+        *  Added the ability to close the current game(decreases CPU usage). (windows)
+        *  Increased the speed of various function calls by passing
+           arguments to functions through registers instead of through the 
+	   stack.
+	*  Added emulation of the MMC5's raw PCM register.
+        *  Added the ability to save/load save states while network play
+           is occuring.
+        *  Having PAL emulation enabled will no longer override the
+           NTSC/PAL settings in NSF headers.
+        *  Fixed a bug that got into the .54 release.  Extraneous data was
+           being returned on reads from $2002, which caused problems
+           with some games(such as "Choujin Sentai Jetman").
+
+0.54
+----
+        *  Fixed a bug that would cause a wrong battery-backed WRAM file
+           name to be produced if FCE Ultra was passed a file name without
+           any directory component(such as "fceu SuperBlah.nes").
+        *  Fixed an iNES mapper 118 emulation bug that got into the code
+           in a recent code cleanup.  "Armadillo" is playable again.
+        *  Fixed a typo(and bug) in the MMC5 emulation code.
+        *  Data returned from emulated reads to "unmapped" areas or
+           memory locations where bits are undefined should now be correct.
+        *  Fixed emulation of the sprite memory transfer register $4014.
+           It now takes into account the last value written to $2003 and
+           starts the transfer to that location in sprite memory(like on
+           a real NES).
+        *  Added a video configuration dialog box. (Windows)
+        *  Added the ability to configure a custom video mode.  Aspects
+           that are configurable include width, height, bits per pixel,
+           and size transforming(stretching and scaling). (Windows)
+
+0.53
+----
+
+        *  Fixed a bug with joysticks that occured on systems with multiple
+           joysticks. (Windows)
+        *  Added support for iNES mappers 77 and 92(thanks to LULU for the code for both).
+        *  Added partial(timer is non-configurable) support for iNES mapper 105.
+        *  Changed save state format again.  Save states made with previous
+           versions should still be compatible, though this may change in
+           future versions.
+        *  Small optimization to sprite emulation code.
+        *  Rewrote color-deemphasis code to use integer math instead of
+           floating-point math.
+        *  Rewrote and restructured input code. (Linux)
+	*  Added command line option "-f8bit" to force 8-bit sound. (Linux)
+        *  Rewrote and restructured input code.  Among other new features,
+           keyboard keys are now somewhat configurable. (Windows)
+        *  Writes to $4003/$4007 will now reset the emulated square wave
+           duty cycle generator.
+        *  Added emulation of the Power Pad.
+	*  Rewrote joystick device reading code to use the event-driven
+	   interface.  This should fix various problems regarding support
+	   for joysticks with many buttons. (linux)
+
+0.52
+----        
+
+        *  Fixed a PCM emulation bug(digitized voices in "Ikari Warriors 2"
+           and "The Immortal", among others, work now).
+        *  Fixed noise channel's LSFR update frequencies(hopefully).
+        *  Various minor bug fixes.
+
+0.51
+----
+
+	*  Added support for iNES mappers 86 and 89.
+	*  Reduced byte size of the NSF player's background.
+	*  Adjusted CPU/PPU timing.
+	*  Fixed sound channel frequency calculations for when PAL emulation is enabled.
+	*  Rewrote large pieces of the sound code and got rid of the sound queue. Sound quality should be slightly better now.
+	*  Various minor bug fixes.
+
+	 Windows:
+
+	*  Fixed an FDS side reset bug when a new game is loaded.
+	*  Screen width/depth/height changes while FCE Ultra is in windowed mode are handled now.
+	*  Changed the configuration file format.
+	*  Added a palette configuration dialog.
+	*  Added the ability to load a custom NES palette.
+	*  Added an option to double 16-bit sound volume.
+	*  Added an option to force 8-bit sound.
+	*  Added an option to use a secondary sound buffer(versus the primary).
+	*  Added an option to wait for vertical blank if sound is disabled.
+	*  Added an option to run while focus is lost.
+
+0.50
+----
+        
+        *  Many bug fixes.
+        *  Sound code partially rewritten to improve quality(near-perfect 
+           raw PCM now) and eliminate the need for a separate thread.
+           This created a small problem with network play, though, so read
+           the network play notes section.  Also, synchronizing to
+           vertical blank has been removed.
+        *  Rewrote other pieces of sound code.  No more "buzzing" in MegaMan 2,
+           Codemasters games' intros, etc.
+        *  Added support for the NES Zapper and the VS Unisystem's light
+           gun.  Be sure to read "Light Gun Notes".
+        *  Changed save state format.  Save states should now be much
+           smaller for most games.  Most(not all) save states created with
+           an older version should work.
+        *  Added support for VS Duck Hunt and VS Hogan's Alley.
+

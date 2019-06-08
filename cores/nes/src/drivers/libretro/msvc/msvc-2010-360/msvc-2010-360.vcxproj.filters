@@ -1,0 +1,680 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\input">
+      <UniqueIdentifier>{3e0d408c-7e29-4169-b0a2-fedbac18c1dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\boards">
+      <UniqueIdentifier>{0be626d6-22ae-486d-bae4-cf5ee5226f8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\mappers">
+      <UniqueIdentifier>{2d852975-e01d-4961-9cf0-f004287e1405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\input">
+      <UniqueIdentifier>{ad3640f4-91ee-4e6c-ad75-30db0eeee52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\libretro">
+      <UniqueIdentifier>{c75a1e3d-897a-4ab0-aa61-68af448cb2cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\libretro">
+      <UniqueIdentifier>{d3554fb8-af5e-4dea-8282-ae02aae83e42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\boards">
+      <UniqueIdentifier>{d2086c53-f22e-4f31-9aa5-20a487cb65e6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\input\zapper.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\arkanoid.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\bbox.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\bworld.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\cursor.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\fkb.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\ftrainer.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\hypershot.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\mahjong.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\mouse.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\oekakids.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\pads.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\pec586kb.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\powerpad.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\quiz.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\shadow.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\suborkb.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\input\toprider.c">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\yoko.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\__dummy_mapper.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\__serial.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\01-222.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\3d-block.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\09-034a.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\12in1.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\15.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\18.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\32.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\33.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\34.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\36.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\40.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\41.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\42.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\43.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\46.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\50.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\51.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\57.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\62.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\65.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\67.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\68.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\69.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\71.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\72.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\77.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\79.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\80.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\82.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\88.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\90.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\91.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\96.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\99.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\103.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\106.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\108.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\112.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\116.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\117.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\120.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\121.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\151.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\156.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\164.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\168.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\170.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\175.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\177.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\178.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\183.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\185.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\186.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\187.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\189.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\193.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\199.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\206.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\208.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\222.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\225.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\228.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\230.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\232.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\234.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\235.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\244.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\246.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\252.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\253.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\603-5052.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\8157.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\8237.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\411120-c.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\830118C.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\a9746.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\ac-08.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\addrlatch.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\ax5705.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\bandai.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\bb.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\bmc13in1jy110.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\bmc42in1r.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\bmc64in1nr.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\bmc70in1.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\bonza.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\bs-5.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\cityfighter.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\copyfami_emu.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\copyfami_hwi.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\dance2000.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\datalatch.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\dream.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\edu2000.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\emu2413.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\famicombox.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\ffe.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\fk23c.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\ghostbusters63in1.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\gs-2004.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\gs-2013.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\h2288.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\karaoke.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\kof97.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\KS7012.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\KS7013.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\KS7017.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\KS7030.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\KS7031.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\KS7032.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\KS7037.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\KS7057.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\le05.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\lh32.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\lh53.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\malee.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\mmc1.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\mmc2and4.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\mmc3.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\mmc5.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\n106.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\n625092.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\novel.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\onebus.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\pec-586.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\SA-9602B.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\sachen.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\sc-127.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\sheroes.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\sl1632.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\subor.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\super24.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\supervision.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\t-227-1.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\t-262.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\tengen.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\tf-1201.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\transformer.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\vrc1.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\vrc2and4.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\vrc3.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\vrc6.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\vrc7.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\vrc7p.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\mihunche.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\griffin.c">
+      <Filter>Source Files\libretro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\x6502.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\fceu\ines.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\fceu\unif.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\vrc5.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\boards\coolboy.c">
+      <Filter>Source Files\boards</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src-fceumm\input\suborkb.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\input\fkb.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\input\share.h">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\mappers\vrc7tone.h">
+      <Filter>Header Files\mappers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\mappers\emu2413.h">
+      <Filter>Header Files\mappers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\mappers\emutypes.h">
+      <Filter>Header Files\mappers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\mappers\mapinc.h">
+      <Filter>Header Files\mappers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\boards\mmc3.h">
+      <Filter>Header Files\boards</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\boards\mapinc.h">
+      <Filter>Header Files\boards</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libretro-fceumm\memstream.h">
+      <Filter>Header Files\libretro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libretro-fceumm\libretro.h">
+      <Filter>Header Files\libretro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\x6502struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\cart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\cheat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\crc32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\driver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\fceu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\fcoeffs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\fds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\general.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\git.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\ines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\ines-bad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\ines-correct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\md5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\ops.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\palette.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\ppu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\pputile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\ppuview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\sound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\sound_hq_.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\sound_lq_.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\state.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\unif.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\vsuni.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\x6502.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\fceu-endian.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src-fceumm\fceu-types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

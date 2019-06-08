@@ -1,0 +1,71 @@
+Thanks to Info-ZIP for info on the DOS-time/date conversion code,
+and some other general information gathered from their sources.
+
+Thanks to these people for suggestions, testing, and bug reports:
+
+Agostino Sarubbo
+Alexander Galanin <al@galanin.nnov.ru>
+Alexandr Shadchin <alexandr.shadchin@gmail.com>
+Andreas Falkenhahn <andreas@falkenhahn.com>
+Andrew Brampton <brampton@gmail.com>
+Andrew Molyneux <andrew@molyneuxfamily.co.uk>
+Ankur Kothari <ankz.kothari@gmail.com>
+BALATON Zoltan <balaton@eik.bme.hu>
+Benjamin Gilbert <bgilbert@backtick.net>
+Boaz Stolk <bstolk@aweta.nl>
+Bogdan <bogiebog@gmail.com>
+Brian 'geeknik' Carpenter <geeknik@protonmail.ch>
+Carl Mastrangelo <notcarl@google.com>
+Cédric Tabin
+Chris Nehren <cnehren+libzip@pobox.com>
+Coverity <info@coverity.com>
+Dane Springmeyer <dane.springmeyer@gmail.com>
+David Demelier <demelier.david@gmail.com>
+Del Merritt <del@alum.mit.edu>
+Dmytro Rybachenko <atmoliton@gmail.com>
+Eun-cheol Joo
+François Simon <AT.GFI.Francois.SIMON@sesam-vitale.fr>
+Frederik Ramm <frederik@remote.org>
+Hanno Böck <hanno@hboeck.de>
+Heiko Hund <heiko@ist.eigentlich.net>
+Info-ZIP group
+Jan Weiß <jan@geheimwerk.de>
+Jay Freeman (saurik) <saurik@saurik.com>
+Joel Ebrahimi <joel.ebrahimi@gmail.com>
+Jono Spiro <jono.spiro@gmail.com>
+Julien Schueller <schueller@phimeca.com>
+Keith Jones <keith@keithjjones.com>
+Kohei Yoshida <kohei.yoshida@gmail.com>
+Leith Bade <leith@mapbox.com>
+Lubomir I. Ivanov <neolit123@gmail.com>
+Martin Buchholz <martinrb@google.com>
+Martin Szulecki <m.szulecki@libimobiledevice.org>
+Michael Beck <mm.beck@gmx.net>
+Michał Janiszewski
+Michal Vyskocil <mvyskocil@suse.cz>
+Mikhail Gusarov <dottedmag@dottedmag.net>.
+Oliver Kaiser <under.northern.sky@googlemail.com>
+Oliver Kuckertz <oliver.kuckertz@mologie.de>
+Pascal Terjan <pterjan@gmail.com>
+Patrick Spendrin <ps_ml@gmx.de>
+Paul Harris <harris.pc@gmail.com>
+Paul Sheppard <shepsoft@googlemail.com>
+Pavel Raiskup <praiskup@redhat.com>
+Pierre Joye <pierre.php@gmail.com>
+Pierre-Louis Cabelguen <plcabelguen@googlemail.com>
+Remi Collet <remi@fedoraproject.org>
+Rick Carback <carback1@umbc.edu>
+Robert Norris <rw_norris@hotmail.com>
+Roberto Tirabassi <rtirabassi@3di.it>
+Roland Ortloff <Ortloff.R@gmx.de>
+Sergei Ozerov <ru.programmist@gmail.com>
+Simon Talbot <simont@nse.co.uk>
+Stephen Bryant <steve@bawue.de>
+Tarmo Pikaro <tapika@yahoo.com>
+Timo Warns <warns@pre-sense.de>
+Tom Callaway <tcallawa@redhat.com>
+Tomas Hoger <thoger@redhat.com>
+Torsten Paul <Torsten.Paul@gmx.de>
+Vassili Courzakis <vcoxvco@googlemail.com>
+Wojciech Michalski <wmichalski@quay.pl>
+Wolfgang Glunz <Wolfgang.Glunz@gmx.de>

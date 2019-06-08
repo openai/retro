@@ -1,0 +1,63 @@
+.TH "ZIP_FILE_SET_EXTERNAL_ATTRIBUTES" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_file_set_external_attributes\fR
+\- set external attributes for file in zip
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_file_set_external_attributes\fR(\fIzip_t\ *archive\fR, \fIzip_uint64_t\ index\fR, \fIzip_flags_t\ flags\fR, \fIzip_uint8_t\ opsys\fR, \fIzip_uint32_t\ attributes\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_file_set_external_attributes\fR()
+function sets the operating system and external attributes for the
+file at position
+\fIindex\fR
+in the zip archive.
+Currently, no
+\fIflags\fR
+are supported.
+.PP
+For a list of known
+\fIopsys\fR
+values, see
+zip_file_get_external_attributes(3).
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, \-1 is returned and the error information in
+\fIarchive\fR
+is set to indicate the error.
+.SH "ERRORS"
+\fBzip_file_set_external_attributes\fR()
+fails if:
+.TP 19n
+[\fRZIP_ER_INVAL\fR]
+\fIindex\fR
+is not a valid file index in
+\fIarchive\fR.
+.TP 19n
+[\fRZIP_ER_MEMORY\fR]
+Required memory could not be allocated.
+.TP 19n
+[\fRZIP_ER_RDONLY\fR]
+The
+\fIarchive\fR
+was opened in read-only mode.
+.SH "SEE ALSO"
+libzip(3),
+zip_file_get_external_attributes(3)
+.SH "HISTORY"
+\fBzip_file_set_external_attributes\fR()
+was added in libzip 0.11.2.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

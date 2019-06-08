@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/libretro/Genesis-Plus-GX.git
+	branch = f66bcb1e780acdcced95a05e04550bb8a91c1850
+	commit = f66bcb1e780acdcced95a05e04550bb8a91c1850
+	parent = bb53199e3c0c46fb25406d02cec05f77da3425b4
+	method = rebase
+	cmdver = 0.4.0

@@ -1,0 +1,181 @@
+This package was debianized by Hunter Kaller (hizzlekizzle) <hunter_kaller@yahoo.com> on
+Sat, 24 Sep 2011 13:24:59 -0500
+
+It was downloaded from <https://github.com/libretro/Genesis-Plus-GX>
+
+Upstream Authors:
+
+    Eke-Eke <ekeeke31@gmail.com>
+    The RetroArch Team
+        Hans-Kristian Arntzen (Themaister) <maister@archlinux.us>
+        Daniel De Matteis (Squarepusher aka twinaphex) <libretro@gmail.com>
+
+Files: *
+Copyright: 1998, 1999, 2000, 2001, 2002, 2003 Charles MacDonald
+           Some portions copyright Nicola Salmoria and the MAME team. All rights reserved.
+           2007-2016 Eke-Eke. All rights reserved.
+License: 
+    Unless otherwise explicitly stated, all code in Genesis Plus GX is released
+    under the following license:
+ .
+    Redistribution and use of this code or any derivative works are permitted
+    provided that the following conditions are met:
+ .
+    * Redistributions may not be sold, nor may they be used in a commercial
+    product or activity.
+ .
+    * Redistributions that are modified from the original source must include the
+    complete source code, including the source code for all components used by a
+    binary built from the modified sources. However, as a special exception, the
+    source code distributed need not include anything that is normally distributed
+    (in either source or binary form) with the major components (compiler, kernel,
+    and so on) of the operating system on which the executable runs, unless that
+    component itself accompanies the executable.
+ .
+    * Redistributions must reproduce the above copyright notice, this list of
+    conditions and the following disclaimer in the documentation and/or other
+    materials provided with the distribution.
+ .
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+    ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+    LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+    INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+    CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+    ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+    POSSIBILITY OF SUCH DAMAGE.
+
+Files: core/cart_hw/svp/*
+Copyright: 2008 Grazvydas Ignotas (notaz)
+License:
+    Free for non-commercial use.
+ .
+    For commercial use, separate licencing terms must be obtained.
+
+Files: core/m68k/*
+Copyright: 1998-2001 Karl Stenerud <kstenerud@mame.net>
+License:
+    The Musashi M680x0 emulator is copyright 1998-2001 Karl Stenerud.
+ .
+    The source code included in this archive is provided AS-IS, free for any
+    non-commercial purpose.
+ .
+    If you build a program using this core, please give credit to the author.
+ .
+    If you wish to use this core in a commercial environment, please contact
+    the author to discuss commercial licensing.
+
+Files: core/ntsc/*
+       core/ntsc/*
+Copyright: 2006-2007 Shay Green
+           2008-2013 EkeEke
+License: LGPLv2.1
+
+Files: core/sound/blip_buf.c
+       core/sound/blip_buf.h
+Copyright: 2003-2009 Shay Green
+License: LGPLv2.1
+
+Files: core/sound/eq.c
+       core/sound/eq.h
+Copyright: 2006 Neil C / Etanza Systems
+License: Public domain
+    This work is hereby placed in the public domain for all purposes, including
+    use in commercial applications.
+ .
+    The author assumes NO RESPONSIBILITY for any problems caused by the use of
+    this software.
+
+Files: core/sound/ym2413.c
+       core/sound/ym2413.h
+Copyright: 2002 Jarek Burczynski
+           2011 Eke-Eke
+License: Genesis Plus GX license
+
+Files: core/sound/ym2612.c
+       core/sound/ym2612.h
+Copyright: 1998 Tatsuyuki Satoh
+           2001, 2002, 2003 Jarek Burczynski
+           2006-2012 Eke-Eke
+License: Genesis Plus GX license
+
+Files: core/tremor/*
+Copyright: 2002 Xiph.org Foundation
+License:
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+ .
+    - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ .
+    - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ .
+    - Neither the name of the Xiph.org Foundation nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+ .
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+    A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION
+    OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Files: core/z80/*
+Copyright: 1998, 1999, 2000 Juergen Buchmueller
+License:
+    - This source code is released as freeware for non-commercial purposes.
+    - You are free to use and redistribute this code in modified or
+      unmodified form, provided you list me in the credits.
+    - If you modify this source code, you must add a notice to each modified
+      source file that it has been changed.  If you're a nice person, you
+      will clearly mark each change too.  :)
+    - If you wish to use this for commercial purposes, please contact me at
+      pullmoll@t-online.de
+    - The author of this copywritten work reserves the right to change the
+      terms of its usage and license at any time, including retroactively
+    - This entire notice must remain in the source code.
+
+Files: libretro/*
+Copyright: 2012-2015 The RetroArch Team
+License: GPLv3
+
+Files: libretro/libretro.h
+Copyright: 2012-2015 The RetroArch Team
+License: The MIT License (MIT)
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+ .
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+ .
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+    THE SOFTWARE.
+
+The Debian packaging is:
+
+    Copyright (C) 2011-2015 Hunter Kaller (hizzlekizzle) <hunter_kaller@yahoo.com>
+    Copyright (C) 2014, 2015 Sergio Benjamim (sergio-br2) <sergio_br2@yahoo.com.br>
+
+and is licensed under the GPL version 3, 
+see `/usr/share/common-licenses/GPL-3'.

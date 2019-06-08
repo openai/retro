@@ -1,0 +1,51 @@
+.TH "ZIP_ERROR_SYSTEM_TYPE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_error_system_type\fR
+\- return type of system error
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_error_system_type\fR(\fIconst\ zip_error_t\ *ze\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_error_system_type\fR()
+function returns the type of the system specific part for the zip_error
+\fIze\fR.
+Currently, the following system types are defined:
+.TP 13n
+\fRZIP_ET_NONE\fR
+System specific part of
+\fIze\fR
+is unused.
+.TP 13n
+\fRZIP_ET_SYS\fR
+System specific part of
+\fIze\fR
+is an
+errno(2).
+.TP 13n
+\fRZIP_ET_ZLIB\fR
+System specific part of
+\fIze\fR
+is a
+zlib(3)
+error.
+.SH "SEE ALSO"
+libzip(3),
+zip_error_code_system(3)
+.SH "HISTORY"
+\fBzip_error_system_type\fR()
+was added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

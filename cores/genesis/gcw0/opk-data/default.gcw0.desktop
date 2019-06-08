@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Genesis Plus GX
+Comment=Genesis Plus GX for GCW-Zero
+MimeType=application/zip;application/x-genesis-rom;application/x-megadrive-rom;application/x-sms-rom;application/x-cd-image;
+Exec=gen_gcw0 %f
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=md
+Categories=emulators;
+X-OD-Manual=gcw0readme.txt

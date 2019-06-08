@@ -1,0 +1,97 @@
+.TH "ZIP_SOURCE_ZIP" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_source_zip\fR
+\- create data source from zip file
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_source_t *\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_zip\fR(\fIzip_t\ *archive\fR, \fIzip_t\ *srcarchive\fR, \fIzip_uint64_t\ srcidx\fR, \fIzip_flags_t\ flags\fR, \fIzip_uint64_t\ start\fR, \fIzip_int64_t\ len\fR);
+.PD
+.SH "DESCRIPTION"
+The function
+\fBzip_source_zip\fR()
+creates a zip source from a file in a zip archive.
+The
+\fIsrcarchive\fR
+argument is the (open) zip archive containing the source zip file
+at index
+\fIsrcidx\fR.
+\fIlen\fR
+bytes from offset
+\fIstart\fR
+will be used in the zip_source.
+If
+\fIlen\fR
+is 0 or \-1, the rest of the file, starting from
+\fIstart\fR,
+is used.
+If
+\fIstart\fR
+is zero and
+\fIlen\fR
+is \-1, the whole file will be copied without decompressing it.
+.PP
+Supported flags are:
+.TP 23n
+\fRZIP_FL_UNCHANGED\fR
+Try to get the original data without any changes that may have been
+made to
+\fIsrcarchive\fR
+after opening it.
+.TP 23n
+\fRZIP_FL_RECOMPRESS\fR
+When adding the data from
+\fIsrcarchive\fR,
+re-compress it using the current settings instead of copying the
+compressed data.
+.SH "RETURN VALUES"
+Upon successful completion, the created source is returned.
+Otherwise,
+\fRNULL\fR
+is returned and the error code in
+\fIarchive\fR
+is set to indicate the error.
+.SH "ERRORS"
+\fBzip_source_zip\fR()
+fails if:
+.TP 19n
+[\fRZIP_ER_CHANGED\fR]
+Unchanged data was requested, but it is not available.
+.TP 19n
+[\fRZIP_ER_INVAL\fR]
+\fIsrcarchive\fR,
+\fIsrcidx\fR,
+\fIstart\fR,
+or
+\fIlen\fR
+are invalid.
+.TP 19n
+[\fRZIP_ER_MEMORY\fR]
+Required memory could not be allocated.
+.PD 0
+.PP
+Additionally, it can return all error codes from
+\fBzip_stat_index\fR()
+and
+\fBzip_fopen_index\fR().
+.PD
+.SH "SEE ALSO"
+libzip(3),
+zip_add(3),
+zip_replace(3),
+zip_source(3)
+.SH "HISTORY"
+\fBzip_source_zip\fR()
+was added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,57 @@
+.TH "ZIP_SOURCE_SEEK" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_source_seek\fR
+\- set read offset in zip source
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_seek\fR(\fIzip_source_t\ *source\fR, \fIzip_int64_t\ offset\fR, \fIint\ whence\fR);
+.PD
+.SH "DESCRIPTION"
+The function
+\fBzip_source_seek\fR()
+sets the current read offset for
+\fIsource\fR.
+Just like in
+fseek(3),
+depending on the
+\fIwhence\fR
+argument, the
+\fIoffset\fR
+is counted relative from:
+.RS 6n
+.TP 12n
+\fRSEEK_SET\fR
+start of file
+.TP 12n
+\fRSEEK_CUR\fR
+current read offset in file
+.TP 12n
+\fRSEEK_END\fR
+end of file
+.RE
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, \-1 is returned and the error information in
+\fIsource\fR
+is set to indicate the error.
+.SH "SEE ALSO"
+libzip(3),
+zip_source(3),
+zip_source_read(3),
+zip_source_tell(3)
+.SH "HISTORY"
+\fBzip_source_seek\fR()
+was added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

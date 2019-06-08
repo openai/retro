@@ -1,0 +1,42 @@
+.TH "ZIP_ADD_DIR" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_add_dir\fR
+\- add directory to zip archive (obsolete interface)
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_int64_t\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_add_dir\fR(\fIzip_t\ *archive\fR, \fIconst\ char\ *name\fR);
+.PD
+.SH "DESCRIPTION"
+The function
+\fBzip_add_dir\fR()
+is the obsolete version of
+zip_dir_add(3).
+It is the same as calling
+zip_dir_add(3)
+with an empty flags argument.
+.SH "SEE ALSO"
+libzip(3),
+zip_dir_add(3)
+.SH "HISTORY"
+\fBzip_add_dir\fR()
+was added in libzip 0.8.
+In libzip 0.10 the return type was changed from
+\fIint\fR
+to
+\fIzip_int64_t\fR.
+It was deprecated in libzip 0.11, use
+\fBzip_dir_add\fR()
+instead.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

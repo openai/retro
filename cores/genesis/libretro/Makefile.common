@@ -1,0 +1,75 @@
+LIBRETRO_COMM_DIR := $(CORE_DIR)/libretro/libretro-common
+LIBRETRO_DIR      := $(CORE_DIR)/libretro
+CHDLIBDIR         := $(CORE_DIR)/core/cd_hw/libchdr
+INCFLAGS          :=
+GENPLUS_SRC_DIR   := $(CORE_DIR)/core \
+                   $(CORE_DIR)/core/z80 \
+                   $(CORE_DIR)/core/m68k \
+                   $(CORE_DIR)/core/ntsc \
+                   $(CORE_DIR)/core/sound \
+                   $(CORE_DIR)/core/input_hw \
+                   $(CORE_DIR)/core/cd_hw \
+                   $(CORE_DIR)/core/cart_hw \
+                   $(CORE_DIR)/core/cart_hw/svp
+
+ifneq (,$(findstring msvc2003,$(platform)))
+INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
+endif
+
+ifeq ($(HAVE_CHD), 1)
+   INCFLAGS += -I$(CHDLIBDIR)/src \
+					-I$(CHDLIBDIR)/deps/libFLAC/include \
+					-I$(CHDLIBDIR)/deps/lzma \
+					-I$(CHDLIBDIR)/deps/zlib
+   SOURCES_C += \
+					 $(CHDLIBDIR)/src/bitstream.c \
+					 $(CHDLIBDIR)/src/cdrom.c \
+					 $(CHDLIBDIR)/src/chd.c \
+					 $(CHDLIBDIR)/src/flac.c \
+					 $(CHDLIBDIR)/src/huffman.c \
+					 $(CHDLIBDIR)/deps/libFLAC/bitmath.c \
+					 $(CHDLIBDIR)/deps/libFLAC/bitreader.c \
+					 $(CHDLIBDIR)/deps/libFLAC/cpu.c \
+					 $(CHDLIBDIR)/deps/libFLAC/crc.c \
+					 $(CHDLIBDIR)/deps/libFLAC/fixed.c \
+					 $(CHDLIBDIR)/deps/libFLAC/float.c \
+					 $(CHDLIBDIR)/deps/libFLAC/format.c \
+					 $(CHDLIBDIR)/deps/libFLAC/lpc.c \
+					 $(CHDLIBDIR)/deps/libFLAC/lpc_intrin_avx2.c \
+					 $(CHDLIBDIR)/deps/libFLAC/lpc_intrin_sse.c \
+					 $(CHDLIBDIR)/deps/libFLAC/lpc_intrin_sse2.c \
+					 $(CHDLIBDIR)/deps/libFLAC/lpc_intrin_sse41.c \
+					 $(CHDLIBDIR)/deps/libFLAC/md5.c \
+					 $(CHDLIBDIR)/deps/libFLAC/memory.c \
+					 $(CHDLIBDIR)/deps/libFLAC/stream_decoder.c \
+					 $(CHDLIBDIR)/deps/lzma/LzFind.c \
+					 $(CHDLIBDIR)/deps/lzma/LzmaDec.c \
+					 $(CHDLIBDIR)/deps/lzma/LzmaEnc.c
+
+   ifeq ($(platform), win)
+       FLAGS += -DHAVE_FSEEKO
+   endif
+endif
+
+SOURCES_C += $(foreach dir,$(GENPLUS_SRC_DIR),$(wildcard $(dir)/*.c))
+
+ifneq ($(STATIC_LINKING), 1)
+SOURCES_C += \
+				 $(LIBRETRO_COMM_DIR)/streams/file_stream.c \
+				 $(LIBRETRO_COMM_DIR)/streams/file_stream_transforms.c
+
+SOURCES_C += $(CHDLIBDIR)/deps/zlib/adler32.c \
+				 $(CHDLIBDIR)/deps/zlib/inffast.c \
+				 $(CHDLIBDIR)/deps/zlib/inflate.c \
+				 $(CHDLIBDIR)/deps/zlib/inftrees.c \
+				 $(CHDLIBDIR)/deps/zlib/zutil.c
+endif
+
+ifeq ($(SHARED_LIBVORBIS),)
+   SOURCES_C += $(foreach dir,$(TREMOR_SRC_DIR),$(wildcard $(dir)/*.c))
+endif
+
+SOURCES_C += $(LIBRETRO_DIR)/libretro.c \
+				 $(LIBRETRO_DIR)/scrc32.c
+
+INCFLAGS += $(foreach dir,$(GENPLUS_SRC_DIR),-I$(dir)) -I$(LIBRETRO_DIR) -I$(LIBRETRO_COMM_DIR)/include

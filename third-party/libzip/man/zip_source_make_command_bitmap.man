@@ -1,0 +1,35 @@
+.TH "ZIP_SOURCE_MAKE_COMMAND_BITMAP" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_source_make_command_bitmap\fR
+\- create bitmap of supported source operations
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_int64_t\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_make_command_bitmap\fR(\fIzip_source_cmd_t\ command\fR, \fI...\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_source_make_command_bitmap\fR()
+function returns a bitmap of source commands suitable as return value
+for
+\fRZIP_SOURCE_SUPPORTS\fR.
+It includes all the commands from the argument list, which must be
+terminated by \-1.
+.SH "SEE ALSO"
+libzip(3),
+zip_source_function(3)
+.SH "HISTORY"
+\fBzip_source_make_command_bitmap\fR()
+was added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

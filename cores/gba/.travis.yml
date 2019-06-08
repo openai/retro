@@ -1,0 +1,14 @@
+language: c
+sudo: required
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      compiler: gcc
+    - os: osx
+      compiler: clang
+
+before_install:
+  - source ./.travis-deps.sh
+
+script: mkdir build && cd build && cmake -DCMAKE_PREFIX_PATH=/usr/local/opt/qt5 .. && make -j2

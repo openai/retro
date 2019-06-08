@@ -1,0 +1,256 @@
+.TH "LIBZIP" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBlibzip\fR
+\- library for manipulating zip archives
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.SH "DESCRIPTION"
+\fBlibzip\fR
+is a library for reading, creating, and modifying zip archives.
+.PP
+The main design criteria for
+\fBlibzip\fR
+were:
+.PD 0
+.TP 4n
+\fB\(bu\fR
+Do not create corrupt files, even in case of errors.
+.TP 4n
+\fB\(bu\fR
+Do not delete data.
+.TP 4n
+\fB\(bu\fR
+Be efficient.
+.PD
+.PP
+For this reason, when modifying zip archives,
+\fBlibzip\fR
+writes to a temporary file and replaces the original
+zip archive atomically.
+.PP
+Below there are two sections listing functions: one for how to read
+from zip archives and one for how to create/modify them.
+.SH "READING ZIP ARCHIVES"
+.SS "open archive"
+.TP 4n
+\fB\(bu\fR
+zip_open(3)
+.PD 0
+.TP 4n
+\fB\(bu\fR
+zip_fdopen(3)
+.PD
+.SS "find files"
+.TP 4n
+\fB\(bu\fR
+zip_name_locate(3)
+.SS "read files"
+.TP 4n
+\fB\(bu\fR
+zip_fopen(3)
+.PD 0
+.TP 4n
+\fB\(bu\fR
+zip_fopen_encrypted(3)
+.TP 4n
+\fB\(bu\fR
+zip_fopen_index(3)
+.TP 4n
+\fB\(bu\fR
+zip_fopen_index_encrypted(3)
+.TP 4n
+\fB\(bu\fR
+zip_fread(3)
+.TP 4n
+\fB\(bu\fR
+zip_fseek(3)
+(uncompressed files only)
+.TP 4n
+\fB\(bu\fR
+zip_ftell(3)
+(uncompressed files only)
+.TP 4n
+\fB\(bu\fR
+zip_fclose(3)
+.PD
+.SS "close archive"
+.TP 4n
+\fB\(bu\fR
+zip_close(3)
+.PD 0
+.TP 4n
+\fB\(bu\fR
+zip_discard(3)
+.PD
+.SS "miscellaneous"
+.TP 4n
+\fB\(bu\fR
+zip_stat(3)
+.PD 0
+.TP 4n
+\fB\(bu\fR
+zip_file_get_comment(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_get_external_attributes(3)
+.TP 4n
+\fB\(bu\fR
+zip_get_archive_comment(3)
+.TP 4n
+\fB\(bu\fR
+zip_get_archive_flag(3)
+.TP 4n
+\fB\(bu\fR
+zip_get_name(3)
+.TP 4n
+\fB\(bu\fR
+zip_get_num_entries(3)
+.TP 4n
+\fB\(bu\fR
+zip_set_default_password(3)
+.PD
+.SH "CREATING/MODIFYING ZIP ARCHIVES"
+.SS "create/open archive"
+.TP 4n
+\fB\(bu\fR
+zip_open(3)
+.SS "add/change files and directories"
+.TP 4n
+\fB\(bu\fR
+zip_dir_add(3)
+.PD 0
+.TP 4n
+\fB\(bu\fR
+zip_file_add(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_replace(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_set_comment(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_set_external_attributes(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_set_encryption(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_set_mtime(3)
+.TP 4n
+\fB\(bu\fR
+zip_set_file_compression(3)
+.TP 4n
+\fB\(bu\fR
+zip_source_buffer(3)
+.TP 4n
+\fB\(bu\fR
+zip_source_file(3)
+.TP 4n
+\fB\(bu\fR
+zip_source_filep(3)
+.TP 4n
+\fB\(bu\fR
+zip_source_free(3)
+.TP 4n
+\fB\(bu\fR
+zip_source_function(3)
+.TP 4n
+\fB\(bu\fR
+zip_source_zip(3)
+.PD
+.SS "rename files"
+.TP 4n
+\fB\(bu\fR
+zip_rename(3)
+.SS "delete files"
+.TP 4n
+\fB\(bu\fR
+zip_delete(3)
+.SS "revert changes"
+.TP 4n
+\fB\(bu\fR
+zip_unchange(3)
+.PD 0
+.TP 4n
+\fB\(bu\fR
+zip_unchange_all(3)
+.TP 4n
+\fB\(bu\fR
+zip_unchange_archive(3)
+.PD
+.SS "read/modify extra fields"
+.TP 4n
+\fB\(bu\fR
+zip_file_extra_field_by_id(3)
+.PD 0
+.TP 4n
+\fB\(bu\fR
+zip_file_extra_field_delete(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_extra_field_delete_by_id(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_extra_field_get(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_extra_field_set(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_extra_fields_count(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_extra_fields_count_by_id(3)
+.PD
+.SS "close archive"
+.TP 4n
+\fB\(bu\fR
+zip_close(3)
+.SS "miscellaneous"
+.TP 4n
+\fB\(bu\fR
+zip_libzip_version(3)
+.PD 0
+.TP 4n
+\fB\(bu\fR
+zip_register_progress_callback_with_state(3)
+.TP 4n
+\fB\(bu\fR
+zip_set_archive_comment(3)
+.TP 4n
+\fB\(bu\fR
+zip_set_archive_flag(3)
+.TP 4n
+\fB\(bu\fR
+zip_source(3)
+.PD
+.SH "ERROR HANDLING"
+.TP 4n
+\fB\(bu\fR
+zip_error_to_str(3)
+.PD 0
+.TP 4n
+\fB\(bu\fR
+zip_strerror(3)
+.TP 4n
+\fB\(bu\fR
+zip_file_strerror(3)
+.TP 4n
+\fB\(bu\fR
+zip_error_get(3)
+.TP 4n
+\fB\(bu\fR
+zip_error_get_sys_type(3)
+.TP 4n
+\fB\(bu\fR
+zip_errors(3)
+.PD
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,186 @@
+16.06.06
+
+  068 mapper - (...) wrapper to NTBROM UNIF board without Double Casette System support
+  NES-NTBROM - new UNIF board for mapper Sunsoft mapper 68 with Double Casette System support
+
+29.05.06
+
+  060 mapper - (...) defined as BMC-D1038 UNIF board with capability to change hardware dip switch to select game number in menu by pressing Reset.
+  209 mapper - (...) fixed chr bankswitching in 4k mode, almost fixes "Power Rangers 3,4" and "Punch Out"
+  113 mapper - (...) cleaned source, Sachen games redefined to normal sachen mappers, "deadboots" probably won't work ;).
+  132 mapper - (...) UNL-22211 UNIF board wrapper
+  158 mapper - (...) removed, redefined to 118
+  195 mapper - (...) defined for "Crystalis (C)", "Captain Tsubasa Vol 2 - Super Striker (C)"
+  198 mapper - (...) defined for "Tenchi o Kurau II - Shokatsu Koumei Den (J) (C)"
+  199 mapper - (Martin) defined for new dumps "Dragon Ball Z 2 - Gekishin Freeza! (C)", "Dragon Ball Z Gaiden - Saiya Jin Zetsumetsu Keikaku (C)"
+  BMC-70in1 - fixed UNIF board for supporting menu selecting by pressing Reset
+  BMC-FK23C - fixed UNIF board for dump "4-in-1 (FK23C8244) [p1][U][!].nes" 
+  UNL-22211 - new UNIF board for dump "Qi Wang - Chinese Chess (MGC-001) [U][!].nes"
+  BMC-D1038 - UNIF board for mapper 60.
+  BMC-A65AS - new UNIF board for dump "3-in-1 (N068) [p1][U][!].nes"
+  BMC-GF1004 - new UNIF board for dump "4-in-1 (JY-066) [p1][U][!].nes"
+  UNL-6035052 - new UNIF board for dump "Contra Fighter (Unl) [U][!].nes"   
+
+
+10.04.06
+
+  045 mapper - (...) fixed, correct emulation of some dumps.
+  115 mapper - (...) fixed, looks like logic of this mapper little different than we has know.
+  188 mapper - (...) fixed, additional songs are selectable.
+  189 mapper - (...) fixed for new dump "Master Fighter II (As)[!].nes"
+  235 mapper - (...) modified iNES loader source to allow loading iNES ROMS with 256 PRG banks.
+  board S74LS374N fixes for supporting new dumps...
+  boadr SHero new Sachen dump
+  board T-262 new multigame cart dump
+  DInput device mode changed to BACKGROUND. Now with enabled flag "Acvive while focus lost" it can be used for playing two or more FCEUs with one keyboard or joystic at same time.
+  "Fixed" low quality sound, broken "High" ;)
+
+19.03.06
+
+  004 mapper - (...) "Yong Zhe Dou E Long - Dragon Quest VI (As).nes" fixed CHR glitch (probably others).
+               (Nestopia) forced to MMC3 RevB board IRQ, fixes map mode "My Life My Love - Boku no Yume - Watashi no Negai (J).nes",
+               wave effect at level start for "Mickey Mouse 3 - Yume Fuusen (J).nes", "Kid Klown (U).nes", probaly crashes others non-RevB games... 
+               Small fix  to mapper source to allow to run "Colour 2001 Streetfighter II (Unl) [!].nes",
+               "King of Fighters 99 [p1].nes" and "Super HIK 7-in-1 (Multicart k7006) [p1][!].nes"
+  037 mapper - (...) "Super Mario Bros. + Tetris + Nintendo World Cup (E) [!]" redefined from 47 by CRC check.
+  057 mapper - (...) small modification for switching menu mode by pressing reset button, moved to UNIF borads source
+  058 mapper - (...) small mirroring fix, moved to UNIF boards source
+  074 mapper - (...) defined for "Di 4 Ci - Ji Qi Ren Dai Zhan (As).nes" and "Ji Jia Zhan Shi (As).nes", "Jia A Fung Yun (Chinese).nes" now fully playable.
+  090 mapper - (Kevin Horton) another IRQ source mode 00 (M2 CPU Cycles), now "45-in-1 (Unl) (As)[U][!].nes" emulated perfectly ;)
+               (...) fixed nametable handling bug, fixed 211 mapper too
+               (...) fixed register initialization, now "Super Contra 3 (Unl) [p1].nes" starts properly, fixed "black boxes" instead players
+                     in "Goal!!" at "45-in-1 (JY-120A)(As) [U][!].nes" multigame cart while they crossing bottom part of playing screen.
+  163 mapper - (TPU) fixed screen error in "Harvest Moon (C).nes"
+  211 mapper - (...) removed old source, concatenated with main 90 mapper source after fixing nametable problem
+                     mapper have hardware nametable ROM mapping enabled by default indepentantly from nametable mode
+  181 mapper - (...) defined for "Seicross (J)(Redump) [!].nes", this mapper have opposite protection bits values than normal 185.
+  185 mapper - (...) now supports all different mapper board in one mapper source without hacks (little dirty ;))
+  187 mapper - (Nestopia) "King of Fighters 96 [p1].nes", "Sonic 3D Blast 6 (Unl) [h1].nes",
+                     "Street Fighter Alpha Zero 97 [!].nes" now playable,
+                     "Street Fighter Zero 2 [p1].nes" background fixed
+  192 mapper - (...) defined for "Ying Lie Qun Xia Zhuan (Chinese)" instead 74 mapper.
+  194 mapper - (...) defined for "Dai-2-Ji - Super Robot Taisen (As)" instead 74 mapper.
+  222 mapper - (...) "Dragon Ninja (J) [p1][!].nes" works properly
+  UNL-KOF97 board - new UNIF board for "King of Fighters 97 (Rex Soft.) [U][!].nes"
+  UNL-Super24 board - fixed again, now fixed mirroring problem finally
+  UNL-8157 board - small fix allows to see another game menu after reset
+  BMC-42in1ResetSwitch - new UNIF board for "42-in-1 (Reset Switch) [U][p1][!].nes"
+  BMC-64in1NoRepeat - new UNIF board for "64-in-1 (No Repeat) [U][p1][!].nes"
+  BMC-70in1 - new UNIF board for "70-in-1 [U][p1][!].nes"
+  BMC-70in1B - new UNIF board for "800-in-1 [U][p1][!].nes"
+
+18.11.05
+
+  137 mapper - (...) Sachen S8259 board, 1K CHR bank mode "The Great Wall (72 pin cart).nes"
+  138 mapper - (...) Sachen S8259 board, 2K CHR bank planar mode
+  139 mapper - (...) Sachen S8259 board, 8K CHR bank mode
+  141 mapper - (...) Sachen S8259 board, 4K CHR bank mode
+  143 mapper - (...) Sachen TCA01 board
+  145 mapper - (...) Sachen SA72007 board
+  146 mapper - (...) Sachen SA0161M board
+  147 mapper - (...) Sachen TCU01 board ("pathetic copy protection" ;))
+  148 mapper - (...) Sachen SA0037 board ("Q-Boy" now mapper 148)
+  149 mapper - (...) Sachen SA0036 board
+  150 mapper - (...) Sachen S74LS374N board
+  191 mapper - (...) old mapper code removed, old mapper 148 code moved to
+  PowerShot Gun - right mouse button click throws grenade.
+  UNL-SuperHIK8in1 unif board - (...) UNIF wrapper for "Super 8-in-1 99 King Fighter [p1].nes" converted to UNIF format with correct CHR banks order.
+
+23.01.05
+
+  114 mapper - (...) source rewritten and moved to MMC3 shared source file
+  215 mapper - (...) source rewritten and moved to MMC3 shared source file, new dump "3-in-1 Super 308 (Super Game)[!].nes"
+  217 mapper - (...) source rewritten and moved to MMC3 shared source file, new dump "Golden Card 6-in-1 (SPC009) (Super Game)[!].nes"
+  debugger - disasm window double click handlig reworked, now it adds new breakpoint for selected instruction
+
+02.07.05
+
+  042 mapper - (...) small mapper fix allow play "Ai Senshi Nicol (As).nes"
+  090 mapper - (...) hardware selection flag now advanced to 4 different values, allow enable more game title inside by pressing reset button
+               (...) added new IRQ counting mode that allow to run normally pirate hack of "Astyanax" - "Aladdin - Return of Jaffar, The [p1].nes"
+  163 mapper - (...) new TPU's dump
+  191 mapper - (VNES) "Sachen Q-Bert.nes"
+  211 mapper - (...) new dump "Tiny Toon Adentures 6 (Pirate Original) [!].nes" now work fine 
+  212 mapper - (...) playable again "Super HIK 300-in-1 (1994).nes"
+  216 mapper - (...) debug mapper for cart with SIM reader aboard "Bonza"
+  245 mapper - (...) fixed old CHR switching bug
+  Super24 board - (Nintencer) now works fine.
+  Fixed PPUView according to FCEUexD source code.
+
+02.01.05
+
+  added 214 mapper - debug "Super Gun 24-in-1 [p2].nes"
+  fixed 113 mapper - (VNES) "Mind Blower Pak [p1].nes" displays correct CHR page
+  added debugger function to dump video memory
+
+24.08.04
+
+  fixed 060 mapper - (...) redefined to simple multicart board, similar to 58-62,200-204, works now "Super 35-in-1 (6-in-1 VT5201) [p1].nes","TN 95-in-1 (6-in-1) [p1].nes", reset based "Reset Based 4-in-1 [p1].nes" no longer supports
+  fixed 165 mapper - (TPU) "Fire Emblem (Unl).nes" now works (almost fine)
+  added 167 mapper - (TPU) "SuporV40.nes", "Supor English (Chinese).nes"
+  added 166 mapper - (TPU) redefined by CRC check "Suborv10 (Russian).nes" from 015 mapper
+  fixed 015 mapper - (...) original mapper code is back
+  added 213 mapper - mapper for new dump "9999999-in-1 [p2].nes"
+  added Subor V1.0,V3.0,V4.0 keyboard support (based on Family Keyboard source)
+  added CRC check for games that supports Subor keyboard
+  added PPU memory Viewer (from FCEUd sources by Dragon-Eye Studio)
+  fixed "Study and Game 32-in-1 [p1][!].nes" redefined CRC check  from 058 to 241 mapper
+
+09.06.04
+
+  fixed 164 mapper - (...) "San Guo Zhi 2 (Chinese).nes" now works
+
+21.04.04
+
+  added 164 mapper - (Xod) "Final Fantasy V (Unl).nes"
+  added 165 mapper - (...) partially supports "Fire Emblem (Unl).nes"
+  added 212 mapper - (...) mapper for new dump "Super HIK 300-in-1 (1994).nes"
+  added 215 mapper - (...) mapper for new dump  "Mortal Combat 3 (Extra 60).nes"
+  added exit by pressing ESCAPE button
+
+23.12.03
+
+  201 mapper - (...) mapper corrections
+  202 mapper - (...) mapper corrections
+  204 mapper - (...) mapper for new dump "64-in-1 [p1].nes"
+  208 mapper - (FCEU) "Street Fighter 4 (GOUDER).nes" now playable. (thx Xodnizel)
+  211 mapper - (...) debug mapper code for new dumps "MK2.nes" è "DKC1.nes"
+
+10.11.03
+
+  fixed 060 mapper (...) Almost nothing...
+  added 186 mapper (Thanx Scrybe and others), "Street Fighter IV.nes" (still work unproperly).
+
+  fixed 200 mapper (...) mapper for new dump now works properly
+  added 203 mapper (...) mapper for new dump "35-in-1 [p1].nes"
+  added 205 mapper (...) mapper for new dumps "15-in-1 [p2].nes", "3-in-1 [p2].nes"
+
+23.10.03
+ 
+  added 231 mapper (VirtuaNES source), "20-in-1 (Mapper 231) [p1][!].nes"
+  fixed 115 mapper (VirtuaNES source), "Yuu Yuu Hakusho Final - Makai Saikyou Retsuden [T-Chi].nes" glitches
+
+  added debug 200 mapper for new dump "1200-in-1.nes"
+  added debug 201 mapper for new dump "21-in-1 [2006-CA].nes"
+  added debug 202 mapper for new dump "150-in-1.nes"
+
+18.10.03
+
+  added 254 mapper (VirtuaNES source), "Pikachu Y2k [decrypted].nes
+  added 111 mapper (...), "Ninja Ryuukenden (J) [T-Chi] [mapper 111].nes
+  fixed 113 mapper (VirtuaNES source), "16 Mahjang [!].nes" works again
+
+14.10.03:
+
+  added 012 mapper (VirtuaNES source)
+  fixed 045 mapper (NESten source), "Super 8-in-1 [p1][!].nes" some glitches
+  added 058 mapper (... source), "68-in-1 (Game Star - HKX5268) [!].nes"
+  added 060 mapper (...), "Reset Based 4-in-1.nes"
+  added 062 mapper (NESten source), "Super 700-in-1 [!].nes"
+  fixed 090 mapper (...), "Final Fight 3 [!].nes" reset mode
+  fixed 113 mapper "16 Mahjang [!].nes" some glitches
+  added 133 mapper (FCEU UNIF Code), "Jovial Race (Sachen) [!].nes"
+  added 188 mapper (VirtuaNES source)
+  added 230 mapper (... source)
+  added 243 mapper (...), "Mei Nu Quan (Honey Peach).nes"
+  added 244 mapper (VirtuaNES source)

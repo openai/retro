@@ -1,0 +1,93 @@
+.TH "ZIP_SOURCE_FILE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_source_file\fR,
+\fBzip_source_file_create\fR
+\- create data source from a file
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_source_t *\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_file\fR(\fIzip_t\ *archive\fR, \fIconst\ char\ *fname\fR, \fIzip_uint64_t\ start\fR, \fIzip_int64_t\ len\fR);
+.PD
+.PP
+\fIzip_source_t *\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_file_create\fR(\fIconst\ char\ *fname\fR, \fIzip_uint64_t\ start\fR, \fIzip_int64_t\ len\fR, \fIzip_error_t\ *error\fR);
+.PD
+.SH "DESCRIPTION"
+The functions
+\fBzip_source_file\fR()
+and
+\fBzip_source_file_create\fR()
+create a zip source from a file.
+They open
+\fIfname\fR
+and read
+\fIlen\fR
+bytes from offset
+\fIstart\fR
+from it.
+If
+\fIlen\fR
+is 0 or \-1, the whole file (starting from
+\fIstart\fR)
+is used.
+.PP
+If the file supports seek, the source can be used to open a zip archive from.
+.PP
+The file is opened and read when the data from the source is used, usually by
+\fBzip_close\fR()
+or
+\fBzip_open_from_source\fR().
+.SH "RETURN VALUES"
+Upon successful completion, the created source is returned.
+Otherwise,
+\fRNULL\fR
+is returned and the error code in
+\fIarchive\fR
+or
+\fIerror\fR
+is set to indicate the error.
+.SH "ERRORS"
+\fBzip_source_file\fR()
+and
+\fBzip_source_file_create\fR()
+fail if:
+.TP 19n
+[\fRZIP_ER_INVAL\fR]
+\fIfname\fR,
+\fIstart\fR,
+or
+\fIlen\fR
+are invalid.
+.TP 19n
+[\fRZIP_ER_MEMORY\fR]
+Required memory could not be allocated.
+.TP 19n
+[\fRZIP_ER_OPEN\fR]
+Opening
+\fIfname\fR
+failed.
+.SH "SEE ALSO"
+libzip(3),
+zip_add(3),
+zip_replace(3),
+zip_source(3)
+.SH "HISTORY"
+\fBzip_source_file\fR()
+and
+\fBzip_source_file_create\fR()
+were added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

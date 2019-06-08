@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/libretro/mgba.git
+	branch = 92fe6845d25d5322510f1005f17f8818b8550df4
+	commit = 92fe6845d25d5322510f1005f17f8818b8550df4
+	parent = 6712afe7649746037920faf8b11b4d2340bec5c1
+	method = rebase
+	cmdver = 0.4.0

@@ -4,16 +4,6 @@ if(POLICY CMP0048)
 endif()
 
 find_package(Git QUIET)
-if(NOT EXISTS ${CMAKE_SOURCE_DIR}/third-party/pybind11/include)
-    message(STATUS "Submodules seem to be missing. Attempting to clone now.")
-    execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init RESULT_VARIABLE SUCCESS)
-    if(SUCCESS EQUAL 0)
-        message(STATUS "Submodules cloned!")
-    else()
-        message(FATAL_ERROR "Failed to check out submodules. Aborting.")
-    endif()
-    unset(SUCCESS)
-endif()
 
 find_package(PythonInterp REQUIRED)
 
@@ -103,11 +93,6 @@ set(COREINFO)
 set(CORE_TARGETS)
 
 function(add_core PLATFORM CORE_NAME)
-    if(GIT_EXECUTABLE AND EXISTS ${CMAKE_SOURCE_DIR}/.git AND IS_DIRECTORY ${CMAKE_SOURCE_DIR}/.git)
-        add_custom_target(${PLATFORM}-submodule
-            COMMAND ${GIT_EXECUTABLE} submodule update --init cores/${PLATFORM}
-            DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/.git/index")
-    endif()
     set(TARGET_NAME ${CORE_NAME}_libretro${CMAKE_SHARED_LIBRARY_SUFFIX})
     get_filename_component(TARGET_PATH "${PYLIB_DIRECTORY}/retro/cores/${TARGET_NAME}" ABSOLUTE)
     list(APPEND CORES "${TARGET_PATH}")
@@ -123,17 +108,11 @@ function(add_core PLATFORM CORE_NAME)
         set(MAKEFILE Makefile)
         set(SUBDIR libretro)
     else()
-        message(FATAL_ERROR "Could not find Makefile. Did you clone submodules?")
+        message(FATAL_ERROR "Could not find Makefile.")
     endif()
 
-    if(EXISTS ${CMAKE_SOURCE_DIR}/.git)
-        add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version"
-            COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_SOURCE_DIR}/.git/modules/${PLATFORM}/HEAD" "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version"
-            DEPENDS ${PLATFORM}-submodule)
-    else()
-        add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version"
-            COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
-    endif()
+    add_custom_command(OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version"
+        COMMAND ${CMAKE_COMMAND} -E touch "${CMAKE_CURRENT_SOURCE_DIR}/retro/cores/${CORE_NAME}-version")
     if(WIN32)
         set(LIBRETRO_PLATFORM platform=win)
     endif()

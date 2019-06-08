@@ -1,0 +1,52 @@
+.TH "ZIP_SET_FILE_COMMENT" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_set_file_comment\fR
+\- set comment for file in zip (obsolete interface)
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_set_file_comment\fR(\fIzip_t\ *archive\fR, \fIzip_uint64_t\ index\fR, \fIconst\ char\ *comment\fR, \fIint\ len\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_set_file_comment\fR()
+function is the obsolete version of
+zip_file_set_comment(3).
+The only differences are the type of the
+\fIlen\fR
+argument and the additional
+\fIflags\fR
+argument.
+\fBzip_set_file_comment\fR()
+is the same as calling
+zip_file_set_comment(3)
+with an empty
+\fIflags\fR
+argument.
+.SH "SEE ALSO"
+libzip(3),
+zip_file_set_comment(3)
+.SH "HISTORY"
+\fBzip_set_file_comment\fR()
+was added in libzip 0.7.
+In libzip 0.10 the type of
+\fIindex\fR
+was changed from
+\fIint\fR
+to
+\fIzip_uint64_t\fR.
+It was deprecated in libzip 0.11, use
+\fBzip_file_set_comment\fR()
+instead.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

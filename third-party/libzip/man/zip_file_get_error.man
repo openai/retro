@@ -1,0 +1,30 @@
+.TH "ZIP_FILE_GET_ERROR" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_file_get_error\fR
+\- extract zip_error from zip_file
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIzip_error_t *\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_file_get_error\fR(\fIzip_file_t\ *zf\fR);
+.PD
+.SH "DESCRIPTION"
+\fBzip_file_get_error\fR()
+function returns the zip_error associated with the zip_file
+\fIzf\fR.
+.SH "SEE ALSO"
+libzip(3)
+.SH "HISTORY"
+\fBzip_file_get_error\fR()
+was added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,36 @@
+.TH "ZIP_ERROR_CODE_SYSTEM" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_error_code_system\fR
+\- get operating system error part of zip_error
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_error_code_system\fR(\fIconst\ zip_error_t\ *ze\fR);
+.PD
+.SH "DESCRIPTION"
+The
+\fBzip_error_code_system\fR()
+function returns the system specific part of the error from the
+zip_error error
+\fIze\fR.
+For finding out what system reported the error, use
+zip_error_system_type(3).
+.SH "SEE ALSO"
+libzip(3),
+zip_error_code_zip(3),
+zip_error_system_type(3)
+.SH "HISTORY"
+\fBzip_error_code_system\fR()
+was added in libzip 1.0.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

@@ -1,0 +1,535 @@
+-- 0.4.1 -- 2009-01-10
+libgambatte:
+    - Fix HqXx filter pitch.
+    - Fix mbc2 not getting a rambank.
+    - Make sure to reset passed pointers when deleted. Fixes potential crash
+      when loading ROM during OAM busy.
+common:
+    - Substantially improved rate estimation averaging.
+    - RateEst: Add a convenient way of filtering measures that extend beyond
+      a buffer time, and are as such probably invalid.
+    - RateEst: Allow using a custom timestamp in feed().
+    - RateEst: Keep a queue of the last ~100 msec worth of samples and
+      duration, and filter out collective samples that give a pre-estimate
+      that seems way off.
+    - Replace "Game Boy / Game Boy Color emulator" with "Game Boy Color
+      emulator" for now to avoid misleading anyone on the current status.
+gambatte_qt:
+    - Disable BlitterWidget updates (paintEvents) while not paused.
+    - QGLBlitter: Do a cheap front blit rather than a vsynced flip if audio
+      buffers are low.
+    - Allow BlitterWidgets to opt in to get paintEvents while unpaused. Do so
+      for QGLBlitter since it may need to clear buffers afterwards.
+    - QGLBlitter: Try to blit right after sync in the case of single buffering.
+    - Up default audio buffer latency to 100 ms (some common system audio
+      servers require a lot of buffering to work well).
+    - Adaptively skip BlitterWidget syncs if audio buffer is low, in a manner
+      that should minimize wasted skips in sync to vblank situation, and tries
+      to be non-disturbing. This replaces frame time halving, and blitter
+      specific rescueing.
+    - Clear display buffers in DirectDrawBlitter and Direct3DBlitter in
+      exclusive mode, since blits don't necessarily cover the entire buffers.
+    - DirectDrawBlitter: Make sure that a minimum amount of time has passed
+      between calls to WaitForVerticalBlank, since it can return in the same
+      vblank period twice on a fast system.
+    - DirectDrawBlitter: Support vsync for refresh rate ~= 2x frame rate.
+    - DirectDrawBlitter: Refactor somewhat and get rid of a couple minor
+      potential bugs.
+    - DirectDrawBlitter: Some tweaks to get updates closer to sync time in
+      certain situations.
+    - DirectDrawBlitter: Some tweaks to better support DONOTWAIT.
+    - DirectDrawBlitter: Make only updating during vblank while page flipping
+      optional.
+    - Direct3DBlitter: Some tweaks to get updates closer to sync time in
+      certain situations.
+    - Filter out very short frame times in frame time estimation.
+    - Don't adjust frame time during turbo, but rather skip BlitterWidget
+      syncs to speed up, which avoids vsync limits without disabling vsync.
+    - DirectDrawBlitter: Add triple buffering option.
+    - Direct3DBlitter: Use D3DSWAPEFFECT_DISCARD in non-exclusive mode.
+    - Direct3DBlitter: Allow triple buffering and vblank-only updates in
+      non-excusive mode.
+    - Rename "Page flipping" in Direct3D and DirectDraw blitters to
+      "Exclusive full screen".
+    - Pause audio on win32 titlebar clicks/drags to avoid looping audio due to
+      underruns from blocked timerEvents.
+    - Use wildcards for platform detection to avoid being unnecessarily
+      compiler/architecture specific. Fixes bug 2377772.
+    - Rewrite most of DirectSoundEngine, supporting primary buffer option,
+      making it more robust, correct and hopefully cleaner. Only use part of
+      the primary buffer if the desired buffer size is lower than the
+      primary buffer size.
+    - Direct3DBlitter and DirectDrawBlitter: Force blocking updates when sync
+      to vblank is enabled. Some updates only block if there's a prior
+      unfinished update in progress. This screws up frame time estimation in
+      turn screwing up vsync. To fix this we do a double update (and extra blit)
+      if close to a frame time period has passed since the last update when
+      sync to vblank is enabled. I really should have noticed this earlier as
+      it pretty much breaks vsync adaption completely.
+    - Direct3DBlitter: Use the D3DCREATE_FPU_PRESERVE flag when creating
+      device. Omitting this flag can screw up floating point calculations in
+      other parts of the code. For instance WASAPI cursor timestamps get
+      utterly screwed up here.
+    - Direct3DBlitter: It appears that managed textures are updated before
+      they are unlocked, which screws up redraws, making things appear choppy
+      in some situations. Use a default memory texture and a system memory
+      texture and the UpdateTexure method instead.
+    - DirectSoundEngine: Make use of the sample period limit feature of
+      RateEst, rather than duplicating the feature.
+    - Add polling WASAPI engine with exclusive mode support. Latency and rate
+      estimation is generally better than DirectSound, and in exclusive mode
+      there is less blocking as well as exclusive mode being better than
+      shared mode in the other areas too.
+    - WasapiEngine: Add device selection.
+    - WasapiEngine: Add static isUsable() method. Only listed if isUsable().
+      Default engine if isUsable().
+    - WasapiEngine: Use default device if there's only one device available,
+      since we don't show the combobox anyway.
+    - DirectSoundEngine: Provide the integrated read and status get write
+      method optimization.
+    - XvBlitter: Set NosystemBackground attribute rather than OpaquePaintEvent.
+      Reimplement paintEngine to return NULL as suggested by Qt docs.
+    - X11Blitter: Reimplement paintEngine to return NULL.
+    - AlsaEngine: Make use of sample period limit feature of RateEst. Don't
+      increase estimated sample rate on underrun.
+    - OssEngine: Make use of sample period limit feature of RateEst. Don't
+      increase estimated sample rate on underrun.
+    - Esc exits fullscreen on macx.
+    - Drop OpenAL from default macx binary.
+    - Add some useful but commented build flags for macx to .pro files.
+
+-- 0.4.0 -- 2008-10-27
+libgambatte:
+    - less fixed-width type dependencies. don't assume unsigned int > 16 bits
+    - slightly faster sprite mapping
+    - Skip potential high frequency events when they don't matter.
+    - do sprite sorting and cycle calculations pr line as needed instead of all
+      at once
+    - fix broken volume on/off event notification
+    - less int > 16-bits assumptions
+    - more type width dependency fixes
+    - int width deps. Gambatte namespace
+    - wx affects sprite m3 cycles
+    - cache m3 cycles, related refactoring
+    - readjust cgb dma cycles to previously changed m3 timing
+    - clean up goofy lyc calculation.
+    - cgb dma from various areas results in 0xFF being written.
+    - 0xFEA0-0xFEFF not writable when OAM isn't
+    - unusable ioram bits fixes
+    - dmg ioram startup state fixes.
+    - various oamdma accuracy
+    - oamdma bus conflicts with cpu, ppu, cgbdma.
+    - rewritten memory read/write methods.
+    - accurate timing of ppu sprite mapping reads.
+    - fix recent cgb sprite cycles sorting slip up.
+    - preoffset mem pointers.
+    - get rid of unused memory.
+    - save state infrastructure,
+    - clean up video timing code,
+    - use save state for initialization and reset,
+    - do color conversion outside filters
+    - fast rgb32ToUyvy,
+    - add overlooked oamdma event,
+    - adjust subcycle irq timing (shouldn't affect anything),
+    - various refactoring
+    - save savedata before loading state
+    - fix silly initstate ifreg regression
+    - save state selection
+    - save state osd preview snapshots
+    - fix a few potential security holes when loading invalid state
+    - get rid of some undefined behaviour in statesaver
+    - always draw in rgb32, color convert afterwards, too bad for maemo/16-bit
+      depth users
+    - get rid of silly c string stuff
+    - add bitmap font rendering with font based on Bitstream Vera Sans
+    - osd state n saved/loaded text
+    - empty state osd thumbs marked with "Empty" text
+    - adjust thumbnail interpolation weighing slightly
+    - utilize templates for more flexible osd text printing
+    - use grey osd text with black outline for save/load state messages
+    - move state 0 OSD pos to rightmost to match kbd layout
+    - state 1 default on ROM load
+    - support external save state files
+    - missing includes
+    - missing virtual destructor
+    - std::ifstream construction missing binary flag
+    - fix gcc-4.3 compilation
+    - avoid signed overflow in constant (which is both undefined and likely
+      to cause problems on architectures where sizeof(long) != sizeof(int)) in
+      rgb2yuv code.
+    - Fix wrong pitch passed to filter if color conversion is needed.
+    - Fix potential problem with rgb32ToUyvy cache init values on 16-bit systems
+    - Correct unhalttime when resetting counters. Fixes perodic infinite halt
+      issue in Kirby's Star Stacker and probably other games.
+    - Fix LY display disable regression
+    - Use deltas and a running sum to decrease buffer writes in sound emulation
+      sample generation.
+    - Rearrange sound emulation event loop to optimize for high-frequency event
+      units.
+    - Initialize palette arrays to avoid valgrind noise.
+    - Don't do resampling in libgambatte. Update API to reflect this.
+    - No rambanks for ROMs that don't request any.
+    - Route invalid rombank addresses in non-power-of-2 number of rombanks
+      cases to disabled area assuming ceiled power of 2 address bus.
+    - no sprites or sprite mapping busy cycles on first line after display
+      enable. slight cleanup.
+    - small oam accessibility correction.
+    - Tile loading and tile rendering can seemingly get out of sync when
+      modifying scx at a critical time. Another pessimation with little gain in
+      the name of accuracy.
+    - Use a look-up table to do tile byte merging.
+    - Append "_dmg" to save base name when forcing DMG mode, to avoid
+      corrupting CGB save files and vice versa.
+    - saner ly write behaviour
+    - Add adapted and optimized hq3x.
+    - Revert to big f'ing switch hq2x code, as there's less duplication now.
+      Also optimized interpolation functions further. No idea how I missed that
+      initially.
+    - Lower opacity OSD text.
+gambatte_sdl:
+    - less retarded indenting
+    - saner placement of fill_buffer function
+    - int width deps. Gambatte namespace
+    - Scalebuffer dstpitch aware.
+    - save state selection
+    - add number key slot selection shortcuts
+    - Estimate actual output sample rate in terms of OS timers
+      and derive frame rate from it.
+    - Move AudioData and RingBuffer classes to separate files.
+    - Make underruns slightly less painful, by resetting buffer
+      positions.
+    - Skip resampling when fast-forwarding
+    - Fill available buffer space before waiting for more.
+    - Audio buffer command line options.
+    - Use half video frame sleep time if audio buffer is close to underrun.
+    - Adjust estimated frame time each frame.
+gambatte_qt:
+    - more likely to build on mac os x
+    - Fix fixed window size issues with various window managers (metacity,
+      xfwm4...)
+    - macx build fixes
+    - hopefully fix opengl clearing issues
+    - Gambatte namespace
+    - Decouple Qt GUI from gambatte.
+    - Lots of cleanups, flexibility added
+    - setting of various properties, frame time, aspect ratio, button events,
+      video sources, sample rates, pauseOnDialogExec, custom menus etc.
+    - Document some interfaces.
+    - Support for setting approximate sound buffer latency.
+    - Use rational math for 100% exact timers (even though the actual system
+      timers are unlikely to be accurate).
+    - Add fast-forward to input settings.
+    - timeGetTime() fallback for win32
+    - Store full screen mode values/text rather than less reliable indexes.
+    - Repaint on xvblitter port changes to avoid color key not getting
+      repainted.
+    - improved ALSA buffer reporting
+    - add sampleRate info to MediaSource::setSampleBuffer.
+    - clarify that "samples" refers to stereo samples
+    - fix 24-bit depth non-shm ximage creation
+    - fix blittercontainer incorrectly using minimumSize for integer scaling
+    - add unrestricted fast bilinear and nearest neighbor sw scaling to
+      x11/qpainter blitter
+    - swscale: remove forgotten static qualifiers
+    - swscale: center linear weighing bias
+    - swscale: exclude iostream
+    - swscale: less bloated
+    - macx fixed/variable window size change issue fixed
+    - macx opengl drawbuffer change issues worked around
+    - add openal engine, default on macx
+    - add macx quartz video mode toggler
+    - multi-head infrastructure
+    - support multiple monitors in macx quartz toggler
+    - more work-arounds for Qt failing to set correct geometry on video mode
+      changes.
+    - more explicit fast-forward button handling, to avoid missed key
+      press/release events on macx
+    - opengl doublebuffer preblitting, try to make actual screen updates as
+      close to right after sync wait is over as possible
+    - add xf86vidmode toggler (xrandrtoggler is default)
+    - x11blitter: check for other supported visuals if the default is
+      unsupported.
+    - temporarily return to original video mode and minimize on full screen
+      alt-tab (except on macx or if there are multiple screens), switch back on
+      focus-in
+    - hide mouse cursor after move timeout, or key/joystick pressed (more sane
+      on macx)
+    - exit fullscreen rather than toggle menubar on macx (note that the menubar
+      will automatically pop-up on macx full screen if the mouse is moved to
+      the top of the primary screen)
+    - add (independent) pause counter for non-client pauses.
+    - reset X11 screen saver on joystick activity
+    - change "turbo"-mode to temporarily set frametime as a way of avoiding
+      vsync issues (for a laugh, check out the video dialog while in
+      fast-forward mode and see "Sync to vertical blank in 65535 and 131070 Hz
+      modes").
+    - fix win32 compilation
+    - refix win32 fullscreen geometry correction
+    - neater win32 BlitterWidget::sync
+    - avoid misleading minimize on fullscreen close
+    - refactor Blitterwidget::sync
+    - directdrawblitter: remove unecessary turbo conditions
+    - gditoggler: add multi-monitor support (win32)
+    - videodialog: save actual hz values for real this time
+    - quartztoggler: avoid potentially reverting to the wrong mode on double
+      setFullMode(false) in multi-head configs
+    - make sure window is within screen after mode change, so Qt doesn't reset
+      it to the primary screen
+    - revert to previous win32 fullscreen geometry correction behaviour so that
+      the geometry gets properly reset after fullscreen
+    - Add directdraw device selection.
+    - directsoundengine: add device selection.
+    - directdrawblitter: only list devices if there are more than 2 devices
+      (including primary)
+    - directdrawblitter: use private static member rather than global friend
+      enumeration callback
+    - capitalization changes
+    - add direct3d9 blitter with support for vsync, bf, page flipping, triple
+      buffering, device selection, multi-head etc. d3d9.dll loaded at runtime
+    - more strict and thorough exclusive mode handling to support d3d fullscreen
+    - work around file open dialog not returning focus properly
+    - gditoggler: use current registry settings for return modes
+    - directsoundengine: set DSBCAPS_GETCURRENTPOSITION2 flag
+    - revert bad macx return from fullscreen on menu-toggle
+    - don't build xf86vidmodetoggler by default
+    - add save state actions to GUI menu
+    - clean up GUI menu creation code
+    - move GUI recent files to submenu
+    - support external save state files
+    - add number key slot selection shortcuts
+    - missing includes
+    - missing virtual destructor
+    - make sure windows path arguments don't use backslashes by using QFileInfo
+    - add Play menu with Pause, Frame Step, Dec/Inc/Reset Frame Rate
+    - Add tab support to input settings dialog.
+    - Add alternate key support to input settings dialog.
+    - Auto-focus to next likely input box after settings key in input dialog.
+    - Add "Play" and "State" input settings dialog tabs.
+    - Avoid using the most convenient keys as forced menu short-cuts, set them 
+      as default keys in input settings dialog instead. This unfortunately 
+      makes the more useful shortcuts less visible, but it allows remapping 
+      the most convenient keyboard keys.
+    - Avoid duplicate joystick axis "press" events by keeping a map of axis 
+      states.
+    - Make sure to discard irrelevant/old joystick events.
+    - Don't give MediaSource button events when stopped.
+    - Allow joystick-based button events while paused by using a very 
+      low-frequency poll timer.
+    - Make some of the joystick event wrapping stuff less messy.
+    - missing string include
+    - use QString for videoSourceLabel passed to MainWindow constructor
+    - store currently selected scheme as string, since it appears ModelIndex 
+      is neither tied to the data it points to nor invalidated by changes.
+      enforce valid state on reject since the list of schemes may have 
+      changed.
+    - Direct3DCreate function pointer typedef needs WINAPI macro
+    - disable page flipping dependent checkboxes in constructor to ensure 
+      correct start state
+    - add custom sample rate support
+    - change default buffer latency to 67 ms
+    - don't auto-repeat buttons bound to keyboard
+    - use enums for somewhat more robust gambattesource button setup
+    - fix silly "alsa not using default device by default" bug
+    - Only ask for xrandr config once to avoid potential server roundtrips in
+      some xrandr versions.
+    - Make sure xrandr version is >= 1.1 and < 2
+    - Prevent all text editing of input boxes.
+    - Add custom context menu to input boxes.
+    - Update AudioEngine to support sample rate estimation in terms of OS
+      timers.
+    - Implement sample rate estimation in ALSA and OSS audio engines.
+    - AlsaEngine: Revert to using snd_pcm_avail_update for buffer status since
+      snd_pcm_delay may consider external latencies.
+    - AlsaEngine: Use snd_pcm_hw_params_set_buffer_time_near. Don't request a
+      particular number of periods per buffer.
+    - AlsaEngine: Use hw as default custom device string, rather than hw:0,0.
+    - OssEngine: Don't trust GETOSPACE fragment info.
+    - Estimate optimal frame rate based on sample rate estimations.
+    - Extend BlitterWidget to support estimation of vsynced frame rate in terms
+      of OS timers.
+    - Implement vsync frame rate estimation in QGlBlitter, Direct3DBlitter and
+      DirectDrawBlitter.
+    - Use a combination of OS timer sample rate estimation and vsync frame rate
+      estimation to derive resampling ratio for no-frame-duplication vsync.
+    - Change API to reflect MediaSources not being responsible for resampling.
+    - Make sure to parent PaletteDialog list model, so it gets deleted properly.
+    - Various refactoring, small changes and stuff I forgot.
+    - limit vsync frame rate estimation deviation
+    - More averaging in estimation code.
+    - Stricter estimate deviation limit
+    - Adjust estimated frame time each frame.
+    - Use half frame time if audio buffer is close to underrun.
+    - Provide combined audioengine write and status get, to avoid doing
+      potentially expensive operations twice. Utilized in OSS and ALSA engines.
+    - Saner vsync estimate variance protection.
+    - allow dynamically setting samples per frame
+    - Don't bother allowing sources the choice of which output sample rates are
+      selecrable, as it's not really a per source thing at this point. If
+      resampling avoidance is desired, then that should rather be a user option
+      (to depend on the OS for resampling, which is mostly nonsensical for the
+      Game Boy/NES/PSG-system case btw).
+    - Move Qt media framework to a separate subdir
+    - postpone buffered x11 blits to after sync.
+    - Add support for XRandR 1.2 + multi-head
+    - use crtc mode dimensions rather than crtc dimensions when discarding
+      modes since crtc dimensions may be rotated
+    - Fractional bits for intermediate rate estimation averages.
+    - Add RateEst reset method. Initialize RateEst count to 1.
+    - Less refresh rate estimation averaging.
+    - Allow more refresh rate estimation deviation.
+    - Return NULL paintEngine in windows blitters that use the PaintToScreen
+      attribute.
+    - Add checks for things not being initialized in DirectDraw-blitter and
+      QPainterBlitter paintEvents.
+    - Don't reparent blitters (mainly to make a bug in Qt 4.4.3 win less
+      annoying, widgets that do internal reparenting are still affected).
+    - Check for window position less than screen top-left after mode change,
+      before full screen, to avoid Qt moving it to the primary screen.
+    - Add rate estimation to DirectSound engine.
+    - Better underrun detection in DirectSound engine.
+    - Don't duplicate blitter pointer in mainwindow.
+    - Use RateEst.reset rather than re-initing on pause.
+    - Add CoreAudio engine with rate estimation and buffer status support.
+      Default engine on Mac OS X.
+    - 44100 Hz default sample rate on OS X, since OS X tends to resample
+      everything to 44100 Hz.
+    - Get rid of buffer status averaging in OpenAlEngine, since it makes
+      assumptions on usage pattern that shouldn't be made.
+    - Fix CoreAudio engine reporting buffer status in samples rather than
+      frames.
+    - Update SDL_Joystick to SDL-1.2 SVN.
+    - #undef UNICODE in win32/SDL_mmjoystick.c to avoid joystick name mangling.
+    - work around annoying random non-updating OpenGL on Mac OS X after full
+      screen.
+common/other:
+    - Fix GCC 4.3 warnings about people getting confused by operator precedence
+      by adding parentheses.
+    - Real-time, sophisticated resampling framework with several
+      performance/quality profiles for dynamically generated windowed sinc and
+      CIC chains based on analysis of fourier transforms and optimal cost
+      equations. Fast 2-tap linear as a low quality alternative.
+    - Move non-emulation common code to a common directory to avoid duplication.
+    - Update front-ends to new libgambatte API.
+    - Utilize resampling framework in front-ends. Selectable resamplers.
+    - Improved adaptive sleep class that estimates oversleep.
+    - Various refactoring, small changes and stuff I forgot.
+    - Do per phase normalization to avoid dc fluctuations.
+    - More averaging in estimation code.
+    - Stricter estimate deviation limit
+    - Fractional bits for intermediate rate estimation averages.
+    - Add RateEst reset method. Initialize RateEst count to 1.
+    - Extend ringbuffer.h to support resetting size, and move it to common dir
+      since gambatte_qt/coreaudioengine uses it too now.
+    - Add "force DMG mode" option.
+    - Allow more rate estimation deviation.
+hwtests:
+    - wx affects sprite m3 cycles.
+    - cgb dma from various areas results in 0xFF being written.
+    - add hwtests for oam dma
+    - m3 cycles wo bg
+    - more oamdma tests
+    - various oamdma accuracy. oamdma bus conflicts with cpu, ppu, cgbdma.
+    - accurate timing of ppu sprite mapping reads.
+
+-- 0.3.1 -- 2007-10-26 --
+gambatte_qt:
+    - Enable Joystick POV-Hat events.
+
+-- 0.3.0 -- 2007-10-26 --
+libgambatte:
+    - Fix adc/sbc and add_hl_rr hfc calc, sp_plus_n cf/hcf calc and daa thanks
+      to blargg.
+    - document HF2 better
+    - Update sound core according to blargg's findings.
+    - Improve resampling quality and performance.
+    - Fix overlooked "add hl,sp" flag calculation.
+    - fix initial endtime value
+    - check for resampling ratio < 1
+    - Add support for DMG palette customization.
+gambatte_sdl:
+    - use std::map for parser
+    - Don't bother hashing.
+    - Add input config support.
+    - Add joystick support.
+    - Fix horrid "turbo can affect emulation" bug.
+    - Add sw and yuv overlay scaling.
+    - Use cond/mutex for thread syncing, RAII, refactor.
+    - add option for sample rate choice
+    - Add option to list valid input keys
+    - don't die if audio fails
+gambatte_qt:
+    - no point in filter being non-static anymore
+    - use std::map for input vectors
+    - remove unused unusedBool
+    - Fix horrid "turbo can affect emulation" bug.
+    - remove some useless optimizations
+    - auto_ptr love.
+    - support joystick hat.
+    - nicer input handling.
+    - Add sound dialog.
+    - Add custom dev choice for oss, alsa engines.
+    - Use rgb if available for xv.
+    - Get rid of BAD_MATCH warnings for setting non-existent xv attributes.
+    - make subblitters private nested classes
+    - add reset action
+    - Add support for DMG palette customization.
+    - Add global buffer option for dsound engine
+
+-- 0.2.0 -- 2007-09-05 --
+libgambatte:
+    - fix 64-bit compile and segfault. Thanks to Nach for noticing.
+    - Add zip support. Thanks to Nach for contributing nice, clear code
+    - fix sound ch4 frequency calculation
+    - Several PPU reads timings depend on wx. Thanks to franpa for noticing the
+      corrupt line in The LoZ: Oracle of Seasons.
+    - remove unused doubleSpeed parameter from m3ExtraCycles call
+gambatte_sdl:
+    - Thread safety, bigger sound buffer
+    - Compile on more platforms. Thanks to Thristian for the find.
+    - actually increment iterator so the loop makes some sense (parser.cpp)
+gambatte_qt:
+    - fix 64-bit compile. Thanks to Nach.
+    - better license info for x11getprocaddress.cpp
+    - initial joystick support, mostly using SDL's joystick code (separated from
+      the rest of SDL)
+    - use binary search for gb inputs.
+all:
+    - make sure to use std:: despite sloppy compilers allowing omission. Thanks
+      to blargg for the reminder.
+    - get rid of some valgrind warnings. Thanks to Nach for noticing.
+hwtests:
+    - add tests for wx effects on PPU read timings.
+build:
+    - add -Wextra to default compile flags
+doc:
+    - mention optional zlib dependency
+    - additions to thanks section
+
+-- 0.1.1 -- 2007-08-29 --
+libgambatte:
+    - fix integer overflow in color conversion to rgb16
+    - only accept valid filter indexes
+gambatte_sdl:
+    - print version
+    - print usage
+    - support command line arguments.
+    - add option for starting in full-screen
+    - add option for using video filter
+gambatte_qt:
+    - clean up obsolete includes.
+    - directdraw: only use alpha if primary surface uses it.
+    - add support for loading rom from porgam argument.
+    - s/"a highly accurate"/"an accuracy-focused"/ in about box
+    - gditoggler: fix unordered video mode listing
+build:
+    - Support external CPPFLAGS
+    - Use sdl-config
+doc:
+    - fix silly wording in README about section
+    - s/seperate/separate/
+    - s/Automake/Make/
+    - mention XShm dependency
+    - mention sys/shm.h requirement
+    - document key mapping better
+    - s/"a highly accurate"/"an accuracy-focused"/
+    - add man pages

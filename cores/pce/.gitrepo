@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/libretro/beetle-pce-fast-libretro.git
+	branch = 35e96c44b6d43c8ff48d5484331ecdd9ad4dfc03
+	commit = 35e96c44b6d43c8ff48d5484331ecdd9ad4dfc03
+	parent = f9a08e0a22881c4c9784b42f38ea8356767b3708
+	method = rebase
+	cmdver = 0.4.0

@@ -1,0 +1,49 @@
+.TH "ZIP_SOURCE_FREE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_source_free\fR
+\- free zip data source
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIvoid\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_source_free\fR(\fIzip_source_t\ *source\fR);
+.PD
+.SH "DESCRIPTION"
+The function
+\fBzip_source_free\fR()
+decrements the reference count of
+\fIsource\fR
+and frees it if the reference count drops to 0.
+If
+\fIsource\fR
+is
+\fRNULL\fR,
+it does nothing.
+.PP
+\fINOTE\fR:
+This function should not be called on a
+\fIsource\fR
+after it was used successfully in a
+zip_open_from_source(3),
+zip_file_add(3),
+or
+zip_file_replace(3)
+call.
+.SH "SEE ALSO"
+libzip(3),
+zip_source(3),
+zip_source_keep(3)
+.SH "HISTORY"
+\fBzip_source_free\fR()
+was added in libzip 0.6.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

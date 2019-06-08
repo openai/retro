@@ -1,0 +1,54 @@
+.TH "ZIP_UNCHANGE" "3" "December 18, 2017" "NiH" "Library Functions Manual"
+.nh
+.if n .ad l
+.SH "NAME"
+\fBzip_unchange\fR
+\- undo changes to file in zip archive
+.SH "LIBRARY"
+libzip (-lzip)
+.SH "SYNOPSIS"
+\fB#include <zip.h>\fR
+.sp
+\fIint\fR
+.br
+.PD 0
+.HP 4n
+\fBzip_unchange\fR(\fIzip_t\ *archive\fR, \fIzip_uint64_t\ index\fR);
+.PD
+.SH "DESCRIPTION"
+Changes to the file at position
+\fIindex\fR
+are reverted.
+.SH "RETURN VALUES"
+Upon successful completion 0 is returned.
+Otherwise, \-1 is returned and the error code in
+\fIarchive\fR
+is set to indicate the error.
+.SH "ERRORS"
+\fBzip_unchange\fR()
+fails if:
+.TP 19n
+[\fRZIP_ER_EXISTS\fR]
+Unchanging the name would result in a duplicate name in the archive.
+.TP 19n
+[\fRZIP_ER_INVAL\fR]
+\fIindex\fR
+is not a valid file index in
+\fIzip\fR.
+.SH "SEE ALSO"
+libzip(3),
+zip_unchange_all(3),
+zip_unchange_archive(3)
+.SH "HISTORY"
+\fBzip_unchange\fR()
+was added in libzip 0.6.
+In libzip 0.10 the type of
+\fIindex\fR
+was changed from
+\fIint\fR
+to
+\fIzip_uint64_t\fR.
+.SH "AUTHORS"
+Dieter Baron <\fIdillo@nih.at\fR>
+and
+Thomas Klausner <\fItk@giga.or.at\fR>

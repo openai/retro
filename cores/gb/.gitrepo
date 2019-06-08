@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/libretro/gambatte-libretro.git
+	branch = 4b98cd4d8ad13de9e08fe583ed814f76d800a0d1
+	commit = 4b98cd4d8ad13de9e08fe583ed814f76d800a0d1
+	parent = fba4d42536d9571f553b14f656b5261ae3567fb8
+	method = rebase
+	cmdver = 0.4.0
