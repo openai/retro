@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/wjakob/clang-cindex-python3.git
+	branch = 6a00cbc4a9b8e68b71caf7f774b3f9c753ae84d5
+	commit = 6a00cbc4a9b8e68b71caf7f774b3f9c753ae84d5
+	parent = 12181928b3be849ae63de8e4f926c47df7ea8667
+	method = rebase
+	cmdver = 0.4.0
