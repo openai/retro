@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5BDB0E63-AD88-4547-BF48-169312DDD188}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>msvc2010</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)msvc-2010\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)msvc-2010\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;MSVC2010_EXPORTS;%(PreprocessorDefinitions);RIGHTSHIFT_IS_SAR;__LIBRETRO__;__WIN32__;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\;$(SolutionDir)\..\..\..\;$(SolutionDir)\..\..\apu\bapu\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>libretro.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MSVC2010_EXPORTS;%(PreprocessorDefinitions);RIGHTSHIFT_IS_SAR;__LIBRETRO__;__WIN32__;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\..\..\;$(SolutionDir)\..\..\..\;$(SolutionDir)\..\..\apu\bapu\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>libretro.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\apu\apu.cpp" />
+    <ClCompile Include="..\..\..\apu\bapu\dsp\sdsp.cpp" />
+    <ClCompile Include="..\..\..\apu\bapu\dsp\SPC_DSP.cpp" />
+    <ClCompile Include="..\..\..\apu\bapu\smp\smp.cpp" />
+    <ClCompile Include="..\..\..\apu\bapu\smp\smp_state.cpp" />
+    <ClCompile Include="..\..\..\bsx.cpp" />
+    <ClCompile Include="..\..\..\c4.cpp" />
+    <ClCompile Include="..\..\..\c4emu.cpp" />
+    <ClCompile Include="..\..\..\cheats.cpp" />
+    <ClCompile Include="..\..\..\cheats2.cpp" />
+    <ClCompile Include="..\..\..\clip.cpp" />
+    <ClCompile Include="..\..\..\conffile.cpp" />
+    <ClCompile Include="..\..\..\controls.cpp" />
+    <ClCompile Include="..\..\..\cpu.cpp" />
+    <ClCompile Include="..\..\..\cpuexec.cpp" />
+    <ClCompile Include="..\..\..\cpuops.cpp" />
+    <ClCompile Include="..\..\..\crosshairs.cpp" />
+    <ClCompile Include="..\..\..\debug.cpp" />
+    <ClCompile Include="..\..\..\dma.cpp" />
+    <ClCompile Include="..\..\..\dsp.cpp" />
+    <ClCompile Include="..\..\..\dsp1.cpp" />
+    <ClCompile Include="..\..\..\dsp2.cpp" />
+    <ClCompile Include="..\..\..\dsp3.cpp" />
+    <ClCompile Include="..\..\..\dsp4.cpp" />
+    <ClCompile Include="..\..\..\fxdbg.cpp" />
+    <ClCompile Include="..\..\..\fxemu.cpp" />
+    <ClCompile Include="..\..\..\fxinst.cpp" />
+    <ClCompile Include="..\..\..\gfx.cpp" />
+    <ClCompile Include="..\..\..\globals.cpp" />
+    <ClCompile Include="..\..\..\logger.cpp" />
+    <ClCompile Include="..\..\..\memmap.cpp" />
+    <ClCompile Include="..\..\..\netplay.cpp" />
+    <ClCompile Include="..\..\..\obc1.cpp" />
+    <ClCompile Include="..\..\..\ppu.cpp" />
+    <ClCompile Include="..\..\..\sa1.cpp" />
+    <ClCompile Include="..\..\..\sa1cpu.cpp" />
+    <ClCompile Include="..\..\..\sdd1.cpp" />
+    <ClCompile Include="..\..\..\sdd1emu.cpp" />
+    <ClCompile Include="..\..\..\server.cpp" />
+    <ClCompile Include="..\..\..\seta.cpp" />
+    <ClCompile Include="..\..\..\seta010.cpp" />
+    <ClCompile Include="..\..\..\seta011.cpp" />
+    <ClCompile Include="..\..\..\seta018.cpp" />
+    <ClCompile Include="..\..\..\snapshot.cpp" />
+    <ClCompile Include="..\..\..\snes9x.cpp" />
+    <ClCompile Include="..\..\..\spc7110.cpp" />
+    <ClCompile Include="..\..\..\srtc.cpp" />
+    <ClCompile Include="..\..\..\stream.cpp" />
+    <ClCompile Include="..\..\..\tile.cpp" />
+    <ClCompile Include="..\..\libretro.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
