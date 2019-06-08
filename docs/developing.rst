@@ -56,7 +56,7 @@ Building
 
 .. code-block:: shell
 
-    git clone --recursive https://github.com/openai/retro.git gym-retro
+    git clone https://github.com/openai/retro.git gym-retro
     cd gym-retro
     pip3 install -e .
 
