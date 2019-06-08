@@ -111,7 +111,7 @@ tramp
 CMakeFiles
 CMakeCache.txt
 CTestTestfile.cmake
-Makefile
+/Makefile
 cmake_*.cmake
 install_manifest.txt
 
