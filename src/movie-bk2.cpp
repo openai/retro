@@ -59,6 +59,12 @@ unique_ptr<Movie> MovieBK2::load(const string& path) {
 	if (!zip->openFile("Input Log.txt")) {
 		return nullptr;
 	}
+	if (!zip->openFile("Header.txt")) {
+		return nullptr;
+	}
+	if (!zip->openFile("Core.bin")) {
+		return nullptr;
+	}
 	return make_unique<MovieBK2>(move(zip));
 }
 
