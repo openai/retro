@@ -503,8 +503,6 @@ bool8 S9xInitSound (int buffer_ms, int lag_ms)
 	spc::buffer_size = sample_count << 2;
 	msu::buffer_size = (int)((sample_count << 2) * 1.5); // Always 16-bit, Stereo; 1.5 to never overflow before dsp buffer
 
-	printf("Sound buffer size: %d (%d samples)\n", spc::buffer_size, sample_count);
-
 	if (spc::landing_buffer)
 		delete[] spc::landing_buffer;
 	spc::landing_buffer = new uint8[spc::buffer_size * 2];
@@ -678,9 +676,6 @@ void S9xAPUEndScanline (void)
 
 void S9xAPUTimingSetSpeedup (int ticks)
 {
-	if (ticks != 0)
-		printf("APU speedup hack: %d\n", ticks);
-
 	spc::timing_hack_denominator = 256 - ticks;
 
 	spc::ratio_numerator = Settings.PAL ? APU_NUMERATOR_PAL : APU_NUMERATOR_NTSC;

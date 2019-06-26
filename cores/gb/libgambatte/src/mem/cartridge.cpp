@@ -465,37 +465,37 @@ namespace gambatte
 
          switch (header[0x0147])
          {
-            case 0x00: printf("Plain ROM loaded.\n"); type = PLAIN; break;
-            case 0x01: printf("MBC1 ROM loaded.\n"); type = MBC1; break;
-            case 0x02: printf("MBC1 ROM+RAM loaded.\n"); type = MBC1; break;
-            case 0x03: printf("MBC1 ROM+RAM+BATTERY loaded.\n"); type = MBC1; break;
-            case 0x05: printf("MBC2 ROM loaded.\n"); type = MBC2; break;
-            case 0x06: printf("MBC2 ROM+BATTERY loaded.\n"); type = MBC2; break;
-            case 0x08: printf("Plain ROM with additional RAM loaded.\n"); type = MBC2; break;
-            case 0x09: printf("Plain ROM with additional RAM and Battery loaded.\n"); type = MBC2;break;
+            case 0x00: type = PLAIN; break;
+            case 0x01: type = MBC1; break;
+            case 0x02: type = MBC1; break;
+            case 0x03: type = MBC1; break;
+            case 0x05: type = MBC2; break;
+            case 0x06: type = MBC2; break;
+            case 0x08: type = MBC2; break;
+            case 0x09: type = MBC2;break;
             case 0x0B: printf("MM01 ROM not supported.\n"); return -1;
             case 0x0C: printf("MM01 ROM not supported.\n"); return -1;
             case 0x0D: printf("MM01 ROM not supported.\n"); return -1;
-            case 0x0F: printf("MBC3 ROM+TIMER+BATTERY loaded.\n"); type = MBC3; break;
-            case 0x10: printf("MBC3 ROM+TIMER+RAM+BATTERY loaded.\n"); type = MBC3; break;
-            case 0x11: printf("MBC3 ROM loaded.\n"); type = MBC3; break;
-            case 0x12: printf("MBC3 ROM+RAM loaded.\n"); type = MBC3; break;
-            case 0x13: printf("MBC3 ROM+RAM+BATTERY loaded.\n"); type = MBC3; break;
+            case 0x0F: type = MBC3; break;
+            case 0x10: type = MBC3; break;
+            case 0x11: type = MBC3; break;
+            case 0x12: type = MBC3; break;
+            case 0x13: type = MBC3; break;
             case 0x15: printf("MBC4 ROM not supported.\n"); return -1;
             case 0x16: printf("MBC4 ROM not supported.\n"); return -1;
             case 0x17: printf("MBC4 ROM not supported.\n"); return -1;
-            case 0x19: printf("MBC5 ROM loaded.\n"); type = MBC5; break;
-            case 0x1A: printf("MBC5 ROM+RAM loaded.\n"); type = MBC5; break;
-            case 0x1B: printf("MBC5 ROM+RAM+BATTERY loaded.\n"); type = MBC5; break;
-            case 0x1C: printf("MBC5+RUMBLE ROM not supported.\n"); type = MBC5; break;
-            case 0x1D: printf("MBC5+RUMBLE+RAM ROM not suported.\n"); type = MBC5; break;
-            case 0x1E: printf("MBC5+RUMBLE+RAM+BATTERY ROM not supported.\n"); type = MBC5; break;
+            case 0x19: type = MBC5; break;
+            case 0x1A: type = MBC5; break;
+            case 0x1B: type = MBC5; break;
+            case 0x1C: type = MBC5; break;
+            case 0x1D: type = MBC5; break;
+            case 0x1E: type = MBC5; break;
             case 0x20: printf("MBC6 ROM not supported.\n"); return -1;
             case 0x22: printf("MBC7 ROM not supported.\n"); return -1;
             case 0xFC: printf("Pocket Camera ROM not supported.\n"); return -1;
             case 0xFD: printf("Bandai TAMA5 ROM not supported.\n"); return -1;
             case 0xFE: printf("HuC3 ROM+RAM+BATTERY loaded.\n"); return -1;
-            case 0xFF: printf("HuC1 ROM+BATTERY loaded.\n"); type = HUC1; break;
+            case 0xFF: type = HUC1; break;
             default: printf("Wrong data-format, corrupt or unsupported ROM.\n"); return -1;
          }
 
@@ -532,10 +532,7 @@ namespace gambatte
          }
       }
 
-      printf("rambanks: %u\n", rambanks);
-
       rombanks = pow2ceil(romsize / 0x4000);
-      printf("rombanks: %u\n", static_cast<unsigned>(romsize / 0x4000));
 
       ggUndoList_.clear();
       mbc.reset();
