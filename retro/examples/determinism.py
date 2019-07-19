@@ -57,16 +57,26 @@ class RetroState(gym.Wrapper):
 
     It is not that deterministic.
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._last_obs = None
+
     def reset(self, state=None):
         if state is not None:
+            em_state, self._last_obs = state
             self.unwrapped.em.set_state(state)
             self.unwrapped.data.reset()
             self.unwrapped.data.update_ram()
         else:
-            self.unwrapped.reset()
+            self._last_obs = self.env.reset()
+        return self._last_obs
+
+    def step(self, act):
+        self._last_obs, rew, done, info = self.env.step(act)
+        return self._last_obs, rew, done, info
 
     def get_state(self):
-        return self.unwrapped.em.get_state()
+        return (self.unwrapped.em.get_state(), self._last_obs)
 
 
 def rollout(env, acts):
