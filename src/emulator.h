@@ -83,6 +83,8 @@ private:
 	retro_system_av_info m_avInfo = {};
 	std::vector<retro_memory_descriptor> m_map;
 
+	char* m_corePath = nullptr;
+
 #ifdef _WIN32
 	HMODULE m_coreHandle = nullptr;
 #else

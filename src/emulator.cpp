@@ -58,6 +58,9 @@ Emulator::Emulator() {
 }
 
 Emulator::~Emulator() {
+	if (m_corePath) {
+		free(m_corePath);
+	}
 	if (m_romLoaded) {
 		unloadRom();
 	}
@@ -360,7 +363,10 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		return false;
 	}
 	case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
-		*reinterpret_cast<const char**>(data) = corePath().c_str();
+		if (!s_loadedEmulator->m_corePath) {
+			s_loadedEmulator->m_corePath = strdup(corePath().c_str());
+		}
+		*reinterpret_cast<const char**>(data) = s_loadedEmulator->m_corePath;
 		return true;
 	case RETRO_ENVIRONMENT_GET_CAN_DUPE:
 		*reinterpret_cast<bool*>(data) = true;
