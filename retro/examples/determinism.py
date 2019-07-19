@@ -25,10 +25,12 @@ class MoreDeterministicRetroState(gym.Wrapper):
     to support get_state() and reset(state=state), and then this class would need
     to make sure parent methods are called.
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, reset_on_step=True, **kwargs):
         super().__init__(*args, **kwargs)
         self._last_obs = None
         self._done = False
+        # if retro were more deterministic, this would not be necessary
+        self._reset_on_step = reset_on_step
 
     def reset(self, state=None):
         self._done = False
@@ -42,40 +44,13 @@ class MoreDeterministicRetroState(gym.Wrapper):
         return self._last_obs
 
     def step(self, act):
-        self.reset(state=self.get_state())
+        if self._reset_on_step:
+            self.reset(state=self.get_state())
         self._last_obs, rew, self._done, info = self.env.step(act)
         return self._last_obs, rew, self._done, info
 
     def get_state(self):
         assert not self._done, "cannot store a terminal state"
-        return (self.unwrapped.em.get_state(), self._last_obs)
-
-
-class RetroState(gym.Wrapper):
-    """
-    If Retro were deterministic, this wrapper should be sufficient.
-
-    It is not that deterministic.
-    """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._last_obs = None
-
-    def reset(self, state=None):
-        if state is not None:
-            em_state, self._last_obs = state
-            self.unwrapped.em.set_state(state)
-            self.unwrapped.data.reset()
-            self.unwrapped.data.update_ram()
-        else:
-            self._last_obs = self.env.reset()
-        return self._last_obs
-
-    def step(self, act):
-        self._last_obs, rew, done, info = self.env.step(act)
-        return self._last_obs, rew, done, info
-
-    def get_state(self):
         return (self.unwrapped.em.get_state(), self._last_obs)
 
 
@@ -179,7 +154,7 @@ def main():
                 if args.deterministic:
                     env = MoreDeterministicRetroState(env)
                 else:
-                    env = RetroState(env)
+                    env = MoreDeterministicRetroState(env, reset_on_step=False)
                 return env
 
             env = make_env()
