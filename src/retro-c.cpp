@@ -73,6 +73,11 @@ CEmulatorScreen* emulatorGetScreen(CEmulator* emulator) {
   return new CEmulatorScreen {data, (size_t) w, (size_t) h, 3};
 }
 
+void emulatorScreenDelete(CEmulatorScreen* screen) {
+  delete screen->values;
+  delete screen;
+}
+
 double emulatorGetScreenRate(CEmulator* emulator) {
   return static_cast<Emulator*>(emulator->emulator)->getFrameRate();
 }

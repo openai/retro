@@ -117,6 +117,7 @@ void emulatorStep(CEmulator* emulator);
 CBytes* emulatorGetState(CEmulator* emulator);
 bool emulatorSetState(CEmulator* emulator, CBytes* state);
 CEmulatorScreen* emulatorGetScreen(CEmulator* emulator);
+void emulatorScreenDelete(CEmulatorScreen* screen);
 double emulatorGetScreenRate(CEmulator* emulator);
 CEmulatorAudio* emulatorGetAudio(CEmulator* emulator);
 double emulatorGetAudioRate(CEmulator* emulator);
