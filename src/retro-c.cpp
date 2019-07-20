@@ -53,6 +53,11 @@ CBytes* emulatorGetState(CEmulator* emulator) {
   return new CBytes {reinterpret_cast<const uint8_t*>(bytes), numBytes};
 }
 
+void emulatorStateDelete(CBytes* state) {
+  delete state->bytes;
+  delete state;
+}
+
 bool emulatorSetState(CEmulator* emulator, CBytes* state) {
   return static_cast<Emulator*>(emulator->emulator)->unserialize(state->bytes, state->numBytes);
 }
@@ -90,6 +95,11 @@ CEmulatorAudio* emulatorGetAudio(CEmulator* emulator) {
   return new CEmulatorAudio {samples, numSamples};
 }
 
+void emulatorAudioDelete(CEmulatorAudio* audio) {
+  delete audio->samples;
+  delete audio;
+}
+
 double emulatorGetAudioRate(CEmulator* emulator) {
   return static_cast<Emulator*>(emulator->emulator)->getAudioRate();
 }
@@ -99,6 +109,10 @@ CEmulatorResolution* emulatorGetResolution(CEmulator* emulator) {
   auto w = m_re->getImageWidth();
   auto h = m_re->getImageHeight();
   return new CEmulatorResolution {w, h};
+}
+
+void emulatorResolutionDelete(CEmulatorResolution* resolution) {
+  delete resolution;
 }
 
 void emulatorSetButtonMask(CEmulator* emulator, const uint8_t* mask, size_t maskSize, unsigned int player) {
