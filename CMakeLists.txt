@@ -33,6 +33,7 @@ endif()
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE RelWithDebInfo)
 endif()
+set(PKGCONFIG_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/" CACHE STRING "Base directory for pkgconfig files.")
 option(BUILD_TESTS "Should tests be built" ON)
 option(BUILD_UI "Should integration UI be built" OFF)
 option(BUILD_LUAJIT "Should static LuaJIT be used instead of system Lua" ON)
@@ -295,6 +296,18 @@ if(BUILD_C)
         OUTPUT_NAME retro
         CXX_VISIBILITY_PRESET default)
     target_link_libraries(retro-c retro-base ${STATIC_LDFLAGS})
+    install(TARGETS retro-c)
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/retro-c.pc
+"
+Name: ${PROJECT_NAME}
+Description: Retro C API.
+URL: https://github.com/openai/retro
+Version: ${PROJECT_VERSION}
+Requires:
+Libs: -L${CMAKE_INSTALL_PREFIX}/lib -lretro
+Cflags: -I${CMAKE_INSTALL_PREFIX}/include
+")
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/retro-c.pc DESTINATION ${PKGCONFIG_INSTALL_DIR})
 endif()
 
 if(BUILD_TESTS)
