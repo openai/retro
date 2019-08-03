@@ -108,3 +108,5 @@ If you have the correct ROMs on your computer (identified by the `rom.sha` file 
 This will copy all matching ROMs to their corresponding Gym Retro game integration directories.
 
 Your ROMs must be in the :ref:`supported-roms` list and must already have an integration.  To add a ROM yourself, check out :ref:`game-integration`.
+
+Many ROMs should be available from the `No-Intro Collection on Archive.org <https://archive.org/details/No-Intro-Collection_2016-01-03_Fixed>`_ and the import script will search inside of zip files.
