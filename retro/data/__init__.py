@@ -349,22 +349,21 @@ def parse_smd(header, body):
     return body2
 
 
-def groom_rom(rom):
-    with open(rom, 'rb') as r:
-        if rom.lower().endswith('.smd'):
-            # Read Super Magic Drive header
-            header = r.read(512)
-            body = r.read()
-            body = parse_smd(header, body)
-        elif rom.lower().endswith('.nes'):
-            header = r.read(16)
-            body = r.read()
-            return header + body, hashlib.sha1(body).hexdigest()
-        else:
-            # Don't read more than 32 MiB, the largest game supported
-            body = r.read(0x2000000)
-            if r.read(1):
-                raise ValueError('ROM is too big')
+def groom_rom(rom, r):
+    if rom.lower().endswith('.smd'):
+        # Read Super Magic Drive header
+        header = r.read(512)
+        body = r.read()
+        body = parse_smd(header, body)
+    elif rom.lower().endswith('.nes'):
+        header = r.read(16)
+        body = r.read()
+        return header + body, hashlib.sha1(body).hexdigest()
+    else:
+        # Don't read more than 32 MiB, the largest game supported
+        body = r.read(0x2000000)
+        if r.read(1):
+            raise ValueError('ROM is too big')
     return body, hashlib.sha1(body).hexdigest()
 
 
@@ -385,10 +384,8 @@ def verify_hash(game, inttype=Integrations.DEFAULT):
     return errors
 
 
-def merge(*args, quiet=True):
-    import retro
+def get_known_hashes():
     known_hashes = {}
-    imported_games = 0
     for game in list_games(Integrations.ALL):
         for curpath in Integrations.ALL.paths:
             shafile = os.path.join(path(), curpath, game, 'rom.sha')
@@ -402,9 +399,17 @@ def merge(*args, quiet=True):
                     break
             for sha in shas:
                 known_hashes[sha] = (game, ext, os.path.join(path(), curpath))
+    return known_hashes
+
+
+def merge(*args, quiet=True):
+    import retro
+    known_hashes = get_known_hashes()
+    imported_games = 0
     for rom in args:
         try:
-            data, hash = groom_rom(rom)
+            with open(rom, "rb") as r:
+                data, hash = groom_rom(rom, r)
         except (IOError, ValueError):
             continue
         if hash in known_hashes:
