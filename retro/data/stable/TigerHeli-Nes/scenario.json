@@ -7,11 +7,9 @@
     }
   },
   "reward": {
-    "variables": {
-      "score": {
-        "penalty": 10.0,
-        "reward": 10.0
-      }
-    }
-  }
+    "script": "lua:correct_score"
+  },
+  "scripts": [
+    "script.lua"
+  ]
 }
