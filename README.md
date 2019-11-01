@@ -26,6 +26,10 @@ Documentation is available at https://retro.readthedocs.io/en/latest/
 
 You should probably start with the [Getting Started Guide](https://retro.readthedocs.io/en/latest/getting_started.html).
 
+# Contributing
+
+[See CONTRIBUTING.md](https://github.com/openai/retro/blob/master/CONTRIBUTING.md)
+
 # Changelog
 
 [See CHANGES.md](https://github.com/openai/retro/blob/master/CHANGES.md)
