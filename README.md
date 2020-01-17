@@ -66,3 +66,16 @@ The following non-commercial ROMs are included with Gym Retro for testing purpos
 - [FamiCON intro](http://www.pouet.net/prod.php?which=53497) by dr88
 - [Airstriker](https://pdroms.de/genesis/airstriker-v1-50-genesis-game) by Electrokinesis
 - [Lost Marbles](https://pdroms.de/files/gameboyadvance/lost-marbles) by Vantage
+
+# Citation
+
+Please cite using the following bibtex entry:
+
+```
+@article{nichol2018retro,
+  title={Gotta Learn Fast: A New Benchmark for Generalization in RL},
+  author={Nichol, Alex and Pfau, Vicki and Hesse, Christopher and Klimov, Oleg and Schulman, John},
+  journal={arXiv preprint arXiv:1804.03720},
+  year={2018}
+}
+```
