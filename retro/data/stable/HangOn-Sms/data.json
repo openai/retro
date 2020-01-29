@@ -1,0 +1,12 @@
+{
+  "info": {
+    "score": {
+      "address": 49154,
+      "type": ">d5"
+    },
+    "time": {
+      "address": 49165,
+      "type": "<u4"
+    }
+  }
+}
