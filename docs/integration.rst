@@ -241,6 +241,33 @@ Common Errors
 
 * Score is used as reward, but it's different from the score displayed in the game: this could happen if you forgot a factor of 10 in the reward, or if you're calculating the score based on some other variables (e.g. the upper and lower digits of the score, or some variable like ``number of enemies killed * 100``) and there is a bug.  If you play the game for awhile and the reward diverges slightly from the in-game score, it's possible that the score digits are not always updated at the same time.  In this case, you can use the change in maximum score as the reward, see `GuardianLegend-Nes <https://github.com/openai/retro/blob/master/retro/data/stable/GuardianLegend-Nes/script.lua>`_ for an example of this.
 
+Using a Custom Integration from Python
+--------------------------------------
+
+Once you have created an integration, you can put it in a folder called ``custom_integrations`` and tell ``retro`` about your custom integration using the ``add_custom_path`` function:
+
+.. code-block:: python
+
+	import retro
+	import os
+
+	SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+	def main():
+		retro.data.Integrations.add_custom_path(
+			os.path.join(SCRIPT_DIR, "custom_integrations")
+		)
+		print("FakeGame-Nes" in retro.data.list_games(inttype=retro.data.Integrations.ALL))
+		env = retro.make("FakeGame-Nes", inttype=retro.data.Integrations.ALL)
+		print(env)
+
+
+	if __name__ == "__main__":
+		main()
+
+This lets you use your integration without having to add it to ``retro`` directly.
+
 .. _appendix-types:
 
 Appendix: Types
