@@ -65,7 +65,9 @@ def main():
     bdist_options = []
     with Fold('script.build', 'Building'):
         if os_name == 'osx':
-            cmake_options = ['-DCMAKE_PREFIX_PATH=/usr/local/opt/qt', '-DBUILD_UI=ON']
+            qt_prefix = subprocess.run(['brew', '--prefix', 'qt5'], encoding="utf8", stdout=subprocess.PIPE)
+            print("qt_prefix", qt_prefix)
+            cmake_options = ['-DCMAKE_PREFIX_PATH=%s' % qt_prefix, '-DBUILD_UI=ON']
         elif os_name == 'linux':
             cmake_options = ['-DBUILD_MANYLINUX=ON',
                              '-DPYTHON_INCLUDE_DIR=%s/include/python%sm' % (sys.base_prefix, os.environ['PYVER'])]
