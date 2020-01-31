@@ -7,7 +7,7 @@ Gym Retro lets you turn classic video games into [Gym](https://gym.openai.com/) 
 Supported platforms:
 
 - Windows 7, 8, 10
-- macOS 10.12 (Sierra), 10.13 (High Sierra), 10.14 (Mojave)
+- macOS 10.13 (High Sierra), 10.14 (Mojave)
 - Linux (manylinux1)
 
 Supported Pythons:
