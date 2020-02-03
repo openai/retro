@@ -64,7 +64,7 @@ class CMakeBuild(build_ext):
 platform_globs = ['*-%s/*' % plat for plat in ['Nes', 'Snes', 'Genesis', 'Atari2600', 'GameBoy', 'Sms', 'GameGear', 'PCEngine', 'GbColor', 'GbAdvance']]
 
 kwargs = {}
-if tuple(int(v) for v in setuptools_version.split('.')) >= (24, 2, 0):
+if tuple(int(v) for v in setuptools_version.split('.')[:3]) >= (24, 2, 0):
     kwargs['python_requires'] = '>=3.5.0'
 
 
