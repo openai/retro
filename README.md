@@ -69,7 +69,7 @@ The following non-commercial ROMs are included with Gym Retro for testing purpos
 
 # Citation
 
-Please cite using the following bibtex entry:
+Please cite using the following BibTeX entry:
 
 ```
 @article{nichol2018retro,
