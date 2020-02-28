@@ -1,12 +1,14 @@
 # Changelog
 
-## 0.7.2
-
-* fix for new pyglet minor version that breaks backward compatibility
-
 ## 0.7.1
 
 * fix discrete and multi-discrete action space filtering
+* fix random printfs when making environments
+* data fixes for AeroStar-GameBoy, ChaseHQII-Genesis, Geimos-Nes, MagicalTaruruutoKun-Genesis,  KanshakudamaNageKantarouNoToukaidouGojuusanTsugi-Nes, TigerHeli-Nes (may change reward for these games, mostly these are bug fixes)
+# python 3.5 compatibility fix (thanks @kieran-lemayai!)
+* fix for new pyglet minor version that breaks backward compatibility (thanks @fsimond!)
+* json parsing fix (thanks @eaplatanios!)
+* minor memory leak fix (thanks @eaplatanios!)
 
 ## 0.7.0
 
