@@ -31,8 +31,7 @@ class Interactive(abc.ABC):
             aspect_ratio = image_width / image_height
 
         # guess a screen size that doesn't distort the image too much but also is not tiny or huge
-        platform = pyglet.window.get_platform()
-        display = platform.get_default_display()
+        display = pyglet.canvas.get_display()
         screen = display.get_default_screen()
         max_win_width = screen.width * 0.9
         max_win_height = screen.height * 0.9
