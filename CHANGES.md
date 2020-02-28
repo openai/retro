@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.2
+
+* fix for new pyglet minor version that breaks backward compatibility
+
 ## 0.7.1
 
 * fix discrete and multi-discrete action space filtering
