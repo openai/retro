@@ -79,10 +79,10 @@ def main():
             raise Exception('unrecognized os name')
 
         call(['cmake', '.', '-DBUILD_TESTS=ON'] + cmake_options)
-        call(['python', 'setup.py', '-q', 'build_ext', '-i', '-j1'])
+        call(['python', 'setup.py', '-q', 'build_ext', '-i', '-j3'])
         if cross not in ('win64', 'win32'):
             call(['pip', 'install', '-e', '.'])
-        call(['make', '-j1'])
+        call(['make', '-j3'])
 
     if os.environ['TRAVIS_PULL_REQUEST'] == 'false':
         with Fold('script.package', 'Packaging binaries'):
