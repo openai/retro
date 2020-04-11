@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.0
+
+* add python 3.8 support
+* drop python 3.5 due to build issues on windows
+
 ## 0.7.1
 
 * fix discrete and multi-discrete action space filtering

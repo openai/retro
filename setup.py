@@ -8,6 +8,9 @@ import shutil
 
 VERSION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'VERSION')
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+README = open(os.path.join(SCRIPT_DIR, "README.md")).read()
+
 if not os.path.exists(os.path.join(os.path.dirname(__file__), '.git')):
     use_scm_version = False
     shutil.copy('VERSION', 'retro/VERSION.txt')
@@ -70,11 +73,14 @@ if tuple(int(v) for v in setuptools_version.split('.')[:3]) >= (24, 2, 0):
 
 setup(
     name='gym-retro',
+    long_description=README,
+    long_description_content_type="text/markdown",
     author='OpenAI',
     author_email='csh@openai.com',
     url='https://github.com/openai/retro',
     version=open(VERSION_PATH, 'r').read().strip(),
     license='MIT',
+    python_requires='>=3.6',
     install_requires=['gym', 'pyglet>=1.3.2,==1.*'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
     cmdclass={'build_ext': CMakeBuild},
