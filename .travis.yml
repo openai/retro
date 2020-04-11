@@ -39,7 +39,6 @@ matrix:
 before_script:
   - mkdir -p $HOME/roms
 script:
-  - set -eux
   - |
     if [ -n "$CROSS" ]; then
     TAG=$CROSS
