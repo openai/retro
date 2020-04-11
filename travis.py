@@ -6,6 +6,9 @@ import glob
 import sys
 import re
 import shutil
+from google.oauth2 import service_account
+from google.cloud import storage
+
 
 
 class Fold:
@@ -26,9 +29,6 @@ def call(cmd):
 
 
 def get_bucket():
-    from google.oauth2 import service_account
-    from google.cloud import storage
-
     credentials_info = json.loads(os.environ['GOOGLE_APPLICATION_CREDENTIALS_DATA'])
     credentials = service_account.Credentials.from_service_account_info(credentials_info)
     client = storage.Client(credentials=credentials, project=credentials_info['project_id'])
