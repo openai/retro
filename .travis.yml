@@ -39,6 +39,7 @@ matrix:
 before_script:
   - mkdir -p $HOME/roms
 script:
+  - set -eux
   - |
     if [ -n "$CROSS" ]; then
     TAG=$CROSS
@@ -71,7 +72,7 @@ script:
     export PATH=/usr/local/opt/ccache/libexec:$HOME/miniconda3/bin:$PATH
     hash -r
     conda create -y -q -n venv python=$PYVER pip
-    conda activate venv
+    source activate venv
     pip install wheel google-auth google-cloud-storage pytest
     python travis.py
     fi
