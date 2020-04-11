@@ -3,7 +3,7 @@ FROM ubuntu:xenial
 SHELL ["/bin/bash", "-c"]
 ARG ARCH=x86_64
 ARG BITS=64
-ENV PYVER=3.5
+ENV PYVER=3.6
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         build-essential ccache cmake curl g++-mingw-w64-`echo $ARCH | tr _ -` \
@@ -27,15 +27,15 @@ RUN python3.5 -m venv ~/venv3.5 && \
     python3.6 -m venv ~/venv3.6 && \
     . ~/venv3.6/bin/activate && \
     pip install wheel && \
-    pip install google-cloud google-resumable-media pytest requests && \
+    pip install google-auth google-cloud-storage pytest requests && \
     python3.7 -m venv ~/venv3.7 && \
     . ~/venv3.7/bin/activate && \
     pip install wheel && \
-    pip install google-cloud google-resumable-media pytest requests && \
+    pip install google-auth google-cloud-storage pytest requests && \
     python3.8 -m venv ~/venv3.8 && \
     . ~/venv3.8/bin/activate && \
     pip install wheel && \
-    pip install google-cloud google-resumable-media pytest requests && \
+    pip install google-auth google-cloud-storage pytest requests && \
     rm -rf ~/.cache && \
     ln -s ~/venv$PYVER ~/venv && \
     echo "source /root/venv\$PYVER/bin/activate" > ~/.bash_profile
