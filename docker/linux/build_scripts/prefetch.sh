@@ -2,7 +2,7 @@
 # Prefetch tarballs so they don't need to be fetched in the container (which has
 # very old tools).
 #
-# usage: prefetch.sh <output_dir> [name ...]
+# usage: prefetch.sh [name ...]
 set -ex
 
 MY_DIR=$(dirname "${BASH_SOURCE[0]}")

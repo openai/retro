@@ -1,13 +1,13 @@
 # source me
 
 PYTHON_DOWNLOAD_URL=https://www.python.org/ftp/python
-CPYTHON_VERSIONS="3.5.6 3.6.7 3.7.1"
+CPYTHON_VERSIONS="3.5.6 3.6.7 3.7.1 3.8.2"
 
 # openssl version to build, with expected sha256 hash of .tar.gz
 # archive.
 OPENSSL_ROOT=openssl-1.0.2p
 OPENSSL_HASH=50a98e07b1a89eb8f6a99477f262df71c6fa7bef77df4dc83025a2845c827d00
-OPENSSL_DOWNLOAD_URL=https://www.openssl.org/source
+OPENSSL_DOWNLOAD_URL=https://www.openssl.org/source/old/1.0.2
 
 # Update to slightly newer, verified Git commit:
 # https://github.com/NixOS/patchelf/commit/2a9cefd7d637d160d12dc7946393778fa8abbc58

@@ -9,6 +9,7 @@ env:
   - PYVER=3.5
   - PYVER=3.6
   - PYVER=3.7
+  - PYVER=3.8
 os:
   - linux
   - osx
@@ -30,6 +31,10 @@ matrix:
       env:
         - CROSS=win64
         - PYVER=3.7
+    - os: linux
+      env:
+        - CROSS=win64
+        - PYVER=3.8
 
 before_script:
   - mkdir -p $HOME/roms
@@ -40,6 +45,7 @@ script:
     else
     TAG=$TRAVIS_OS_NAME
     fi
+    TAG=${TAG}-v2
   - >
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
     docker run

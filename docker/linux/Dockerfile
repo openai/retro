@@ -26,6 +26,10 @@ RUN /opt/python/cp35-cp35m/bin/python3.5 -m venv ~/venv3.5 && \
     . ~/venv3.7/bin/activate && \
     pip install wheel && \
     pip install google-auth google-cloud-storage pytest requests && \
+    /opt/python/cp38-cp38/bin/python3.8 -m venv ~/venv3.8 && \
+    . ~/venv3.8/bin/activate && \
+    pip install wheel && \
+    pip install google-auth google-cloud-storage pytest requests && \
     rm -rf ~/.cache && \
     ln -s ~/venv$PYVER ~/venv && \
     echo "source /root/venv\$PYVER/bin/activate" > ~/.bash_profile

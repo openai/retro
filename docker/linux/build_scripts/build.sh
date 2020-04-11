@@ -43,8 +43,7 @@ yum -y update
 
 # EPEL support
 yum -y install wget
-# https://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
-cp $MY_DIR/epel-release-5-4.noarch.rpm .
+wget -q http://archives.fedoraproject.org/pub/archive/epel/5/x86_64/epel-release-5-4.noarch.rpm
 check_sha256sum epel-release-5-4.noarch.rpm $EPEL_RPM_HASH
 
 # Dev toolset (for LLVM and other projects requiring C++11 support)
