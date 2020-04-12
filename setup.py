@@ -68,7 +68,7 @@ platform_globs = ['*-%s/*' % plat for plat in ['Nes', 'Snes', 'Genesis', 'Atari2
 
 kwargs = {}
 if tuple(int(v) for v in setuptools_version.split('.')[:3]) >= (24, 2, 0):
-    kwargs['python_requires'] = '>=3.5.0'
+    kwargs['python_requires'] = '>=3.6.0'
 
 
 setup(
@@ -80,7 +80,6 @@ setup(
     url='https://github.com/openai/retro',
     version=open(VERSION_PATH, 'r').read().strip(),
     license='MIT',
-    python_requires='>=3.6',
     install_requires=['gym', 'pyglet>=1.3.2,==1.*'],
     ext_modules=[Extension('retro._retro', ['CMakeLists.txt', 'src/*.cpp'])],
     cmdclass={'build_ext': CMakeBuild},
