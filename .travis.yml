@@ -65,10 +65,6 @@ script:
     bash miniconda.sh -b
     export PATH=/usr/local/opt/ccache/libexec:$HOME/miniconda3/bin:$PATH
     hash -r
-    ls $HOME
-    ls $HOME/miniconda3
-    ls $HOME/miniconda3/bin
-    which conda
     conda create -y -q -n venv python=$PYVER pip
     source activate venv
     pip install wheel google-auth google-cloud-storage pytest

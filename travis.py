@@ -68,10 +68,12 @@ def main():
             cmake_options = ['-DCMAKE_PREFIX_PATH=/usr/local/opt/qt', '-DBUILD_UI=ON']
         elif os_name == 'linux':
             include_suffix = "m" if float(os.environ['PYVER']) < 3.8 else ""
-            cmake_options = ['-DBUILD_MANYLINUX=ON',
-                             '-DPYTHON_INCLUDE_DIR=%s/include/python%s%s' % (sys.base_prefix, os.environ['PYVER'], include_suffix)]
+            cmake_options = ['-DPYTHON_INCLUDE_DIR=%s/include/python%s%s' % (sys.base_prefix, os.environ['PYVER'], include_suffix)]
             if cross in ('win32', 'win64'):
-                cmake_options = ['-DCMAKE_TOOLCHAIN_FILE=docker/cmake/%s.cmake' % cross, '-DBUILD_UI=ON']
+                cmake_options += ['-DCMAKE_TOOLCHAIN_FILE=docker/cmake/%s.cmake' % cross, '-DBUILD_UI=ON']
+            else:
+                cmake_options += ['-DBUILD_MANYLINUX=ON']
+
             if cross == 'win32':
                 bdist_options = ['--plat-name', 'win32']
             if cross == 'win64':
