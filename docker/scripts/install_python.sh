@@ -16,10 +16,12 @@ function install_python {
 
 	curl -LO https://www.python.org/ftp/python/$MAJOR.$MINOR.$PATCH/$PLATFORM/dev.msi
 	7z x dev.msi
-	mkdir -p $ROOT/lib/python$MAJOR.$MINOR include
+	mkdir -p $ROOT/lib/python$MAJOR.$MINOR include include/cpython include/internal
 	mv libs_python.lib $ROOT/lib/python$MAJOR.$MINOR/python$MAJOR$MINOR.lib
 	mv libs_python_stable.lib $ROOT/lib/python$MAJOR.$MINOR/python$MAJOR.lib
 	mv libs_libpython.a $ROOT/lib/python$MAJOR.$MINOR/libpython.a
+	find . -maxdepth 1 -name include_cpython_\*.h -print0 | xargs -0 -n1 -I% bash -c 'mv % $(echo % | sed -e "s,_,/," | sed -e "s,_,/,")'
+	find . -maxdepth 1 -name include_internal_\*.h -print0 | xargs -0 -n1 -I% bash -c 'mv % $(echo % | sed -e "s,_,/," | sed -e "s,_,/,")'
 	find . -maxdepth 1 -name include_\*.h -print0 | xargs -0 -n1 -I% bash -c 'mv % $(echo % | sed -e "s,_,/,")'
 	mv include $ROOT/include/python$MAJOR.$MINOR
 	rm dev.msi
