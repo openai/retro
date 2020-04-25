@@ -76,6 +76,8 @@ def main():
                 bdist_options = ['--plat-name', 'win32']
             if cross == 'win64':
                 bdist_options = ['--plat-name', 'win_amd64']
+                print("copying")
+                shutil.copyfile("/usr/x86_64-w64-mingw32/lib/python3.8/python3.lib", "/usr/x86_64-w64-mingw32/lib/python3.8/libpython.a")
         else:
             raise Exception('unrecognized os name')
 
