@@ -25,6 +25,18 @@ function install_python {
 	find . -maxdepth 1 -name include_\*.h -print0 | xargs -0 -n1 -I% bash -c 'mv % $(echo % | sed -e "s,_,/,")'
 	mv include $ROOT/include/python$MAJOR.$MINOR
 	rm dev.msi
+
+	# python 3.8 is missing this file, create it from the dll
+	# https://github.com/openai/retro/pull/201#issuecomment-619326417
+	if [[ ! -f $ROOT/lib/python$MAJOR.$MINOR/libpython.a ]]
+	then
+		curl -LO https://www.python.org/ftp/python/$MAJOR.$MINOR.$PATCH/$PLATFORM/core.msi
+		7z x core.msi
+		apt-get install --yes mingw-w64-tools
+		gendef python.dll
+		/usr/bin/x86_64-w64-mingw32-dlltool --as-flags=--64 -m i386:x86-64 -k --output-lib $ROOT/lib/python$MAJOR.$MINOR/libpython.a --input-def python.def
+		rm *.dll *.def core.msi
+	fi
 }
 
 install_python 3 5 4

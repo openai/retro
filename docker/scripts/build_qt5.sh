@@ -88,4 +88,4 @@ fi
 	-no-sql-odbc \
 	-no-harfbuzz \
 	-no-openssl \
-	-no-dbus && make -j2 install
+	-no-dbus && make -j$(nproc) install
