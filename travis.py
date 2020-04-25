@@ -81,7 +81,7 @@ def main():
                 call(["7z", "x", "core.msi"])
                 call(["apt-get", "install", "--yes", "mingw-w64-tools"])
                 call(["gendef", "python.dll"])
-                call(["/usr/bin/x86_64-w64-mingw32-dlltool", "--as-flags=--64", "-m", "i386:x86-64", "-k", "--output-lib", "libpython.a", "--input-def python.def"])
+                call(["/usr/bin/x86_64-w64-mingw32-dlltool", "--as-flags=--64", "-m", "i386:x86-64", "-k", "--output-lib", "libpython.a", "--input-def", "python.def"])
                 shutil.copyfile("libpython.a", "/usr/x86_64-w64-mingw32/lib/python3.8/libpython.a")
         else:
             raise Exception('unrecognized os name')
