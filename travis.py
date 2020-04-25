@@ -76,8 +76,13 @@ def main():
                 bdist_options = ['--plat-name', 'win32']
             if cross == 'win64':
                 bdist_options = ['--plat-name', 'win_amd64']
-                print("copying")
-                shutil.copyfile("/usr/x86_64-w64-mingw32/lib/python3.8/python3.lib", "/usr/x86_64-w64-mingw32/lib/python3.8/libpython.a")
+                print("converting")
+                call(["curl", "-O", "https://www.python.org/ftp/python/3.8.2/amd64/core.msi"])
+                call(["7z", "x", "core.msi"])
+                call(["apt-get", "install", "--yes", "apt-get", "install", "mingw-w64-tools"])
+                call(["gendef", "python.dll"])
+                call(["/usr/bin/x86_64-w64-mingw32-dlltool", "--as-flags=--64", "-m", "i386:x86-64", "-k", "--output-lib", "libpython.a", "--input-def python.def"])
+                shutil.copyfile("libpython.a", "/usr/x86_64-w64-mingw32/lib/python3.8/libpython.a")
         else:
             raise Exception('unrecognized os name')
 
