@@ -8,6 +8,9 @@ import shutil
 
 VERSION_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'VERSION')
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+README = open(os.path.join(SCRIPT_DIR, "README.md")).read()
+
 if not os.path.exists(os.path.join(os.path.dirname(__file__), '.git')):
     use_scm_version = False
     shutil.copy('VERSION', 'retro/VERSION.txt')
@@ -65,11 +68,13 @@ platform_globs = ['*-%s/*' % plat for plat in ['Nes', 'Snes', 'Genesis', 'Atari2
 
 kwargs = {}
 if tuple(int(v) for v in setuptools_version.split('.')[:3]) >= (24, 2, 0):
-    kwargs['python_requires'] = '>=3.5.0'
+    kwargs['python_requires'] = '>=3.6.0'
 
 
 setup(
     name='gym-retro',
+    long_description=README,
+    long_description_content_type="text/markdown",
     author='OpenAI',
     author_email='csh@openai.com',
     url='https://github.com/openai/retro',

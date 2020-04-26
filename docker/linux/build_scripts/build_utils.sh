@@ -92,8 +92,8 @@ function build_cpythons {
     check_var $GET_PIP_URL
     curl -fsSLO $GET_PIP_URL
     # Import public keys used to verify downloaded Python source tarballs.
-    # https://www.python.org/static/files/pubkeys.txt
-    gpg --import ${MY_DIR}/cpython-pubkeys.txt
+    curl -fsSLO https://www.python.org/static/files/pubkeys.txt
+    gpg --import pubkeys.txt
     for py_ver in $@; do
         build_cpython $py_ver
     done

@@ -6,6 +6,9 @@ import glob
 import sys
 import re
 import shutil
+from google.oauth2 import service_account
+from google.cloud import storage
+
 
 
 class Fold:
@@ -26,9 +29,6 @@ def call(cmd):
 
 
 def get_bucket():
-    from google.oauth2 import service_account
-    from google.cloud import storage
-
     credentials_info = json.loads(os.environ['GOOGLE_APPLICATION_CREDENTIALS_DATA'])
     credentials = service_account.Credentials.from_service_account_info(credentials_info)
     client = storage.Client(credentials=credentials, project=credentials_info['project_id'])
@@ -67,8 +67,9 @@ def main():
         if os_name == 'osx':
             cmake_options = ['-DCMAKE_PREFIX_PATH=/usr/local/opt/qt', '-DBUILD_UI=ON']
         elif os_name == 'linux':
+            include_suffix = "m" if float(os.environ['PYVER']) < 3.8 else ""
             cmake_options = ['-DBUILD_MANYLINUX=ON',
-                             '-DPYTHON_INCLUDE_DIR=%s/include/python%sm' % (sys.base_prefix, os.environ['PYVER'])]
+                             '-DPYTHON_INCLUDE_DIR=%s/include/python%s%s' % (sys.base_prefix, os.environ['PYVER'], include_suffix)]
             if cross in ('win32', 'win64'):
                 cmake_options = ['-DCMAKE_TOOLCHAIN_FILE=docker/cmake/%s.cmake' % cross, '-DBUILD_UI=ON']
             if cross == 'win32':
