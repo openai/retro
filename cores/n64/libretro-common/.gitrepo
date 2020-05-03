@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/libretro/libretro-common.git
+	branch = master
+	commit = 991eb8222f895f495848c9d5d6ec79233a2ffad2
+	parent = 951422902c80908763eee7aaefe2a7e94869c34e
+	method = rebase
+	cmdver = 0.4.0

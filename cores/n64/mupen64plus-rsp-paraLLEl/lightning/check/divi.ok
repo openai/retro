@@ -1,0 +1,6 @@
+40/8 = 5 (expected 5)
+64/8 = 8 (expected 8)
+80/8 = 10 (expected 10)
+98304/32768 = 3 (expected 3)
+65536/32768 = 2 (expected 2)
+163840/32768 = 5 (expected 5)

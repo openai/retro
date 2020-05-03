@@ -1,0 +1,78 @@
+\input texinfo.tex  @c -*- texinfo -*-
+@c %**start of header (This is for running Texinfo on a region.)
+
+@setfilename lightning.info
+
+@set TITLE       Using @sc{gnu} @i{lightning}
+@set TOPIC       installing and using
+
+@settitle @value{TITLE}
+
+@c ---------------------------------------------------------------------
+@c Common macros
+@c ---------------------------------------------------------------------
+
+@macro bulletize{a}
+@item
+\a\
+@end macro
+
+@macro rem{a}
+@r{@i{\a\}}
+@end macro
+
+@macro gnu{}
+@sc{gnu}
+@end macro
+
+@macro lightning{}
+@gnu{} @i{lightning}
+@end macro
+
+@c ---------------------------------------------------------------------
+@c Macros for Texinfo 3.1/4.0 compatibility
+@c ---------------------------------------------------------------------
+
+@c @hlink (macro), @url and @email are used instead of @uref for Texinfo 3.1
+@c compatibility
+@macro hlink{url, link}
+\link\ (\url\)
+@end macro
+
+@c ifhtml can only be true in Texinfo 4.0, which has uref
+@ifhtml
+@unmacro hlink
+
+@macro hlink{url, link}
+@uref{\url\, \link\}
+@end macro
+
+@macro email{mail}
+@uref{mailto:\mail\, , \mail\}
+@end macro
+
+@macro url{url}
+@uref{\url\}
+@end macro
+@end ifhtml
+
+@c ---------------------------------------------------------------------
+@c References to the other half of the manual
+@c ---------------------------------------------------------------------
+
+@macro usingref{node, name}
+@ref{\node\, , \name\}
+@end macro
+
+@c ---------------------------------------------------------------------
+@c End of macro section
+@c ---------------------------------------------------------------------
+
+@include version.texi
+@include body.texi
+
+@c %**end of header (This is for running Texinfo on a region.)
+
+@c ***********************************************************************
+
+@bye

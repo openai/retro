@@ -1,0 +1,16 @@
+==============
+parallel-rsp
+==============
+
+This project is dual licensed under
+
+MIT (LICENSE.MIT)
+
+or
+
+LGPLv3 (LICENSE.LESSER)
+
+If statically linking against the GNU Lightning project (lightning/),
+note that Lightning is dual-licensed as GPLv3 or LGPLv3.
+parallel-rsp can be configured to dynamically link against Lightning or not link against Lightning at all.
+

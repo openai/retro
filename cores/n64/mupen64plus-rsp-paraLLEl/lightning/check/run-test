@@ -1,0 +1,10 @@
+#! /bin/sh
+
+ok=`echo $1 | sed -e 's@\.\(x87\|arm\|swf\)@@'`
+$1 | tr -d \\r > $1.log
+if cmp -s $srcdir/$ok.ok $1.log; then
+  rm $1.log
+else
+  diff $srcdir/$ok.ok $1.log
+  exit 1
+fi

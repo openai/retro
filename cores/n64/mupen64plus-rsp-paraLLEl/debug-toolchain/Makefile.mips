@@ -1,0 +1,40 @@
+####
+## Basic Makefile for RSP-MIPS
+##
+######
+
+TARGET_ELF = $(PROGRAM).elf
+TARGET_BIN = $(PROGRAM).bin
+TARGET_GLOBAL_BIN = $(PROGRAM).global.bin
+MIPS_LD_SCRIPT = rsp-mips.ld
+
+MIPS_OBJCOPY = mipsel-linux-gnu-objcopy
+MIPS_CC = mipsel-linux-gnu-gcc
+MIPS_AS = mipsel-linux-gnu-as
+MIPS_LD = mipsel-linux-gnu-ld
+CRT_OBJ = start.o rsp-mips.o
+
+all: $(TARGET_BIN) $(TARGET_GLOBAL_BIN)
+
+crt-obj: $(CRT_OBJ)
+
+$(TARGET_BIN): $(TARGET_ELF)
+	$(MIPS_OBJCOPY) -j .text $< $(TARGET_BIN) -O binary
+
+$(TARGET_GLOBAL_BIN): $(TARGET_ELF)
+	$(MIPS_OBJCOPY) -j .data $< $(TARGET_GLOBAL_BIN) -O binary
+
+$(TARGET_ELF): $(MIPS_OBJ) $(CRT_OBJ)
+	$(MIPS_LD) -T $(MIPS_LD_SCRIPT) -o $@ $(CRT_OBJ) $(MIPS_OBJ) -EB
+
+%.o: %.s
+	$(MIPS_AS) -o $@ $< -EB -mabi=eabi -march=mips1
+
+%.o: %.c rsp-mips.h
+	$(MIPS_CC) -c -o $@ $< -Os -EB -march=mips1 -mabi=eabi -mno-abicalls -std=gnu99 -nostdlib
+
+clean:
+	rm -f $(MIPS_OBJ) $(CRT_OBJ) $(TARGET_ELF) $(TARGET_HEX) $(TARGET_GLOBAL_HEX) $(TARGET_BIN) $(TARGET_GLOBAL_BIN)
+
+.PHONY: all clean tools
+

@@ -1,0 +1,77 @@
+variables:
+  STATIC_RETROARCH_BRANCH: master
+
+include:
+  template: Jobs/Code-Quality.gitlab-ci.yml
+  
+code_quality:
+  artifacts:
+    paths: [gl-code-quality-report.json]
+
+stages:
+  - build-prepare
+  - build-shared
+  - build-static
+  - test
+  
+libretro-rebase-upstream-auto:
+  image: $CI_SERVER_HOST:4567/libretro/infrastructure/libretro-build-amd64-ubuntu:latest
+  stage: build-prepare
+  only: [chat]
+  before_script:
+    - url_host=`git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g"`
+  script:
+    - git config user.name $GIT_ACCESS_USER
+    - git config user.email $GIT_ACCESS_EMAIL
+    - git fetch origin
+    - git reset --hard
+    - git clean -fd
+    - git checkout $CI_COMMIT_REF_NAME
+    - git reset --hard origin/$CI_COMMIT_REF_NAME
+    - git remote set-url origin "https://$GIT_ACCESS_USER:$GIT_ACCESS_TOKEN@${url_host}"
+    - git remote add upstream "https://github.com/libretro/mupen64plus-libretro-nx.git"
+    - git fetch upstream
+    - git rebase upstream/develop
+    - git push origin ${CI_BUILD_REF_NAME} --force || true
+
+libretro-build-linux-x64:
+  image: $CI_SERVER_HOST:4567/libretro/infrastructure/libretro-build-amd64-ubuntu:latest
+  stage: build-shared
+  script:
+    - make -j10 HAVE_PARALLEL_RSP=1 HAVE_THR_AL=1 LLE=1
+  artifacts:
+    paths:
+    - mupen64plus_next_libretro.so
+    expire_in: 1 month
+  dependencies: []
+
+libretro-build-windows-x64:
+  image: $CI_SERVER_HOST:4567/libretro/infrastructure/libretro-build-amd64-ubuntu:latest
+  stage: build-shared
+  script:
+    - make -j10 platform=win64 MSYSTEM=MINGW64
+  artifacts:
+    paths:
+    - mupen64plus_next_libretro.dll
+    expire_in: 1 month
+  dependencies: []
+
+libretro-build-libnx-aarch64:
+  image: $CI_SERVER_HOST:4567/libretro/infrastructure/libretro-build-libnx-devkitpro:latest
+  stage: build-static
+  script:
+    - make -j10 platform=libnx
+    - wget -O retroarch-precompiled.zip "https://$CI_SERVER_HOST/libretro/RetroArch/-/jobs/artifacts/$STATIC_RETROARCH_BRANCH/download?job=build-static-retroarch-libnx-aarch64"
+    - unzip retroarch-precompiled.zip
+    - rm -f retroarch-precompiled.zip
+    - mv mupen64plus_next_libretro_libnx.a retroarch-precompiled/libretro_libnx.a
+    - cd retroarch-precompiled/
+    - make -f Makefile.libnx -j10
+    - mv retroarch_switch.nro ../mupen64plus_next_libretro_libnx.nro
+    - mv retroarch_switch.elf ../mupen64plus_next_libretro_libnx.elf
+    - cd ../
+  artifacts:
+    paths:
+    - mupen64plus_next_libretro_libnx.nro
+    - mupen64plus_next_libretro_libnx.elf
+    expire_in: 1 month

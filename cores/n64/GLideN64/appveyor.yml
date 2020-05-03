@@ -1,0 +1,57 @@
+image: Visual Studio 2017
+
+version: 1.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+branches:
+  only:
+  - master
+skip_branch_with_pr: true
+
+environment:
+  N64PluginsDir: C:\projects\gliden64\build\Zilmar-spec\
+  N64PluginsDir_x64: C:\projects\gliden64\build\Zilmar-spec_x64\
+  Mupen64PluginsDir: C:\projects\gliden64\build\Mupen64Plus\
+  Mupen64PluginsDir_x64: C:\projects\gliden64\build\Mupen64Plus_x64\
+  QTDIR_x86: C:\Static_Qt_x86
+  QTDIR_x64: C:\Static_Qt_x64
+  QT_BUILD_BASE_URL: https://github.com/gonetz/GLideN64/releases/download/qt_build/
+  QT_BUILD_x86: qt-5_7_1-x86-msvc2017-static
+  QT_BUILD_x64: qt-5_7_1-x64-msvc2017-static
+
+before_build:
+  - curl -L -o %QT_BUILD_x86%.7z %QT_BUILD_BASE_URL%/%QT_BUILD_x86%.7z
+  - curl -L -o %QT_BUILD_x64%.7z %QT_BUILD_BASE_URL%/%QT_BUILD_x64%.7z
+  - 7z x -o%QTDIR_x86% %QT_BUILD_x86%.7z
+  - 7z x -o%QTDIR_x64% %QT_BUILD_x64%.7z
+
+build_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - set QTDIR=%QTDIR_x64%\%QT_BUILD_x64%
+  - msbuild projects/msvc/GLideNUI.vcxproj /m /p:Configuration=Release;Platform=x64
+  - msbuild projects/msvc/GLideN64.sln /m /p:Configuration=Release;Platform=x64
+  - set QTDIR=%QTDIR_x86%\%QT_BUILD_x86%
+  - msbuild projects/msvc/GLideNUI.vcxproj /m /p:Configuration=Release;Platform=Win32
+  - msbuild projects/msvc/GLideN64.sln /m /p:Configuration=Release;Platform=Win32
+  - msbuild projects/msvc/GLideN64.sln /m /p:Configuration=Release_mupenplus;Platform=x64
+  - msbuild projects/msvc/GLideN64.sln /m /p:Configuration=Release_mupenplus;Platform=Win32
+
+after_build:
+  - copy ini\GLideN64.custom.ini %N64PluginsDir_x64%
+  - copy translations\release\*.qm %N64PluginsDir_x64%
+  - copy ini\GLideN64.custom.ini %N64PluginsDir%
+  - copy translations\release\*.qm %N64PluginsDir%
+  - copy ini\GLideN64.custom.ini %Mupen64PluginsDir_x64%\
+  - copy ini\GLideN64.custom.ini %Mupen64PluginsDir%\
+  - del /Q %N64PluginsDir_x64%\*.lib %N64PluginsDir_x64%\*.exp
+  - del /Q %N64PluginsDir%\*.lib %N64PluginsDir%\*.exp
+  - del /Q %Mupen64PluginsDir_x64%\*.lib %Mupen64PluginsDir_x64%\*.exp
+  - del /Q %Mupen64PluginsDir%\*.lib %Mupen64PluginsDir%\*.exp
+  - cd C:\projects\gliden64\build
+  - ps: $env:revision = git describe --always
+  - set archive_name=GLideN64-%revision%.7z
+  - 7z a %archive_name% *
+
+artifacts:
+  - path: build\$(archive_name)
+    name: GLideN64

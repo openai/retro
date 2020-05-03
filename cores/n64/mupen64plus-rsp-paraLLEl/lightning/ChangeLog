@@ -1,0 +1,4148 @@
+2020-23-01 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Add a proper fix to the condition of considering
+	a register dead at entry of a block when it modifies the register
+	!after! a branch to a target where it is live.
+	The correction is just to split blocks on branches. It uses an
+	extra label per branch, but makes following the code simpler and
+	avoid costly searches.
+
+2020-22-01 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Correct a special condition of a register
+	only assigned in a block, and incorrectly marked as dead before
+	a jump where the register is live.
+
+2019-10-04 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c, include/lightning/jit_private.h,
+	include/lightning/jit_x86.h, lib/jit_x86-cpu.c, lib/jit_x86-sz.c,
+	lib/jit_x86.c: Correct issues with MinGW64 that defines _WIN32
+	and needs long long for jit_word_t.
+
+2019-09-16 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Do not add registers that are never modified
+	to the set of registers to scan for live range, what might
+	consume a lot of cpu time, doing nothing.
+
+2019-09-16 Marc Nieper-Wi�kirchen <marc@nieper-wisskirchen.de>
+
+	* include/lightning/jit_x86.h, lib/jit_x86.c: Correct x86_64
+	backend, made %r12 a callee-save register as dictated by the
+	System V AMD64 ABI.
+
+2019-09-16 Paulo Andrade <pcpa@gnu.org>
+
+	* Makefile.am: Do not force CFLAGS for the get_jit_size target.
+	* check/lightning.c: Drop __ppc__ check.
+	* include/lightning.h.in: Drop __ppc__ check. Add new
+	jit_flag_vararg flag, for special case in powerpc 32 bit using
+	 the SYSV abi, and need to pass an extra argument during code
+	generation.
+	* include/lightning/jit_ppc.c: Drop __ppc_ check. Remove the
+	ABI_ELFv2 macro, as it now directly checks for the _CALL_ELF
+	value when/if appropriate.
+	* include/lightning/jit_private.h: Drop __ppc_ check. Check for
+	_CALL_AIXDESC to define extra data to handle function
+	descriptors.
+	* lib/jit_ppc-cpu.c: Update to check for _CALL_SYSV; assume
+	!_CALL_SYSV == (_CALL_AIX || _CALL_LINUX). Significant code
+	rework for the SYSV abi.
+	* lib/jit_ppc-sz.c: Update for the SYSV abi.
+	* lib/jit_ppc.c: Update for the SYSV abi. Add matching va_list
+	type. Drop __ppc__ check.
+	* lib/jit_size.c: Drop __ppc_ check.
+	* lib/lightning.c: Drop __ppc__ check. Add proper check for
+	__powerpc__ and _CALL_AIXDESC to manage function descriptors.
+	* lib/size.c: Update to drop __pppc_ check and SYSV abi.
+
+2019-08-30 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_mips-cpu.c: Use JALR to get the same effect as JR, as
+	in mips32r6 JR generates an illegal instruction. Thanks to
+	Bruno Haible for providing a patch and the information, reported at
+	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=925129
+	* THANKS: update.
+
+2019-08-29 Marc Nieper-Wi�kirchen <marc@nieper-wisskirchen.de>
+
+	* include/lightning/jit_private.h: Move definition of offsetof
+	from the public header file here.
+
+	* configure.ac, include/Makefile.am, include/lightning.h,
+	include/lightning.h.in: Generate lightning.h from lightning.in.h
+	and remove the dependence on config.h from the public header file.
+
+2019-06-04 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_riscv.h, lib/jit_riscv-cpu.c,
+	lib/jit_riscv-fpu.c, lib/jit_riscv-sz.c, lib/jit_riscv.c:
+	Implement riscv port. Only 64 bit Linux supported. Built on
+	Fedora 28 image.
+
+	* check/all.tst, check/float.tst, configure.ac, include/lightning.h,
+	include/lightning/Makefile.am, include/lightning/jit_private.h,
+	lib/Makefile.am, lib/jit_disasm.c, lib/jit_size.c, lib/lightning.c:
+	Minor updates for the new riscv port.
+
+2019-06-04 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_alpha.c lib/jit_ia64.c lib/jit_mips.c lib/jit_sparc.c:
+	Correct assertion of _jitc->regarg after emiting an instruction.
+	jit_carry may be set, but not an argument to the current instruction.
+
+2019-06-01 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Correct assertion on jit_unget_reg when the
+	argument is jit_carry, and jit_carry was not used in the
+	instruction.
+
+2019-06-01 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h: Remove no longer need
+	setmask field of jit_block_t and blockmask from jit_compiler_t.
+
+	* lib/lightning.c: Rework of register live and unknown state
+	information during jit generation. It no longer recurses nor
+	do dangerous bit unset of registers in unknown state. The
+	only pitfall known, that must be taken care now is that jmpr
+	(or jmpi to not a jit node) is treated as a function call, as
+	otherwise it would need to consider all registers live, and
+	spill/reload during all jit generation.
+
+2018-12-28 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_disasm.c: Release bfd handle. Thanks for patch to
+	Marc Nieper-Wißkirchen.
+
+2018-08-30 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_disasm.c: Add hints to select hppa disassembler.
+
+	* lib/jit_hppa-cpu.c: Correct address of vastart when all
+	argument registers were used as non vararg arguments.
+
+	* lib/jit_hppa-fpu.c: Disable load/store of rv,ix,rb where
+	rv is the value, ix is an register or integer offset and rb
+	is a base register. These should be better tested, as they do
+	not work on all environments (fail on qemu-hppa).
+
+2018-04-20 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h: Add new register classes to
+	flag float registers and double only registers, required for sparc64
+	where only low 32 bit fpr registers can be used for single precision
+	operations.
+	Add new 128 bit jit_regset_t type for sparc64 register set.
+
+	* include/lightning/jit_sparc.h, lib/jit_sparc-cpu.c, lib/jit_sparc-fpu.c,
+	lib/jit_sparc-sz.c, lib/jit_sparc.c: Update for 64 bits sparc.
+
+	* lib/lightning.c: Update for new jit_regset_t required for sparc64.
+
+2018-02-26 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c, include/lightning.h: Add the new jit_va_push
+	interface. That should be called when passing a va_list to a C
+	function. This is required because on Alpha a va_list is passed
+	by value, and lightning does not know about data types, so, cannot
+	understand it is pushing a va_list as argument.
+
+	* lib/jit_names.c, lib/lightning.c: Minor changes for the new
+	jit_code_va_push.
+
+	* check/cva_list.c: Update only test case using jit_va_push, to
+	pass a va_list to a C function.
+
+	doc/body.texi: Better documentation of the varargs interface.
+
+	* jit_alpha.c, jit_alpha-cpu.c: Update to properly push a
+	C va_list and correctly calculate varargs offset.
+
+	* lib/jit_aarch64-sz.c, lib/jit_aarch64.c, lib/jit_alpha-sz.c,
+	lib/jit_arm-sz.c, lib/jit_arm.c, lib/jit_hppa-sz.c, lib/jit_hppa.c,
+	lib/jit_ia64-sz.c, lib/jit_ia64.c, lib/jit_mips-sz.c, lib/jit_mips.c,
+	lib/jit_ppc-sz.c, lib/jit_ppc.c, lib/jit_s390-sz.c, lib/jit_s390.c,
+	lib/jit_sparc-sz.c, lib/jit_sparc.c, lib/jit_x86-sz.c, lib/jit_x86.c:
+	Update for the new jit_va_push interface.
+
+2018-02-22 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_alpha-cpu.c: Always set t12 to the address of the
+	current function, to properly work on all systems. Previously
+	the shortcut did only work on Tru64. For Linux and glibc the
+	change is required.
+
+2018-02-22 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64.c, lib/jit_alpha.c, lib/jit_arm.c,
+	lib/jit_mips.c, lib/jit_ppc.c, lib/jit_sparc.c, lib/jit_x86.c:
+	Correct wrong logic in usage of jit_live in jit_retr. The
+	problem is that if a temporary is required during epilog,
+	the return register might be allocated, so, jit_live must always
+	be used.
+
+2018-01-31 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Avoid deep recursions when computing live
+	register ranges.
+
+2018-01-31 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_mips-cpu.c: Correct frame size and varargs
+	initialization for the n32 abi.
+	* lib/jit_mips.c, lib/jit_mips-fpu.c: Correct 32 bit abis
+	in big-endian.
+
+2017-09-13 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac: Add check for binutils 2.29 prototype to the
+	disassembler function.
+	* lib/jit_disasm.c: Adapt for binutils 2.29 change.
+
+2017-06-09 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h, lib/lightning.c: Add a
+	second pass from start when computing register live ranges.
+	This should be used temporarily, and is required for certain
+	loop constructs, with several consecutive blocks not referencing
+	a live register.
+
+2016-05-05 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Correct wrong movr simplification,
+	remove no longer needed code to set return registers live
+	and update live register set when reaching a label boundary,
+	but do not descend if the block has been already visited.
+	The later need some tuning for complex code generation, where
+	it will still have issues.
+
+2015-11-30 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Change documentation to no longer say
+	it is a variant of the Fibonacci sequence, and document
+	a proper implementation.
+	Thanks to Jon Arintok for pointing out that the Fibonacci
+	sequence generation was incorrect. It was documented, but
+	still confusing.
+
+	* check/fib.tst, check/fib.ok, check/bp.tst, check/bp.ok,
+	doc/ifib.c, doc/rbif.c: Implement a proper Fibonacci
+	sequence implementation.
+
+2015-07-03 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_mips-cpu.c: Correct definition of htonr_ul.
+	Correct prolog/epilog/va* routines to work on o64 abi.
+
+	* lib/jit_mips-fpu.c: Correct load of double literal
+	argument when not using a data buffer.
+	Remove alignment correction in vaarg_d if using the
+	new mips abi.
+
+	* lib/jit_mips.c: Correct code to allow creating variadic
+	jit functions when using the new mips abi.
+
+	* lib/jit_rewind.c: Minor adjust for rewind when using
+	the new mips abi, if there are varargs arguments in
+	registers.
+
+2015-06-06 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64-cpu.c: Search backward for the last output
+	register used, otherwise would stop too early if a float
+	argument used the slot.
+	Correct offset of first va_list argument, and use proper
+	va_list abi.
+
+	* lib/jit_ia64-fpu.c: Add new functions to move a gpr
+	to a fpr register, to counterpart the ones that move a
+	fpr to a gpr. These are required to properly implement
+	jit_getarg*_{f,d} on complex prototypes, or variadic
+	jit functions.
+
+	* lib/jit_ia64-sz.c: Update for support to jit variadic
+	functions.
+
+	* lib/jit_ia64.c: Implement proper abi for variadic
+	jit functions.
+
+2015-06-04 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_rewind.c: New file implementing generic functions
+	to "rewind", or rewrite IR code sequences.
+
+	* include/lightning.h: Add several new codes, that previously
+	were a function call, that would synthesize the operation.
+	Now, there is a code for the operation, and a new flag to
+	know an operation is synthesized.
+
+	* include/lightning/jit_private.h: Add several new macros to
+	help construct synthesized IR code sequences.
+
+	* lib/Makefile.am: Update for lib/jit_rewind.c.
+
+	* lib/jit_disasm.c: Update for a small rework on jit_node_t,
+	so that --enable-devel-disassembler does not need a change
+	in the layout of jit_node_t.
+
+	* lib/jit_names.c: Update for the new codes.
+
+	* lib/jit_print.c: Update to print more readable output, and
+	flag synthesized IR code sequences.
+
+	* lib/jit_aarch64-sz.c, lib/jit_aarch64.c,
+	lib/jit_arm-sz.c, lib/jit_arm.c, lib/jit_x86-sz.c,
+	lib/jit_x86.c: Update for new synthesized IR code sequences.
+
+	* lib/jit_ppc-cpu.c, lib/jit_ppc-fpu., lib/jit_ppc-sz.c,
+	lib/jit_ppc.c, lib/jit_mips-cpu.c, lib/jit_mips-fpu.c,
+	lib/jit_mips-sz.c, lib/jit_mips.c, lib/jit_s390-fpu.c,
+	lib/jit_s390-sz.c, lib/jit_s390.c: Update for new synthesized
+	IR code sequences and correct bugs in the initial varargs
+	implementation support.
+
+	* lib/jit_alpha-sz.c, lib/jit_alpha.c, lib/jit_hppa-sz.c,
+	lib/jit_hppa.c, lib/jit_ia64-sz.c, lib/jit_ia64.c,
+	lib/jit_sparc-sz.c, lib/jit_sparc.c: Add generic, untested
+	support for the new synthesized	IR code sequences. Known
+	most likely broken right now, and should be corrected once
+	access to these hosts is available.
+
+	* lib/lightning.c: Update for new IR codes, and add support
+	for not yet existing instructions that change third argument.
+
+	* size.c: Change to use different tables for LE and BE PowerPC.
+	Correct a wrong endif for x32.
+
+2015-05-25 Paulo Andrade <pcpa@gnu.org>
+
+	* check/cva_list.c: New file implementing a test to ensure
+	the value returned by jit_va_start is a valid C va_list.
+
+	* check/va_list.ok: New simple helper file, as now the
+	va_list.tst test is enabled.
+
+	* check/va_list.tst: Rewritten for an extensive variadic
+	jit functions test.
+
+	* check/Makefile.am: Update for the new tests.
+
+	* lib/jit_arm-cpu.c, lib/jit_arm-swf.c, lib/jit_arm-vfp.c,
+	lib/jit_arm.c: Correct broken software float in a previous
+	commit. Note that the hard float abi implementation is known
+	broken at this time, for special cases involving variadic
+	functions, and should be corrected next.
+
+	lib/jit_x86-cpu.c, lib/jit_x86-sz.c, lib/jit_x86.c: Correct
+	the jit_va_list_t semantics to match C va_list.
+
+2015-05-24 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/Makefile.am: Bump library major. This is a preparation
+	for a rework that was due for quite some time, but that is
+	now required to properly implement variadic jit functions.
+	The rework is mainly required to know at prolog parsing, if
+	a function is variadic or not. This will benefit a few
+	backends, and is mandatory for the hard float arm abi.
+	The rework was already planned for quite some time, to
+	be able to use a variable stack framesize, and for leaf
+	functions optimization where applicable.
+	The change will be source compatible, but will change
+	some internals, and jit_code_t values, as some new will
+	be added.
+	The only behavior change is that, jit_arg_register_p may
+	change return value on hard float arm abi, if called before
+	or after jit_ellipsis. Common sense anyway, would say to
+	make that call after jit_ellipsis, but documentation
+	should be updated for it.
+
+2015-05-24 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64-fpu.c, lib/jit_aarch64.c: Correct base
+	aarch64 varargs code.
+
+2015-05-24 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c: Clearly run check if clang is the system
+	compiler.
+
+2015-05-20 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_sparc-cpu.c, lib/jit_sparc-fpu.c, lib/jit_sparc.c:
+	Add base support to jit vararg functions to the sparc backend.
+
+2015-05-20 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_alpha-cpu.c, lib/jit_alpha-fpu.c, lib/jit_alpha.c:
+	Add base support to jit vararg functions to the alpha backend.
+
+2015-05-19 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_hppa-cpu.c, lib/jit_hppa-fpu.c, lib/jit_hppa.c:
+	Add base support to jit vararg functions to the hppa backend.
+
+2015-05-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64-cpu.c, lib/jit_ia64-fpu.c, lib/jit_ia64.c:
+	Add base support to jit vararg functions to the ia64 backend.
+
+2015-05-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64-fpu.c, lib/jit_ia64.c: Correct movi_d_w
+	and movi_f_w implementation to work when not using a
+	data buffer. This causes the check varargs.tst to
+	work when passing "-d" to the lightning test tool.
+
+2015-05-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64.c: Implement inline assembly cache flush,
+	required on multiprocessor systems.
+
+2015-05-06 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_mips-cpu.c, lib/jit_mips-fpu.c, lib/jit_mips.c:
+	Add base support to jit vararg functions to the mips backend.
+	Currently only supported on the o32 abi, until access to a
+	n32 system is arranged.
+
+2015-05-05 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ppc-cpu.c, lib/jit_ppc-fpu.c, lib/jit_ppc.c:
+	Add base support to jit vararg functions to the PowerPC backend.
+
+2015-05-02 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_s390-cpu.c, lib/jit_s390-fpu.c, lib/jit_s390.c:
+	Add base support to jit vararg functions to the s390 backend.
+
+2015-05-01 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm-cpu.c, lib/jit_arm-swf.c, lib/jit_arm-vfp.c,
+	lib/jit_arm.c: Add base support to jit vararg
+	functions to the arm backend.
+
+2015-04-30 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64-cpu.c, lib/jit_aarch64-fpu.c,
+	lib/jit_aarch64.c: Add base support to jit vararg
+	functions to the aarch64 backend.
+
+2015-04-27 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, include/lightning/jit_private.h,
+	lib/jit_names.c, lib/lightning.c: Add initial support
+	for the new jit_va_start, jit_va_arg, jit_va_arg_d, and
+	jit_va_end interfaces. The jit_va_start call is supposed
+	to return a va_list compatible pointer, but not yet
+	decided if it will be "declared" stdarg compatible,
+	as for now only x86 support has been added (and should
+	be compatible), but issues may arise on other backends.
+
+	* check/lightning.c: Add wrappers to call the new jit_va_*
+	interfaces.
+
+	* lib/jit_x86-cpu.c, lib/jit_x86.c: Implement the new
+	jit_va_* for x86.
+
+	* lib/jit_x86-sz.c: Add fields, but not yet fully updated,
+	as this is an intermediate commit.
+
+	* lib/jit_aarch64-sz.c, lib/jit_aarch64.c,
+	lib/jit_alpha-sz.c, lib/jit_alpha.c,
+	lib/jit_arm-sz.c, lib/jit_arm.c,
+	lib/jit_hppa-sz.c, lib/jit_hppa.c,
+	lib/jit_ia64-sz.c, lib/jit_ia64.c,
+	lib/jit_mips-sz.c, lib/jit_mips.c,
+	lib/jit_ppc-sz.c, lib/jit_ppc.c,
+	lib/jit_s390-sz.c, lib/jit_s390.c,
+	lib/jit_sparc-sz.c, lib/jit_sparc.c: Prepare for the
+	new jit_va_* interfaces. Not yet implemented, and will
+	cause an assertion if used.
+
+	* check/va_list.tst: Simple early test case, that works
+	on x86_64, x32, ix86, cygwin, and cygwin64.
+
+2015-02-17 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, include/lightning/jit_private.h,
+	lib/jit_aarch64-cpu.c, lib/jit_aarch64.c,
+	lib/jit_alpha-cpu.c, lib/jit_alpha.c,
+	lib/jit_arm-cpu.c, lib/jit_arm.c,
+	lib/jit_hppa-cpu.c, lib/jit_hppa.c,
+	lib/jit_ia64-cpu.c, lib/jit_ia64.c,
+	lib/jit_mips-cpu.c, lib/jit_mips.c,
+	lib/jit_ppc-cpu.c, lib/jit_ppc.c,
+	lib/jit_s390-cpu.c, lib/jit_s390.c,
+	lib/jit_sparc-cpu.c, lib/jit_sparc.c,
+	lib/jit_x86-cpu.c, lib/jit_x86.c: Implement the new
+	jit_allocar(offs, size) interface, that receives
+	two integer registers arguments, allocates space
+	dynamically in the stack, returns the offset in
+	the first argument, and uses the second argument
+	for the size in bytes of the memory to be allocated.
+
+	* check/allocar.ok, check/allocar.tst: New files
+	implementing test cases for the new jit_allocar
+	interface.
+
+	* check/Makefile.am, check/lightning.c: Update for
+	the new test case and interface.
+
+	* doc/body.texi: Add documentation of the new
+	interface.
+
+2015-02-17 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_x86.h, lib/jit_x86-cpu.c,
+	lib/jit_x86-x87.c: No longer make st(7) available.
+	Need to keep one x87 slots empty to avoid exceptions.
+	This has the side effect of no longer needing the
+	hackish emms instruction before a function call.
+
+2015-02-16 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Remove the jit_regno_patch bitfield
+	register fields before actual emit, as it is only really
+	used before emit, otherwise, on special	conditions it
+	may consider live registers as dead during code emit.
+
+2015-02-15 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-cpu.c, lib/jit_x86-sse.c, lib/jit_x86-x87.c:
+	Correct encoding of ldxr* stxr* in the x32 abi. If the
+	displacement register is negative, it would generate
+	a 64 bit instruction with a 32 bit unsigned displacement.
+
+	* check/ranger.tst, check/ranger.ok: New files, implementing
+	a test case for negative loads and stores. This is range.tst
+	converted to use registers instead of immediate offsets.
+
+	check/Makefile.am: Update for the new test case.
+
+2015-02-07 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_size.c: Preventively use at least 144 bytes
+	if JIT_INSTR_MAX is less than it. The logic is not
+	guaranteed to be 100% precise, it is mostly heuristics
+	to allocate a buffer with as close as possible size,
+	but a wrong value may cause code generation to write
+	past the end of the buffer.
+
+2015-02-03 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Correct the reason the bug in
+	simplify_stxi was not triggered before, it was due to
+	incorrectly resetting the value->code field, what was
+	causing it to never properly optimize:
+		stxi Im0 Rb0 Rt0
+		ldxi Rt1 Rb1 Im1
+	when Rb0 == Rb1, Rt0 == Rt1 and Im0 == Im1
+	There was another possible issue, that has been also
+	addressed in this commit, that would be the case of
+	Rbn == Rtn, where no redundancy removal is possible.
+
+2015-02-03 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Correct wrong check in simplify_stxi.
+	The test was incorrectly comparing the target register
+	and the displacement offset. This was a time bomb bug,
+	that would trigger in code like:
+		stxi Im0 Rb0 Rt0
+		stxi Im1 Rb1 Rt1
+	if Rb0 == Rb1 && Rt0 == Rt1 && Im0 == Rt1, that is,
+	the wrong check was Im0 == Rt1, instead of the supposed
+	Im0 == Imm1 (that was what the code mean't to do). It
+	was removing the second stxi assuming it was redundantly
+	generated; as that is not uncommon pattern on
+	translators generating jit.
+
+2015-02-02 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac, include/lightning/jit_private.h,
+	lib/jit_aarch64.c, lib/jit_alpha.c, lib/jit_arm.c,
+	lib/jit_disasm.c, lib/jit_hppa.c, lib/jit_ia64.c,
+	lib/jit_mips.c, lib/jit_ppc.c, lib/jit_print.c,
+	lib/jit_s390.c, lib/jit_sparc.c, lib/jit_x86.c: Add a new
+	--enable-devel-disassembler option, that should be used
+	during development, or lightning debug. This option
+	intermixes previous jit_print and jit_disassemble
+	output, making it easier to visualize what lightning
+	call was used, and what code was generated.
+
+2015-01-31 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm-cpu.c, lib/jit_arm.c: Only limit to 24 bit
+	displacement non conditional jump in the same jit_state_t.
+
+2015-01-19 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Reorder documentation, making jit_frame
+	and jit_tramp the lightning response to the need of
+	trampolines, continuations and tail call optimizations.
+	A pseudo code example of a factorial function was added.
+	Also added a section for description of the available
+	predicates.
+
+	* doc/fact.c: New file, implementing a simple example of
+	a translation of a trivial, recursive, tail call optimization
+	into lightning calls. This is the conversion to functional C
+	code of the example in doc/body.texi.
+
+	* doc/Makefile.am: Update for the next test case.
+
+2015-01-17 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/jit_aarch64.c,
+	lib/jit_alpha.c, lib/jit_arm-vfp.c, lib/jit_arm.c,
+	lib/jit_hppa.c,	lib/jit_ia64.c, lib/jit_mips.c,
+	lib/jit_ppc.c, lib/jit_s390.c, lib/jit_sparc.c,
+	lib/jit_x86.c: Add the new jit_arg_register_p predicate.
+	The predicate is expected to be used to know if an
+	argument is in a register, what would need special
+	handling if code that can overwrite non callee save
+	registers is executed.
+
+	* check/carg.c: New test case to check consistency and
+	expected usage of jit_arg_register_p.
+
+	* check/Makefile.am: Update for new test case.
+
+2015-01-17 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_aarch64.h,
+	include/lightning/jit_alpha.h,
+	include/lightning/jit_arm.h,
+	include/lightning/jit_hppa.h,
+	include/lightning/jit_mips.h,
+	 include/lightning/jit_ppc.h,
+	include/lightning/jit_s390.h,
+	include/lightning/jit_sparc.h,
+	include/lightning/jit_x86.h,
+	lib/jit_aarch64.c, lib/jit_alpha.c,
+	lib/jit_arm.c, lib/jit_hppa.c,
+	lib/jit_ia64.c, lib/jit_mips.c,
+	lib/jit_ppc.c, lib/jit_s390.c,
+	lib/jit_sparc.c, lib/jit_x86.c: Remove jit_arg_reg_p and
+	jit_arg_f_reg_p from a public header, and define it only
+	on port specific files where an integer offset is used
+	to qualify an argument identifier. Exported code expects
+	an opaque pointer (but of jit_node_t* type) to "qualify"
+	an argument identifier.
+	This patch, and the code review/simplification done during
+	it also corrected some bugs:
+	o Inconsistent jit_arg_d value of double argument after 3
+	  integer arguments in arm for jit_functions; tested, C
+	  functions were being properly called.
+	o Inconsistent use of getarg_{f,d} and putarg*_{f,d} on
+	  s390 (32-bit) that happened to not have a proper test
+	  case, as it would only happen for jit functions, and
+	  tested, called C functions had proper arguments.
+	o Corrected a "last minute" correction that did not go
+	  to the committed version, and would not compile on hppa,
+	  due to bad _jit_putargi_d prototype definition.
+
+2015-01-17 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Correct wrong/outdated information for
+	hton*, pusharg* and ret*, and add missing documentation
+	for rsb*, qmul*, qdvi* and putarg*.
+
+2015-01-15 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac, lib/jit_disasm.c: Rewrite workaround
+	to apparent problem to initialize powerpc disassembler.
+
+2015-01-15 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/jit_aarch64.c,
+	lib/jit_alpha.c, lib/jit_arm.c, lib/jit_hppa.c,
+	lib/jit_ia64.c, lib/jit_mips.c,	lib/jit_ppc.c,
+	lib/jit_s390.c, lib/jit_sparc.c, lib/jit_x86.c:
+	Implement jit_putarg*. It works as a mix of jit_getarg*
+	and jit_pusharg*, in the way that the first argument is
+	a register or immediate, and the second is a pointer
+	returned by jit_arg*. The use of the interface is to change
+	values of arguments to the current jit function.
+
+	* check/put.ok, check/put.tst: New test cases exercising
+	the new jit_putarg* interface.
+
+	* check/Makefile.am, check/lightning.c: Update for the
+	new test case and interface.
+
+2015-01-08 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_s390.h, lib/jit_s390-cpu.c,
+	lib/jit_s390-fpu.c, lib/jit_s390-sz.c, lib/jit_s390.c:
+	Renamed s390x* files to s390*.
+
+	* check/float.tst, check/lightning.c, configure.ac,
+	include/lightning.h, include/lightning/Makefile.am,
+	lib/Makefile.am, lib/jit_s390.c, lib/jit_size.c,
+	lib/lightning.c: Update for renamed files.
+
+2015-01-08 Paulo Andrade <pcpa@gnu.org>
+
+        * include/lightning.h, include/lightning/jit_private.h,
+        include/lightning/jit_s390x.h, lib/jit_disasm.c,
+        lib/jit_s390x-cpu.c, lib/jit_s390x-fpu.c, lib/jit_s390x-sz.c,
+        lib/jit_s390x.c, lib/jit_size.c, lib/lightning.c:
+	Add support for generating jit for s390 32 bit. This change
+	also removed %f15 from the list of temporaries fpr registers;
+	it was not being used, but if were, it would corrupt the
+	stack frame because the spill address would overwrite grp
+	offsets.
+
+2014-12-26 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ppc-cpu.c, lib/jit_ppc.c: Correct some endianess issues
+	on the powerpc le backend.
+
+2014-12-26 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ppc-cpu.c: Add mcrxr instruction emulation,
+	as this instruction has been phased out, and should be
+	implemented as a kernel trap.
+
+2014-12-26 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm.c: Better check for need to flush constants
+	before the pool being no longer reachable.
+
+2014-12-25 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h: Split jit_htonr in the new 3 interfaces
+	jit_htonr_us, jit_htonr_ui and jit_htonr_ul, the later only
+	available on 64 bit. The plain/untyped jit_htonr macro call
+	maps to the wordsize one.
+	* lib/jit_aarch64-cpu.c,  lib/jit_aarch64-sz.c, lib/jit_aarch64.c,
+	lib/jit_alpha-cpu.c, lib/jit_alpha-sz.c, lib/jit_alpha.c,
+	lib/jit_arm-cpu.c, lib/jit_arm-sz.c, lib/jit_arm.c,
+	lib/jit_hppa-cpu.c, lib/jit_hppa-sz.c, lib/jit_hppa.c,
+	lib/jit_ia64-cpu.c, lib/jit_ia64-sz.c, lib/jit_ia64.c,
+	lib/jit_mips-cpu.c, lib/jit_mips-sz.c, lib/jit_mips.c,
+	lib/jit_ppc-cpu.c, lib/jit_ppc-sz.c, lib/jit_ppc.c,
+	lib/jit_s390x-cpu.c, lib/jit_s390x-sz.c, lib/jit_s390x.c,
+	lib/jit_sparc-cpu.c, lib/jit_sparc-sz.c, lib/jit_sparc.c,
+	lib/jit_x86-cpu.c, lib/jit_x86-sz.c, lib/jit_x86.c:
+	Update backends for the new jit_htonr*.
+	* check/lightning.c, lib/jit_names.c, lib/lightning.c:
+	Update for the new jit_htonr* interfaces.
+	* check/Makefile.am: Update for new test cases.
+	* check/hton.ok, check/hton.tst: New test cases.
+
+2014-12-24 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h, include/lightning/jit_x86.h,
+	lib/jit_disasm.c, lib/jit_x86-cpu.c, lib/jit_x86-sse.c,
+	lib/jit_x86-sz.c, lib/jit_x86-x87.c, lib/jit_x86.c,
+	size.c: Implement support for the x32 abi. Built and
+	tested on Gentoo default/linux/amd64/13.0/x32 profile.
+
+2014-12-24 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_names.c: Add missing rsbi_f and rsbi_d strings.
+
+2014-12-21 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm.c: Call __clear_cache for every page.
+	This should only be required for older boards or
+	toolchain setup, but has been reported to be required
+	for lightning at some point.
+
+2014-12-21 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm.c: Correct check to guard overflow of index
+	of constants from program counter.
+
+2014-11-24 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Remove an optimization to calee save
+	registers that may incorrectly remove a jit_movr under
+	special conditions.
+
+2014-11-20 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_ppc.h, lib/jit_ppc-cpu.c,
+	lib/jit_ppc.c: Add initial powerpc le support.
+
+2014-11-20 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_disasm.c: Change thumb or arm disassemble based on
+	jit code before disassembly.
+
+	* lib/jit_arm-cpu.c: Correct reversed arguments to LDRD and
+	STRD instructions, and correct checking for support of those.
+
+	* lib/jit_arm-swf.c: Correct wrong use of LDRD and STRD and
+	only use those if the register is even.
+
+	* check/check.arm.swf.sh, check/check.arm4.swf.sh: New files
+	to test LDRD and STRD, as well as the alternate code path
+	when those are not available, in the .arm4. test case.
+
+	* check/Makefile.am: Update for the new test cases.
+
+2014-11-08 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h, lib/jit_aarch64.c,
+	lib/jit_alpha.c, lib/jit_arm.c, lib/jit_hppa.c,
+	lib/jit_ia64.c, lib/jit_mips.c, lib/jit_ppc.c,
+	lib/jit_s390x.c, lib/jit_sparc.c, lib/jit_x86.c:
+	Implement a private jit_flush call, that flushes
+	the cache, if applicable, aligning down to the
+	previous and up to the next page boundary.
+
+2014-11-08 Paulo Andrade <pcpa@gnu.org>
+
+	* check/ctramp.c: New file. It just repeats the test
+	of tramp.tst, but using two jit_state_t, what should
+	test possible issues with two contexts, and also validate
+	jit_tramp works on backends with function descriptions.
+
+	* check/Makefile.am: Update for new test case.
+
+2014-11-03 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_mips.h: Do not make the t9 register
+	JIT_R11 (or JIT_R7 for n32 or n64 abi) available. Previously
+	it cause problems if one expects it to not be changed in a
+	function call. For example, calling a jit function, where it
+	really does not need to be changed.
+
+2014-10-26 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64.c, lib/jit_alpha.c, lib/jit_arm.c,
+	lib/jit_hppa.c, lib/jit_ia64.c, lib/jit_mips.c, lib/jit_ppc.c,
+	lib/jit_s390x.c, lib/jit_sparc.c, lib/jit_x86.c: Add an
+	assertion to all code generation "drivers" to ensure
+	_jitc->regarg is empty or in an expected state, after
+	translation of a lightning instruction to native code.
+	This change was a brute force test to find out other cases
+	of a temporary not being release (like was happening with
+	_bmsi and _bmci on x86), but no other case was found,
+	after running make check, with assertions enabled, on all
+	backends.
+
+2014-10-26 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-cpu.c: Correct a register allocation leak in
+	_bmsi and _bmci.
+
+2014-10-25 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_disasm.c: Do not cause an fatal error if init_jit
+	fails in the jit_init_debug call.
+
+2014-10-24 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64.c, lib/jit_ppc.c: Correct handling of function
+	descriptor when first prolog is a jit_tramp prolog. The
+	test case was using the same jit_context_t, so was not
+	triggering this condition.
+
+	* lib/jit_ppc-cpu.c: Properly handle jump displacements that
+	do not fit on 24 powerpc. This required changing from previous
+	"mtlr reg, blr" to "mtctr reg, bctr" to properly handle
+	the logic to "hide" function descriptors, but that would
+	also be required as the proper jit_jmpr when/if implementing
+	optimizations to leaf functions (was working with blr because
+	it is saved/reloaded in prolog/epilog).
+
+2014-10-21 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/lightning.c: Add three predicates
+	to query information about labels. jit_forward_p(label)
+	will return non zero if the label is "forward", that is
+	need a call to jit_link(label), jit_indirect_p(label)
+	that returns non zero if the label was created with the
+	jit_indirect() call, and jit_target_p(label) that will
+	return non zero if there is at least one jump patched
+	to land at that label.
+
+2014-10-18 Paulo Andrade <pcpa@gnu.org>
+
+	* check/range.ok, check/range.tst: New test case designed
+	to catch incorrect code generation, usually due to incorrect
+	test of immediate size. The test checks a large amount of
+	encodings in "power of two" boundaries. This test exorcises
+	a significant amount of code paths that was previously not
+	tested.
+
+	* check/Makefile.am: Add range test to make check target.
+
+	* lib/jit_aarch64-cpu.c: Correct wrong address calculation
+	for stxi_c, stxi_s, stxi_i and stxi_l when the offset is
+	too large.
+
+        * lib/jit_mips-fpu.c: Correct wrong size test to check if
+	an immediate can be encoded in a float or double store.
+
+	* lib/jit_s390x-cpu.c: Correct inverted encoding to stxi_s
+	when the offset cannot be encoded, and fallbacks to an
+	alternate encoding in 2 instructions.
+
+2014-10-17 Paulo Andrade <pcpa@gnu.org>
+
+	* check/alu_rsb.ok, check/alu_rsb.tst: New files implementing
+	tests for jit_rsb*.
+
+	* check/Makefile.am, check/lightning.c, include/lightning.h,
+	lib/jit_aarch64-cpu.c, lib/jit_aarch64-fpu.c, lib/jit_aarch64-sz.c,
+	lib/jit_aarch64.c, lib/jit_alpha-cpu.c, lib/jit_alpha-fpu.c,
+	lib/jit_alpha-sz.c, lib/jit_alpha.c, lib/jit_arm-cpu.c,
+	lib/jit_arm-swf.c, lib/jit_arm-sz.c, lib/jit_arm-vfp.c,
+	lib/jit_arm.c, lib/jit_hppa-cpu.c, lib/jit_hppa-fpu.c,
+	lib/jit_hppa-sz.c, lib/jit_hppa.c, lib/jit_ia64-cpu.c,
+	lib/jit_ia64-fpu.c, lib/jit_ia64-sz.c, lib/jit_ia64.c,
+	lib/jit_mips-cpu.c, lib/jit_mips-fpu.c, lib/jit_mips-sz.c,
+	lib/jit_mips.c, lib/jit_names.c, lib/jit_ppc-cpu.c,
+	lib/jit_ppc-fpu.c, lib/jit_ppc-sz.c, lib/jit_ppc.c,
+	lib/jit_s390x-cpu.c, lib/jit_s390x-fpu.c, lib/jit_s390x-sz.c,
+	lib/jit_s390x.c, lib/jit_sparc-cpu.c, lib/jit_sparc-fpu.c,
+	lib/jit_sparc-sz.c, lib/jit_sparc.c, lib/jit_x86-cpu.c,
+	lib/jit_x86-sse.c, lib/jit_x86-sz.c, lib/jit_x86-x87.c,
+	lib/jit_x86.c, lib/lightning.c: Implement jit_rsb*. This
+	was a missing lightning 1.x interface, that on most
+	backends is synthesized, but on a few backends (hppa and ia64),
+	it can generate better code as on those there is, or the
+	only instruction with an immediate is in "rsb" format
+	(left operand).
+
+2014-10-17 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_names.c: New file with single definition of string
+	representation of lightning IR codes.
+
+	* size.c: Modified to append the code name in a C comment
+	after the maximum instruction size.
+
+	* lib/jit_print.c: Minor change to not duplicate jit_names.c
+	contents.
+
+	* lib/jit_aarch64-sz.c, lib/jit_alpha-sz.c, lib/jit_arm-sz.c,
+	lib/jit_hppa-sz.c, lib/jit_ia64-sz.c, lib/jit_mips-sz.c,
+	lib/jit_ppc-sz.c, lib/jit_s390x-sz.c, lib/jit_sparc-sz.c,
+	lib/jit_x86-sz.c: Rewritten to add string representation of
+	IR codes in a C comment.
+
+2014-10-14 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64-cpu.c, lib/jit_alpha-cpu.c, lib/jit_arm-cpu.c,
+	lib/jit_hppa-cpu.c, lib/jit_mips-cpu.c, lib/jit_ppc-cpu.c,
+	lib/jit_sparc-cpu.c: Implement or correct the internal
+	nop(count) call that receives an argument that tells the
+	modulo bytes to align the code for the next instruction.
+
+	* include/lightning.h, lib/lightning.c, lib/jit_aarch64.c,
+	lib/jit_alpha.c, lib/jit_arm.c, lib/jit_hppa.c, lib/jit_ia64.c,
+	lib/jit_mips.c, lib/jit_ppc.c, lib/jit_s390x.c, lib/jit_sparc.c,
+	lib/jit_x86.c: Implement the new jit_align() call that receive
+	an argument, that tells the modulo, in bytes, to align the
+	next instruction. In most backends the only value that makes
+	a difference is a value that matches sizeof(void*), as all
+	other values usually are already automatically aligned in
+	labels, but not guaranteed to be aligned at word size bytes.
+
+	* check/align.ok, check/align.tst: New files, implementing
+	a simple test for the new jit_align() interface.
+
+	* check/Makefile.am, check/lightning.c, lib/jit_aarch64-sz.c,
+	lib/jit_alpha-sz.c, lib/jit_arm-sz.c, lib/jit_hppa-sz.c,
+	lib/jit_ia64-sz.c, lib/jit_mips-sz.c, lib/jit_ppc-sz.c,
+	lib/jit_print.c, lib/jit_s390x-sz.c, lib/jit_sparc-sz.c,
+	lib/jit_x86-sz.c: Update for the new jit_code_align code and
+	the jit_align() interface.
+
+2014-10-13 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/jit_size.c, size.c: Use a
+	symbolic value for the last IR code.
+
+2014-10-12 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, include/lightning/jit_private.h,
+	lib/jit_aarch64-cpu.c, lib/jit_alpha-cpu.c, lib/jit_arm-cpu.c,
+	lib/jit_hppa-cpu.c, lib/jit_ia64-cpu.c, lib/jit_mips-cpu.c,
+	lib/jit_ppc-cpu.c, lib/jit_s390x-cpu.c, lib/jit_sparc-cpu.c,
+	lib/jit_x86-cpu.c, lib/lightning.c: Implement the new
+	jit_frame and jit_tramp interfaces, that allow writing
+	trampoline like calls, where a single dispatcher jit buffer
+	is written, and later other jit buffers are created, with
+	the same stack frame layout as the dispatcher. This is the
+	logic that GNU Smalltalk used in lightning 1.x, and is required
+	to make a sane port for lighting 2.x.
+
+	* jit_ia64-cpu.c: Implement support for jit_frame and jit_tramp,
+	and also correct wrong encoding for B4 instructions, that
+	implement jmpr, as well as correct reverse logic in _jmpr,
+	that was moving the branch register to the jump register,
+	and not vice-versa.
+	Also, if a stack frame is to be assumed, always assume it may
+	call a function with up to 8 arguments, regardless of the
+	hint frame argument.
+
+	* lib/jit_arm.c: Add a new must_align_p() interface to ensure
+	function prologs are always aligned. This condition was
+	previously always true, somewhat by accident, but with
+	jit_tramp it is not guaranteed.
+
+	* jit_ia64-cpu.c: lib/jit_ppc.c: Add minor special handling
+	required to implement jit_tramp, where a function descriptor
+	should not be added before a prolog, as jit_tramp means omit
+	prolog.
+
+	* check/lightning.c: Update test driver for the new interfaces.
+
+	* check/Makefile.am, check/tramp.tst, check/tramp.ok: Add
+	a simple test and example of the jit_frame and jit_tramp
+	usage implementing a simple Fibonacci function using a
+	simulation of an interpreter stack and how it would handle
+	state in language specific variables.
+
+	* doc/body.texi: Add documentation for jit_frame and
+	jit_tramp.
+
+2014-09-29 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64.c, lib/jit_alpha.c, lib/jit_arm.c,
+	lib/jit_hppa.c, lib/jit_ia64.c, lib/jit_mips.c,
+	lib/jit_ppc.c, lib/jit_s390x.c, lib/jit_sparc.c,
+	lib/jit_x86.c, lib/lightning.c: Allow jit_jmpi on a
+	target that is not a node. This may lead to hard to
+	debug code generation, but is a required feature for
+	certain generators, like the ones that used lightning
+	1.2x. Note that previously, but not really well
+	documented, it was instructed to use:
+	jit_movi(rn, addr); jit_jmpr(rn);
+	but now, plain:
+	jit_patch_abs(jit_jmpi(), addr);
+	should also work.
+
+2014-09-24 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-sz.c: Generate information about instruction
+	lengths for more precise calculation of buffer size on
+	Windows x64. This change is specially important because
+	the maximum instruction length is larger than other
+	systems, what could cause an out of bounds write on
+	special conditions without this update.
+
+2014-09-24 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c: Add workaround to conflicting global
+	optind variable in cygwin binutils that have an internal
+	getopt* implementation.
+
+	* lib/jit_x86-cpu.c: Add a simple define ffsl ffs if building
+	for 32 bit and there is no ffsl function.
+
+2014-09-24 Paulo Andrade <pcpa@gnu.org>
+
+        * check/lightning.c: Add a hopefully temporary kludge to not use
+	sprintf and sscanf returned by dlsym. This is required to pass
+	the varargs test.
+
+        * include/lightning/jit_private.h: Use symbolic name for first
+	integer register argument, as this is different in sysv and
+	win64 abi.
+
+        * include/lightning/jit_x86.h: Add conditionals and definitions
+	for Windows x64 (under __CYGWIN__ preprocessor conditional).
+
+        * lib/jit_x86-cpu.c: Correct one instruction encoding bug, that
+	was working by accident. Only use rax to rdx for some byte
+	operations to work on compatibility mode (that is, to generate
+	the proper encoding, instead of actually generating encoding
+	for high byte registers, e.g. %bh).
+	Add proper prolog and epilog for windows x64.
+
+        * lib/jit_x86-sse.c: Correct a swapped rex prefix for float
+	operations.
+
+        * lib/jit_x86.c: Adjust to support Windows x64 abi.
+
+	* check/check.x87.nodata.sh: New file, previously used but that
+	was missing git.
+
+2014-09-07 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Mark all registers advertised as live, as
+	per jit_callee_save_p as live whenever reaching a jump that
+	cannot be tracked. This is a rethink of the previous commit,
+	and is a better approach, otherwise there would not be much
+	sense on relying on jit_callee_save_p if it could not be
+	trusted.
+
+	* check/jmpr.tst, check/jmpr.ok: New files implementing a very
+	simple test case, that would actually cause an assertion on
+	code before the change to only mark as live when reaching a
+	jump that could not tracked, the actually advertised as callee
+	save registers.
+
+	check/Makefile.am: Update for new jmpr test case.
+
+2014-09-01 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Do not mark all registers in unknown state
+	as live on jit_jmpr, or jit_jmpi to an absolute address. Instead,
+	treat it as a function call, and only consider JIT_Vn registers
+	as possibly live.
+
+2014-08-29 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Add a proper info menu entry for
+	GNU lightning.
+
+	* doc/version.texi: Regenerate.
+
+2014-08-16 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64-cpu.c, lib/jit_aarch64-fpu.c,
+	lib/jit_arm-cpu.c, lib/jit_arm-vfp.c,
+	lib/jit_hppa-cpu.c, lib/jit_hppa-fpu.c,
+	lib/jit_ia64-cpu.c, lib/jit_ia64-fpu.c,
+	lib/jit_mips-cpu.c, lib/jit_mips-fpu.c,
+	lib/jit_ppc-cpu.c, lib/jit_ppc-fpu.c,
+	lib/jit_s390x-cpu.c, lib/jit_s390x-fpu.c,
+	lib/jit_s390x.c, lib/jit_sparc-cpu.c,
+	lib/jit_x86-cpu.c, lib/jit_x86-sse.c,
+	lib/jit_x86-x87.c: Review generation of all branch
+	instructions and always adds the jit_class_nospill
+	bitfield for temporary registers that cannot be	spilled
+	because the reload would be after a conditional jump; the
+	patch only adds an extra assertion. These conditions do
+	not happen on documented lightning usage, but can happen
+	if one uses the not exported jit_get_reg and jit_unget_reg
+	calls and cause enough register starvation.
+
+2014-08-16 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_alpha.c: Correct wrong bitmask of most argument
+	float register arguments, that were being set as callee
+	save instead of argument registers class.
+
+2014-08-16 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm-sz.c: Regenerate table of known maximum
+	instruction sizes for the software float fallback,
+	that implements "virtual" float registers in the stack
+	and operations as calls to libgcc.
+
+	* size.c: Correct typo in the generated jit_arm-sz.c file.
+
+2014-08-10 Paulo Andrade <pcpa@gnu.org>
+
+        * include/lightning/jit_alpha.h, lib/jit_alpha-cpu.c,
+        lib/jit_alpha-fpu.c, lib/jit_alpha-sz.c, lib/jit_alpha.c:
+	New files implementing a lightning Alpha port. Thanks
+	to Trent Nelson and snakebit.net staff for providing access
+	to an Alpha system.
+
+        * check/float.tst, check/lightning.c, configure.ac,
+        include/lightning.h, include/lightning/Makefile.am,
+        include/lightning/jit_private.h, lib/Makefile.am,
+        lib/jit_disasm.c, lib/jit_size.c, lib/lightning.c:
+	Minor changes to adapt for the new Alpha port.
+
+2014-08-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Always mark JIT_RET and JIT_FRET as
+	live in a function epilog. This is required because
+	on some ports a complex sequence, allocating one or more
+	registers, may be required to jump from a ret* to the
+	epilog, and the lightning api does not have annotations
+	to know if a function returns a value, or the type of
+	the return value.
+
+2014-08-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Change the correct live bitmask of
+	return registers after a function call in jit_update.
+
+2014-08-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Change assertions to have an int
+	result and correct a bad bit mask assertion.
+
+2014-08-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64.c: Correct bad setup for assertion
+	of consistency before a patch.
+
+2014-08-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_mips-cpu.c: Correct typo in the jit_bmsr
+	implementation that was using the wrong test result
+	register.
+
+2014-07-28 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_memory.c: Do not call free on NULL pointers.
+
+	* include/lightning/jit_private.h, lib/jit_note.c,
+	lib/lightning.c: Add a wrapper to memcpy and memmove
+	to not actually call those functions with a zero size
+	argument, and likely also a null src or dst.
+
+2014-07-27 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h, lib/jit_disasm.c,
+	lib/lightning.c: Remove the global jit_progname variable.
+	It was being only used in jit_init_debug, that is called
+	from init_jit, so, just pass an argument.
+
+2014-07-27 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Add note that jit_set_memory_functions
+	should be called before init_jit, because init_jit
+	itself may call the memory wrappers.
+
+2014-04-22 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm.c: Do not get confused with default settings
+	if /proc is not mounted on Linux specific code path.
+
+2014-04-09 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_aarch64.h, include/lightning/jit_arm.h,
+	include/lightning/jit_hppa.h, include/lightning/jit_ia64.h,
+	include/lightning/jit_mips.h, include/lightning/jit_ppc.h,
+	include/lightning/jit_private.h, include/lightning/jit_s390x.h,
+	include/lightning/jit_sparc.h, include/lightning/jit_x86.h:
+	Do not add jit_regset_t, JIT_RA0, and JIT_FA0 to the installed
+	header file. These types and definitions are supposed to be
+	only used internally.
+
+2014-04-05 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm-cpu.c: Only adjust stack pointer in prolog if
+	need stack space, that is, do not emit a nop instruction
+	subtracting zero from the stack pointer.
+
+2014-04-04 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_disasm.c: Correct a crash in the doc/printf example
+	on arm due to releasing the data_info information in
+	jit_clear_state. This is a special case for arm only, and
+	actually, only armv5 or older uses the data_info buffer,
+	or when forcing arm instruction set mode besides thumb
+	available.
+
+2014-12-03 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Write detailed description and examples for
+	jit_get_memory_functions, jit_set_memory_functions,
+	jit_get_code, jit_set_code, jit_get_data and jit_set_data.
+
+2014-12-03 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, include/lightning/jit_private.h,
+	lib/lightning.c: Implement the new jit_set_data() interface,
+	and the new jit_get_data() helper. Like jit_set_code(),
+	jit_realize() should be called before jit_set_data().
+	The most common usage should be jit_set_data(JIT_DISABLE_DATA
+	| JIT_DISABLE_NOTE), to force synthesize any float/double
+	constant in the stack and not generate any debug information.
+
+	* lib/jit_note.c: Minor change to debug note generation as
+	now it uses an alternate temporary data buffer during constants
+	and debug generation to accommodate the possibility of the user
+	setting an alternate data buffer.
+
+	* lib/jit_hppa-fpu.c, lib/jit_s390x.c, lib/jit_s390x-cpu.c,
+	lib/jit_s390x-fpu.c, lib/jit_sparc.c, lib/jit_sparc-fpu.c,
+	lib/jit_x86-sse.c, lib/jit_x86-x87.c: Implement jit_set_data.
+
+	* lib/jit_hppa-sz.c, lib/jit_sparc-sz.c, lib/jit_x86-sz.c,
+	lib/jit_s390x-sz.c: Update for several instructions that now
+	have a different maximum length due to jit_set_data.
+
+	* lib/jit_mips-fpu.c: Implement jit_set_data, but missing
+	validation on n32 and n64 abis (and/or big endian).
+
+	* lib/jit_mips-sz.c: Update for changes in o32.
+
+	* lib/jit_ppc-fpu.c: Implement jit_set_data, but missing
+	validation on Darwin PPC.
+
+	* lib/jit_ppc-sz.c: Update for changes in powerpc 32 and
+	64 bit.
+
+	* lib/jit_ia64-fpu.c: Implement untested jit_set_data.
+
+	* TODO: Add note to list ports that were not tested for the
+	new jit_set_data() feature, due to no longer having access
+	to them.
+
+	* check/nodata.c: New file implementing a simple test exercising
+	several different conditions created by jit_set_data().
+
+	* check/check.nodata.sh: New file implementing a wrapper
+	over the existing *.tst files, that runs all tests without
+	using a data buffer for constants; only meaningful (and
+	enabled) on architectures that used to store float/double
+	constants on a read only data buffer.
+
+	* configure.ac, check/Makefile.am: Update for the new test
+	cases.
+
+	* check/lightning.c: Implement the new "-d" option that
+	sets an internal flag to call jit_set_data() disable
+	constants and debug, that is, using only a pure code
+	buffer.
+
+2014-11-03 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, include/lightning/jit_private.h,
+	lib/lightning.c: Implement the new jit_set_code() interface,
+	that allows instructing lightning to use an alternate code
+	buffer. The new jit_realize() function should be called
+	before jit_set_code(), and usually call jit_get_code()
+	to query the amount of bytes expected to be required for
+	the code.
+
+	* lib/jit_size.c: Minor update to have less chances of
+	miscalculating the code buffer by starting the counter
+	with the size of the longest instruction instead of zero,
+	as code emit fails if at any moment less than the longest
+	instruction bytes are available.
+
+	* check/setcode.c: New file implementing some basic tests
+	of the new jit_set_code() interface.
+
+	* check/Makefile.am: Update for newer test case.
+
+2014-06-03 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/lightning.c: Add the new
+	jit_indirect() call, that returns a special label node,
+	and tells lightning that the label may be the target of
+	an indirect jump.
+
+	* doc/body.texi: Document the new jit_indirect() call, and
+	add examples of different ways to create labels and branches.
+
+2014-23-02 Paulo Andrade <pcpa@gnu.org>
+
+	*  lib/jit_x86.c: Rewrite previous patch to inline save/restore
+	because clobbering %ebx in x86 is treated as an error
+	(jit_x86.c:239:5: error: PIC register clobbered by 'ebx' in 'asm').
+
+2014-19-02 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86.c: Rewrite incorrect inline assembly that could
+	truncate a variable in a callee save register. Now it simply
+	tells gcc that the register is clobbered, instead of using a
+	*32 bit* swap with a temporary variable. The problem only
+	happens when compiling with optimization.
+
+2014-19-02 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_aarch64.h, include/lightning/jit_arm.h,
+	include/lightning/jit_hppa.h, include/lightning/jit_ia64.h,
+	include/lightning/jit_mips.h, include/lightning/jit_ppc.h,
+	include/lightning/jit_s390x.h, include/lightning/jit_sparc.h,
+	include/lightning/jit_x86.h: Change jit_regset_t to an
+	unsigned type, to allow safe right shift.
+
+	* lib/lightning.c: Rewrite jit_regset_scan1 to allow easier
+	compiler optimization.
+
+2013-12-03 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-x87.c: Correct wrong optimization when
+	loading the log(2) constant.
+
+2013-12-03 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-cpu.c: Use the emms instruction before
+	calling any function. This is particularly important
+	when using c99 complex functions as it can easily
+	overflow the x87 stack due to the way lightning uses
+	the x87 stack as a flat register file.
+
+2013-12-02 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-x87.c: Correct wrong code generation due
+	to comparing the base and not the value register with
+	%st(0) in stxi_f.
+
+2013-12-02 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-x87.c, lib/jit_x86.c: Use 8 bytes aligned
+	stack offset for float/double x87 to/from sse move.
+
+2013-11-27 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac, lib/jit_arm-swf.c, lib/jit_arm.c: Add
+	changes that should at least allow building lightning
+	on Apple iOS7.
+
+2013-10-08 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ppc-cpu.c: Correct wrong shortcut for ldxi_l with
+	a zero offset, that was calling ldr_i instead of ldr_l.
+
+2013-10-08 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_arm.h, lib/jit_arm-cpu.c: Do not use
+	by default load/store instructions that map to ldrt/strt.
+	There is already the long displacement version for positive
+	offsets, and when using a (shorter) negative offset it does
+	not map to ldrt/strt. At least on qemu strt may cause
+	reproducible, but unexpected SIGILL.
+
+2013-10-08 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm-vfp.c: Correct wrong load/store offset
+	calculation when the displacement is constant but too
+	large to use an instruction with an immediate offset.
+
+2013-10-07 Paulo Andrade <pcpa@gnu.org>
+
+	* check/self.c: Extend tests to validate jit_callee_save_p
+	does not cause an assertion on valid arguments, and test
+	extra registers defined on some backends.
+
+	* configure.ac: Do not ignore environment CFLAGS when
+	checking if need to test runtime configurable options,
+	like use x87 when sse2 is available, arm instruction set
+	instead of thumb, etc.
+
+	* include/lightning/jit_arm.h: Correct wrong jit_f macro
+	definition.
+
+	* include/lightning/jit_ia64.h, include/lightning/jit_ppc.h: 
+	Correct wrong jit_r macro definition.
+
+	* lib/jit_x86-x87.c, lib/jit_x86.c: Actually use the
+	reserved stack space for integer to/from float conversion.
+	The stack space was also changed to ensure it is 8 bytes
+	aligned. Also, for Solaris x86 in 32 bit mode, an alternate
+	truncr_d was implemented because for some reason it is
+	failing with SIGILL if using the "fisttpl" instructions,
+	that must be available on p6 or newer, but for the sake of
+	making all tests pass, implement a 486 or newer sequence
+	if "sun" is defined.
+
+2013-10-03 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_mips.h, lib/jit_mips-cpu.c,
+	lib/jit_mips-sz.c, lib/jit_mips.c, size: Build and
+	pass all test cases on Irix big endian mips using
+	the 64 bit abi.
+
+2013-10-02 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_mips.h: Add proper mips abi detection.
+
+2013-09-30 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_print.c: Do not crash if calling jit_print from
+	gdb before actually emitting code.
+
+	* lib/lightning.c: Correct misplaced check for already
+	visited blocks on conditional branches, what was preventing
+	proper merge live bit masks of forward blocks.
+
+2013-09-30 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-cpu.c: Correct not properly tested case of using
+	%r12 as index register, what was causing an invalid assertion.
+	%r12 is mapped to the "extra" JIT_R3 register, and test cases
+	only test "standard" lightning registers.
+
+2013-09-28 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64.c: Minor change to force collecting the maximum
+	instruction length in the --enable-devel-get-jit-size build
+	mode. The actual generated file did not change because the
+	sampling was large enough that it had already collected proper
+	information in the previously slightly buggy code (not forcing
+	a sync of the instructions that could be combined).
+
+2013-09-27 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm.c: Correct build when disassembler is
+	disabled.
+
+2013-09-25 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64-cpu.c, lib/jit_ia64-fpu.c: Correct some
+	off by one range checks (that were only accepting values
+	one less than the maximum allowed) and an invalid test
+	condition check that was forcing it to always use
+	indirect jumps even when reachable with an immediate
+	displacement.
+
+2013-09-24 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64-sz.c, lib/jit_arm-sz.c, lib/jit_hppa-sz.c,
+	lib/jit_ia64-sz.c, lib/jit_mips-sz.c, lib/jit_ppc-sz.c,
+	lib/jit_s390x-sz.c, lib/jit_size.c, lib/jit_sparc-sz.c,
+	lib/jit_x86-sz.c: New files implementing static tables
+	with longest known instructions length generated to match
+	a lightning instruction. These tables should make it easier
+	to make it very unlikely to ever miscalculate, or by too
+	much, the size of a code buffer.
+
+	* lib/jit_size.c: New file that aids to either collect
+	jit code size information, or use the information depending
+	on build options.
+
+	* size.c: New helper file that parses input for, and create
+	an initial jit_$arch-sz.c file, that needs some minor edit
+	for arches with multiple configurations.
+
+	* configure.ac, Makefile.am: Add the new, devel mode only
+	--enable-devel-get-jit-size configure option, that sets
+	compile time flags to collect jit code size information,
+	that will be used as input for the "noinst size program".
+
+	* lib/jit_aarch64.c, lib/jit_arm.c, lib/jit_disasm.c,
+	lib/jit_hppa.c, lib/jit_ia64.c, lib/jit_memory.c,
+	lib/jit_mips.c, lib/jit_ppc.c, lib/jit_s390x.c,
+	lib/jit_sparc.c, lib/jit_x86.c, lib/lightning.c: Minor
+	changes for the --enable-devel-get-jit-size build mode,
+	as well as the "production build mode" with jit code
+	size information.
+
+2013-09-14 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/lightning.c: Add the new
+	jit_pointer_p interface, that returns a boolean value
+	telling if the pointer argument is inside the jit
+	code buffer. This is useful to avoid the need to add
+	extra labels and calls to jit_address to figure bounds
+	of code buffer, and still keep internal data private.
+
+2013-09-13 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, include/lightning/jit_private.h,
+	lib/jit_note.c: Change the code argument of jit_get_note
+	to a jit_pointer_t and make jit_get_note a public interface.
+	It was intended so since start, as a way to map an offset
+	in the code to a function name, file name and line number
+	mapping.
+
+2013-09-11 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Correct reversed arguments in example of
+	usage in a (possibly) multi threaded, multiple jit_state_t
+	environments.
+
+	* include/lightning/jit_arm.h, include/lightning/jit_private.h,
+	lib/jit_arm-cpu.c, lib/jit_arm.c: Make a previously, non
+	documented, global state private to the related jit_state_t
+	generating code.
+
+2013-09-10 Paulo Andrade <pcpa@gnu.org>
+
+	* check/self.c, check/self.ok: New files implementing simple
+	consistency check assertions. At first validating some macros
+	that use values from different sources agree.
+
+	* check/Makefile.am: Update for the new test case.
+
+	* include/lightning.h,  lib/lightning.c: Add the new
+	jit_callee_save_p() call, that is intended to be used when
+	writing complex code using lightning, so that one does not
+	need to verify what backend is being used, or have access to
+	private data, to query if a register is callee save or not;
+	on several backends the scratch registers are actually callee
+	save.
+
+	* include/lightning/jit_aarch64.h, include/lightning/jit_arm.h,
+	include/lightning/jit_hppa.h, include/lightning/jit_mips.h,
+	include/lightning/jit_ppc.h, include/lightning/jit_sparc.h,
+	include/lightning/jit_x86.h: Add an explicit definition for
+	JIT_R3-JIT_Rn, JIT_V3-JIT_Vn and JIT_F6-JIT_Fn when applicable.
+	This allows one to write code based on "#if defined(JIT_XN)"
+	and therefore, not need to check what is the current backend
+	or have access to private data structures. This is particularly
+	useful when writing virtual machines with several specialized,
+	global registers.
+
+	* lib/jit_ia64.c: Properly flag the callee save general
+	purpose registers as such, so that jit_callee_save_p() works
+	as intended.
+
+2013-09-10 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c, configure.ac: Conditionally use the
+	code written to workaround a bug in the Hercules emulator,
+	as isnan and isinf are not available at least on HP-UX ia64.
+
+2013-09-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_s390x-cpu.c: Spill/reload correct callee save
+	float registers.
+
+2013-09-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_hppa-cpu.c: Correct code to call a function stored
+	in a register or a patched function address.
+
+2013-09-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64-cpu.c: Correct incorrect logic when restoring
+	the value of the "r2" callee save register.
+
+2013-08-29 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm-cpu.c, lib/jit_arm.c: Correct wrong test and update
+	of the thumb offset information, when checking if needing to
+	patch a jump from arm to thumb mode. The problem would happen when
+	remapping the code buffer, and the new address being lower than
+	the previous one.
+
+2013-08-26 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac: Extend FreeBSD test to also handle NetBSD.
+
+	* lib/jit_x86-cpu.c: Correct wrongly defined offset type of
+	ldxi_ui. Problem detected when building on NetBSD.
+
+	* lib/lightning.c: Adjust code to handle NetBSD mremap,
+	where arguments do not match Linux mremap.
+
+2013-08-26 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ppc.c: Correct C sequence point problem miscalculating
+	the actual function address in a function descriptor. Problem
+	happens with gcc 4.8.1 at least.
+
+2013-08-11 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_s390x-cpu.c: Correct code checking if immediate
+	fits instruction, but using the negated value.
+
+2013-07-28 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_s390x.h, lib/jit_s390x-cpu.c,
+	lib/jit_s390x-fpu.c, lib/jit_s390x.c: New files
+	implementing the new s390x port.
+
+	* configure.ac, include/lightning.h,
+	include/lightning/Makefile.am,
+	include/lightning/jit_private.h,
+	lib/Makefile.am, lib/jit_disasm.c, lib/lightning.c:
+	Minor adaptation for the new s390x backend.
+
+	* check/float.tst: Update for the s390x result of
+	truncating +Inf to integer.
+
+	* check/qalu_mul.tst: Add extra test cases to better test
+	high word of signed multiplication as the result is
+	adjust from unsigned multiplication on s390x.
+
+2013-07-28 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c: Do not assume casting a double NaN or
+	Inf to float will produce the expected float NaN or Inf.
+	This is not true at least under s390x.
+
+2013-07-28 Paulo Andrade <pcpa@gnu.org>
+
+	* check/check.arm.sh, check/check.sh, check/check.swf.sh,
+	check/check.x87.sh: Properly check test programs output,
+	not just rely on the test program self testing the results
+	and not crashing.
+
+2013-07-28 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_aarch64.c: Remove unused macros left from cut&paste
+	of jit_arm.c.
+
+2013-07-16 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_aarch64.h, lib/jit_aarch64-cpu.c,
+	lib/jit_aarch64-fpu.c, lib/jit_aarch64.c: New files
+	implementing the new aarch64 port, as a new architecture,
+	not as an expansion of the existing armv[4-7] port.
+
+	* check/lightning.c: Add aarch64 support and a small
+	change to recognize character constants as immediate
+	values.
+
+	* check/float.tst: Add aarch64 preprocessor conditionals
+	to select proper expected value when converting [+-]Inf
+	and NaN to integer.
+
+	* include/lightning/jit_arm.h, lib/jit_arm.c: Minor changes
+	to better match the new aarch64 files.
+
+	* configure.ac, include/lightning.h,
+	include/lightning/Makefile.am, include/lightning/jit_private.h,
+	lib/Makefile.am, lib/lightning.c: Minor adjustments
+	for the aarch64 port.
+
+2013-07-08 Paulo Andrade <pcpa@gnu.org>
+
+	* NEWS, THANKS, configure.ac, doc/version.texi: Update for
+	the 1.99a second alpha release.
+
+2013-06-25 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_mips.c: Correct cut&paste error that caused wrong
+	stack offset calculation for double arguments in stack in
+	the o32 abi.
+	Correct typo in the __LITTLE_ENDIAN macro name, that came
+	from cut&paste error in the original typo in lib/jit_ppc.c.
+
+	* lib/jit_ia64.c, lib/jit_ppc.c: Correct typo in the
+	__LITTLE_ENDIAN macro name.
+
+2013-06-22 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c, configure.ac, include/lightning.h,
+	lib/lightning.c: Add tests and quirks to build/detect
+	and/or work on Irix.
+
+	* include/lightning/jit_mips.h, lib/jit_mips-cpu.c,
+	lib/jit_mips-fpu.c, lib/jit_mips.c: Adapt code to run
+	in big endian mips, using the n32 abi.
+
+2013-06-18 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h: Minor extra preprocessor testing
+	to "detect" byte order on x86 solaris, that now builds
+	and pass all test cases.
+
+2013-06-18 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_sparc-cpu.c: Correct compiler warning of value
+	used before assignment. The usage is bogus as the api
+	requires always patching jumps, but the random value used
+	could cause an assertion due to invalid displacement.
+
+	* lib/jit_sparc.c: Always load and store double arguments
+	in stack as 2 float loads or stores, for safety, as unaligned
+	access is not allowed in Sparc Solaris.
+
+2013-06-14 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac: Force -mlp64 to CFLAGS on HP-UX ia64 port.
+	It is the only supported mode, and expects gcc as C compiler.
+
+	* include/lightning.h, lib/jit_ia64-cpu.c, lib/jit_ia64.c:
+	Correct ia64 port to work on HP-UX that runs it in big endian
+	mode.
+
+2013-06-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_hppa.c: Sanitize the cache synchronization inline
+	assembly code that was doing twice the work and redundantly
+	flushing the end address every loop iteration.
+
+2013-06-09 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac, check/Makefile.am, doc/Makefile.am: Do not
+	explicitly link to -ldl, but instead autodetect the library
+	with dlopen, dlsym, etc.
+
+	* check/lightning.c: Add workaround to apparently buggy
+	getopt in HP-UX that sets optind to the wrong index, and
+	use RTLD_NEXT on HP-UX instead of RTLD_DEFAULT to dlsym
+	global symbols.
+
+	* include/lightning.h: Rework definitions of wordsize and
+	byte order to detect proper values on HP-UX.
+
+	* lib/lightning.c: Minor correction to use MAP_ANONYMOUS
+	instead of MAP_ANON on HP-UX.
+
+	* lib/jit_hppa.c: Float arguments must be passed on integer
+	registers on HP-UX, not only for varargs functions.
+	  Add code to properly clear instruction cache. This was
+	not required on Debian hppa port, but may have been working
+	by accident.
+
+	* lib/jit_hppa-cpu.c: Follow pattern of HP-UX binaries and
+	use bve,n instead of bv,n to return from functions.
+
+	* lib/jit_hppa-fpu.c: For some reason "fst? frX,rX,(rY)" did
+	not work on the tested computer	(HP-UX B.11.23 U 9000/785 HP-UX)
+	so the code was changed, at first for __hpux only to add the
+	base and offset register and use the instruction with an
+	immediate (zero) offset.
+
+2013-06-07 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c, lib/jit_disasm.c, lib/jit_ppc-cpu.c,
+	lib/jit_ppc-fpu.c, lib/jit_ppc.c, include/lightning.h,
+	include/lightning/jit_ppc.h, include/lightning/jit_private.h:
+	Adapt code to work on 32 bit AIX ppc using gcc. Most changes
+	are basically to adapt the elf64 logic to 32 bit, as it does
+	not use the same convention of 32 bit Darwin ppc.
+
+	* check/stack.tst: Add a fake memcpy function to the test
+	case if running under AIX, as it is not available to dlsym.
+
+	* configure.ac: Check for getopt.h header, not available in
+	AIX.
+
+2013-06-01 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_hppa.h, lib/jit_hppa-cpu.c,
+	lib/jit_hppa-fpu.c, lib/jit_hppa.c: New files implementing
+	the hppa port. Built on Debian Linux PA-RISC 2.0, 32 bit.
+
+	* check/float.tst: Add preprocessor for hppa expected
+	values when converting NaN and +-Inf to an integer.
+
+	* check/ldst.inc: Ensure double load/store tests use an
+	8 byte aligned address by default.
+
+	* lib/lightning.c: Correct a bug found during tests in
+	the new port, where qmul* and qdiv* were not properly
+	setting one of the result registers as modified in the
+	function, what would be a problem if the only "write"
+	usage were the qmul* or qdiv*.
+
+	* check/varargs.tst, check/varargs.ok: Add one extra
+	interleaved integer/double test to validate proper code
+	generation in the extra case.
+
+	* check/lightning.c, configure.ac, include/lightning.h,
+	include/lightning/Makefile.am,
+	include/lightning/jit_private.h, lib/Makefile.am,
+	lib/jit_disasm.c: Update for the hppa port.
+
+2013-04-27 Paulo Andrade <pcpa@gnu.org>
+
+	* check/varargs.tst: Correct misplaced .align directive
+	that was causing the double buffer to not be aligned at
+	8 bytes.
+	* lib/jit_ia64-cpu.c:
+	  Properly implement abi for excess arguments passed on
+	stack.
+	  Simplify load/store with immediate displacement argument
+	with zero value.
+	  Simplify some calls to "subi" changing to "addi" with
+	a negative argument.
+	  Remove some #if 0'ed code, that could be useful in
+	special conditions, but the most useful one would be
+	to "optimize" "static" jit functions, but for the sake
+	of simplicity, jit functions are implemented in a way
+	that can be passed back to C code as C function pointers.
+	  Add an attribute to prototypes of several unused functions.
+	These functions are defined for the sake of implementing all
+	Itanium documented instructions, but a significant amount of
+	them is not used by lightning.
+	* lib/jit_ia64-fpu.c: Simplify load/store with zero immediate
+	displacement and add unused attribute for functions not used
+	by lightning, but required to provide macros implementing all
+	Itanium documented instructions.
+	* lib/jit_ia64.c: Update for the properly implemented abi
+	for stack arguments.
+	* lib/lightning.c: Mark an unused function as such.
+
+2013-04-27 Paulo Andrade <pcpa@gnu.org>
+
+	lib/jit_ia64-cpu.c:
+	  Correct immediate range check of integer comparisons when
+	inverting arguments.
+	  Correct gei_u that was not decrementing immediate when
+	inverting arguments.
+	  Correct b?add* and b?sub* that were not properly updating
+	the result register.
+
+2013-04-27 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64-cpu.c: Correct wrong mapping of 2 instructions
+	in "M-, stop, M-, stop" translation, that was ignoring the
+	last stop (implemented as a nop I- stop).
+
+	* lib/jit_ia64-fpu.c: Properly implement fnorm.s and fnorm.d,
+	as well as the proper integer to float or double conversion.
+
+2013-04-27 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64-cpu.c: Correct bogus implementation of ldr_T
+	for signed integers, that was using ld1.s, ld2.s and ld4.s.
+	The ".s" stands for speculative load, not sign extend.
+
+	* lib/jit_ia64-fpu.c: Correct bogus implementation of ldxr_T
+	for float and double. The third (actually, second) argument
+	is indeed added to the base register, but the base register
+	is modified. The actual M7 implementation was already correct,
+	just the ldxr_f and ldxr_d implementation that was kept in
+	a prototype state, misinterpreting what M7 does.
+
+2013-04-27 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64-cpu.c: Correct X2 pattern matching by preventing
+	it to attempt to require a stop between the L and the X
+	instruction; that is, check the registers and predicates
+	before emitting the L instruction, not after.
+
+	* lib/jit_ia64-fpu.c: Slightly simplify and correct
+	divr_f and divrd_d implementation.
+
+	* check/lightning.c: Add __ia64__ preprocessor define
+	on Itanium. 
+
+	* check/alu.inc, check/clobber.tst, check/float.tst: Define
+	several macros conditionally to __ia64__. This is required
+	because __ia64__ jit generation can use way too many memory,
+	due to not implementing instruction reordering to avoid
+	as much as possible "stops", what causes way too many nops
+	to be generated, as well as the fact that division and
+	remainder requires function calls, and float division
+	requires significant code to implement.
+
+2013-04-27 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h: Add new backend specific movr_w_d,
+	movr_d_w and movi_d_w codes as helpers to ia64 varargs
+	functions arguments.
+
+	* lib/jit_ia64-cpu.c:
+	  Correct wrong encoding of A5 small integers.
+	  Correct define of "mux" instruction modifiers.
+	  Correct ordering of arguments and predicates of cmp_xy
+	implementation with immediate arguments; like most other
+	codes with an immediate, the immediate is the second, not
+	the third argument.
+
+	* lib/jit_ia64-fpu.c: Actual implementation of the code
+	to move to/from gpr to/from fpr, to implement varargs abi.
+
+	* lib/jit_ia64.c: Make fpr argument registers not allocatable
+	as temporaries, no need for the extra checks when there are
+	plenty registers.
+
+	* lib/jit_print.c, lib/lightning.c: Minor updates for the
+	new movr_w_d, movr_d_w and movi_d_w codes.
+
+2013-04-26 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ia64-cpu.c, lib/jit_ia64-fpu.c: Correct code to
+	also insert a stop to break an instruction group if a
+	register is written more than once in the same group.
+	This may happen if a register is argument and result of
+	some lightning call (not a real instruction). The most
+	common case should be code in the pattern:
+		movl rn=largenum
+		...
+		mov rn=smallnum
+	where "rn" would end up holding "largenum".
+	But the problem possibly could happen in other circumstances.
+
+2013-04-26 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_ia64.h, lib/jit_ia64-cpu.c,
+	lib/jit_ia64-fpu.c, lib/jit_ia64.c:
+	  Relocate JIT_Rn registers to the local registers, as, like
+	float registers, div/rem and sqrt are implemented as function
+	calls, and may overwrite non saved scratch registers.
+	  Change patch_at to receive a jit_code_t instead of a
+	jit_node_t, so that it is easier to "inline" patches when
+	some instruction requires complex code to implement, e.g.
+	uneq and ltgt.
+	  Correct arguments to FMA and FMA like instructions that,
+	due to a cut&paste error were passing the wrong argument
+	to the related F- implementation function.
+	  Rewrite ltgt to return the proper result if one (or both)
+	of the arguments is unordered.
+
+2013-04-26 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_ia64.h, include/lightning/jit_private.h,
+	lib/jit_ia64-cpu.c, lib/jit_ia64-fpu.c, lib/jit_ia64.c,
+	lib/lightning.c: Rework code to detect need of a "stop" to
+	also handle predicates, as if a predicate is written, it
+	cannot be read in the same instruction group.
+	  Use a single jit_regset_t variable for all registers when
+	checking need for a stop (increment value by 128 for
+	float registers).
+	  Correct wrong "subi" implementation, as the code executed
+	is r0=im-r1, not r0=r1-im.
+	  Use standard lightning 6 fpr registers, and rework to
+	use callee save float registers, that may be spill/reloaded
+	in prolog/epilog. This is required because some jit
+	instructions implementations need to call functions; currently
+	integer div/mod and float sqrt, what may change the value of
+	scratch float registers.
+	  Rework point of "sync" of branches that need to return a
+	patch'able address, because the need for a "stop" before a
+	predicate read causes all branches to be the instruction
+	in slot 0, as there is no template to "stop" and branch
+	in the same instruction "bundle".
+
+2013-04-25 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_ia64.h, lib/jit_ia64-cpu.c,
+	lib/jit_ia64-fpu.c, lib/jit_ia64.c: New files implementing
+	the basic infrastructure of an Itanium port. The code
+	compiles and can generate jit for basic hello world like
+	functions.
+
+	* check/lightning.c, configure.ac, include/lightning.h,
+	include/lightning/Makefile.am, include/lightning/jit_private.h,
+	lib/Makefile.am, lib/lightning.c: Update for the Itanium
+	port.
+
+	* lib/jit_mips-cpu.c, lib/jit_mips.c: Correct typo and
+	make the jit_carry register local to the jit_state_t.
+	This matches code reviewed in the Itanium port, that
+	should use the same base logic to handle carry/borrow.
+
+2013-04-10 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h, lib/jit_arm.c,
+	lib/jit_mips-cpu.c, lib/jit_mips.c, lib/jit_ppc-cpu.c,
+	lib/jit_ppc.c, lib/jit_print.c, lib/jit_sparc-cpu.c,
+	lib/jit_sparc.c, lib/jit_x86-cpu.c, lib/jit_x86.c,
+	lib/lightning.c: Change all jit_regset macros to take
+	a pointer argument, to avoid structure copies when
+	adding a port to an architecture with more than 64
+	registers.
+
+2013-04-08 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm.c, lib/jit_ppc.c: Do not rely on __clear_cache
+	aligning to the next page boundary the end argument. It may
+	actually truncate it.
+
+2013-03-29 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h, lib/jit_arm.c, lib/jit_memory.c,
+	lib/jit_mips.c, lib/jit_ppc.c, lib/jit_sparc.c, lib/jit_x86.c,
+	lib/lightning.c: Do not start over jit generation if can grow
+	the code buffer with mremap without moving the base pointer.
+
+2013-03-29 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_memory.c: Implement a simple memory allocation wrapper
+	to allow overriding calls to malloc/calloc/realloc/free, as well
+	as ensuring all memory containing pointers is zero or points to
+	allocated memory.
+
+	* include/lightning.h, include/lightning/jit_private.h: Definitions
+	for the memory allocation wrapper.
+
+	* lib/Makefile.am: Update for new jit_memory.c file.
+
+	* lib/jit_arm.c, lib/jit_disasm.c, lib/jit_mips.c, lib/jit_note.c,
+	lib/jit_ppc.c, lib/jit_sparc.c, lib/jit_x86.c, lib/lightning.c:
+	Use the new memory allocation wrapper code.
+
+2013-03-22 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac, include/lightning/jit_private.h, lib/lightning.c:
+	Remove dependency on gmp. Only a simple bitmap was required, and
+	that was not enough reason to force linking to gmp and possible
+	complications caused by it.
+
+2013-03-10 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h: Add check for __powerpc__ defined
+	in Linux, while Darwin defines __ppc__.
+
+	* include/lightning/jit_ppc.h: Adjust register definitions
+	for Darwin 32 bit and Linux 64 bit ppc usage and/or ABI.
+
+	* include/lightning/jit_private.h: Add proper check for
+	Linux __powerpc__ and an data definition for an workaround
+	to properly handle code that starts with a jump to a "main"
+	label.
+
+	* lib/jit_disasm.c: Add extra disassembler initialization
+	for __powerpc64__.
+
+	* lib/jit_ppc-cpu.c: Add extra macros and functions, and
+	correct/adapt previous ones to handle powerpc64.
+
+	* lib/jit_ppc-fpu.c: Adapt for 64 bit wordsize. Basically
+	add conversion from/to int32/int64 and proper handling of
+	load/store offsets too large for 32 bit.
+
+	* lib/jit_ppc.c: Add calls to 64 bit codes and adaptation
+	for the PowerPC 64 bit Linux ABI.
+
+	* lib/jit_arm.c, lib/jit_mips.c, lib/jit_sparc, lib/jit_x86.c,
+	lib/lightning.c: Correct off by one error when restarting jit
+	of a function due to finding too late that needs to spill/reload
+	some register. Problem was found by accident on a very special
+	condition during PowerPC 64 code adaptation.
+
+2013-03-08 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c: Add missing ppc preprocessor definition.
+
+2013-03-06 Paulo Andrade <pcpa@gnu.org>
+
+	* check/float.tst: Comment out the int to negative infinity
+	test in mips for the moment because not all Loongson agrees
+	on the result.
+
+	* lib/jit_disasm.c: Add a test instead of an assertion
+	when loading symbols for disassembly due to a failure with
+	a simple binutils build in Debian mipsel64.
+
+2013-03-06 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h, lib/jit_arm-cpu.c,
+	lib/jit_arm.c, lib/jit_disasm.c, lib/jit_mips-cpu.c,
+	lib/jit_mips.c, lib/jit_note.c, lib/jit_ppc-cpu.c,
+	lib/jit_ppc.c, lib/jit_print.c, lib/jit_sparc-cpu.c,
+	lib/jit_sparc.c, lib/jit_x86-cpu.c, lib/jit_x86.c,
+	lib/lightning.c: Add an extra structure for data storage
+	during jit generation, and release it after generating
+	jit, to reduce a bit memory usage, and also to make it
+	easier to understand what data is available during
+	jit runtime.
+
+2013-03-06 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Make data and code buffer readonly.
+
+2013-02-20 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Fool proof validate the examples of what
+	an assembly-language programmer would write and correct the
+	wrong sparc example.
+
+2013-02-19 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Add back the SPARC code generation example.
+
+2013-02-19 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c: Remove state flag to work with partial
+	sparc port, by just disassembling if there was incomplete
+	code generation.
+
+	* jit_sparc-cpu.c: Correct wrong range check for immediate
+	integer constants (off by one bit shift).
+	  Correct macro implementing equivalent "rd %y, rd" assembly.
+	  Implement qmul* and qdiv*.
+
+	* jit_sparc.c: Update for qmul* and qdiv* and remove logic
+	to handle incomplete code generation during sparc port.
+
+2013-02-18 Paulo Andrade <pcpa@gnu.org>
+
+	* check/float.tst: Add sparc to list of known NaN and +-Inf
+	to integer conversion.
+
+	* check/lightning.c: Define __sparc__ to preprocessor in
+	the sparc backend.
+
+	* include/lightning/jit_private.h: Correct wrong definition
+	of emit_stxi_d, that has lived for a long time, but would
+	cause problems whenever needing to spill/reload a float
+	register.
+
+	* include/lightning/jit_sparc.h: Can only use %g2,%g3,%g4
+	for scratch variables, as other "global" registers are
+	reserved for the system, e.g. libc.
+	  Reorder float register naming to make it easier to
+	access odd float registers, so that generating code for
+	pusharg and getarg is easier for the IR.
+
+	* lib/jit_mips-cpu.c, lib/jit_ppc-cpu.c: Update to match
+	new code in jit_sparc-cpu.c. It must call jit_get_reg
+	with jit_class_nospill if using the register to move
+	an unconditional branch address to it, as the reload
+	will not happen (actually could happen in the delay
+	slot...)
+
+	* lib/jit_sparc-cpu.c: Correct wrong macro definition for
+	ldxr_s.
+	  Properly implement div* and implement rem. Div* needs
+	to use the y register, and rem* needs to be synthesized.
+	  Correct b?sub* macro definitions.
+
+	* lib/jit_sparc-fpu.c: Correct reversed float to/from double
+	conversion.
+	  Correct wrong jit_get_reg call asking for a gpr and then
+	using the fpr with that number.
+	  Correct wrong branch displacement computation for
+	conditional branches.
+
+	* lib/jit_sparc.c: Correct getarg_d and pushargi_d implementation.
+	  Add rem* entries to the switch converting IR to machine code.
+
+	* lib/lightning.c: Correct a problem detected when adding
+	the jit_class_nospill flag to jit_get_reg, that was caused
+	when having a branch to an "epilog" node, what would cause
+	the code to think all registers in unknown state were live,
+	while in truth, all registers in unknown state in the
+	"just after return" point are actually dead.
+
+2013-02-17 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_sparc.h, lib/jit_sparc-cpu.c,
+	lib/jit_sparc-fpu.c, lib/jit_sparc.c: New files implementing
+	the basic framework of the sparc port.
+
+	* configure.ac, include/lightning.h, include/lightning/Makefile.am,
+	include/lightning/jit_private.h, lib/jit_disasm.c: Update
+	for the sparc port framework.
+
+	* lib/jit_mips.c: Correct reversed retr/reti logic.
+
+	* lib/jit_ppc.c: Correct misspelled __LITTLE_ENDIAN.
+
+	* lib/lightning.c: Always do byte hashing in hash_data, because
+	the logic to "compress" strings causes large pointers to not
+	be guaranteed aligned at 4 byte boundaries.
+	  Update for the sparc port framework.
+
+2013-02-11 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm.c: Correct jit_pushargi_f in the arm hardfp abi.
+	Most of the logic uses even numbered register numbers, so that
+	a float and a double can be used in the same register, but
+	the abi requires packing the float arguments, so jit_pushargi_f
+	needs to allocate a temporary register to modify only the
+	proper register argument (or be very smart to push two
+	immediate arguments if applicable).
+
+2013-02-11 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/lightning.c: Implement the new
+	jit_clear_state and jit_destroy_state calls. jit_clear_state
+	releases all memory not required during jit_execution; that
+	is, leaves only the mmap'ed data and code buffers allocated.
+	jit_destroy_state releases the mmap'ed buffers as well as
+	the jit_state_t object itself, that holds pointers to the
+	code and data buffers, as well as annotation pointers (for
+	disassembly or backtrace) in the data buffer.
+
+	* lib/jit_note.c: Correct invalid vector offset access.
+
+	* check/ccall.c, check/lightning.c, doc/ifib.c, doc/incr.c,
+	doc/printf.c, doc/rfib.c, doc/rpn.c: Use the new jit_clear_state
+	and jit_destroy_state calls, to demonstrate the new code to
+	release all jit memory.
+
+	* doc/body.texi: Add basic documentation and usage description
+	of jit_clear_state and jit_destroy_state.
+
+2013-02-11 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_private.h, lib/jit_note.c, lib/lightning.c:
+	  Store all annotation information in the mmap'ed area reserved for
+	read only data. This adds code to not allocate memory for jit_note_t
+	objects, and to	relocate jit_line_t objects and its contents after
+	calculating annotation information. The jit_line_t objects are
+	relocated because it is not possible to always calculate before
+	hand data layout because note information may be extended or
+	redundant entries removed, as well as allowed to be added in
+	non sequential order.
+	  A bug was also corrected in _jit_set_note, that was causing it
+	to allocate new jit_line_t objects when not needed. It was still
+	working correctly, but allocating way more memory than required.
+
+2013-02-05 Paulo Andrade <pcpa@gnu.org>
+
+	*include/lightning.h, lib/lightning.c: Add the new jit_live code
+	to explicitly mark a register as live. It is required to avoid
+	assuming functions always return a value in the gpr and fpr return
+	register, and to avoid the need of some very specialized codes
+	that vary too much from backend to backend, to instruct the
+	optimization code the return register is live.
+
+	* lib/jit_arm.c, lib/jit_mips.c, lib/jit_ppc.c, lib/jit_print.c,
+	lib/jit_x86.c: Update for the new jit_live code.
+
+	* check/ret.ok, check/ret.tst: New files implementing a simple
+	test case that would previously fail at least in ix86/x86_64.
+
+	* check/Makefile.am: Update for new "ret" test case.
+
+2013-02-05 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ppc-cpu.c, lib/jit_ppc.c: Validate and correct
+	problems in the qmul and qdiv ppc implementation.
+
+2013-02-04 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, include/lightning/jit_private.h,
+	lib/jit_arm-cpu.c, lib/jit_arm.c, lib/jit_mips-cpu.c,
+	lib/jit_mips.c, lib/jit_ppc-cpu.c, lib/jit_ppc.c,
+	lib/jit_x86-cpu.c, lib/jit_x86.c, lib/lightning.c:
+	Implement the new qmul and qdiv instructions that return signed
+	and unsigned lo/hi multiplication result and div/rem division result.
+	These should be useful for jit translation of code that needs to
+	know if a multiplication overflows (no branch opcode added) or if
+	a division is exact (easy check if remainder is zero).
+
+	* check/lightning.c, lib/jit_print.c, check/Makefile.am,
+	check/all.tst: Update for the new qmul and qdiv instructions.
+
+	* check/qalu.inc, check/qalu_div.ok, check/qalu_div.tst,
+	check/qalu_mul.ok, check/qalu_mul.tst: New files implementing
+	simple test cases for qmul and qdiv.
+
+2013-01-30 Paulo Andrade <pcpa@gnu.org>
+
+	* doc/body.texi: Correct "jmpi" description that incorrectly
+	told it was possible to pass any address as jump target. The
+	only way to do that is "movi+jmpr".
+
+2013-01-30 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-cpu.c: Correct undefined behavior code.
+	http://gcc.gnu.org/bugzilla/show_bug.cgi?id=56143
+
+2013-01-29 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac: Use AC_CONFIG_HEADERS instead of AC_CONFIG_HEADER
+	to have HAVE_CONFIG_H defined with latest aclocal.
+
+	* include/lightning/jit_private.h, lib/lightning.c: Add new
+	abstraction to use an heuristic to calculate amount of space
+	required for jit generation, and code to reallocate buffer if
+	did miscalculate it.
+
+	* lib/jit_arm.c, lib/jit_mips.c, lib/jit_ppc.c, lib/jit_x86.c:
+	Update to use new code to estimate and resize of required buffer
+	for jit code.
+
+	* lib/jit_x86-cpu.c: Minor cosmetic change to avoid adding a
+	non required rex prefix when calling a function pointer stored
+	in a register.
+
+2013-01-24 Paulo Andrade <pcpa@gnu.org>
+
+	* check/Makefile.am: "make debug" target should pass only
+	the main test tool program as argument for running gdb
+
+	* configure.ac: Add the --enable-assertions options.
+
+	* doc/Makefile.am, doc/body.texi, doc/lightning.texi:
+	Major rewrite of the documentation to match the current
+	implementation.
+
+	* doc/version.texi: Automatic date update.
+
+	* doc/ifib.c, doc/incr.c, doc/printf.c, doc/rfib.c, doc/rpn.c:
+	Implementation of the documentation examples, that are also
+	compiled during a normal build.
+
+	* doc/p-lightning.texi, doc/porting.texi, doc/toc.texi,
+	doc/u-lightning.texi, doc/using.texi: These files were
+	renamed in the documentation rewrite, as the documentation
+	was significantly trimmed due to full removal of the porting
+	chapters. Better porting documentation should be added but
+	for the moment it was just removed the documentation not
+	matching the implementation.
+
+2013-01-18 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_note.c: Correct bounds check and wrong code keeping
+	a pointer that could be changed after a realloc call.
+
+2013-01-18 Paulo Andrade <pcpa@gnu.org>
+
+	* check/3to2.tst, check/add.tst, check/allocai.tst, check/bp.tst,
+	check/call.tst, check/ccall.c, check/clobber.tst, check/divi.tst,
+	check/fib.tst, check/ldsti.tst, check/ldstr-c.tst, check/ldstr.tst,
+	check/ldstxi-c.tst, check/ldstxi.tst, check/ldstxr-c.tst,
+	check/ldstxr.tst, check/lightning.c, check/rpn.tst, check/stack.tst,
+	check/varargs.tst, include/lightning.h,
+	include/lightning/jit_private.h, lib/jit_arm.c, lib/jit_disasm.c,
+	lib/jit_mips.c, lib/jit_note.c, lib/jit_ppc.c, lib/jit_print.c,
+	lib/jit_x86.c, lib/lightning.c:	Extend the "jit_note" abstraction
+	with the new "jit_name" call, that receives a string argument, and
+	should usually be called to mark boundaries of functions of code
+	generating jit (that is, it is not expected that the language
+	generating jit map its functions to jit functions).
+
+2013-01-17 Paulo Andrade <pcpa@gnu.org>
+
+	* check/add.tst, check/allocai.tst, check/bp.tst, check/divi.tst,
+	check/fib.tst, check/lightning.c, include/lightning/jit_arm.h,
+	include/lightning/jit_mips.h, include/lightning/jit_ppc.h,
+	include/lightning/jit_private.h, include/lightning/jit_x86.h:
+	Make JIT_RET, JIT_FRET and JIT_SP private. These should not be
+	used in any operations due to frequently having special
+	constraints (usually JIT_FRET). JIT_FP must be made available
+	because it must be used as the base register to access stack
+	space allocated with jit_allocai.
+
+2013-01-14 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/lightning.c: Add an extra align
+	argument to the jit_data call (that should be made private),
+	so that it should not align strings at 8 bytes.
+	  Correct the jit_note call to include the null ending byte
+	when adding label/note names to the "jit data section".
+
+2013-01-11 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_note.c: New file implementing a simple string+integer
+	annotation, that should be used to map filename and line number
+	to offsets in the generated jit.
+
+	* include/lightning.h, lib/lightning.c: Update for the new
+	note code.
+	  Add an extra mandatory argument to init_jit, that is used
+	as argument to bfd_openr.
+	  Change from generic void* to char* the argument to jit_note
+	and add an extra integer argument, to map to filename and
+	line number.
+
+	* check/ccall.c, check/lightning.c, include/lightning/jit_private.h,
+	lib/jit_arm.c, lib/jit_disasm.c, lib/jit_mips.c, lib/jit_ppc.c,
+	lib/jit_print.c, lib/jit_x86.c: lib/Makefile.am: Update for the
+	new annotation code.
+
+	* configure.ac, check/Makefile.am: Update to work with latest
+	automake.
+
+2013-01-09 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/jit_arm.c, jit_mips-fpu.c,
+	lib/jit_mips.c, lib/jit_print.c, lib/jit_x86.c, lib/lightning.c:
+	Remove the jit_code_getarg_{f,d} and jit_code_pusharg{i,r}_{f,d}
+	calls, replacing them with the new, internal only, jit_movr_w_f,
+	jit_mov{r,i}_f_w, jit_movr_ww_d, and jit_mov{i,r}_d_ww, that
+	better describe the operation being done, and allow removing
+	the hackish code to detect special conditions for arm when
+	moving from/to vfp from/to a grp register pair.
+	Rename jit_code_retval_{f,d} to jit_code_x86_retval_{f,d} as
+	it is specific to 32 bit x86, and used to move abi return
+	value in x87 register to a sse register.
+
+2013-01-05 Paulo Andrade <pcpa@gnu.org>
+
+	* check/cccall.c, check/ccall.ok: New test case to validate
+	interleaved calls from/to C code and jit.
+
+	* check/Makefile.am: Update for the new ccall test case.
+
+	* include/lightning.h, lib/lightning.c: Add the new jit_address
+	call that returns the real/final address of a "note" in the
+	generated jit. It requires a jit_node_t as returned by the
+	jit_note call, and is only valid after calling jit_emit.
+	  Add an intermediate solution to properly handle arm
+	soft and softfp modes that move a double to an integer register
+	pair. Currently it just adds extra tests for the condition,
+	but the proper solution should be to have extra lightning
+	codes for these conditions, codes which should be only used
+	by the backends that need it, and merged with the existing
+	jit_pusharg*_{f,d}.
+
+	* include/lightning/jit_private.h: Add new jit_state_t flag
+	to know it finished jit_emit, so that calls to jit_address
+	are valid.
+
+	* lib/jit_mips.c: Correct abi implementation so that the
+	new ccall test case pass. Major problem was using
+	_jit->function.self.arg{i,f} as boolean values, but that
+	would cause lightning.c:patch_registers() to incorrectly
+	assume only one register was used as argument when calling
+	jit_regarg_p(); _jit->function.self.arg{i,f} must be the
+	number of registers used as arguments (in all backends).
+
+	* lib/jit_x86.c: Add workaround, by marking %rax as used,
+	to a special condition, when running out of registers and the
+	allocator trying to spill and reload %rax, but %rax was used
+	as a pointer to a function, what would cause the reload to
+	destroy the return value. This condition can be better
+	generalized, but the current solution is good enough.
+
+	* include/lightning/jit_ppc.h, lib/jit_ppc-cpu.c, lib/jit_ppc.c:
+	Rewrite logic to handle arguments, as the original code was
+	written based on a SysV pdf about the generic powerpc ABI,
+	what did "invent" a new abi for the previous test cases, but
+	failed in the new ccall test in Darwin PPC. Now it properly
+	handles 13 float registers for arguments, as well as proper
+	computation of stack offsets when running out of registers
+	for arguments.
+
+2013-01-02 Paulo Andrade <pcpa@gnu.org>
+
+	* check/float.tst: Correct test case to match ppc also
+	converting positive infinity to 0x7fffffff.
+
+	* lib/jit_arm-swf.c: Correct typos with double underscores.
+
+	* lib/lightning.c: Correct remaining wrong reverse jump logic.
+
+2012-12-29 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Correct both, wrong and confusing logic
+	to compute the reverse of a jump. Now it properly matches
+	C semantics for "eq" (==) and "ne" (!=) and correct computation
+	of reverse of "uneq" as "gt".
+
+	* check/branch.tst: Update "ne" float branch check that
+	previously happened to be wrongly tested with a NaN argument.
+
+2012-12-29 Paulo Andrade <pcpa@gnu.org>
+
+	* check/float.ok, check/float.tst: New test cases implementing
+	extensive validation of float comparison and branch code
+	generation as well as integer conversion, involving NaN and
+	[+-]Inf.
+
+	* lib/jit_arm-swf.c, lib/jit_x86-sse.c, lib/jit_x86-x87.c:
+	Correct bugs found by new float test case.
+
+	* lib/jit_x86.c: Correct cut&paste error added in commit to
+	convert jit_arg* return value to a jit_node_t*,	that would
+	cause it to not properly handle double arguments in ix86.
+
+	* check/Makefile.am: Update for the new test case.
+
+2012-12-28 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c, include/lightning.h, lib/jit_arm.c,
+	lib/jit_mips.c, lib/jit_ppc.c, lib/jit_print.c,	lib/jit_x86.c,
+	lib/lightning.c: Change return value of jit_arg{,_f,_d} to
+	a jit_node_t* object, that should be used as argument to
+	jit_getarg_{c,uc,s,us,i,ui,l,f,d}. This just requires changing
+	from jit_int32_t to jit_pointer_t (or jit_node_t*) the "handle"
+	for the getarg calls, with the benefit that it makes it easy
+	to implement patching of the stack address of non register
+	arguments, this way allowing to implement variable size stack
+	frames if applicable; useful if there are too many registers and
+	jit functions uses only a few callee save registers.
+
+2012-12-27 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm.c, lib/jit_mips-cpu.c, lib/jit_mips.c: Correct
+	regressions when patching jit_calli for a forward function.
+
+	* lib/jit_ppc-cpu.c: Correct wrong arguments to ANDI opcode
+	in jit_getarg_u{c,s} implementation.
+
+2012-12-23 Paulo Andrade <pcpa@gnu.org>
+
+	* check/call.ok, check/call.tst: New test cases to validate
+	simple typed argument and return values in function calls.
+
+	* check/lightning.c: Properly handle jit_movi of labels for
+	backward and forward code labels.
+
+	* check/Makefile.am: Update for new test case.
+
+2012-12-23 Paulo Andrade <pcpa@gnu.org>
+
+	* check/carry.ok, check/carry.tst: New test case to validate
+	carry condition handling.
+
+	* check/Makefile.am: Update for new test case.
+
+2012-12-22 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ppc-cpu.c, lib/jit_ppc.c: Implement logic for
+	jit_htonr for big endian, so that ppc (big endian) pass the
+	new clobber.tst test case.
+
+2012-12-22 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm.c: Correct use of wrong argument offset
+	variable in armv7l or float/double argument for varargs
+	function in armv7hl.
+	  Correct jit_getarg* logic in software float mode to
+	match expected behavior in other backends, that is, if
+	a function is not called, it is safe to use a few lightning
+	calls before a next jit_getarg* call, as done in the test
+	case check/stack.tst. The proper solution should be to
+	extend the parser in lib/lightning.c to check if there is
+	some float operation that will call some (libgcc?) function,
+	but software float arm should be a very uncommon backend for
+	lightning, so, just load the already in place arguments
+	saved to stack, assuming the register argument was clobbered
+	(what should not be the case most times...).
+
+2012-12-22 Paulo Andrade <pcpa@gnu.org>
+
+	* check/clobber.ok, check/clobber.tst: New test case doing
+	extensive validation tests to ensure registers not used in
+	a operation are not clobbered.
+
+	* check/Makefile.am: Update for new test case.
+
+2012-12-21 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/lightning.c: Partially rewrite/revert code to compute
+	initial	register live state at the start of a basic block.
+	The original logic was corrupted when adding optimizations
+	to do as few computations as possible in jit_update. The
+	reglive field must be always a known set of live registers
+	at the start of a basic block. The value that was incorrect
+	was the regmask field, that must be the set of registers
+	that are in unknown state, because they are not known live,
+	neither set (or possibly not set) in the basic block, and
+	*must* store the state at the start of the basic block.
+
+2012-12-20 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_ppc.h: Correct mismatch of JIT_F{1,5}
+	with enum codes, that were correct, and returned by jit_f().
+
+	* lib/jit_ppc-cpu.c, lib/jit_ppc-fpu.c, lib/jit_ppc.c: Properly
+	implement and better describe values when generating stack
+	frames.
+
+2012-12-18 Paulo Andrade <pcpa@gnu.org>
+
+	* check/stack.ok, check/stack.tst: New files to test data
+	integrity on a deep chain of stack frames.
+
+	* lib/jit_arm.c, lib/jit_arm-cpu.c, lib/jit_mips.c,
+	lib/jit_mips-cpu.c, lib/jit_ppc.c, lib/jit_ppc-cpu.c,
+	lib/jit_x86.c, lib/jit_x86-cpu.c: Calculate _jit->function->stack
+	in the emit stage, otherwise it will calculate it wrong if
+	need to jit_allocai space to spill registers.
+
+	* lib/lightning.c: Correct wrong offset when updating the
+	"current" jit function pointer in the code that may need to
+	allocate stack space to spill registers.
+
+	* check/lightning.c: Correct off by one data space check.
+
+	* check/Makefile.am: Update for new test case.
+
+2012-12-17 Paulo Andrade <pcpa@gnu.org>
+
+	* check/fop_abs.ok, check/fop_abs.tst, check/fop_sqrt.ok,
+	check/fop_sqrt.tst: New files implementing simple test cases
+	for the extra float operations.
+
+	* check/Makefile.am: Update for new test cases.
+
+	* check/alu.inc: Add an extra macro to check for unordered
+	equality on tests where it is expected to use NaN as an
+	argument.
+
+	* check/lightning.c: Minor change for proper/common argument
+	syntax handling ommiting arguments to options.
+
+2012-12-17 Paulo Andrade <pcpa@gnu.org>
+
+	* check/Makefile.am: Automatically generate pattern list
+	of tests with alternate jit generation options. This should
+	prevent typos and needing to change multiple places after
+	a change.
+
+2012-12-14 Paulo Andrade <pcpa@gnu.org>
+
+	* check/lightning.c: Remove the ".cpu name value" syntax,
+	as it was not able to do proper changes before the jit
+	internal data structure was initialized. Now it supports
+	several getopt options to force using different jit
+	generation options, effectively replacing the previous
+	syntax.
+
+	* check/run-test: Add simple extra logic to handle differently
+	named test scripts, used to test things like x87 coprocessor
+	in ix86, and arm instruction set or software float in armv7l.
+
+	* configure.ac: Add some AC_RUN_IFELSE calls to figure at
+	compile time if can test different code generation options,
+	and update Makefile generation accordingly.
+
+	* check/Makefile.am, lib/jit_arm.c, lib/jit_x86.c: Update to
+	properly work with the test tool updating the jit_cpu global
+	information.
+
+	* check/check.arm.sh, check/check.swf.sh, check/check.x87.sh:
+	New wrapper files passing -mthumb=0, mvfp=0 and -mx87=1 to
+	the test tool, if applicable, so that it can validate alternate
+	code generation options on test hosts that support them.
+
+2012-12-14 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-x87.c, lib/jit_x86.c: Correct test cases in ix86
+	when using the x87 coprocessor instead of sse2+.
+
+2012-12-14 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, include/lightning/jit_private.h,
+	lib/jit_arm.c, lib/jit_mips.c, lib/jit_ppc.c, lib/jit_x86.c,
+	lib/lightning.c: Make jit_ellipsis implementation not
+	backend specific. It is not intended to handle va_list
+	like objects at runtime, as jit_arg* and jit_getarg*
+	return constant values resolved at parse time, so, effectively
+	it is not possible to create printf like jit functions, as
+	there is no va_start, va_arg, va_end, etc, abstraction. This
+	limitation should be kept for the sake of making new ports
+	easier.
+
+2012-12-14 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/lightning.c: Add two extra wrapper
+	functions to avoid need for excess pointer to/from word casts.
+
+	* check/lightning.c: Only need for pointer to/from word cast
+	now is jit_movi, update accordingly.
+
+2012-12-13 Paulo Andrade <pcpa@gnu.org>
+
+	* check/varargs.ok, check/varargs.tst: New test cases implementing
+	simple varargs calls with a large amount of arguments to exercise
+	excess arguments on stack.
+
+	* include/lightning.h: Include config.h if HAVE_CONFIG_H is
+	defined.
+
+	* lib/jit_arm.c: Allocate a fpr register, not a gpr one for
+	temporary when pushing varargs arguments in the stack.
+
+	* lib/jit_arm-swf.c: Correct code changing the wrong offset
+	in jit_absr_d and jit_negr_d in software float.
+
+	* lib/jit_mips.c: Correct calculation of offsets of arguments
+	on stack.
+
+	* lib/jit_ppc.c: Correct bogus logic for "next" offset of arguments
+	on stack and adjust for fixed offset of stack arguments.
+
+2012-12-12 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning.h, lib/jit_arm.c, lib/jit_mips.c,
+	lib/jit_ppc.c, lib/jit_x86.c, lib/lightning.c: Change jit_prepare
+	to no longer receive an argument. If receiving an argument, it
+	should be an ABI specifier, not a boolean if varargs or not,
+	and add the new jit_ellipsis call, to specify where the
+	ellipsis is in the C prototype of the function being called.
+	Note that currently it is not supported to define varargs
+	functions and it will be ignored if calling jit_ellipsis not
+	in a prepare/finish* block, but this should be addressed.
+
+	* check/allocai.tst, check/alu_add.tst, check/alu_and.tst,
+	check/alu_com.tst, check/alu_div.tst, check/alu_lsh.tst,
+	check/alu_mul.tst, check/alu_neg.tst, check/alu_or.tst,
+	check/alu_rem.tst, check/alu_rsh.tst, check/alu_sub.tst,
+	check/alu_xor.tst, check/alux_add.tst, check/alux_sub.tst,
+	check/bp.tst, check/branch.tst, check/cvt.tst, check/divi.tst,
+	check/fib.tst, check/ldsti.tst, check/ldstr-c.tst,
+	check/ldstr.tst, check/ldstxi-c.tst, check/ldstxi.tst,
+	check/ldstxr-c.tst, check/ldstxr.tst, check/rpn.tst,
+	check/lightning.c: Update for the change to jit_prepare and
+	addition of jit_ellipsis.
+
+2012-12-11 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ppc-cpu.c: Make movr a function that checks arguments
+	so that other code can safely assume it is a noop if src and dst
+	are the same register.
+	  Implement rem{r,i}{,_u} as a div{,u}/mul/sub.
+	  Correct ANDIS, ORIS and XORIS calls to cast the argument to
+	unsigned before the shift to avoid an assertion if the argument
+	had the topmost bit set.
+	  Implement lshi, rshi and rshi_u as functions to test for a
+	zero argument, that would otherwise trigger an assertion when
+	computing the shift value.
+	  Do a simple implementation of bm{s,c}{r,i} with a temporary,
+	"andr" of arguments and jump based on comparison with zero.
+	  Correct typo in ldxi_c.
+
+	* lib/jit_ppc-fpu.c: Correct wrong arguments to FDIV* and STF*.
+
+	* lib/jit_ppc.c: Correct wrong check for 6 instead of 8 integer
+	arguments in registers. If calling a varargs function and
+	passing a float or double argument, also either store the
+	value in the stack or in integer registers, as varargs functions
+	do not fetch it from float registers.
+	  Add "case" for new functions and incorrectly missing ones.
+	  Call libgcc's __clear_cache, that should know what to do
+	if the hardware needs flushing cache before execution.
+
+	* lib/lightning.c: Do a simple/trivial logic in jit_regset_scan1,
+	that should make it easier for the compiler to optimize it, and
+	that also corrects the previously wrong code for big endian, and
+	that was causing problems in ppc due to not saving all callee save
+	registers as it was not "finding" them in the regset due to the
+	little endian assumption bug.
+
+2012-12-11 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac: Only default to using the builtin disassembler
+	if on GNU/Linux. This should be temporary, due to requiring
+	/proc/self/exe.
+	  Correctly check $target_cpu for powerpc.
+
+	* include/lightning/jit_ppc.h: Correctly implement jit_v_num.
+
+	* include/lightning/jit_private.h: Declare proper prototype
+	for jit_init_debug and jit_finish_debug.
+
+	* lib/jit_ppc-cpu.c: Remove code to save/restore callee save
+	float registers, as it is not required since those float
+	registers are not usable currently.
+	  Change prolog and epilog generation to, at least comparing
+	code, match what gcc generates in "gcc -O0", but it is still
+	failing in Darwin PPC, apparently due to the __clear_cache
+	call not being enough, as frequently it will also fail to
+	execute, and the code buffer is all zeroes.
+
+	* lib/lightning.c: Do not fail in jit_regset_scan1 calls due
+	to passing 64 as argument on computers with 64 registers.
+
+2012-12-10 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_mips-cpu.c: Correct all current test cases.
+	  Call the "xori" not the "XORI" macro for jit_xori implementation,
+	as the XORI macro handles only 16 bit unsigned values.
+	  Call the "movr" macro, not the "movi" macro in the special
+	case of adding or subtracting zero.
+	  Use the proper temporary register in the jit_andr implementation.
+
+2012-12-09 Paulo Andrade <pcpa@gnu.org>
+
+	* check/alu.inc, check/alu_add.ok, check/alu_add.tst,
+	check/alu_and.ok, check/alu_and.tst, check/alu_com.ok,
+	check/alu_com.tst, check/alu_div.ok, check/alu_div.tst,
+	check/alu_lsh.ok, check/alu_lsh.tst, check/alu_mul.ok,
+	check/alu_mul.tst, check/alu_neg.ok, check/alu_neg.tst,
+	check/alu_or.ok, check/alu_or.tst, check/alu_rem.ok,
+	check/alu_rem.tst, check/alu_rsh.ok, check/alu_rsh.tst,
+	check/alu_sub.ok, check/alu_sub.tst, check/alu_xor.ok,
+	check/alu_xor.tst, check/alux_add.ok, check/alux_add.tst,
+	check/alux_sub.ok, check/alux_sub.tst, check/branch.ok,
+	check/branch.tst: New test cases for arithmetic and branch
+	tests.
+
+	* check/Makefile.am: Update for new test cases.
+
+	* include/lightning/jit_private.h: Make the jit_reg_free_p
+	macro shared by all backends. Previously was added for the
+	arm backend, but is useful in the x86_64 backend when checking
+	state of "special purpose register".
+	Also add the new jit_class_named register class, that must be
+	or'ed with the register value if calling jit_get_reg expecting
+	an specific value, because the specific register value may be
+	zero, that previously was treated as no register requested.
+
+	* lib/jit_arm-cpu.c: Correct argument order for T2_MVN.
+
+	* lib/jit_arm-swf.c: Call the proper function for double
+	divide. The "software float" implementation just calls
+	libgcc functions.
+
+	* lib/jit_arm.c: Return float/double values in the float
+	register if using the hard float ABI.
+
+	* lib/jit_x86-cpu.c: Change the can_sign_extend_int_p macro
+	to not include -0x80000000L, because there is code that
+	"abuses" it and thinks it can negate the immediate value
+	after calling that macro.
+	  Correct implementation of jit_subi that had a wrong code
+	patch logic doing subtraction with reversed arguments.
+	  Correct REX prefix calculation in the jit_muli implementation.
+	  Correct logic to get/unget %*ax and %*dx registers in divremr
+	and divremi.
+	  Correct divremi that was using the symbolic, unique %*ax
+	value in on place (not using the _REGNO name suffix).
+	  Correct cut&paste error causing it to use "xor" instead of
+	"or" in one code path of the jit_ori implementation.
+	  Correct several flaws when clobbering registers and/or when
+	one of the arguments was %*cx in the rotshr wrapper function
+	implementing most shift operations.
+
+	* lib/lightning.c: No longer expect that the backend be smart
+	enough to know what to do when asking for a named register
+	if that register is already an argument or is live. It fails
+	if it is an argument, or if register is live, fails if cannot
+	spill.
+	  No longer incorrectly assume that eqr_{f,d} and ltgr_{f,d} are
+	safe to inverse value tests in jump thread optimization.
+
+2012-12-05 Paulo Andrade <pcpa@gnu.org>
+
+	* check/Makefile.am, check/cvt.ok, check/cvt.tst: Add new
+	"cvt" test case to test conversion from/to int/float types.
+
+	* check/lightning.c: Only define truncr_{f,d}_l in 64 bit mode.
+
+	* include/lightning.h: Correct typo that caused it to define
+	jit_truncr_{f,d}_l in 32 bit mode.
+
+	* lib/jit_arm-cpu.c: Avoid assertion failure in the signed/unsigned
+	extend opcodes generation as it shares an interface for 3 argument
+	opcode generation.
+
+	* lib/jit_x86-cpu.c: Correct wrong argument passed to
+	jit_unget_reg in the andi implementation and wrong byte
+	unsigned extend code generation.
+
+	* lib/jit_x86-sse.c: Correct conversion from "word" to float or
+	double as is dependent on wordsize.
+
+2012-12-05 Paulo Andrade <pcpa@gnu.org>
+
+	* check/ldstr-c.ok, check/ldstr-c.tst, check/ldstxi-c.ok,
+	check/ldstxi-c.tst, check/ldstxr-c.ok, check/ldstxr-c.tst:
+	New test case files testing load clobbering the base and/or
+	index register;
+
+	* check/ldst.inc: New file with common definition for all the
+	ldst* test cases.
+
+	check/Makefile.am, check/ldsti.tst, check/ldstr.tst,
+	check/ldstxi.tst, check/ldstxr.tst: Update for new common
+	definitions file and new register clobber ldst tests.
+
+2012-12-05 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_mips-fpu.c: Correct wrong register order in stxr_{f,d}
+	in the mips backend.
+
+2012-12-05 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_arm-vfp.c: Correct regression found in armv7l with
+	latest test cases.
+
+2012-12-05 Paulo Andrade <pcpa@gnu.org>
+
+	* check/ldstxi.tst, check/ldstxr.tst: Correct wrong argument
+	order for 32 bit mode tests.
+
+	* configure.ac: Correct check for ix86 target_cpu.
+
+2012-12-05 Paulo Andrade <pcpa@gnu.org>
+
+	* check/ldstr.ok, check/ldstr.tst, check/ldsti.ok,
+	check/ldsti.tst, check/ldstxr.ok, check/ldstxr.tst,
+	check/ldstxi.ok, check/ldstxi.tst:
+	New test case files exercising a very large amount of
+	register combinations to verify load/store implementation.
+
+	* check/Makefile.am: Update for new test cases.
+
+	* lib/jit_x86-cpu.c: Correct wrong argument order when
+	computing REX prefix for {ld,st}r_T codes;
+
+2012-12-04 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_mips-fpu.c, lib/jit_mips.c: Implement missing mips
+	jit_sqrtr_{f,d} codes.
+
+	* check/all.tst, include/lightning.h, lib/jit_print.c: Change
+	declaration order and call order in all.tst of {add,sub}c and
+	{add,sub}x. *c must be called before to set the carry and *x
+	second to use the carry and keep it set. The wrong call order
+	was causing all.tst to fail in mips, where a register is
+	allocated to keep a global carry state.
+
+2012-12-04 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_mips.h, lib/jit_mips-cpu.c,
+	lib/jit_mips-fpu.c, lib/jit_mips.c: Correct float/double
+	argument handling and make the mips backend pass the initial
+	test cases.
+
+	* include/lightning.h, ib/jit_print.c, lib/lightning.c:
+	Add extra enum values for argument handling functions that
+	could not be abstracted to the current codes, that is, when
+	float values need to move from/to gpr from/to fpr. It would
+	be more tempting to add such primitives, but they would have
+	wordsize limitations, and it is not expected to add codes
+	with one gpr argument for 64 bit and two for 32 bit.
+
+	* lib/jit_ppc.c: Check _jit->function before calling jit_epilog()
+	to avoid a runtime exception.
+
+2012-12-04 Paulo Andrade <pcpa@gnu.org>
+
+	* include/lightning/jit_mips.h, lib/jit_mips.c: Update to
+	make the mips backend compile in a qemu image.
+
+	* lib/jit_ppc.c: Minor adaptations to help in having the
+	ppc backend compilable.
+
+2012-12-03 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac, include/lightning/jit_private.h, lib/jit_arm-cpu.c,
+	lib/jit_arm-swf.c, lib/jit_arm.c, check/Makefile.am: Correct
+	implementation of the arm backend port to build and pass the
+	current test cases. Tested on armv7 with softfp abi.
+
+	* lib/jit_disasm.c: Rename and change prototype of static
+	disassemble function as in the arm backend it is required
+	to access state information stored in the jit_state_t object.
+
+	* check/3to2.tst, check/add.tst: Correct test case code assuming
+	JIT_RO and JIT_RET are the same, and even if they are the same,
+	the logic was incorrect because it must always call jit_retval*
+	to fetch a function call return before any other instruction.
+	The arm backend hash a special condition if jit_retval is not
+	called, because "r0" is not JIT_R0, but is JIT_RET and *also*
+	the first argument for a called function, so JIT_RET must be
+	only used as an argument to jit_retval.
+
+2012-12-03 Paulo Andrade <pcpa@gnu.org>
+
+	* check/all.tst, check/lightning.c: Only declare or use 64 bit
+	interfaces on 64 bit builds.
+
+	* check/fib.tst: Use simpler logic to not need preprocessor
+	conditionals for 32 or 64 bit.
+
+	* include/lightning.h: Only declare 64 bit macros on a 64 bit
+	build. Code using lightning must know about wordsize and the
+	jit generation limitations, also, this way it generates a
+	compile time failure, not a runtime assertion.
+
+	* include/lightning/jit_x86.h: Correct typo in macro name.
+
+	* lib/jit_arm.c, lib/jit_arm-cpu.c, lib/jit_mips.c,
+	lib/jit_mips-cpu.c, lib/jit_ppc.c, lib/jit_ppc-cpu.c, 
+	lib/jit_x86.c, lib/jit_x86-cpu.c: Correct wrong code to get
+	current jit function pointer.
+
+	* lib/lightning.c: Move call to the simplify() optimization
+	to after register liveness is known. Previous code did work
+	by accident but now with proper test cases the problem was
+	noticed.
+
+	* lib/jit_disasm.c: Always cast bfd_vma to long long when
+	passing it as printf argument.
+
+2012-12-03 Paulo Andrade <pcpa@gnu.org>
+
+	* configure.ac, check/Makefile.am, check/check.sh,
+	doc/Makefile.am, include/lightning/Makefile.am,
+	lib/Makefile.am: Correct make distcheck.
+
+2012-12-02 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_ppc.c: Assign copyright ownership to FSF.
+
+	* lib/jit_x86-cpu.c: Correct integer multiplication that was
+	generating code with reversed register arguments.
+
+	* check/rpn.ok, check/rpn.tst: New test case file.
+
+2012-12-02 Paulo Andrade <pcpa@gnu.org>
+
+	* lib/jit_x86-cpu.c, lib/jit_x86-sse.c, lib/jit_x86-x87.c:
+	Actually change copyright owner to FSF as avertised.
+
+	*  lib/jit_arm-cpu.c,  lib/jit_arm-swf.c,
+	lib/jit_arm-vfp.c, lib/jit_arm.c,
+	lib/jit_mips-cpu.c, lib/jit_mips-fpu.c, lib/jit_mips.c,
+	lib/jit_ppc-cpu.c, lib/jit_ppc-fpu.c, lib/jit_ppc.c: New
+	files implementing initial code different jit backends.
+
+	* include/lightning/jit_private.h: Add extra field to the
+	private jit_patch_t type, required by the arm port.
+
+	* lib/Makefile.am: Update for the new backend implementation
+	files.
+
+2012-12-02 Paulo Andrade <pcpa@gnu.org>
+
+	* check/Makefile.am: Add proper "make clean" rule and missing
+	check.sh to EXTRA_DIST.
+
+2012-12-02 Paulo Andrade <pcpa@gnu.org>
+
+	* .gitignore: Update pattern of ignored files.
+
+	* check/Makefile.am: Add rule to build liblightning.la dependency
+	in case of running "make check" before building the library.
+
+2012-12-02 Paulo Andrade <pcpa@gnu.org>
+
+	* lightning/Makefile.am, lightning/asm-common.h,
+	lightning/core-common.h, lightning/fp-common.h,
+	lightning/funcs-common.h, lightning/i386/Makefile.frag,
+	lightning/i386/asm-32.h, lightning/i386/asm-64.h,
+	lightning/i386/asm.h, lightning/i386/core-32.h,
+	lightning/i386/core-64.h, lightning/i386/core.h,
+	lightning/i386/fp-32.h, lightning/i386/fp-64.h,
+	lightning/i386/fp.h, lightning/i386/funcs.h,
+	lightning/ppc/asm.h, lightning/ppc/core.h,
+	lightning/ppc/fp.h, lightning/ppc/funcs.h,
+	lightning/sparc/asm.h, lightning/sparc/core.h,
+	lightning/sparc/fp.h, lightning/sparc/funcs.h:
+	Removed. The core logic is used in the new code, and new mips
+	and arm ports will be added. At first, sparc will not be
+	supported as it has not yet been ported to the new engine.
+
+2012-12-02 Paulo Andrade <pcpa@gnu.org>
+
+	* tests/Makefile.am, tests/3to2.c, tests/3to2.ok, tests/add.c,
+	tests/add.ok, tests/allocai.c, tests/allocai.ok, tests/bp.c,
+	tests/bp.ok, tests/divi.c, tests/divi.ok, tests/fib.c, tests/fib.ok,
+	tests/fibdelay.c, tests/fibdelay.ok, tests/fibit.c, tests/fibit.ok,
+	tests/funcfp.c, tests/funcfp.ok, tests/incr.c, tests/incr.ok,
+	tests/ldst.c, tests/ldst.ok, tests/ldxi.c, tests/ldxi.ok,
+	tests/modi.c, tests/modi.ok, tests/movi.c, tests/movi.ok,
+	tests/printf.c, tests/printf.ok, tests/printf2.c, tests/printf2.ok,
+	tests/ret.c, tests/ret.ok, tests/rpn.c, tests/rpn.ok, tests/rpnfp.c,
+	tests/rpnfp.ok, tests/sete.c, tests/sete.ok, tests/testfp.c,
+	tests/testfp.ok, tests-run-test: Removed previous test suite, in
+	favor of a newer one in the check subdirectory.
+
+	* check/3to2.ok, check/3to2.tst, check/add.ok, check/add.tst,
+	check/allocai.ok, check/allocai.tst, check/bp.ok, check/bp.tst,
+	check/divi.ok, check/divi.tst, check/fib.ok, check/fib.tst:
+	New sample input for the new test program, loosely matching
+	several of the previous test cases.
+
+	* check/Makefile.am: New test suite makefile.
+
+	* check/check.sh, check/run-test: New wrapper files for the
+	new test suite.
+
+	* check/lightning.c: New file. The main driver of the new test
+	suite, that compiles to a parser of a very simple assembly like
+	language, generates jit and executes it.
+
+	* check/all.tst: New file. A generic debug and sample test file
+	with a directive to prevent it from being executed, and useful to
+	read disassembly of all possible instructions, using a fixed set
+	of registers.
+
+	* include/Makefile.am, include/lightning.h,
+	include/lightning/Makefile.am, include/lightning/jit_arm.h,
+	include/lightning/jit_mips.h, include/lightning/jit_ppc.h,
+	include/lightning/jit_private.h, include/lightning/jit_x86.h,
+	lib/Makefile.am, lib/jit_disasm.c, lib/jit_print.c,
+	lib/jit_x86-cpu.c, lib/jit_x86-sse.c, lib/jit_x86-x87.c,
+	lib/jit_x86.c, lib/lightning.c: New files. These files are
+	written from scratch, only by <pcpa@gnu.org>, and have now
+	copyright assignment to the FSF. This is the core of the new
+	lightning rework. Previously it was integrated in code with
+	a garbage collector and several custom types like vectors and
+	hash tables, so this first code merge with lightning converts
+	that code into a library extracting only the jit bits, and at
+	first only for x86_64 GNU/Linux.
+
+	* lightning.h, m4/lightning.m4: Removed. These are no longer
+	required in the new lightning code.
+
+	.gitignore, Makefile.am, configure.ac: Update for the new
+	lightning code.
+
+2012-12-02 Paulo Andrade <pcpa@gnu.org>
+	* .cvsignore: Removed for extra cleanup.
+
+	* build-aux: Rename directory to m4.
+
+	* m4: Renamed to "default" name and for consistency with merge
+	with code rework to be imported in lightning.
+
+	* .gitignore, configure.ac, Makefile.am, doc/Makefile.am:
+	Update for build-aux to m4 rename.
+
+2012-12-01 Paulo Andrade <pcpa@gnu.org>
+
+	* opcode/Makefile.am, opcode/Makefile.in, opcode/ansidecl.h,
+	opcode/bfd.h, opcode/dis-asm.h, opcode/dis-buf.c, opcode/disass.c,
+	opcode/i386-dis.c, opcode/i386.h, opcode/ppc-dis.c, opcode/ppc-opc.c,
+	opcode/ppc.h, opcode/sparc-dis.c, opcode/sparc-opc.c, opcode/sparc.h,
+	opcode/sysdep.h: Removed. Do not bundle GNU binutils files.
+
+	* aclocal.m4, configure, Makefile.in, config.h.in, doc/Makefile.in,
+	lightning/Makefile.in, tests/Makefile.in: Removed. Do not maintain
+	autogenerated files that also generate too much diff noise when
+	regenerated in git.
+
+	* build-aux/help2man, build-aux/texinfo.tex, build-aux/texi2dvi:
+	Removed. Buildenvironment must have an up to date version from
+	upstream installed.
+
+	* build-aux/config.guess, build-aux/config.sub, build-aux/depcomp,
+	build-aux/install-sh build-aux/mdate-sh build-aux/missing: Removed.
+	Do not maintain a copy of automake files in git. Release tarballs
+	must use an up to date version.
+
+	* lightningize.in, doc/lightningize.1: Removed. Do not encourage
+	bundling lightning in other packages. It should use a system package
+	or a proper thirdy part subdirectory.
+
+	* INSTALL: Removed. Autoreconf removes it and creates a symlink
+	when regenerating files, so, avoid conflicts in git and let
+	automake create the symlink.
+
+	* .gitignore: Add INSTALL and autogenerated files.
+
+	* configure.ac, Makefile.am: Update for removal of opcode subdir,
+	auto generated files and lightningize.
+
+	* tests/Makefile.am, tests/3to2.c, tests/add.c, tests/bp.c,
+	tests/fib.c, tests/fibdelay.c, tests/fibit.c, tests/funcfp.c,
+	tests/incr.c, tests/printf.c, tests/rpn.c, tests/rpnfp.c,
+	tests/sete.c, tests/testfp.c: Update for removal of opcode subdir.
+
+	* doc/Makefile.am: Update for removal of lightningize.
+
+	* configure.ac, lightning/ppc/funcs.h, lightning/sparc/funcs.h,
+	lightning/i386/fp.h, lightning/i386/core.h, lightning/i386/asm.h,
+	tests/3to2.c, tests/add.c, tests/bp.c, tests/fib.c, tests/fibdelay.c,
+	tests/fibit.c, tests/funcfp.c, tests/incr.c, tests/printf.c,
+	tests/rpn.c, tests/rpnfp.c, tests/sete.c, tests/testfp.c:
+	Remove LIGHTNING_CROSS, it is half supported and incomplete.
+
+	* tests/3to2.c, tests/funcfp.c, tests/rpnfp.c: Remove preprocessor
+	check on JIT_FPR. If no hardware registers are available, the backend
+	must provide an alternative for software float.
+
+	* lightning/ppc/core.h, lightning/sparc/core.h, tests/Makefile.am:
+	Remove JIT_NEED_PUSH_POP. It is absolutely not trivial to implement
+	properly on some backends due to stack alignment constraints, and
+	whenever it is required, using jit_allocai and using a properly
+	aligned stack vector, or a heap buffer, is better.
+
+	* tests/push-pop.c, tests/push-pop.ok: Removed due to
+	JIT_NEED_PUSH_POP no longer available.
+
+2011-02-28  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-64.h: Add jit_add{c,x}{i,r}_l, jit_mulr_{l,ul}_,
+	fix jit_mul{i,r}_{l,ul}.
+
+2010-08-20  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/fp-64.h: Return patch address from jit_bXYr_{f,d}.
+	Reported by Paulo César Pereira de Andrade.
+	* lightning/ppc/fp.h: Likewise.
+	* lightning/sparc/fp.h: Implement FP branches.
+
+2010-08-18  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/fp-64.h: Fix jp in jit_bner_{f,d}.
+
+2010-08-18  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/fp-32.h: Fix -D_ASM_SAFETY compilation.
+	Reported by Paulo César Pereira de Andrade.
+
+2010-08-15  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/ldst.c: Update.
+	* tests/Makefile.am: Use -ffloat-store to compile it.
+
+2010-08-15  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core.h (jit_ldr_c, jit_ldxr_c, jit_ldr_s,
+	jit_ldxr_s): Move...
+	* lightning/i386/core-32.h: ... here.
+	* lightning/i386/core-64.h (jit_ldr_c, jit_ldxr_c, jit_ldr_s,
+	Use movsbq and movswq.
+
+2010-08-10  Paulo César Pereira de Andrade <pcpa@mandriva.com.br>
+
+	* lightning/i386/core-32.h (jit_replace): Use MOVLrr, not MOVLir.
+	(jit_movbrm): Check index register as well.
+	* lightning/i386/fp-64.h: Add jit_extr_f_d and jit_extr_d_f.
+	* lightning/fp-common.h: Add jit_extr_f_d and jit_extr_d_f.
+
+2010-07-28  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/Makefile.am: Add ldst test.
+	* tests/Makefile.in: Regenerate.
+	* tests/ldst.c: New.
+	* tests/ldst.ok: New.
+
+2010-07-28  Paolo Bonzini  <bonzini@gnu.org>
+
+	* THANKS: Add Paulo Cesar Pereira de Andrade.
+	* doc/porting.texi: Fix ordering of arguments in jit_stxi.
+	* lightning/i386/core-32.h (jit_replace): Remove cmp argument.
+	* lightning/i386/fp-64.h (jit_movi_f): Fix.
+
+2010-07-26  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-32.h (jit_replace): Move here (removed
+	2009-03-01).
+
+2010-07-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* build-aux/lightning.m4: Always set and replace lightning_frag.
+	* Makefile.in: Regenerate.
+	* aclocal.m4: Regenerate.
+	* config.h.in: Regenerate.
+	* configure: Regenerate.
+	* doc/Makefile.in: Regenerate.
+	* doc/lightningize.1: Regenerate.
+	* doc/version.texi: Regenerate.
+	* lightning/Makefile.in: Regenerate.
+	* opcode/Makefile.in: Regenerate.
+	* tests/Makefile.in: Regenerate.
+
+2009-03-01  Paolo Bonzini  <bonzini@gnu.org>
+
+        * lightning/i386/core-64.h: Use Mike's macros for x86-64 too.
+        * lightning/i386/core.h: Remove jit_replace.
+
+	2009-02-27  Mike Spivey  <mike@comlab.ox.ac.uk>
+
+        * lightning/i386/core.h: Rewrite shift-handling macros.
+        * lightning/fp-common.h: Fix jit_extr_{f_d,d_f}.
+
+2009-02-17  Mike Spivey  <mike@comlab.ox.ac.uk>
+
+	* lightning/i386/core.h: Fix blunder in operand order.
+
+2009-02-17  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/fp-32.h: Another fix to jit_fp_btest.
+
+2009-02-17  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/fp-common.h: Define double branches if missing.
+	* lightning/i386/asm.h: Define JC and JNC mnemonics.
+	* lightning/i386/fp-32.h: Fix jit_fp_btest.  All reported
+	by Mike Spivey.
+
+2008-10-09  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/funcs.h (jit_flush_code): Subtract 1 from end.
+	Reported by Eli Barzilay and Matthew Flatt.
+
+2008-08-23  Nix  <nix@esperi.org.uk>
+
+	* lightning/i386/Makefile.frag: fp-32.h and fp-64.h are target files.
+
+2008-07-02  Laurent Michel  <ldm@engr.uconn.edu>
+
+	* lightning/ppc/funcs.h (jit_flush_code): modified the computation
+	of start/end. The pointer arithmetic was done without casting. It
+	prevented compilation with recent gcc versions. 
+	* lightning/ppc/core.h (jit_pushr_i): The offset for the store was
+	incorrect. Should have been 4 bytes below SP (not above).
+	* lightning/ppc/core.h (jit_popr_i): The offset for the load was 
+	incorrect. Should have been 0 (not +8). 
+
+2008-06-17  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-64.h: Forward IMULQir to IMULQirr,
+	fix REXQ order for IMULQirr.
+
+2008-06-17  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core.h: Fix _rN vs. _rR.
+
+2008-06-16  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core.h: Use jit_save in jit_replace.  Move JIT_R
+	definition...
+	* lightning/i386/core-32.h: ... here; define jit_save so that
+	the core.h has no effect on the 32-bit backend.
+	* lightning/i386/core-64.h: Place JIT_R1/JIT_R2 in R10/R11,
+	place outgoing arguments in the right spot from the beginning,
+	define jit_save, fix jit_reg8/jit_reg16.
+
+2008-06-15  Paolo Bonzini  <bonzini@gnu.org>
+
+        * lightning/i386/core-64.h: Rewrite argument passing to
+	support up to 6 arguments and generate less code.
+
+2008-06-14  Laurent Michel  <ldm@thorgal.homelinux.org>
+
+	* lightning/i386/core-64.h (jit_movi_l): When the operand is 0,
+	the XOR should be on a quadword.
+	* lightning/i386/core-64.h (jit_prolog): Keep 16-byte stack
+	alignment.
+	(jit_ret): Always use LEAVE.
+
+2008-06-13  Laurent Michel  <ldm@thorgal.homelinux.org>
+
+	* lightning/i386/core-64.h: Add (void) casts for C++ compatibility.
+	* lightning/i386/asm.h: Likewise.
+
+2008-06-12  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core.h: Move JIT_V definition...
+	* lightning/i386/core-32.h: ... here.
+	* lightning/i386/core-64.h: ... and here.  Avoid dancing between
+	RSI/RDI and R12/R13, and place JIT_V1/JIT_V2 in R12/R13.
+
+2008-06-11  Paolo Bonzini  <bonzini@gnu.org>
+
+	* build-aux/lightning.m4: Adjust LIGHTNING_BACKENDS, don't
+	use suffix support to distinguish i386/x86_64.
+	* lightning/i386/Makefile.frag: Use LIGHTNING_TARGET_FILES
+	to distribute *-32.h and *-64.h files now.
+	* lightning/i386/asm-i386: Moved to...
+	* lightning/i386/asm.h: Include the appropriate subtarget file.
+	* lightning/i386/core-i386: Moved to...
+	* lightning/i386/core.h: Include the appropriate subtarget file.
+	* lightning/i386/fp.h: New, include the appropriate subtarget file.
+	* lightning/i386/asm-32: Do not include asm-i386.h.
+	* lightning/i386/asm-64.h: Likewise.
+	* lightning/i386/core-32: Do not include core-i386.h.
+	* lightning/i386/core-64.h: Likewise.
+	* lightning/Makefile.am: Adjust for renamed files.
+
+	* configure.ac: Define LIGHTNING_TARGET here.
+	* opcode/disass.c: Change list of valid LIGHTNING_TARGET values.
+
+	* lightningize.in: Robustify against missing subtarget files.
+
+2008-06-11  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-32.h: Use MOVLir instead of jit_movi_l
+	to implement jit_movi_p.
+
+2008-06-11  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-32.h: Use separate __APPLE__ and SysV
+	prolog/ret macros.  Subtract 12 bytes in __APPLE__ case to
+	keep stack aligned, and always use LEAVE in the epilog.
+
+2008-06-11  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-i386.h: Fix C++ incompatibility.
+
+2008-06-10  Laurent Michel  <ldm@engr.uconn.edu>
+
+	* lightning/i386/core-i386.h: Fix jit_replace8 for
+	case when one of the operands is _EAX.
+
+2008-05-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/run-test: Avoid CRLF issues on mingw.
+
+2008-03-21  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-64.h: Fix jit_{ld,st}{,x}i_{i,l}.
+	Remove jit_ld{,x}i_ul.
+	* lightning/core-common.h: Make jit_ld{,x}{i,r}_ul
+	always a synonym of the _l variant.
+	* doc/porting.texi: Document this.
+
+2008-03-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-64.h: Fix uses of jit_qop_.
+
+2008-03-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-64.h: Add boolean operations.
+
+2008-03-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-64.h: Add LEAQmr.
+
+2008-03-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-64.h: Misc bugfixes.
+
+2008-03-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-i386.c: Remove jit_ldr_i, jit_ldxr_i.
+	* lightning/i386/core-32.h: Add jit_ldr_i, jit_ldxr_i.
+	* lightning/i386/core-64.h: Add jit_ld{r,xr,i,xi}_{ui,l,ul};
+	move jit_ldr_i, jit_ldxr_i, jit_str_l, jit_stxr_l with others.
+
+2008-03-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/asm-common.h: Add _s32P.
+
+2008-03-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-64.h: Implement long mul/div/mod.
+
+2008-03-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-i386.h: Cast memory address to long for JCCim.
+
+2008-03-15  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/asm-common.h: Add underscores around __unused__
+	attribute.
+
+2008-03-15  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/core.h: Avoid some "value computed is not used"
+	warnings.
+	* lightnings/tests/allocai.c: Silence other warnings.
+
+2008-03-14  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightningize.in: Fix some problems (not all).
+
+2008-03-14  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-32.h: Avoid some "value computed is not used"
+	warnings; reported by Sam Steingold.
+
+2008-03-08  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-32.h: Fix stxr_c(_EAX, _EBX, _ESI).
+
+2008-02-13  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-32.h: Avoid redefinition of _r1, reported by
+	Sam Steingold.
+	* lightning/i386/asm-64.h: Likewise.
+
+2008-02-08  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-i386.h: Don't define _VOID, reported
+	by Reini Urban.
+
+2008-02-03  Paolo Bonzini  <bonzini@gnu.org>
+
+	* build-aux/lightning.m4: Add --with-lightning-prefix option, suggested
+	by Sam Steingold.
+
+2008-01-14  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-64.h: Use CALLsr, not CALLLsr.
+
+2008-01-13  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-i386.h: Move jit_calli and jit_callr...
+	* lightning/i386/core-32.h: ... here.
+	* lightning/i386/core-64.h: Redefine them.
+
+2008-01-05  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/fp-32.h: Fix sub(a,0,a).
+	* lightning/tests/3to2.c: Add new testcases.
+	* lightning/tests/3to2.ok: Add new testcases.
+
+2008-01-02  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/fp-32.h: Fix sub(a,b,a) with a ~= JIT_FPR0.
+	* lightning/tests/3to2.c: New.
+	* lightning/tests/3to2.ok: New.
+
+2007-11-07  Paolo Bonzini  <bonzini@gnu.org>
+
+	* opcode/Makefile.am: Fix AM_CPPFLAGS.
+
+2007-08-12  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-i386.h: Improve encoding of set* instructions.
+	* lightning/i386/core-64.h: Fix jit_bra_l.
+	* tests/sete.c: New.
+	* tests/sete.ok: New.
+
+2007-06-29  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/bp.c: Upgrade to GPL/LGPLv3.
+	* lightning/i386/asm-32.h: Upgrade to GPL/LGPLv3.
+	* lightning/i386/asm-64.h: Upgrade to GPL/LGPLv3.
+	* lightning/i386/core-32.h: Upgrade to GPL/LGPLv3.
+	* lightning/i386/core-64.h: Upgrade to GPL/LGPLv3.
+	* lightning/i386/fp-64.h: Upgrade to GPL/LGPLv3.
+	* lightning/sparc/asm.h: Upgrade to GPL/LGPLv3.
+	* lightning/sparc/core.h: Upgrade to GPL/LGPLv3.
+	* lightning/sparc/fp.h: Upgrade to GPL/LGPLv3.
+	* lightning/sparc/funcs.h: Upgrade to GPL/LGPLv3.
+	* lightning/i386/asm-i386.h: Upgrade to GPL/LGPLv3.
+	* lightning/i386/core-i386.h: Upgrade to GPL/LGPLv3.
+	* lightning/i386/fp-32.h: Upgrade to GPL/LGPLv3.
+	* lightning/i386/funcs.h: Upgrade to GPL/LGPLv3.
+	* lightning/ppc/asm.h: Upgrade to GPL/LGPLv3.
+	* lightning/ppc/core.h: Upgrade to GPL/LGPLv3.
+	* lightning/ppc/fp.h: Upgrade to GPL/LGPLv3.
+	* lightning/ppc/funcs.h: Upgrade to GPL/LGPLv3.
+	* lightning.h: Upgrade to GPL/LGPLv3.
+	* tests/add.c: Upgrade to GPL/LGPLv3.
+	* tests/fib.c: Upgrade to GPL/LGPLv3.
+	* tests/testfp.c: Upgrade to GPL/LGPLv3.
+	* tests/fibdelay.c: Upgrade to GPL/LGPLv3.
+	* tests/fibit.c: Upgrade to GPL/LGPLv3.
+	* tests/funcfp.c: Upgrade to GPL/LGPLv3.
+	* tests/incr.c: Upgrade to GPL/LGPLv3.
+	* tests/printf.c: Upgrade to GPL/LGPLv3.
+	* tests/printf2.c: Upgrade to GPL/LGPLv3.
+	* tests/rpn.c: Upgrade to GPL/LGPLv3.
+	* tests/rpnfp.c: Upgrade to GPL/LGPLv3.
+	* lightning/asm-common.h: Upgrade to GPL/LGPLv3.
+	* lightning/core-common.h: Upgrade to GPL/LGPLv3.
+	* lightning/fp-common.h: Upgrade to GPL/LGPLv3.
+	* lightning/funcs-common.h: Upgrade to GPL/LGPLv3.
+	* opcode/dis-buf.c: Upgrade to GPL/LGPLv3.
+	* opcode/disass.c: Upgrade to GPL/LGPLv3.
+	* opcode/i386-dis.c: Upgrade to GPL/LGPLv3.
+	* opcode/sparc-dis.c: Upgrade to GPL/LGPLv3.
+	* opcode/sparc-opc.c: Upgrade to GPL/LGPLv3.
+	* lightningize.in: Upgrade to GPL/LGPLv3.
+	* opcode/bfd.h: Upgrade to GPL/LGPLv3.
+	* opcode/i386.h: Upgrade to GPL/LGPLv3.
+	* opcode/sparc.h: Upgrade to GPL/LGPLv3.
+
+2007-01-26  Thomas Girard  <thomas.g.girard@free.fr>
+
+	* lightning/Makefile.am: Add clean-local target.
+
+2006-12-02  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-i386.h: Add CVTTS?2SIL.
+	* lightning/i386/asm-64.h: Add CVTTS?2SIQ.
+	* lightning/i386/fp-64.h: Use it.
+
+	* lightning/Makefile.am: Place files in nodist_lightning_HEADERS.
+
+2006-11-23  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/core-common.h: Add casts in "*i_p" variants.
+	* lightning/i386/asm-32.h: Add _r1.
+	* lightning/i386/asm-64.h: Likewise, and add SSE instructions.
+	* lightning/i386/asm-i386.h: Merge SSE instructions from Gwenole.
+	Use short form for 16-bit AX instructions.  Remove _r1
+	* lightning/i386/core-64.h: Add FP ABI support in its infancy.
+	* lightning/i386/core-i386.h: Move jit_arg_f and jit_arg_d...
+	* lightning/i386/core-32.h: ... and jit_prepare_f and jit_prepare_d...
+	* lightning/i386/fp-32.h: ... here.
+	* lightning/i386/fp-64.h: Write the code.
+	* lightning/sparc/fp.h: Fix jit_extr_{f_d,d_f} register order.
+	
+2006-11-22  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-i386.h: Move x86-64 instructions...
+	* lightning/i386/asm-64.h: ... here.
+	* lightning/i386/fp-32.h: Fix bugfixes worked around in froofyJIT.
+	Add JIT_FPRET.
+	* lightning/sparc/fp.h: Likewise.
+	* lightning/ppc/fp.h: Likewise.
+	* lightning/fp-common.h: Adjust for JIT_FPRET.
+	* tests/funcfp.c: Adjust for JIT_FPRET.
+	* tests/rpnfp.c: Adjust for JIT_FPRET.
+
+2006-11-20  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-i386.h:  Add an underscore to macros without
+	a parameter.
+
+2006-11-20  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core-i386.h: Move jit_movip, jit_check8, jit_reg8,
+	jit_reg16, jit_movbrm...
+	* lightning/i386/core-32.h: ... here.
+	* lightning/i386/core-64.h: Redefine them.  Fix other bugs.
+
+	* tests/printf.c: Do not do a varargs call.
+
+2006-11-20  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-i386.h: Check in rewrite from Basilisk II.
+	* lightning/i386/asm-32.h: Adjust.
+	* lightning/i386/asm-64.h: Adjust.
+	* lightning/i386/fp-32.h: Adjust.
+
+	* lightning/i386/core-32.h: Adjust.  Add jit_{ld,ldx,st,stx}i*.
+	* lightning/i386/core-64.h: Adjust.  Add jit_{ld,ldx,st,stx}i*.
+	* lightning/i386/core-i386.h: Adjust. Remove these patterns.
+
+2006-11-20  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm-i386.h: Merge 64-bit cleanliness changes from
+	mzscheme.
+	Add SSE.
+	* lightning/i386/asm-64.h: Likewise.
+
+2006-11-20  Paolo Bonzini  <bonzini@gnu.org>
+	    Ludovic Courtes  <ludo@chbouib.org>
+
+	* lightning/i386/core-32.h: Disable jit_push and jit_pop if stack not
+	needed.
+	* lightning/i386/core-64.h: Disable jit_push and jit_pop if stack not
+	needed.
+	* lightning/sparc/core.h: Merge final implementation of jit_pushr and
+	jit_popr.
+	* lightning/ppc/core.h: Fix implementation of jit_pushr and jit_popr to
+	work (more or less) across function calls.
+
+	* tests/push-pop.c, tests/push-pop.ok: New test.
+	* tests/Makefile.am: Run it.
+
+2006-11-20  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/asm-common.h: Make 64-bit safe.
+	* lightning/i386/funcs.h: Make 64-bit safe.
+
+	* lightning/i386/asm-64.h: More merge from mzscheme.
+	* lightning/i386/asm-i386.h: More merge from mzscheme.
+	* lightning/i386/core-32.h: More merge from mzscheme.
+	* lightning/i386/core-64.h: More merge from mzscheme.
+	* lightning/i386/core-i386.h: More merge from mzscheme.
+
+	* tests/rpnfp.c, tests/testfp.c, tests/funcfp.c: Skip if no
+	floating-point support.
+
+2006-11-04  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/rpn.c: Remove pushr/popr.
+
+2006-11-04  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/core.h: Implement jit_allocai, define JIT_FP to be R1.
+	* lightning/ppc/funcs.h: Store frame size into _jitl.  Store R1 before
+	the STMW, so that the offset is unchanged when we patch the STMW.
+	* lightning/i386/core.h: Define JIT_FP to be EBP.
+	* lightning/i386/core-32.h: Implement jit_allocai, put LEAVE in the
+	epilog if jit_allocai was used.
+	* lightning/i386/core-64.h: Implement jit_allocai, put LEAVE in the
+	epilog if jit_allocai was used.
+
+2006-11-04  Ludovic Courtes  <ludo@chbouib.org>
+
+	* lightning/sparc/core.h: Implement jit_allocai.
+	* tests/allocai.c: New.
+	* tests/Makefile.am: Point to new tests.
+
+2006-11-03  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/core.h: Fix jit_bms using BNE rather than BGT.
+	"AND." does signed comparisons.
+
+2006-10-31  Paolo Bonzini  <bonzini@gnu.org>
+
+	* doc/porting.texi: Rename JIT_FP to JIT_AP.
+	* lightning/core-common.h: Likewise.
+	* lightning/i386/core-i386.h: Likewise.
+	* lightning/fp-common.h: Provide default versions of jit_getarg_[fd].
+	* lightning/i386/fp-32.h: Don't provide jit_getarg_[fd].
+	* lightning/ppc/fp.h: Likewise.
+
+2006-10-31  Ludovic Courtes  <ludo@chbouib.org>
+
+        * doc/using.texi (The instruction set): Clarified the use of `JIT_RET' and
+        documented `jit_retval'.
+        * tests/ret.c (generate_function_proxy): After `jit_finish', use
+        `jit_retval_i' to move FUNC's return value into the correct register.
+
+2006-10-31  Paolo Bonzini  <bonzini@gnu.org>
+	    Ludovic Courtes  <ludo@chbouib.org>
+
+	* tests/divi.c, tests/divi.ok, tests/movi.c, tests/movi.ok: New.
+	* tests/ldxi.c: Ensure large pointer is generated.
+	* tests/Makefile.am: Point to new tests.
+	* lightning.h: Include funcs-common.h before funcs.h.
+	* lightning/sparc/core.h: Fix bugs in modi/divi.
+
+2006-10-30  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/Makefile.am: Use "ln -sf".
+	* lightning/core-common.h: Define jit_negr_l if necessary.
+
+2006-10-30  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm.h (MOVS*, MOVZ*): Use correct _r[124] macros.
+
+2006-10-29  Paolo Bonzini  <bonzini@gnu.org>
+
+	* configure.ac: Use lightning.m4 macros.
+	* lightning.m4: Refactor to use common code in configure.ac.  Move...
+	* build-aux/lightning.m4: ... here.
+	* lightningize.in: Support suffixes.
+	* opcode/disass.in: Adapt to changes in configure.ac.
+
+	* lightning/ppc/funcs.h: Use __APPLE__ instead of _CALL_DARWIN.
+	* lightning/i386/core-32.h: Likewise.
+
+2006-10-26  Paolo Bonzini  <bonzini@gnu.org>
+
+	* configure.ac: Fix compilation test.
+	* lightning/Makefile.am: Symlink LIGHTNING_TARGET_FILES in
+	non-distribution mode.
+	* lightning/i386/Makefile.frag: Use LIGHTNING_TARGET_FILES.
+
+2006-10-26  Paolo Bonzini  <bonzini@gnu.org>
+
+	* configure.ac: Subst cpu.
+	* lightning/core-common.h: Make tests pass on i386.
+	* lightning/i386/asm-32.h: Make tests pass on i386.
+	* lightning/i386/asm-64.h: Make tests pass on i386.
+	* lightning/i386/asm-i386.h: Make tests pass on i386.
+	* lightning/i386/core-32.h: Make tests pass on i386.
+	* lightning/i386/core-64.h: Make tests pass on i386.
+	* lightning/i386/core-i386.h: Make tests pass on i386.
+	* tests/Makefile.am: Include files from cpu directory.
+
+2006-10-26  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm.h: Move to asm-i386.h
+	* lightning/i386/asm-32.h: New, from Matthew Flatt.
+	* lightning/i386/asm-64.h: New, from Matthew Flatt.
+	* lightning/i386/core.h: Move to core-i386.h
+	* lightning/i386/core-32.h: New, from Matthew Flatt.
+	* lightning/i386/core-64.h: New, from Matthew Flatt.
+	* lightning/i386/fp.h: Move to fp-32.h
+	* lightning/i386/fp-64.h: New, dummy.
+	* lightning/i386/Makefile.frag: New.
+	* lightning/Makefile.am: Support per-target Makefile fragments.
+	* configure.ac: Support per-target Makefile fragments and CPU suffixes.
+
+2006-10-16  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/i386.h (jit_flush_code): Fix syntax error. :-(
+
+2006-07-06  Paolo Bonzini  <bonzini@gnu.org>
+	    Ludovic Courtes  <ludovic.courtes@laas.fr>
+
+	* doc/using.texi: Clarify "Using autoconf" section
+	and rename it to "Bundling lightning"
+	* lightning.m4: Work also if lightning is not bundled.
+
+2006-07-06  Paolo Bonzini  <bonzini@gnu.org>
+	    Ludovic Courtes  <ludovic.courtes@laas.fr>
+
+	* lightning/ppc/core.h (_jit_mod): Replace with...
+	(_jit_mod_big, _jit_mod_small): ... these.
+	(jit_modi_i, jit_modi_ui): Rewrite.
+	* tests/modi.c, tests/modi.ok: New tests.
+
+2006-05-18  Matthew Flatt  <mflatt@cs.utah.edu>
+
+	* lightning/i386/asm.h: Fix test for extending the mprotect area
+	towards lower addresses.
+
+2006-05-16  Bruno Haible  <bruno@clisp.org>
+
+	* lightning/asm-common.h: Don't use __func__ nor __FUNCTION__ if
+	not compiling with GNU C.
+
+2006-02-16  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/core.h: Fix jit_ldxi_* with big displacement.
+
+2006-01-23  Paolo Bonzini  <bonzini@gnu.org>
+
+	* configure.ac: Fix comments in config.h.in.
+	
+2005-11-25  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/sparc/fp.h: Fix header comment.
+	* lightning/ppc/fp.h: Fix header comment.
+
+2005-04-27  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/asm.h (JCm, JCSm, JNCm, JNCSm): New.
+
+2004-11-26  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/funcs.h (_jit_epilog): Remove unused variable.
+
+2004-11-13  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/funcs.h [__linux__]: Include sys/mman.h.
+
+2004-11-09  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/sparc/fp.h: Fix fp-to-integer conversions.
+	* lightning/ppc/testfp.c: Test fp-to-integer conversions
+	of integer numbers.
+	* lightning/ppc/testfp.ok: Adjust for the above.
+
+2004-11-08  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/testfp.c: Always flush code before
+	testing it.
+
+2004-11-08  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/fp.h: Do not clobber f31.
+
+2004-11-08  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning.h: New name of...
+	* lightning-inst.h: ... this file.
+	* lightning.h.in: Removed.
+
+	* opcodes/disass.c: Include config.h.
+	* tests/add.c: Include config.h.
+	* tests/bp.c: Include config.h.
+	* tests/fib.c: Include config.h.
+	* tests/fibdelay.c: Include config.h.
+	* tests/fibit.c: Include config.h.
+	* tests/funcfp.c: Include config.h.
+	* tests/incr.c: Include config.h.
+	* tests/printf.c: Include config.h.
+	* tests/printf2.c: Include config.h.
+	* tests/rpn.c: Include config.h.
+	* tests/rpnfp.c: Include config.h.
+	* tests/testfp.c: Include config.h.
+
+2004-10-12  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/fp.h: Fix bugs in conditional branches.
+
+2004-10-10  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/funcs.h: Fix pasto in jit_flush_code.
+
+2004-10-08  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/fp.h: Optimized conditional branches.
+
+2004-09-20  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/asm.h: Fix more typos.
+
+2004-09-20  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/asm.h: Fix typos, replace `26' with JIT_AUX.
+
+2004-09-20  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/fp.h: Added conditional branches.
+
+2004-09-18  Laurent Michel  <ldm@thorgal.homelinux.org>
+
+	* lightning/ppc/fp.h (jit_unler_d, jit_unltr_d, jit_unger_d,
+	jit_ungtr_d, jit_ltgt_d, jit_uneq_d): Implemented missing tests
+	to fully support testfp.
+	(jit_floorr_d_i, jit_ceilr_d_i, jit_roundr_d_i, jit_truncr_d_i):
+	New macros.
+	* lightning/ppc/asm.h: Added missing opcodes FCTIWZ and MTFSFI.
+	* lightning/ppc/funcs.h (_jit_prolog): Fixed minor mistake in
+	the initialization of _jitl.nextarg_geti, relying on the
+	JIT_AUX macro as well to get the register offset.
+
+2004-09-07  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/funcs.h: Fix typo.
+
+2004-09-06  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/funcfp.c: Use %g.  Remove C99 variable declarations.
+	* tests/testfp.c: Don't use __builtin_nan.
+
+	* lightning/ppc/core.h: Add three V registers.
+	* lightning/ppc/funcs.h: Adjust.
+
+	* lightning/sparc/core.h: Some fixes related to FP argument passing.
+	Move R0 to %g2, use %o7 for JIT_BIG2.
+	* lightning/sparc/fp.h: Some fixes related to FP argument passing.
+
+2004-09-02  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/sparc/core.h: Add another V register,
+	move R0 to %o7.
+
+2004-07-15  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/funcs.h: Implement jit_flush_code,
+	in order to support Fedora's exec-shield.
+
+2004-07-14  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/core-common.h: Add more jit_extr_*_* macros.
+	* lightning/doc/using.texi: Be clearer about the order
+	of arguments in jit_extr_*_*.
+	* lightning/doc/porting.texi: Add more jit_extr_*_* macros.
+	* lightning/i386/fp.h: Fix typo in jit_extr_i_d.
+
+2004-07-14  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/funcs.h: Adjust offset of LR into
+	stack frame if running under the Darwin ABI.
+
+2004-07-13  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/fp.h: Rename jit_exti_d to jit_extr_i_d.
+
+2004-07-13  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/core.h: Fix thinko.
+
+	* lightning/i386/core.h: Fix jit_lti_ui.
+	* lightning/core-common.h: Add missing macros.
+
+	* lightning/ppc/fp.h: Rename jit_neg_* to jit_negr_*.
+	* lightning/i386/fp.h: Rename jit_neg_* to jit_negr_*.
+	* lightning/sparc/fp.h: Rename jit_neg_* to jit_negr_*.
+	* lightning/fp-common.h: Rename jit_neg_* to jit_negr_*.
+	* doc/porting.texi: Add undocumented macros.
+
+2004-07-12  Paolo Bonzini  <bonzini@gnu.org>
+
+	* doc/porting.texi: Add missing macros.
+
+2004-07-12  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/funcs.h: Don't generate trampolines.
+	Separate prolog and epilog generation.
+	* lightning/ppc/core.h: Generate epilog explicitly.
+	Don't reserve r31 anymore.
+	* lightning/core-common.h: Remove call to jit_setup_code.
+
+2004-07-09  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/lightning.h.in: Avoid preprocessor warnings.
+	* lightning/lightning-inst.h: Likewise.
+
+	* lightning/i386/core.h: Define JIT_R, JIT_R_NUM, JIT_V,
+	JIT_V_NUM.
+	* lightning/ppc/core.h: Likewise.
+	* lightning/sparc/core.h: Likewise.
+	* lightning/i386/fp.h: Define JIT_FPR, JIT_FPR_NUM.
+	* lightning/ppc/fp.h: Likewise.
+	* lightning/sparc/fp.h: Likewise.
+	* lightning/core-common.h: Define fixed register names.
+	* lightning/fp-common.h: Likewise for FP regs.
+
+2004-07-09  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/ppc/funcs.h: Fix location where return address
+	is stored.
+	* lightning/i386/asm.h: Add a trailing _ to opcodes without
+	any parameter.
+	* lightning/i386/core.h: Adjust for the above.
+
+2004-04-15  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/fp.h: Change "and" to "_and"
+	to satisfy C++ compilers.
+
+2004-04-14  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/sparc/fp.h: Use memcpy to implement jit_movi.
+	* lightning/ppc/fp.h: Use memcpy to implement jit_movi.
+	Move floating-point opcodes...
+	* lightning/ppc/asm.h: ... here.
+
+2004-04-14  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/core-common.h: Add jit_finishr.
+	* lightning/ppc/core.h: Add jit_callr and jit_finishr.
+	* lightning/i386/core.h: Add jit_callr.
+	* lightning/sparc/core.h: Add jit_callr.  Fix typo.
+
+2004-04-14  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core.h: Fix pasto in jit_b*_ui.
+
+2004-03-30  Laurent Michel
+
+	* lightning/ppc: Implement PowerPC floating point
+	(ChangeLog entry missing).
+
+2004-03-12  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/fp-common.h: Load/store macros are not the
+	same for floats and doubles anywhere, but jit_retval may be.
+	* lightning/i386/asm.h: Fix = mistaken for == in ESCrri.
+	* lightning/i386/core.h: Fix typo in jit_prepare_[fd].
+	* lightning/i386/fp.h: Rewritten.
+	* tests/testfp.c: Add tests for unordered comparisons.
+	* tests/testfp.ok: Add results.
+
+2004-03-15  Paolo Bonzini  <bonzini@gnu.org>
+
+	Merge changes from Laurent Michel.
+
+	* lightning/asm-common.h: Add _jit_I_noinc.
+	* lightning/core-common.h: Support jit_init,
+	jit_setup_code, jit_patch_at.  Return patchable IP from
+	jit_movi_p.
+	* lightning/funcs-common.h: Provide defaults
+	for jit_setup_code, jit_start_pfx, jit_end_pfx
+	* lightning/i386/core.h: Add jit_patch_at, jit_patch_movi.
+	* lightning/ppc/core.h: Likewise.
+	* lightning/sparc/core.h: Likewise.
+	* lightning/ppc/asm.h: Fix generation of branch destination
+	displacements in _FB and _BB
+	* lightning/ppc/core.h: Generate trampolines in the user
+	area.
+	* lightning/ppc/funcs.h: Add a few casts.
+	* tests/bc.c: New testcase.
+
+	* lightning/i386/asm.h: Wrap into #ifndef LIGHTNING_DEBUG.
+	* lightning/ppc/asm.h: Wrap into #ifndef LIGHTNING_DEBUG.
+	* lightning/sparc/asm.h: Wrap into #ifndef LIGHTNING_DEBUG.
+
+
+2004-03-09  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/sparc/fp.h: Rewrite.  Move macros for
+	FP code generation...
+	* lightning/sparc/asm.h: ... here.
+	* lightning/sparc/core.h: Rename jit_prepare to
+	jit_prepare_i, jit_retval to jit_retval_i.
+	* lightning/ppc/core.h: Rename jit_prepare to
+	jit_prepare_i, jit_retval to jit_retval_i.
+	* lightning/i386/core.h: Rename jit_prepare to
+	jit_prepare_i, jit_retval to jit_retval_i.
+	* lightning/core-common.h: Provide backwards
+	compatible synonyms for the above.
+	* lightning/fp-common.h: Rewrite.
+	* lightning-inst.h: Include fp unconditionally.
+	* lightning.h.in: Include fp unconditionally.
+	* tests/Makefile.am: Enable fp tests.
+	* tests/fib.c: Use jit_retval_i.
+	* tests/fibit.c: Cast codeBuffer to char *.
+	* tests/funcfp.c: Use new fp macros.
+	* tests/printf.c: Use jit_retval_i.
+	* tests/rpnfp.c: Use new fp macros.
+	* tests/testfp.c: Use new fp macros.
+
+2004-03-02  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core.h: generate correct code when
+	doing lt/le/ge/etc. on ESI and EDI.  Use MOVZX/MOVSX
+	where possible.
+	* lightning/i386/asm.h: Add macros for MOVZX/MOVSX.
+	Move macros for x87 here, and add many of them.
+	* lightning/i386/fp.h: Use new macros for x87.
+
+2004-02-06  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core.h: avoid generating MOV reg, reg.
+	* lightning/sparc/core.h: fix several bugs.
+	* lightning/ppc/core.h: fix several bugs.
+	* tests/rpn.c: rewritten.
+
+2004-01-08  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/rpnfp.c: new example, suggested by Basile
+	Starynkevitch.
+	* tests/rpnfp.ok: new example.
+
+2003-12-12  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/add.c: new test, suggested by Steve Dekorte.
+	* tests/add.c: new test.
+
+2003-11-14  Paolo Bonzini  <bonzini@gnu.org>
+	    John Redford <eirenik@hotmail.com>
+
+	* lightning/asm-common.h: change the 'pc' field of _jit to
+	be a union of various data types, because ISO C99 doesn't
+	permit using ++ on a = cast.  Change the incremented casts of
+	_jit.pc to be _jit.x.uc_pc, _jit.x.us_pc, etc.
+	* all files: change all non-cast instances of _jit.pc to be
+	_jit.x.pc.
+	* lightning/i386/core.h: remove casts from jit_might.
+
+2003-05-25  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core.h: use JITSORRY in jit_replace
+	* lightning/asm-common.h: define JITSORRY
+
+2003-05-14  Paolo Bonzini  <bonzini@gnu.org>
+
+	* lightning/i386/core.h: fix missing comma in several
+	load/store macros.
+	* lightning/core-common.h: fix long/unsigned long/pointer
+	jit_pushr/jit_popr.
+	* lightning/ppc/funcs.h: correctly align stack pointer
+
+No changelogs for the assemblers (lightning directory) until 1.0
+	
+2003-03-27  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/printf2.c: new test
+
+2001-05-03  Paolo Bonzini  <bonzini@gnu.org>
+
+	* tests/printf.c: made the message platform independent
+
+2001-01-19  Paolo Bonzini  <bonzini@gnu.org>
+
+	* configure.in: support cross-assembling
+	
+	* disass/bfd.h, disass/dis-asm.h, disass/dis-buf.c,
+	disass/i386-dis.c, disass/i386.h, disass/ppc-dis.c,
+	disass/ppc.h, disass/ppc-opc.c, disass/sparc-dis.c,
+	disass/sparc.h, disass/sparc-opc.c: new files, from GDB
+
+	* disass/disass.c, disass/Makefile.am: new files
+
+	* tests/fib.c, tests/fibit.c, tests/incr.c, tests/printf.c,
+	tests/rpn.c, tests/testfp.c, tests/Makefile.am: support
+	disassembling

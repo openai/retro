@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/libretro/mupen64plus-core.git
+	branch = master
+	commit = e9939d26c3494ebb98f4eb81fbb704b7b4a80b39
+	parent = 81a58df0263c90b10b7fc11b6deee04d47e3aa40
+	method = rebase
+	cmdver = 0.4.0

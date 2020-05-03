@@ -1,0 +1,28 @@
+	* Validate that divrem in jit_x86-cpu.c is not modifying
+	the non result arguments. This is not verified by clobber.tst,
+	as it only checks registers not involved in the operation
+	(because it does not know about values being set as input
+	for the the operation).
+
+	* Write a simple higher level language implementation generating
+	jit with lightning, that could be some lisp or C like language.
+
+	* rerun ./configure --enable-devel-get-jit-size and regenerate
+	the related jit_$arch-sz.c for the ports where nodata is
+	meaningful:
+	hppa		(done)
+	i586		(done)
+	ia64
+	mips o32	(done)
+	mips n32
+	mips n64
+	powerpc 32	(done)
+	powerpc 64	(done)
+	ppc
+	s390x		(done)
+	sparc		(done)
+	x86_64		(done)
+	Missing ones are due to no longer (remote) access to such hosts
+	and may be broken with jit_set_data(..., JIT_DISABLE_DATA).
+	(ia64 hp-ux or linx), (irix mips for 32 or 64 abi), and
+	(darwin ppc).

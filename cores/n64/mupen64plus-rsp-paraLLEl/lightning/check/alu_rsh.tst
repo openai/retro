@@ -1,0 +1,85 @@
+#include "alu.inc"
+
+.code
+	prolog
+
+#define RSH(N, I0, I1, V)	ALU(N, , rsh, I0, I1, V)
+#define URSH(N, I0, I1, V)	ALU(N, _u, rsh, I0, I1, V)
+
+	RSH(0,	0xfe,		     1,		0x7f)
+	RSH(1,	0x1fffc,	     2,		0x7fff)
+	RSH(2,	0x40000000,	    30,		1)
+	RSH(3,	0x20000000,	    29,		1)
+	RSH(4,	0x10000000,	    28,		1)
+	RSH(5,	0x810000,	    16,		0x81)
+	RSH(6,	0x20000,	    17,		1)
+	RSH(7,	0x40000,	    18,		1)
+	RSH(8,	0x7f8000,	    15,		0xff)
+	RSH(9,	0x1000000,	    24,		1)
+	RSH(10,	0x7fffffff,	     0,		0x7fffffff)
+	URSH(0,	0xfe,		     1,		0x7f)
+	URSH(1,	0x1fffc,	     2,		0x7fff)
+	URSH(2,	0x80000000,	    31,		1)
+	URSH(3,	0x40000000,	    30,		1)
+	URSH(4,	0x20000000,	    29,		1)
+	URSH(5,	0x10000000,	    28,		1)
+	URSH(6,	0x810000,	    16,		0x81)
+	URSH(7,	0x20000,	    17,		1)
+	URSH(8,	0x40000,	    18,		1)
+	URSH(9,0x7f8000,	    15,		0xff)
+	URSH(10,0x1000000,	    24,		1)
+	URSH(11,0xffffff00,	     8,		0xffffff)
+	URSH(12,0x7fffffff,	     0,		0x7fffffff)
+#if __WORDSIZE == 32
+	RSH(11,	0xfffffff8,	     3,		0xffffffff)
+	RSH(12,	0x80000000,	    31,		0xffffffff)
+	RSH(13,	0xffffff00,	     8,		0xffffffff)
+	URSH(13,0xfffffff8,	     3,		0x1fffffff)
+#else
+	RSH(11,	0x3fffffff8,	     3,		0x7fffffff)
+	RSH(12,	0xffffffc080000000, 31,		0xffffffffffffff81)
+	RSH(13,	0xffffff00,	     8,		0xffffff)
+	RSH(14,	0xfe00000000,	    33,		0x7f)
+	RSH(15,	0x1ffffc00000000,   34,		0x7ffff)
+	RSH(16,	0xfffffff800000000, 29,		0xffffffffffffffc0)
+	RSH(17,	0x8000000000000000, 63,		0xffffffffffffffff)
+	RSH(18,	0x4000000000000000, 62,		1)
+	RSH(19,	0x2000000000000000, 61,		1)
+	RSH(20,	0x1000000000000000, 60,		1)
+	RSH(21,	0x81000000000000,   48,		0x81)
+	RSH(22,	0x2000000000000,    49,		1)
+	RSH(23,	0x10000000000,	    40,		1)
+	RSH(24,	0x7f800000000000,   47,		0xff)
+	RSH(25,	0x100000000000000,  56,		1)
+	RSH(26,	0xffffff0000000000, 40,		0xffffffffffffffff)
+	RSH(27,	0xfffffffe00000000, 33,		0xffffffffffffffff)
+	RSH(28,	0x8000000000000001, 63,		0xffffffffffffffff)
+	RSH(29,	0x1000000000000,    48,		1)
+	RSH(30,	0xffff800000000000, 47,		0xffffffffffffffff)
+	URSH(13,0x3fffffff8,	    3,		0x7fffffff)
+	URSH(14,0xffffffc080000000, 31,		0x1ffffff81)
+	URSH(15,0xfe00000000,	    33,		0x7f)
+	URSH(16,0x1ffffc00000000,   34,		0x7ffff)
+	URSH(17,0xfffffff800000000, 29,		0x7ffffffc0)
+	URSH(18,0x8000000000000000, 63,		1)
+	URSH(19,0x4000000000000000, 62,		1)
+	URSH(20,0x2000000000000000, 61,		1)
+	URSH(21,0x1000000000000000, 60,		1)
+	URSH(22,0x81000000000000,   48,		0x81)
+	URSH(23,0x2000000000000,    49,		1)
+	URSH(24,0x10000000000,	    40,		1)
+	URSH(25,0x7f800000000000,   47,		0xff)
+	URSH(26,0x100000000000000,  56,		1)
+	URSH(27,0xffffff0000000000, 40,		0xffffff)
+	URSH(28,0xfffffffe00000000, 33,		0x7fffffff)
+	URSH(29,0x8000000000000001, 63,		1)
+	URSH(30,0x1000000000000,    48,		1)
+	URSH(31,0xffff800000000000, 47,		0x1ffff)
+#endif
+
+	prepare
+		pushargi ok
+		ellipsis
+	finishi @printf
+	ret
+	epilog

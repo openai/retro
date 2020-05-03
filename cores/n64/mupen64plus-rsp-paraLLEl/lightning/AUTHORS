@@ -1,0 +1,14 @@
+Paulo Cesar Pereira de Andrade <pcpa@gnu.org>
+
+Paolo Bonzini <bonzini@gnu.org>
+
+PPC assembler by Ian Piumarta <piumarta@inria.fr>
+
+i386 assembler by Ian Piumarta <piumarta@inria.fr>
+and Gwenole Beauchesne <gb.public@free.fr>
+
+x86-64 backend by Matthew Flatt <mflatt@cs.utah.edu>
+
+Major PPC contributions by Laurent Michel <ldm@thorgal.homelinux.org>
+
+Major SPARC contributions by Ludovic Courtes <ludo@chbouib.org>

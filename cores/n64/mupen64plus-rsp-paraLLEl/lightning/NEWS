@@ -1,0 +1,199 @@
+NEWS FROM 1.99 TO 1.99a
+
+o   Lightning now builds and pass all test cases on AIX 7.1 powerpc,
+    HP-UX 11iv2 hppa, HP-UX 11iv3 ia64, Solaris 10 Sparc, Solaris 11
+    x86_64, and Irix 6.5.30 mips (using n32 abi).
+
+NEWS FROM VERSION 1.3 TO 1.99
+
+o   The 1.99 version is a major lightning redesign and an
+    alpha version.
+
+o   Unless for some special power users usage, the major
+    difference in the rework is that now function calls push
+    arguments from left to right, what is both, more natural for
+    programers, and also more natural to implement for architectures
+    that pass arguments in registers and have alignment constraints,
+    usually for 64 bit double arguments.
+
+o   Add mips backend, implementing the o32 abi.
+
+o   Added arm backend implementing all combinations of software float,
+    vfp, neon, arm and thumb instruction sets, softfp and hardp abis,
+    armv5, armv6, and armv7.
+
+o   Added sse2+ code generation for the 32 bit x86 backend.
+
+o   Added sse3 and sse4.x optional code generation for the 64 bit
+    x86 backend, code generation based on detected cpu.
+
+o   Reworked and added full lightning instruction set to ppc 32;
+    tested on ppc64 hardware and Darwin 32 operating system.
+
+o   Added ppc64 backend, built and tested on Fedora ppc.
+
+o   Reworked the sparc backend, built and tested on Debian sparc.
+
+o   Added an ia64 backend, built and tested on Debian ia64.
+
+o   Added an hppa backend, built and tested on Debian hppa.
+
+---
+
+NEWS FROM VERSION 1.2 TO 1.3
+
+o   Initial support for x86-64 back-end (mostly untested).
+
+o   lightning is more strict on casts from integer to pointer.
+    Be sure to use the _p variants when your immediates are
+    of pointer type.  This was done to ease 64-bit cleanliness
+    tests.
+
+o   Many bug fixes.
+
+o   JIT_FPRET is used as JIT_RET to move return values.
+    jit_retval_[fd] is used to retrieve return values.
+
+o   jit_pushr/jit_popr are deprecated, you need to #define
+    JIT_NEED_PUSH_POP prior to including lightning.h if you
+    want to use them.
+
+o   Support for stack-allocated variables.  Because of this,
+    backends defining JIT_FP should now rename it to JIT_AP.
+    JIT_FP is now a user-visible register used in ldxi/ldxr
+    to access stack-allocated variables.
+
+
+---
+
+NEWS FROM VERSION 1.1.2 TO 1.2
+
+o   Floating-point interface rewritten, uses a register file
+    architecture rather than a stack.
+
+o   Many bug fixes.
+
+o   jit_prepare and jit_retval are now jit_prepare_i and
+    jit_retval_i.
+
+o   Support for Fedora Core 1's exec-shield feature.
+
+o   PPC supports both SysV and Darwin ABIs.
+
+o   More (and more complete) examples provided.
+
+---
+
+NEWS FROM VERSION 1.1.1 TO 1.1.2
+
+o   This release fixes the bugs in PowerPC cache flushing and in
+    SPARC testing.
+
+---
+
+NEWS FROM VERSION 1.1 TO 1.1.1
+
+o   Merge changes from Debian
+
+This version was released to have a distributable version of lightning
+after the recent crack of the GNU FTP machines.  It does not fix
+outstanding bugs; I apologize for the inconvenience.
+
+---
+
+NEWS FROM VERSION 1.0 TO 1.1
+
+o   Several bug fixes
+
+o   improved infrastructure for embedding GNU lightning (lightningize
+    script)
+    
+---
+
+NEWS FROM VERSION 0.99 TO 1.0
+
+o   SPARC backend tested on GNU Smalltalk
+
+
+---
+
+NEWS FROM VERSION 0.98 TO 0.99
+
+o   Added floating point function support (thanks to Laurent Michel);
+    unfortunately this broke even more the PPC and SPARC floating point
+    stuff :-(
+
+---
+
+NEWS FROM VERSION 0.97 to 0.98
+
+o   PPC backend tested on GNU Smalltalk
+
+o   switched to autoconf 2.50
+
+o   new (much faster) PPC cache flushing code by John McIntosh
+
+---
+
+NEWS FROM VERSION 0.96 to 0.97
+
+o   support for cross-assembling and for disassembling the code that the tests
+    generate
+
+o   PPC microtests pass (tested directly by me), SPARC was said to work
+
+---
+
+NEWS FROM VERSION 0.95 to 0.96
+
+o   fixed implementation of delay slots to be coherent with the manual
+
+---
+
+NEWS FROM VERSION 0.94 to 0.95
+
+o   adc/sbc replaced with addc/addx/subc/subx to allow for more optimization
+    (inspired by the PPC instruction set).
+
+o   A few fixes and much less warnings from the compiler
+
+o   Automake-ized everything
+
+o   i386 backend generates smaller code for bms/bmc/or/xor by using byte
+    or word versions if possible
+
+o   Moved backends to separate directories
+
+---
+
+NEWS FROM VERSION 0.93 to 0.94
+
+o   Manual builds as DVI file.
+
+---
+
+NEWS FROM VERSION 0.92 to 0.93
+
+o   Floating-point front-end (began supporting PPC & SPARC).
+
+---
+
+NEWS FROM VERSION 0.91 to 0.92
+
+o   Floating-point front-end (only x86 supported).
+
+---
+
+NEWS FROM VERSION 0.9 to 0.91
+
+o   Carrying supported in addition/subtraction.
+
+o   insn type changed to jit_insn.
+
+o   Misc bug fixes.
+
+o   Reentrancy supported.
+
+o   SPARC run-time assembler rewritten.
+
+o   The run-time assembler can be disabled for debugging purposes.

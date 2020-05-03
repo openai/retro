@@ -1,0 +1,1680 @@
+@ifnottex
+@dircategory Software development
+@direntry
+* lightning: (lightning).       Library for dynamic code generation.
+@end direntry
+@end ifnottex
+
+@ifnottex
+@node Top
+@top @lightning{}
+
+@iftex
+@macro comma
+@verbatim{|,|}
+@end macro
+@end iftex
+
+@ifnottex
+@macro comma
+@verb{|,|}
+@end macro
+@end ifnottex
+
+This document describes @value{TOPIC} the @lightning{} library for
+dynamic code generation.
+
+@menu
+* Overview::                What GNU lightning is
+* Installation::            Configuring and installing GNU lightning
+* The instruction set::     The RISC instruction set used in GNU lightning
+* GNU lightning examples::  GNU lightning's examples
+* Reentrancy::              Re-entrant usage of GNU lightning
+* Customizations::          Advanced code generation customizations
+* Acknowledgements::        Acknowledgements for GNU lightning
+@end menu
+@end ifnottex
+
+@node Overview
+@chapter Introduction to @lightning{}
+
+@iftex
+This document describes @value{TOPIC} the @lightning{} library for
+dynamic code generation.
+@end iftex
+
+Dynamic code generation is the generation of machine code 
+at runtime. It is typically used to strip a layer of interpretation 
+by allowing compilation to occur at runtime.  One of the most
+well-known applications of dynamic code generation is perhaps that
+of interpreters that compile source code to an intermediate bytecode
+form, which is then recompiled to machine code at run-time: this
+approach effectively combines the portability of bytecode
+representations with the speed of machine code.  Another common
+application of dynamic code generation is in the field of hardware
+simulators and binary emulators, which can use the same techniques
+to translate simulated instructions to the instructions of the 
+underlying machine.
+
+Yet other applications come to mind: for example, windowing
+@dfn{bitblt} operations, matrix manipulations, and network packet
+filters.  Albeit very powerful and relatively well known within the
+compiler community, dynamic code generation techniques are rarely
+exploited to their full potential and, with the exception of the
+two applications described above, have remained curiosities because
+of their portability and functionality barriers: binary instructions
+are generated, so programs using dynamic code generation must be
+retargeted for each machine; in addition, coding a run-time code
+generator is a tedious and error-prone task more than a difficult one.
+
+@lightning{} provides a portable, fast and easily retargetable dynamic
+code generation system. 
+
+To be portable, @lightning{} abstracts over current architectures'
+quirks and unorthogonalities.  The interface that it exposes to is that
+of a standardized RISC architecture loosely based on the SPARC and MIPS
+chips.  There are a few general-purpose registers (six, not including
+those used to receive and pass parameters between subroutines), and
+arithmetic operations involve three operands---either three registers
+or two registers and an arbitrarily sized immediate value.
+
+On one hand, this architecture is general enough that it is possible to
+generate pretty efficient code even on CISC architectures such as the
+Intel x86 or the Motorola 68k families.  On the other hand, it matches
+real architectures closely enough that, most of the time, the
+compiler's constant folding pass ends up generating code which
+assembles machine instructions without further tests.
+
+@node Installation
+@chapter Configuring and installing @lightning{}
+
+The first thing to do to use @lightning{} is to configure the
+program, picking the set of macros to be used on the host
+architecture; this configuration is automatically performed by
+the @file{configure} shell script; to run it, merely type:
+@example
+     ./configure
+@end example
+
+@lightning{} supports the @code{--enable-disassembler} option, that
+enables linking to GNU binutils and optionally print human readable
+disassembly of the jit code. This option can be disabled by the
+@code{--disable-disassembler} option.
+
+Another option that @file{configure} accepts is
+@code{--enable-assertions}, which enables several consistency checks in
+the run-time assemblers.  These are not usually needed, so you can
+decide to simply forget about it; also remember that these consistency
+checks tend to slow down your code generator.
+
+After you've configured @lightning{}, run @file{make} as usual.
+
+@lightning{} has an extensive set of tests to validate it is working
+correctly in the build host. To test it run:
+@example
+    make check
+@end example
+
+The next important step is:
+@example
+    make install
+@end example
+
+This ends the process of installing @lightning{}.
+
+@node The instruction set
+@chapter @lightning{}'s instruction set
+
+@lightning{}'s instruction set was designed by deriving instructions
+that closely match those of most existing RISC architectures, or
+that can be easily syntesized if absent.  Each instruction is composed
+of:
+@itemize @bullet
+@item
+an operation, like @code{sub} or @code{mul}
+
+@item
+most times, a register/immediate flag (@code{r} or @code{i})
+
+@item
+an unsigned modifier (@code{u}), a type identifier or two, when applicable.
+@end itemize
+
+Examples of legal mnemonics are @code{addr} (integer add, with three
+register operands) and @code{muli} (integer multiply, with two
+register operands and an immediate operand).  Each instruction takes
+two or three operands; in most cases, one of them can be an immediate
+value instead of a register.
+
+Most @lightning{} integer operations are signed wordsize operations,
+with the exception of operations that convert types, or load or store
+values to/from memory. When applicable, the types and C types are as
+follow:
+
+@example
+     _c         @r{signed char}
+     _uc        @r{unsigned char}
+     _s         @r{short}
+     _us        @r{unsigned short}
+     _i         @r{int}
+     _ui        @r{unsigned int}
+     _l         @r{long}
+     _f         @r{float}
+     _d         @r{double}
+@end example
+
+Most integer operations do not need a type modifier, and when loading or
+storing values to memory there is an alias to the proper operation
+using wordsize operands, that is, if ommited, the type is @r{int} on
+32-bit architectures and @r{long} on 64-bit architectures.  Note
+that lightning also expects @code{sizeof(void*)} to match the wordsize.
+
+When an unsigned operation result differs from the equivalent signed
+operation, there is a the @code{_u} modifier.
+
+There are at least seven integer registers, of which six are
+general-purpose, while the last is used to contain the frame pointer
+(@code{FP}).  The frame pointer can be used to allocate and access local
+variables on the stack, using the @code{allocai} or @code{allocar}
+instruction.
+
+Of the general-purpose registers, at least three are guaranteed to be
+preserved across function calls (@code{V0}, @code{V1} and
+@code{V2}) and at least three are not (@code{R0}, @code{R1} and
+@code{R2}).  Six registers are not very much, but this
+restriction was forced by the need to target CISC architectures
+which, like the x86, are poor of registers; anyway, backends can
+specify the actual number of available registers with the calls
+@code{JIT_R_NUM} (for caller-save registers) and @code{JIT_V_NUM}
+(for callee-save registers).
+
+There are at least six floating-point registers, named @code{F0} to
+@code{F5}.  These are usually caller-save and are separate from the integer
+registers on the supported architectures; on Intel architectures,
+in 32 bit mode if SSE2 is not available or use of X87 is forced,
+the register stack is mapped to a flat register file.  As for the
+integer registers, the macro @code{JIT_F_NUM} yields the number of
+floating-point registers.
+
+The complete instruction set follows; as you can see, most non-memory
+operations only take integers (either signed or unsigned) as operands;
+this was done in order to reduce the instruction set, and because most
+architectures only provide word and long word operations on registers.
+There are instructions that allow operands to be extended to fit a larger
+data type, both in a signed and in an unsigned way.
+
+@table @b
+@item Binary ALU operations
+These accept three operands; the last one can be an immediate.
+@code{addx} operations must directly follow @code{addc}, and
+@code{subx} must follow @code{subc}; otherwise, results are undefined.
+Most, if not all, architectures do not support @r{float} or @r{double}
+immediate operands; lightning emulates those operations by moving the
+immediate to a temporary register and emiting the call with only
+register operands.
+@example
+addr         _f  _d  O1 = O2 + O3
+addi         _f  _d  O1 = O2 + O3
+addxr                O1 = O2 + (O3 + carry)
+addxi                O1 = O2 + (O3 + carry)
+addcr                O1 = O2 + O3, set carry
+addci                O1 = O2 + O3, set carry
+subr         _f  _d  O1 = O2 - O3
+subi         _f  _d  O1 = O2 - O3
+subxr                O1 = O2 - (O3 + carry)
+subxi                O1 = O2 - (O3 + carry)
+subcr                O1 = O2 - O3, set carry
+subci                O1 = O2 - O3, set carry
+rsbr         _f  _d  O1 = O3 - O1
+rsbi         _f  _d  O1 = O3 - O1
+mulr         _f  _d  O1 = O2 * O3
+muli         _f  _d  O1 = O2 * O3
+divr     _u  _f  _d  O1 = O2 / O3
+divi     _u  _f  _d  O1 = O2 / O3
+remr     _u          O1 = O2 % O3
+remi     _u          O1 = O2 % O3
+andr                 O1 = O2 & O3
+andi                 O1 = O2 & O3
+orr                  O1 = O2 | O3
+ori                  O1 = O2 | O3
+xorr                 O1 = O2 ^ O3
+xori                 O1 = O2 ^ O3
+lshr                 O1 = O2 << O3
+lshi                 O1 = O2 << O3
+rshr     _u          O1 = O2 >> O3@footnote{The sign bit is propagated unless using the @code{_u} modifier.}
+rshi     _u          O1 = O2 >> O3@footnote{The sign bit is propagated unless using the @code{_u} modifier.}
+@end example
+
+@item Four operand binary ALU operations
+These accept two result registers, and two operands; the last one can
+be an immediate. The first two arguments cannot be the same register.
+
+@code{qmul} stores the low word of the result in @code{O1} and the
+high word in @code{O2}. For unsigned multiplication, @code{O2} zero
+means there was no overflow. For signed multiplication, no overflow
+check is based on sign, and can be detected if @code{O2} is zero or
+minus one.
+
+@code{qdiv} stores the quotient in @code{O1} and the remainder in
+@code{O2}. It can be used as quick way to check if a division is
+exact, in which case the remainder is zero.
+
+@example
+qmulr    _u       O1 O2 = O3 * O4
+qmuli    _u       O1 O2 = O3 * O4
+qdivr    _u       O1 O2 = O3 / O4
+qdivi    _u       O1 O2 = O3 / O4
+@end example
+
+@item Unary ALU operations
+These accept two operands, both of which must be registers.
+@example
+negr         _f  _d  O1 = -O2
+comr                 O1 = ~O2
+@end example
+
+These unary ALU operations are only defined for float operands.
+@example
+absr         _f  _d  O1 = fabs(O2)
+sqrtr                O1 = sqrt(O2)
+@end example
+
+Besides requiring the @code{r} modifier, there are no unary operations
+with an immediate operand.
+
+@item Compare instructions
+These accept three operands; again, the last can be an immediate.
+The last two operands are compared, and the first operand, that must be
+an integer register, is set to either 0 or 1, according to whether the
+given condition was met or not.
+
+The conditions given below are for the standard behavior of C,
+where the ``unordered'' comparison result is mapped to false.
+
+@example
+ltr       _u  _f  _d  O1 =  (O2 <  O3)
+lti       _u  _f  _d  O1 =  (O2 <  O3)
+ler       _u  _f  _d  O1 =  (O2 <= O3)
+lei       _u  _f  _d  O1 =  (O2 <= O3)
+gtr       _u  _f  _d  O1 =  (O2 >  O3)
+gti       _u  _f  _d  O1 =  (O2 >  O3)
+ger       _u  _f  _d  O1 =  (O2 >= O3)
+gei       _u  _f  _d  O1 =  (O2 >= O3)
+eqr           _f  _d  O1 =  (O2 == O3)
+eqi           _f  _d  O1 =  (O2 == O3)
+ner           _f  _d  O1 =  (O2 != O3)
+nei           _f  _d  O1 =  (O2 != O3)
+unltr         _f  _d  O1 = !(O2 >= O3)
+unler         _f  _d  O1 = !(O2 >  O3)
+ungtr         _f  _d  O1 = !(O2 <= O3)
+unger         _f  _d  O1 = !(O2 <  O3)
+uneqr         _f  _d  O1 = !(O2 <  O3) && !(O2 >  O3)
+ltgtr         _f  _d  O1 = !(O2 >= O3) || !(O2 <= O3)
+ordr          _f  _d  O1 =  (O2 == O2) &&  (O3 == O3)
+unordr        _f  _d  O1 =  (O2 != O2) ||  (O3 != O3)
+@end example
+
+@item Transfer operations
+These accept two operands; for @code{ext} both of them must be
+registers, while @code{mov} accepts an immediate value as the second
+operand.
+
+Unlike @code{movr} and @code{movi}, the other instructions are used
+to truncate a wordsize operand to a smaller integer data type or to
+convert float data types. You can also use @code{extr} to convert an
+integer to a floating point value: the usual options are @code{extr_f}
+and @code{extr_d}.
+
+@example
+movr                                 _f  _d  O1 = O2
+movi                                 _f  _d  O1 = O2
+extr      _c  _uc  _s  _us  _i  _ui  _f  _d  O1 = O2
+truncr                               _f  _d  O1 = trunc(O2)
+@end example
+
+In 64-bit architectures it may be required to use @code{truncr_f_i},
+@code{truncr_f_l}, @code{truncr_d_i} and @code{truncr_d_l} to match
+the equivalent C code.  Only the @code{_i} modifier is available in
+32-bit architectures.
+
+@example
+truncr_f_i    = <int> O1 = <float> O2
+truncr_f_l    = <long>O1 = <float> O2
+truncr_d_i    = <int> O1 = <double>O2
+truncr_d_l    = <long>O1 = <double>O2
+@end example
+
+The float conversion operations are @emph{destination first,
+source second}, but the order of the types is reversed.  This happens
+for historical reasons.
+
+@example
+extr_f_d    = <double>O1 = <float> O2
+extr_d_f    = <float> O1 = <double>O2
+@end example
+
+@item Network extensions
+These accept two operands, both of which must be registers; these
+two instructions actually perform the same task, yet they are
+assigned to two mnemonics for the sake of convenience and
+completeness.  As usual, the first operand is the destination and
+the second is the source.
+The @code{_ul} variant is only available in 64-bit architectures.
+@example
+htonr    _us _ui _ul @r{Host-to-network (big endian) order}
+ntohr    _us _ui _ul @r{Network-to-host order }
+@end example
+
+@item Load operations
+@code{ld} accepts two operands while @code{ldx} accepts three;
+in both cases, the last can be either a register or an immediate
+value. Values are extended (with or without sign, according to
+the data type specification) to fit a whole register.
+The @code{_ui} and @code{_l} types are only available in 64-bit
+architectures.  For convenience, there is a version without a
+type modifier for integer or pointer operands that uses the
+appropriate wordsize call.
+@example
+ldr     _c  _uc  _s  _us  _i  _ui  _l  _f  _d  O1 = *O2
+ldi     _c  _uc  _s  _us  _i  _ui  _l  _f  _d  O1 = *O2
+ldxr    _c  _uc  _s  _us  _i  _ui  _l  _f  _d  O1 = *(O2+O3)
+ldxi    _c  _uc  _s  _us  _i  _ui  _l  _f  _d  O1 = *(O2+O3)
+@end example
+
+@item Store operations
+@code{st} accepts two operands while @code{stx} accepts three; in
+both cases, the first can be either a register or an immediate
+value. Values are sign-extended to fit a whole register.
+@example
+str     _c  _uc  _s  _us  _i  _ui  _l  _f  _d  *O1 = O2
+sti     _c  _uc  _s  _us  _i  _ui  _l  _f  _d  *O1 = O2
+stxr    _c  _uc  _s  _us  _i  _ui  _l  _f  _d  *(O1+O2) = O3
+stxi    _c  _uc  _s  _us  _i  _ui  _l  _f  _d  *(O1+O2) = O3
+@end example
+As for the load operations, the @code{_ui} and @code{_l} types are
+only available in 64-bit architectures, and for convenience, there
+is a version without a type modifier for integer or pointer operands
+that uses the appropriate wordsize call.
+
+@item Argument management
+These are:
+@example
+prepare     (not specified)
+va_start    (not specified)
+pushargr                                   _f  _d
+pushargi                                   _f  _d
+va_push     (not specified)
+arg                                        _f  _d
+getarg      _c  _uc  _s  _us  _i  _ui  _l  _f  _d
+va_arg                                         _d
+putargr                                    _f  _d
+putargi                                    _f  _d
+ret         (not specified)
+retr                                       _f  _d
+reti                                       _f  _d
+va_end      (not specified)
+retval      _c  _uc  _s  _us  _i  _ui  _l  _f  _d
+epilog      (not specified)
+@end example
+As with other operations that use a type modifier, the @code{_ui} and
+@code{_l} types are only available in 64-bit architectures, but there
+are operations without a type modifier that alias to the appropriate
+integer operation with wordsize operands.
+
+@code{prepare}, @code{pusharg}, and @code{retval} are used by the caller,
+while @code{arg}, @code{getarg} and @code{ret} are used by the callee.
+A code snippet that wants to call another procedure and has to pass
+arguments must, in order: use the @code{prepare} instruction and use
+the @code{pushargr} or @code{pushargi} to push the arguments @strong{in
+left to right order}; and use @code{finish} or @code{call} (explained below)
+to perform the actual call.
+
+@code{va_start} returns a @code{C} compatible @code{va_list}. To fetch
+arguments, use @code{va_arg} for integers and @code{va_arg_d} for doubles.
+@code{va_push} is required when passing a @code{va_list} to another function,
+because not all architectures expect it as a single pointer. Known case
+is DEC Alpha, that requires it as a structure passed by value.
+
+@code{arg}, @code{getarg} and @code{putarg} are used by the callee.
+@code{arg} is different from other instruction in that it does not
+actually generate any code: instead, it is a function which returns
+a value to be passed to @code{getarg} or @code{putarg}. @footnote{``Return
+a value'' means that @lightning{} code that compile these
+instructions return a value when expanded.} You should call
+@code{arg} as soon as possible, before any function call or, more
+easily, right after the @code{prolog} instructions
+(which is treated later).
+
+@code{getarg} accepts a register argument and a value returned by
+@code{arg}, and will move that argument to the register, extending
+it (with or without sign, according to the data type specification)
+to fit a whole register.  These instructions are more intimately
+related to the usage of the @lightning{} instruction set in code
+that generates other code, so they will be treated more
+specifically in @ref{GNU lightning examples, , Generating code at
+run-time}.
+
+@code{putarg} is a mix of @code{getarg} and @code{pusharg} in that
+it accepts as first argument a register or immediate, and as
+second argument a value returned by @code{arg}. It allows changing,
+or restoring an argument to the current function, and is a
+construct required to implement tail call optimization. Note that
+arguments in registers are very cheap, but will be overwritten
+at any moment, including on some operations, for example division,
+that on several ports is implemented as a function call.
+
+Finally, the @code{retval} instruction fetches the return value of a
+called function in a register.  The @code{retval} instruction takes a
+register argument and copies the return value of the previously called
+function in that register.  A function with a return value should use
+@code{retr} or @code{reti} to put the return value in the return register
+before returning.  @xref{Fibonacci, the Fibonacci numbers}, for an example.
+
+@code{epilog} is an optional call, that marks the end of a function
+body. It is automatically generated by @lightning{} if starting a new
+function (what should be done after a @code{ret} call) or finishing
+generating jit.
+It is very important to note that the fact that @code{epilog} being
+optional may cause a common mistake. Consider this:
+@example
+fun1:
+    prolog
+    ...
+    ret
+fun2:
+    prolog
+@end example
+Because @code{epilog} is added when finding a new @code{prolog},
+this will cause the @code{fun2} label to actually be before the
+return from @code{fun1}. Because @lightning{} will actually
+understand it as:
+@example
+fun1:
+    prolog
+    ...
+    ret
+fun2:
+    epilog
+    prolog
+@end example
+
+You should observe a few rules when using these macros.  First of
+all, if calling a varargs function, you should use the @code{ellipsis}
+call to mark the position of the ellipsis in the C prototype.
+
+You should not nest calls to @code{prepare} inside a
+@code{prepare/finish} block.  Doing this will result in undefined
+behavior. Note that for functions with zero arguments you can use
+just @code{call}.
+
+@item Branch instructions
+Like @code{arg}, these also return a value which, in this case,
+is to be used to compile forward branches as explained in
+@ref{Fibonacci, , Fibonacci numbers}.  They accept two operands to be
+compared; of these, the last can be either a register or an immediate.
+They are:
+@example
+bltr      _u  _f  _d  @r{if }(O2 <  O3)@r{ goto }O1
+blti      _u  _f  _d  @r{if }(O2 <  O3)@r{ goto }O1
+bler      _u  _f  _d  @r{if }(O2 <= O3)@r{ goto }O1
+blei      _u  _f  _d  @r{if }(O2 <= O3)@r{ goto }O1
+bgtr      _u  _f  _d  @r{if }(O2 >  O3)@r{ goto }O1
+bgti      _u  _f  _d  @r{if }(O2 >  O3)@r{ goto }O1
+bger      _u  _f  _d  @r{if }(O2 >= O3)@r{ goto }O1
+bgei      _u  _f  _d  @r{if }(O2 >= O3)@r{ goto }O1
+beqr          _f  _d  @r{if }(O2 == O3)@r{ goto }O1
+beqi          _f  _d  @r{if }(O2 == O3)@r{ goto }O1
+bner          _f  _d  @r{if }(O2 != O3)@r{ goto }O1
+bnei          _f  _d  @r{if }(O2 != O3)@r{ goto }O1
+
+bunltr        _f  _d  @r{if }!(O2 >= O3)@r{ goto }O1
+bunler        _f  _d  @r{if }!(O2 >  O3)@r{ goto }O1
+bungtr        _f  _d  @r{if }!(O2 <= O3)@r{ goto }O1
+bunger        _f  _d  @r{if }!(O2 <  O3)@r{ goto }O1
+buneqr        _f  _d  @r{if }!(O2 <  O3) && !(O2 >  O3)@r{ goto }O1
+bltgtr        _f  _d  @r{if }!(O2 >= O3) || !(O2 <= O3)@r{ goto }O1
+bordr         _f  _d  @r{if } (O2 == O2) &&  (O3 == O3)@r{ goto }O1
+bunordr       _f  _d  @r{if }!(O2 != O2) ||  (O3 != O3)@r{ goto }O1
+
+bmsr                  @r{if }O2 &  O3@r{ goto }O1
+bmsi                  @r{if }O2 &  O3@r{ goto }O1
+bmcr                  @r{if }!(O2 & O3)@r{ goto }O1
+bmci                  @r{if }!(O2 & O3)@r{ goto }O1@footnote{These mnemonics mean, respectively, @dfn{branch if mask set} and @dfn{branch if mask cleared}.}
+boaddr    _u          O2 += O3@r{, goto }O1@r{ if overflow}
+boaddi    _u          O2 += O3@r{, goto }O1@r{ if overflow}
+bxaddr    _u          O2 += O3@r{, goto }O1@r{ if no overflow}
+bxaddi    _u          O2 += O3@r{, goto }O1@r{ if no overflow}
+bosubr    _u          O2 -= O3@r{, goto }O1@r{ if overflow}
+bosubi    _u          O2 -= O3@r{, goto }O1@r{ if overflow}
+bxsubr    _u          O2 -= O3@r{, goto }O1@r{ if no overflow}
+bxsubi    _u          O2 -= O3@r{, goto }O1@r{ if no overflow}
+@end example
+
+@item Jump and return operations
+These accept one argument except @code{ret} and @code{jmpi} which
+have none; the difference between @code{finishi} and @code{calli}
+is that the latter does not clean the stack from pushed parameters
+(if any) and the former must @strong{always} follow a @code{prepare}
+instruction.
+@example
+callr     (not specified)                @r{function call to register O1}
+calli     (not specified)                @r{function call to immediate O1}
+finishr   (not specified)                @r{function call to register O1}
+finishi   (not specified)                @r{function call to immediate O1}
+jmpr      (not specified)                @r{unconditional jump to register}
+jmpi      (not specified)                @r{unconditional jump}
+ret       (not specified)                @r{return from subroutine}
+retr      _c _uc _s _us _i _ui _l _f _d
+reti      _c _uc _s _us _i _ui _l _f _d
+retval    _c _uc _s _us _i _ui _l _f _d  @r{move return value}
+                                         @r{to register}
+@end example
+
+Like branch instruction, @code{jmpi} also returns a value which is to
+be used to compile forward branches. @xref{Fibonacci, , Fibonacci
+numbers}.
+
+@item Labels
+There are 3 @lightning{} instructions to create labels:
+@example
+label     (not specified)                @r{simple label}
+forward   (not specified)                @r{forward label}
+indirect  (not specified)                @r{special simple label}
+@end example
+
+@code{label} is normally used as @code{patch_at} argument for backward
+jumps.
+
+@example
+        jit_node_t *jump, *label;
+label = jit_label();
+        ...
+        jump = jit_beqr(JIT_R0, JIT_R1);
+        jit_patch_at(jump, label);
+@end example
+
+@code{forward} is used to patch code generation before the actual
+position of the label is known.
+
+@example
+        jit_node_t *jump, *label;
+label = jit_forward();
+        jump = jit_beqr(JIT_R0, JIT_R1);
+        jit_patch_at(jump, label);
+        ...
+        jit_link(label);
+@end example
+
+@code{indirect} is useful when creating jump tables, and tells
+@lightning{} to not optimize out a label that is not the target of
+any jump, because an indirect jump may land where it is defined.
+
+@example
+        jit_node_t *jump, *label;
+        ...
+        jmpr(JIT_R0);                    @rem{/* may jump to label */}
+        ...
+label = jit_indirect();
+@end example
+
+@code{indirect} is an special case of @code{note} and @code{name}
+because it is a valid argument to @code{address}.
+
+Note that the usual idiom to write the previous example is
+@example
+        jit_node_t *addr, *jump;
+addr  = jit_movi(JIT_R0, 0);             @rem{/* immediate is ignored */}
+        ...
+        jmpr(JIT_R0);
+        ...
+        jit_patch(addr);                 @rem{/* implicit label added */}
+@end example
+
+that automatically binds the implicit label added by @code{patch} with
+the @code{movi}, but on some special conditions it is required to create
+an "unbound" label.
+
+@item Function prolog
+
+These macros are used to set up a function prolog.  The @code{allocai}
+call accept a single integer argument and returns an offset value
+for stack storage access.  The @code{allocar} accepts two registers
+arguments, the first is set to the offset for stack access, and the
+second is the size in bytes argument.
+
+@example
+prolog    (not specified)                @r{function prolog}
+allocai   (not specified)                @r{reserve space on the stack}
+allocar   (not specified)                @r{allocate space on the stack}
+@end example
+
+@code{allocai} receives the number of bytes to allocate and returns
+the offset from the frame pointer register @code{FP} to the base of
+the area.
+
+@code{allocar} receives two register arguments.  The first is where
+to store the offset from the frame pointer register @code{FP} to the
+base of the area.  The second argument is the size in bytes.  Note
+that @code{allocar} is dynamic allocation, and special attention
+should be taken when using it.  If called in a loop, every iteration
+will allocate stack space.  Stack space is aligned from 8 to 64 bytes
+depending on backend requirements, even if allocating only one byte.
+It is advisable to not use it with @code{frame} and @code{tramp}; it
+should work with @code{frame} with special care to call only once,
+but is not supported if used in @code{tramp}, even if called only
+once.
+
+As a small appetizer, here is a small function that adds 1 to the input
+parameter (an @code{int}).  I'm using an assembly-like syntax here which
+is a bit different from the one used when writing real subroutines with
+@lightning{}; the real syntax will be introduced in @xref{GNU lightning
+examples, , Generating code at run-time}.
+
+@example
+incr:
+     prolog
+in = arg                     @rem{! We have an integer argument}
+     getarg    R0, in        @rem{! Move it to R0}
+     addi      R0, R0, 1     @rem{! Add 1}
+     retr      R0            @rem{! And return the result}
+@end example
+
+And here is another function which uses the @code{printf} function from
+the standard C library to write a number in hexadecimal notation:
+
+@example
+printhex:
+     prolog
+in = arg                     @rem{! Same as above}
+     getarg    R0, in
+     prepare                 @rem{! Begin call sequence for printf}
+     pushargi  "%x"          @rem{! Push format string}
+     ellipsis                @rem{! Varargs start here}
+     pushargr  R0            @rem{! Push second argument}
+     finishi   printf        @rem{! Call printf}
+     ret                     @rem{! Return to caller}
+@end example
+
+@item Trampolines, continuations and tail call optimization
+
+Frequently it is required to generate jit code that must jump to
+code generated later, possibly from another @code{jit_context_t}.
+These require compatible stack frames.
+
+@lightning{} provides two primitives from where trampolines,
+continuations and tail call optimization can be implemented.
+
+@example
+frame   (not specified)                  @r{create stack frame}
+tramp   (not specified)                  @r{assume stack frame}
+@end example
+
+@code{frame} receives an integer argument@footnote{It is not
+automatically computed because it does not know about the
+requirement of later generated code.} that defines the size in
+bytes for the stack frame of the current, @code{C} callable,
+jit function. To calculate this value, a good formula is maximum
+number of arguments to any called native function times
+eight@footnote{Times eight so that it works for double arguments.
+And would not need conditionals for ports that pass arguments in
+the stack.}, plus the sum of the arguments to any call to
+@code{jit_allocai}. @lightning{} automatically adjusts this value
+for any backend specific stack memory it may need, or any
+alignment constraint.
+
+@code{frame} also instructs @lightning{} to save all callee
+save registers in the prolog and reload in the epilog.
+
+@example
+main:                        @rem{! jit entry point}
+     prolog                  @rem{! function prolog}
+     frame  256              @rem{! save all callee save registers and}
+                             @rem{! reserve at least 256 bytes in stack}
+main_loop:
+     ...
+     jmpi   handler          @rem{! jumps to external code}
+     ...
+     ret                     @rem{! return to the caller}
+@end example
+
+@code{tramp} differs from @code{frame} only that a prolog and epilog
+will not be generated. Note that @code{prolog} must still be used.
+The code under @code{tramp} must be ready to be entered with a jump
+at the prolog position, and instead of a return, it must end with
+a non conditional jump. @code{tramp} exists solely for the fact
+that it allows optimizing out prolog and epilog code that would
+never be executed.
+
+@example
+handler:                     @rem{! handler entry point}
+     prolog                  @rem{! function prolog}
+     tramp  256              @rem{! assumes all callee save registers}
+                             @rem{! are saved and there is at least}
+                             @rem{! 256 bytes in stack}
+     ...
+     jmpi   main_loop        @rem{! return to the main loop}
+@end example
+
+@lightning{} only supports Tail Call Optimization using the
+@code{tramp} construct. Any other way is not guaranteed to
+work on all ports.
+
+An example of a simple (recursive) tail call optimization:
+
+@example
+factorial:                   @rem{! Entry point of the factorial function}
+     prolog
+in = arg                     @rem{! Receive an integer argument}
+     getarg R0, in           @rem{! Move argument to RO}
+     prepare
+         pushargi 1          @rem{! This is the accumulator}
+         pushargr R0         @rem{! This is the argument}
+     finishi fact            @rem{! Call the tail call optimized function}
+     retval R0               @rem{! Fetch the result}
+     retr R0                 @rem{! Return it}
+     epilog                  @rem{! Epilog *before* label before prolog}
+
+fact:                        @rem{! Entry point of the helper function}
+     prolog
+     frame 16                @rem{! Reserve 16 bytes in the stack}
+fact_entry:                  @rem{! This is the tail call entry point}
+ac = arg                     @rem{! The accumulator is the first argument}
+in = arg                     @rem{! The factorial argument}
+     getarg R0, ac           @rem{! Move the accumulator to R0}
+     getarg R1, in           @rem{! Move the argument to R1}
+     blei fact_out, R1, 1    @rem{! Done if argument is one or less}
+     mulr R0, R0, R1         @rem{! accumulator *= argument}
+     putargr R0, ac          @rem{! Update the accumulator}
+     subi R1, R1, 1          @rem{! argument -= 1}
+     putargr R1, in          @rem{! Update the argument}
+     jmpi fact_entry         @rem{! Tail Call Optimize it!}
+fact_out:
+     retr R0                 @rem{! Return the accumulator}
+@end example
+
+@item Predicates
+@example
+forward_p      (not specified)           @r{forward label predicate}
+indirect_p     (not specified)           @r{indirect label predicate}
+target_p       (not specified)           @r{used label predicate}
+arg_register_p (not specified)           @r{argument kind predicate}
+callee_save_p  (not specified)           @r{callee save predicate}
+pointer_p      (not specified)           @r{pointer predicate}
+@end example
+
+@code{forward_p} expects a @code{jit_node_t*} argument, and
+returns non zero if it is a forward label reference, that is,
+a label returned by @code{forward}, that still needs a
+@code{link} call.
+
+@code{indirect_p} expects a @code{jit_node_t*} argument, and returns
+non zero if it is an indirect label reference, that is, a label that
+was returned by @code{indirect}.
+
+@code{target_p} expects a @code{jit_node_t*} argument, that is any
+kind of label, and will return non zero if there is at least one
+jump or move referencing it.
+
+@code{arg_register_p} expects a @code{jit_node_t*} argument, that must
+have been returned by @code{arg}, @code{arg_f} or @code{arg_d}, and
+will return non zero if the argument lives in a register. This call
+is useful to know the live range of register arguments, as those
+are very fast to read and write, but have volatile values.
+
+@code{callee_save_p} exects a valid @code{JIT_Rn}, @code{JIT_Vn}, or
+@code{JIT_Fn}, and will return non zero if the register is callee
+save. This call is useful because on several ports, the @code{JIT_Rn}
+and @code{JIT_Fn} registers are actually callee save; no need
+to save and load the values when making function calls.
+
+@code{pointer_p} expects a pointer argument, and will return non
+zero if the pointer is inside the generated jit code. Must be
+called after @code{jit_emit} and before @code{jit_destroy_state}.
+@end table
+
+@node GNU lightning examples
+@chapter Generating code at run-time
+
+To use @lightning{}, you should include the @file{lightning.h} file that
+is put in your include directory by the @samp{make install} command.
+
+Each of the instructions above translates to a macro or function call.
+All you have to do is prepend @code{jit_} (lowercase) to opcode names
+and @code{JIT_} (uppercase) to register names.  Of course, parameters
+are to be put between parentheses.
+
+This small tutorial presents three examples:
+
+@iftex
+@itemize @bullet
+@item
+The @code{incr} function found in @ref{The instruction set, ,
+@lightning{}'s instruction set}:
+
+@item
+A simple function call to @code{printf}
+
+@item
+An RPN calculator.
+
+@item
+Fibonacci numbers
+@end itemize
+@end iftex
+@ifnottex
+@menu
+* incr::             A function which increments a number by one
+* printf::           A simple function call to printf
+* RPN calculator::   A more complex example, an RPN calculator
+* Fibonacci::        Calculating Fibonacci numbers
+@end menu
+@end ifnottex
+
+@node incr
+@section A function which increments a number by one
+
+Let's see how to create and use the sample @code{incr} function created
+in @ref{The instruction set, , @lightning{}'s instruction set}:
+
+@example
+#include <stdio.h>
+#include <lightning.h>
+
+static jit_state_t *_jit;
+
+typedef int (*pifi)(int);    @rem{/* Pointer to Int Function of Int */}
+
+int main(int argc, char *argv[])
+@{
+  jit_node_t  *in;
+  pifi         incr;
+
+  init_jit(argv[0]);
+  _jit = jit_new_state();
+
+  jit_prolog();                    @rem{/* @t{     prolog             } */}
+  in = jit_arg();                  @rem{/* @t{     in = arg           } */}
+  jit_getarg(JIT_R0, in);          @rem{/* @t{     getarg R0          } */}
+  jit_addi(JIT_R0, JIT_R0, 1);     @rem{/* @t{     addi   R0@comma{} R0@comma{} 1   } */}
+  jit_retr(JIT_R0);                @rem{/* @t{     retr   R0          } */}
+
+  incr = jit_emit();
+  jit_clear_state();
+
+  @rem{/* call the generated code@comma{} passing 5 as an argument */}
+  printf("%d + 1 = %d\n", 5, incr(5));
+
+  jit_destroy_state();
+  finish_jit();
+  return 0;
+@}
+@end example
+
+Let's examine the code line by line (well, almost@dots{}):
+
+@table @t
+@item #include <lightning.h>
+You already know about this.  It defines all of @lightning{}'s macros.
+
+@item static jit_state_t *_jit;
+You might wonder about what is @code{jit_state_t}.  It is a structure
+that stores jit code generation information.  The name @code{_jit} is
+special, because since multiple jit generators can run at the same
+time, you must either @r{#define _jit my_jit_state} or name it
+@code{_jit}.
+
+@item typedef int (*pifi)(int);
+Just a handy typedef for a pointer to a function that takes an
+@code{int} and returns another.
+
+@item jit_node_t  *in;
+Declares a variable to hold an identifier for a function argument. It
+is an opaque pointer, that will hold the return of a call to @code{arg}
+and be used as argument to @code{getarg}.
+
+@item pifi         incr;
+Declares a function pointer variable to a function that receives an
+@code{int} and returns an @code{int}.
+
+@item init_jit(argv[0]);
+You must call this function before creating a @code{jit_state_t}
+object. This function does global state initialization, and may need
+to detect CPU or Operating System features.  It receives a string
+argument that is later used to read symbols from a shared object using
+GNU binutils if disassembly was enabled at configure time. If no
+disassembly will be performed a NULL pointer can be used as argument.
+
+@item _jit = jit_new_state();
+This call initializes a @lightning{} jit state.
+
+@item jit_prolog();
+Ok, so we start generating code for our beloved function@dots{}
+
+@item in = jit_arg();
+@itemx jit_getarg(JIT_R0, in);
+We retrieve the first (and only) argument, an integer, and store it
+into the general-purpose register @code{R0}.
+
+@item jit_addi(JIT_R0, JIT_R0, 1);
+We add one to the content of the register.
+
+@item jit_retr(JIT_R0);
+This instruction generates a standard function epilog that returns
+the contents of the @code{R0} register.
+
+@item incr = jit_emit();
+This instruction is very important.  It actually translates the
+@lightning{} macros used before to machine code, flushes the generated
+code area out of the processor's instruction cache and return a
+pointer to the start of the code.
+
+@item jit_clear_state();
+This call cleanups any data not required for jit execution. Note
+that it must be called after any call to @code{jit_print} or
+@code{jit_address}, as this call destroy the @lightning{}
+intermediate representation.
+
+@item printf("%d + 1 = %d", 5, incr(5));
+Calling our function is this simple---it is not distinguishable from
+a normal C function call, the only difference being that @code{incr}
+is a variable.
+
+@item jit_destroy_state();
+Releases all memory associated with the jit context. It should be
+called after known the jit will no longer be called.
+
+@item finish_jit();
+This call cleanups any global state hold by @lightning{}, and is
+advisable to call it once jit code will no longer be generated.
+@end table
+
+@lightning{} abstracts two phases of dynamic code generation: selecting
+instructions that map the standard representation, and emitting binary
+code for these instructions.  The client program has the responsibility
+of describing the code to be generated using the standard @lightning{}
+instruction set.
+
+Let's examine the code generated for @code{incr} on the SPARC and x86_64
+architecture (on the right is the code that an assembly-language
+programmer would write):
+
+@table @b
+@item SPARC
+@example
+      save  %sp, -112, %sp
+      mov  %i0, %g2                 retl
+      inc  %g2                      inc %o0
+      mov  %g2, %i0
+      restore 
+      retl 
+      nop 
+@end example
+In this case, @lightning{} introduces overhead to create a register
+window (not knowing that the procedure is a leaf procedure) and to
+move the argument to the general purpose register @code{R0} (which
+maps to @code{%g2} on the SPARC).
+@end table
+
+@table @b
+@item x86_64
+@example
+    sub   $0x30,%rsp
+    mov   %rbp,(%rsp)
+    mov   %rsp,%rbp
+    sub   $0x18,%rsp
+    mov   %rdi,%rax            mov %rdi, %rax
+    add   $0x1,%rax            inc %rax
+    mov   %rbp,%rsp
+    mov   (%rsp),%rbp
+    add   $0x30,%rsp
+    retq                       retq
+@end example
+In this case, the main overhead is due to the function's prolog and
+epilog, and stack alignment after reserving stack space for word
+to/from float conversions or moving data from/to x87 to/from SSE.
+Note that besides allocating space to save callee saved registers,
+no registers are saved/restored because @lightning{} notices those
+registers are not modified. There is currently no logic to detect
+if it needs to allocate stack space for type conversions neither
+proper leaf function detection, but these are subject to change
+(FIXME).
+@end table
+
+@node printf
+@section A simple function call to @code{printf}
+
+Again, here is the code for the example:
+
+@example
+#include <stdio.h>
+#include <lightning.h>
+
+static jit_state_t *_jit;
+
+typedef void (*pvfi)(int);      @rem{/* Pointer to Void Function of Int */}
+
+int main(int argc, char *argv[])
+@{
+  pvfi          myFunction;             @rem{/* ptr to generated code */}
+  jit_node_t    *start, *end;           @rem{/* a couple of labels */}
+  jit_node_t    *in;                    @rem{/* to get the argument */}
+
+  init_jit(argv[0]);
+  _jit = jit_new_state();
+
+  start = jit_note(__FILE__, __LINE__);
+  jit_prolog();
+  in = jit_arg();
+  jit_getarg(JIT_R1, in);
+  jit_prepare();
+  jit_pushargi((jit_word_t)"generated %d bytes\n");
+  jit_ellipsis();
+  jit_pushargr(JIT_R1);
+  jit_finishi(printf);
+  jit_ret();
+  jit_epilog();
+  end = jit_note(__FILE__, __LINE__);
+
+  myFunction = jit_emit();
+
+  @rem{/* call the generated code@comma{} passing its size as argument */}
+  myFunction((char*)jit_address(end) - (char*)jit_address(start));
+  jit_clear_state();
+
+  jit_disassemble();
+
+  jit_destroy_state();
+  finish_jit();
+  return 0;
+@}
+@end example
+
+The function shows how many bytes were generated.  Most of the code
+is not very interesting, as it resembles very closely the program
+presented in @ref{incr, , A function which increments a number by one}.
+
+For this reason, we're going to concentrate on just a few statements.
+
+@table @t
+@item start = jit_note(__FILE__, __LINE__);
+@itemx @r{@dots{}}
+@itemx end = jit_note(__FILE__, __LINE__);
+These two instruction call the @code{jit_note} macro, which creates
+a note in the jit code; arguments to @code{jit_note} usually are a
+filename string and line number integer, but using NULL for the
+string argument is perfectly valid if only need to create a simple
+marker in the code.
+
+@item jit_ellipsis();
+@code{ellipsis} usually is only required if calling varargs functions
+with double arguments, but it is a good practice to properly describe
+the @r{@dots{}} in the call sequence.
+
+@item jit_pushargi((jit_word_t)"generated %d bytes\n");
+Note the use of the @code{(jit_word_t)} cast, that is used only
+to avoid a compiler warning, due to using a pointer where a
+wordsize integer type was expected.
+
+@item jit_prepare();
+@itemx @r{@dots{}}
+@itemx jit_finishi(printf);
+Once the arguments to @code{printf} have been pushed, what means
+moving them to stack or register arguments, the @code{printf}
+function is called and the stack cleaned.  Note how @lightning{}
+abstracts the differences between different architectures and
+ABI's -- the client program does not know how parameter passing
+works on the host architecture.
+
+@item jit_epilog();
+Usually it is not required to call @code{epilog}, but because it
+is implicitly called when noticing the end of a function, if the
+@code{end} variable was set with a @code{note} call after the
+@code{ret}, it would not consider the function epilog.
+
+@item myFunction((char*)jit_address(end) - (char*)jit_address(start));
+This calls the generate jit function passing as argument the offset
+difference from the @code{start} and @code{end} notes. The @code{address}
+call must be done after the @code{emit} call or either a fatal error
+will happen (if @lightning{} is built with assertions enable) or an
+undefined value will be returned.
+
+@item jit_clear_state();
+Note that @code{jit_clear_state} was called after executing jit in
+this example. It was done because it must be called after any call
+to @code{jit_address} or @code{jit_print}.
+
+@item jit_disassemble();
+@code{disassemble} will dump the generated code to standard output,
+unless @lightning{} was built with the disassembler disabled, in which
+case no output will be shown.
+@end table
+
+@node RPN calculator
+@section A more complex example, an RPN calculator
+
+We create a small stack-based RPN calculator which applies a series
+of operators to a given parameter and to other numeric operands.
+Unlike previous examples, the code generator is fully parameterized
+and is able to compile different formulas to different functions.
+Here is the code for the expression compiler; a sample usage will
+follow.
+
+Since @lightning{} does not provide push/pop instruction, this
+example uses a stack-allocated area to store the data.  Such an
+area can be allocated using the macro @code{allocai}, which
+receives the number of bytes to allocate and returns the offset
+from the frame pointer register @code{FP} to the base of the
+area.
+
+Usually, you will use the @code{ldxi} and @code{stxi} instruction
+to access stack-allocated variables.  However, it is possible to
+use operations such as @code{add} to compute the address of the
+variables, and pass the address around.
+
+@example
+#include <stdio.h>
+#include <lightning.h>
+
+typedef int (*pifi)(int);       @rem{/* Pointer to Int Function of Int */}
+
+static jit_state_t *_jit;
+
+void stack_push(int reg, int *sp)
+@{
+  jit_stxi_i (*sp, JIT_FP, reg);
+  *sp += sizeof (int);
+@}
+
+void stack_pop(int reg, int *sp)
+@{
+  *sp -= sizeof (int);
+  jit_ldxi_i (reg, JIT_FP, *sp);
+@}
+
+jit_node_t *compile_rpn(char *expr)
+@{
+  jit_node_t *in, *fn;
+  int stack_base, stack_ptr;
+
+  fn = jit_note(NULL, 0);
+  jit_prolog();
+  in = jit_arg();
+  stack_ptr = stack_base = jit_allocai (32 * sizeof (int));
+
+  jit_getarg_i(JIT_R2, in);
+
+  while (*expr) @{
+    char buf[32];
+    int n;
+    if (sscanf(expr, "%[0-9]%n", buf, &n)) @{
+      expr += n - 1;
+      stack_push(JIT_R0, &stack_ptr);
+      jit_movi(JIT_R0, atoi(buf));
+    @} else if (*expr == 'x') @{
+      stack_push(JIT_R0, &stack_ptr);
+      jit_movr(JIT_R0, JIT_R2);
+    @} else if (*expr == '+') @{
+      stack_pop(JIT_R1, &stack_ptr);
+      jit_addr(JIT_R0, JIT_R1, JIT_R0);
+    @} else if (*expr == '-') @{
+      stack_pop(JIT_R1, &stack_ptr);
+      jit_subr(JIT_R0, JIT_R1, JIT_R0);
+    @} else if (*expr == '*') @{
+      stack_pop(JIT_R1, &stack_ptr);
+      jit_mulr(JIT_R0, JIT_R1, JIT_R0);
+    @} else if (*expr == '/') @{
+      stack_pop(JIT_R1, &stack_ptr);
+      jit_divr(JIT_R0, JIT_R1, JIT_R0);
+    @} else @{
+      fprintf(stderr, "cannot compile: %s\n", expr);
+      abort();
+    @}
+    ++expr;
+  @}
+  jit_retr(JIT_R0);
+  jit_epilog();
+  return fn;
+@}
+@end example
+
+The principle on which the calculator is based is easy: the stack top
+is held in R0, while the remaining items of the stack are held in the
+memory area that we allocate with @code{allocai}.  Compiling a numeric
+operand or the argument @code{x} pushes the old stack top onto the
+stack and moves the operand into R0; compiling an operator pops the
+second operand off the stack into R1, and compiles the operation so
+that the result goes into R0, thus becoming the new stack top.
+
+This example allocates a fixed area for 32 @code{int}s.  This is not
+a problem when the function is a leaf like in this case; in a full-blown
+compiler you will want to analyze the input and determine the number
+of needed stack slots---a very simple example of register allocation.
+The area is then managed like a stack using @code{stack_push} and
+@code{stack_pop}.
+
+Source code for the client (which lies in the same source file) follows:
+
+@example
+int main(int argc, char *argv[])
+@{
+  jit_node_t *nc, *nf;
+  pifi c2f, f2c;
+  int i;
+
+  init_jit(argv[0]);
+  _jit = jit_new_state();
+
+  nc = compile_rpn("32x9*5/+");
+  nf = compile_rpn("x32-5*9/");
+  (void)jit_emit();
+  c2f = (pifi)jit_address(nc);
+  f2c = (pifi)jit_address(nf);
+  jit_clear_state();
+
+  printf("\nC:");
+  for (i = 0; i <= 100; i += 10) printf("%3d ", i);
+  printf("\nF:");
+  for (i = 0; i <= 100; i += 10) printf("%3d ", c2f(i));
+  printf("\n");
+
+  printf("\nF:");
+  for (i = 32; i <= 212; i += 18) printf("%3d ", i);
+  printf("\nC:");
+  for (i = 32; i <= 212; i += 18) printf("%3d ", f2c(i));
+  printf("\n");
+
+  jit_destroy_state();
+  finish_jit();
+  return 0;
+@}
+@end example
+
+The client displays a conversion table between Celsius and Fahrenheit
+degrees (both Celsius-to-Fahrenheit and Fahrenheit-to-Celsius). The
+formulas are, @math{F(c) = c*9/5+32} and @math{C(f) = (f-32)*5/9},
+respectively.
+
+Providing the formula as an argument to @code{compile_rpn} effectively
+parameterizes code generation, making it possible to use the same code
+to compile different functions; this is what makes dynamic code
+generation so powerful.
+
+@node Fibonacci
+@section Fibonacci numbers
+
+The code in this section calculates the Fibonacci sequence. That is
+modeled by the recurrence relation:
+@display
+     f(0) = 0
+     f(1) = f(2) = 1
+     f(n) = f(n-1) + f(n-2)
+@end display
+
+The purpose of this example is to introduce branches.  There are two
+kind of branches: backward branches and forward branches.  We'll
+present the calculation in a recursive and iterative form; the
+former only uses forward branches, while the latter uses both.
+
+@example
+#include <stdio.h>
+#include <lightning.h>
+
+static jit_state_t *_jit;
+
+typedef int (*pifi)(int);       @rem{/* Pointer to Int Function of Int */}
+
+int main(int argc, char *argv[])
+@{
+  pifi       fib;
+  jit_node_t *label;
+  jit_node_t *call;
+  jit_node_t *in;                 @rem{/* offset of the argument */}
+  jit_node_t *ref;                @rem{/* to patch the forward reference */}
+  jit_node_t *zero;               @rem{/* to patch the forward reference */}
+
+  init_jit(argv[0]);
+  _jit = jit_new_state();
+
+  label = jit_label();
+        jit_prolog   ();
+  in =  jit_arg      ();
+        jit_getarg   (JIT_V0, in);              @rem{/* R0 = n */}
+ zero = jit_beqi     (JIT_R0, 0);
+        jit_movr     (JIT_V0, JIT_R0);          /* V0 = R0 */
+        jit_movi     (JIT_R0, 1);
+  ref = jit_blei     (JIT_V0, 2);
+        jit_subi     (JIT_V1, JIT_V0, 1);       @rem{/* V1 = n-1 */}
+        jit_subi     (JIT_V2, JIT_V0, 2);       @rem{/* V2 = n-2 */}
+        jit_prepare();
+          jit_pushargr(JIT_V1);
+        call = jit_finishi(NULL);
+        jit_patch_at(call, label);
+        jit_retval(JIT_V1);                     @rem{/* V1 = fib(n-1) */}
+        jit_prepare();
+          jit_pushargr(JIT_V2);
+        call = jit_finishi(NULL);
+        jit_patch_at(call, label);
+        jit_retval(JIT_R0);                     @rem{/* R0 = fib(n-2) */}
+        jit_addr(JIT_R0, JIT_R0, JIT_V1);       @rem{/* R0 = R0 + V1 */}
+
+  jit_patch(ref);                               @rem{/* patch jump */}
+  jit_patch(zero);                              @rem{/* patch jump */}
+        jit_retr(JIT_R0);
+
+  @rem{/* call the generated code@comma{} passing 32 as an argument */}
+  fib = jit_emit();
+  jit_clear_state();
+  printf("fib(%d) = %d\n", 32, fib(32));
+  jit_destroy_state();
+  finish_jit();
+  return 0;
+@}
+@end example
+
+As said above, this is the first example of dynamically compiling
+branches.  Branch instructions have two operands containing the
+values to be compared, and return a @code{jit_note_t *} object
+to be patched.
+
+Because labels final address are only known after calling @code{emit},
+it is required to call @code{patch} or @code{patch_at}, what does
+tell @lightning{} that the target to patch is actually a pointer to
+a @code{jit_node_t *} object, otherwise, it would assume that is
+a pointer to a C function. Note that conditional branches do not
+receive a label argument, so they must be patched.
+
+You need to call @code{patch_at} on the return of value @code{calli},
+@code{finishi}, and @code{calli} if it is actually referencing a label
+in the jit code. All branch instructions do not receive a label
+argument. Note that @code{movi} is an special case, and patching it
+is usually done to get the final address of a label, usually to later
+call @code{jmpr}.
+
+Now, here is the iterative version:
+
+@example
+#include <stdio.h>
+#include <lightning.h>
+
+static jit_state_t *_jit;
+
+typedef int (*pifi)(int);       @rem{/* Pointer to Int Function of Int */}
+
+int main(int argc, char *argv[])
+@{
+  pifi       fib;
+  jit_node_t *in;               @rem{/* offset of the argument */}
+  jit_node_t *ref;              @rem{/* to patch the forward reference */}
+  jit_node_t *zero;             @rem{/* to patch the forward reference */}
+  jit_node_t *jump;             @rem{/* jump to start of loop */}
+  jit_node_t *loop;             @rem{/* start of the loop */}
+
+  init_jit(argv[0]);
+  _jit = jit_new_state();
+
+        jit_prolog   ();
+  in =  jit_arg      ();
+        jit_getarg   (JIT_R0, in);              @rem{/* R0 = n */}
+ zero = jit_beqi     (JIT_R0, 0);
+        jit_movr     (JIT_R1, JIT_R0);
+        jit_movi     (JIT_R0, 1);
+  ref = jit_blti     (JIT_R1, 2);
+        jit_subi     (JIT_R2, JIT_R2, 2);
+        jit_movr     (JIT_R1, JIT_R0);
+
+  loop= jit_label();
+        jit_subi     (JIT_R2, JIT_R2, 1);       @rem{/* decr. counter */}
+        jit_movr     (JIT_V0, JIT_R0);          /* V0 = R0 */
+        jit_addr     (JIT_R0, JIT_R0, JIT_R1);  /* R0 = R0 + R1 */
+        jit_movr     (JIT_R1, JIT_V0);          /* R1 = V0 */
+  jump= jit_bnei     (JIT_R2, 0);               /* if (R2) goto loop; */
+  jit_patch_at(jump, loop);
+
+  jit_patch(ref);                               @rem{/* patch forward jump */}
+  jit_patch(zero);                              @rem{/* patch forward jump */}
+        jit_retr     (JIT_R0);
+
+  @rem{/* call the generated code@comma{} passing 36 as an argument */}
+  fib = jit_emit();
+  jit_clear_state();
+  printf("fib(%d) = %d\n", 36, fib(36));
+  jit_destroy_state();
+  finish_jit();
+  return 0;
+@}
+@end example
+
+This code calculates the recurrence relation using iteration (a
+@code{for} loop in high-level languages).  There are no function
+calls anymore: instead, there is a backward jump (the @code{bnei} at
+the end of the loop).
+
+Note that the program must remember the address for backward jumps;
+for forward jumps it is only required to remember the jump code,
+and call @code{patch} for the implicit label.
+
+@node Reentrancy
+@chapter Re-entrant usage of @lightning{}
+
+@lightning{} uses the special @code{_jit} identifier. To be able
+to be able to use multiple jit generation states at the same
+time, it is required to used code similar to:
+
+@example
+    struct jit_state lightning;
+    #define lightning _jit
+@end example
+
+This will cause the symbol defined to @code{_jit} to be passed as
+the first argument to the underlying @lightning{} implementation,
+that is usually a function with an @code{_} (underscode) prefix
+and with an argument named @code{_jit}, in the pattern:
+
+@example
+    static void _jit_mnemonic(jit_state_t *, jit_gpr_t, jit_gpr_t);
+    #define jit_mnemonic(u, v) _jit_mnemonic(_jit, u, v);
+@end example
+
+The reason for this is to use the same syntax as the initial lightning
+implementation and to avoid needing the user to keep adding an extra
+argument to every call, as multiple jit states generating code in
+paralell should be very uncommon.
+
+@section Registers
+@chapter Accessing the whole register file
+
+As mentioned earlier in this chapter, all @lightning{} back-ends are
+guaranteed to have at least six general-purpose integer registers and
+six floating-point registers, but many back-ends will have more.
+
+To access the entire register files, you can use the
+@code{JIT_R}, @code{JIT_V} and @code{JIT_F} macros.  They
+accept a parameter that identifies the register number, which
+must be strictly less than @code{JIT_R_NUM}, @code{JIT_V_NUM}
+and @code{JIT_F_NUM} respectively; the number need not be
+constant.  Of course, expressions like @code{JIT_R0} and
+@code{JIT_R(0)} denote the same register, and likewise for
+integer callee-saved, or floating-point, registers.
+
+@node Customizations
+@chapter Customizations
+
+Frequently it is desirable to have more control over how code is
+generated or how memory is used during jit generation or execution.
+
+@section Memory functions
+To aid in complete control of memory allocation and deallocation
+@lightning{} provides wrappers that default to standard @code{malloc},
+@code{realloc} and @code{free}. These are loosely based on the
+GNU GMP counterparts, with the difference that they use the same
+prototype of the system allocation functions, that is, no @code{size}
+for @code{free} or @code{old_size} for @code{realloc}.
+
+@deftypefun void jit_set_memory_functions (@* void *(*@var{alloc_func_ptr}) (size_t), @* void *(*@var{realloc_func_ptr}) (void *, size_t), @* void (*@var{free_func_ptr}) (void *))
+@lightning{} guarantees that memory is only allocated or released
+using these wrapped functions, but you must note that if lightning
+was linked to GNU binutils, malloc is probably will be called multiple
+times from there when initializing the disassembler.
+
+Because @code{init_jit} may call memory functions, if you need to call
+@code{jit_set_memory_functions}, it must be called before @code{init_jit},
+otherwise, when calling @code{finish_jit}, a pointer allocated with the
+previous or default wrappers will be passed.
+@end deftypefun
+
+@deftypefun void jit_get_memory_functions (@* void *(**@var{alloc_func_ptr}) (size_t), @* void *(**@var{realloc_func_ptr}) (void *, size_t), @* void (**@var{free_func_ptr}) (void *))
+Get the current memory allocation function. Also, unlike the GNU GMP
+counterpart, it is an error to pass @code{NULL} pointers as arguments.
+@end deftypefun
+
+@section Alternate code buffer
+To instruct @lightning{} to use an alternate code buffer it is required
+to call @code{jit_realize} before @code{jit_emit}, and then query states
+and customize as appropriate.
+
+@deftypefun void jit_realize ()
+Must be called once, before @code{jit_emit}, to instruct @lightning{}
+that no other @code{jit_xyz} call will be made.
+@end deftypefun
+
+@deftypefun jit_pointer_t jit_get_code (jit_word_t *@var{code_size})
+Returns NULL or the previous value set with @code{jit_set_code}, and
+sets the @var{code_size} argument to an appropriate value.
+If @code{jit_get_code} is called before @code{jit_emit}, the
+@var{code_size} argument is set to the expected amount of bytes
+required to generate code.
+If @code{jit_get_code} is called after @code{jit_emit}, the
+@var{code_size} argument is set to the exact amount of bytes used
+by the code.
+@end deftypefun
+
+@deftypefun void jit_set_code (jit_ponter_t @var{code}, jit_word_t @var{size})
+Instructs @lightning{} to output to the @var{code} argument and
+use @var{size} as a guard to not write to invalid memory. If during
+@code{jit_emit} @lightning{} finds out that the code would not fit
+in @var{size} bytes, it halts code emit and returns @code{NULL}.
+@end deftypefun
+
+A simple example of a loop using an alternate buffer is:
+
+@example
+  jit_uint8_t   *code;
+  int           *(func)(int);      @rem{/* function pointer */}
+  jit_word_t     code_size;
+  jit_word_t     real_code_size;
+  @rem{...}
+  jit_realize();                   @rem{/* ready to generate code */}
+  jit_get_code(&code_size);        @rem{/* get expected code size */}
+  code_size = (code_size + 4095) & -4096;
+  do (;;) @{
+    code = mmap(NULL, code_size, PROT_EXEC | PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANON, -1, 0);
+    jit_set_code(code, code_size);
+    if ((func = jit_emit()) == NULL) @{
+      munmap(code, code_size);
+      code_size += 4096;
+    @}
+  @} while (func == NULL);
+  jit_get_code(&real_code_size);   @rem{/* query exact size of the code */}
+@end example
+
+The first call to @code{jit_get_code} should return @code{NULL} and set
+the @code{code_size} argument to the expected amount of bytes required
+to emit code.
+The second call to @code{jit_get_code} is after a successful call to
+@code{jit_emit}, and will return the value previously set with
+@code{jit_set_code} and set the @code{real_code_size} argument to the
+exact amount of bytes used to emit the code.
+
+@section Alternate data buffer
+Sometimes it may be desirable to customize how, or to prevent
+@lightning{} from using an extra buffer for constants or debug
+annotation. Usually when also using an alternate code buffer.
+
+@deftypefun jit_pointer_t jit_get_data (jit_word_t *@var{data_size}, jit_word_t *@var{note_size})
+Returns @code{NULL} or the previous value set with @code{jit_set_data},
+and sets the @var{data_size} argument to how many bytes are required
+for the constants data buffer, and @var{note_size} to how many bytes
+are required to store the debug note information.
+Note that it always preallocate one debug note entry even if
+@code{jit_name} or @code{jit_note} are never called, but will return
+zero in the @var{data_size} argument if no constant is required;
+constants are only used for the @code{float} and @code{double} operations
+that have an immediate argument, and not in all @lightning{} ports.
+@end deftypefun
+
+@deftypefun void jit_set_data (jit_pointer_t @var{data}, jit_word_t @var{size}, jit_word_t @var{flags})
+
+@var{data} can be NULL if disabling constants and annotations, otherwise,
+a valid pointer must be passed. An assertion is done that the data will
+fit in @var{size} bytes (but that is a noop if @lightning{} was built
+with @code{-DNDEBUG}).
+
+@var{size} tells the space in bytes available in @var{data}.
+
+@var{flags} can be zero to tell to just use the alternate data buffer,
+or a composition of @code{JIT_DISABLE_DATA} and @code{JIT_DISABLE_NOTE}
+
+@table @t
+@item JIT_DISABLE_DATA
+@cindex JIT_DISABLE_DATA
+Instructs @lightning{} to not use a constant table, but to use an
+alternate method to synthesize those, usually with a larger code
+sequence using stack space to transfer the value from a GPR to a
+FPR register.
+
+@item JIT_DISABLE_NOTE
+@cindex JIT_DISABLE_NOTE
+Instructs @lightning{} to not store file or function name, and
+line numbers in the constant buffer.
+@end table
+@end deftypefun
+
+A simple example of a preventing usage of a data buffer is:
+
+@example
+  @rem{...}
+  jit_realize();                        @rem{/* ready to generate code */}
+  jit_get_data(NULL, NULL);
+  jit_set_data(NULL, 0, JIT_DISABLE_DATA | JIT_DISABLE_NOTE);
+  @rem{...}
+@end example
+
+Or to only use a data buffer, if required:
+
+@example
+  jit_uint8_t   *data;
+  jit_word_t     data_size;
+  @rem{...}
+  jit_realize();                        @rem{/* ready to generate code */}
+  jit_get_data(&data_size, NULL);
+  if (data_size)
+    data = malloc(data_size);
+  else
+    data = NULL;
+  jit_set_data(data, data_size, JIT_DISABLE_NOTE);
+  @rem{...}
+  if (data)
+    free(data);
+  @rem{...}
+@end example
+
+@node Acknowledgements
+@chapter Acknowledgements
+
+As far as I know, the first general-purpose portable dynamic code
+generator is @sc{dcg}, by Dawson R.@: Engler and T.@: A.@: Proebsting.
+Further work by Dawson R. Engler resulted in the @sc{vcode} system;
+unlike @sc{dcg}, @sc{vcode} used no intermediate representation and
+directly inspired @lightning{}.
+
+Thanks go to Ian Piumarta, who kindly accepted to release his own
+program @sc{ccg} under the GNU General Public License, thereby allowing
+@lightning{} to use the run-time assemblers he had wrote for @sc{ccg}.
+@sc{ccg} provides a way of dynamically assemble programs written in the
+underlying architecture's assembly language.  So it is not portable,
+yet very interesting.
+
+I also thank Steve Byrne for writing GNU Smalltalk, since @lightning{}
+was first developed as a tool to be used in GNU Smalltalk's dynamic
+translator from bytecodes to native code.

@@ -1,0 +1,499 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_mupenplus|Win32">
+      <Configuration>Debug_mupenplus</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_mupenplus|x64">
+      <Configuration>Debug_mupenplus</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_mupenplus|Win32">
+      <Configuration>Release_mupenplus</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_mupenplus|x64">
+      <Configuration>Release_mupenplus</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{37D31D7F-C4E7-45B0-AEF6-D6824A243CF7}</ProjectGuid>
+    <RootNamespace>GLideN64</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>$(DefaultPlatformToolset)</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules />
+    <CodeAnalysisRuleAssemblies />
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug_mupenplus'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release_mupenplus'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">
+    <TargetName>mupen64plus-video-GLideN64</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../src;../../src/inc;../../src/osal;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>UNICODE;_USRDLL;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;TXFILTER_LIB;OS_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ProgramDatabaseFile>$(OutDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <PreBuildEvent>
+      <Command>call ..\..\src\getRevision.bat</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug_mupenplus'">
+    <ClCompile>
+      <PreprocessorDefinitions>GL_DEBUG;DEBUG_DUMP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>freetype253MT_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release_mupenplus'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>__VEC4_OPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>freetype253MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32_ASM;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="('$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug_mupenplus') And '$(Platform)'=='Win32'">
+    <Link>
+      <AdditionalLibraryDirectories Condition="'$(MSBuildAssemblyVersion)'=='12.0'">lib/msvc12/dbg</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(MSBuildAssemblyVersion)'!='12.0'">lib/dbg</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="('$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug_mupenplus') And '$(Platform)'=='x64'">
+    <Link>
+      <AdditionalLibraryDirectories>lib/x64/dbg</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="('$(Configuration)'=='Release' Or '$(Configuration)'=='Release_mupenplus') And '$(Platform)'=='Win32'">
+    <Link>
+      <AdditionalLibraryDirectories Condition="'$(MSBuildAssemblyVersion)'=='12.0'">lib/msvc12/rel</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(MSBuildAssemblyVersion)'!='12.0'">lib/rel</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="('$(Configuration)'=='Release' Or '$(Configuration)'=='Release_mupenplus') And '$(Platform)'=='x64'">
+    <Link>
+      <AdditionalLibraryDirectories>lib/x64/rel</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">
+    <ClCompile>
+      <PreprocessorDefinitions>GL_USE_UNIFORMBLOCK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>ZILMAR_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <PostBuildEvent>
+      <Message>Copy result to plugins folder</Message>
+      <Command Condition="'$(Platform)'=='Win32'">if NOT "$(N64PluginsDir)" == "" (if not exist "$(N64PluginsDir)" mkdir "$(N64PluginsDir)"
+copy /Y "$(OutDir)$(TargetName).*" "$(N64PluginsDir)")</Command>
+      <Command Condition="'$(Platform)'=='x64'">if NOT "$(N64PluginsDir_x64)" == "" (if not exist "$(N64PluginsDir_x64)" mkdir "$(N64PluginsDir_x64)"
+copy /Y "$(OutDir)$(TargetName).*" "$(N64PluginsDir_x64)")</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">
+    <ClCompile>
+      <PreprocessorDefinitions>MUPENPLUSAPI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <PostBuildEvent>
+      <Message>Copy result to plugins folder</Message>
+      <Command Condition="'$(Platform)'=='Win32'">if NOT "$(Mupen64PluginsDir)" == "" (if not exist "$(Mupen64PluginsDir)" mkdir "$(Mupen64PluginsDir)"
+copy /Y "$(OutDir)$(TargetName).*" "$(Mupen64PluginsDir)")</Command>
+      <Command Condition="'$(Platform)'=='x64'">if NOT "$(Mupen64PluginsDir_x64)" == "" (if not exist "$(Mupen64PluginsDir_x64)" mkdir "$(Mupen64PluginsDir_x64)"
+copy /Y "$(OutDir)$(TargetName).*" "$(Mupen64PluginsDir_x64)")</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <Link>
+      <AdditionalDependencies>bin\$(Platform)\Debug\lib\GLideNUI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <Link>
+      <AdditionalDependencies>bin\$(Platform)\Release\lib\GLideNUI.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/LTCG %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release' Or '$(Configuration)'=='Release_mupenplus'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../src/inc/freetype/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\3DMath.cpp" />
+    <ClCompile Include="..\..\src\BufferCopy\ColorBufferToRDRAM.cpp" />
+    <ClCompile Include="..\..\src\BufferCopy\DepthBufferToRDRAM.cpp" />
+    <ClCompile Include="..\..\src\BufferCopy\RDRAMtoColorBuffer.cpp" />
+    <ClCompile Include="..\..\src\Combiner.cpp" />
+    <ClCompile Include="..\..\src\CombinerKey.cpp" />
+    <ClCompile Include="..\..\src\CommonPluginAPI.cpp" />
+    <ClCompile Include="..\..\src\common\CommonAPIImpl_common.cpp" />
+    <ClCompile Include="..\..\src\Config.cpp" />
+    <ClCompile Include="..\..\src\convert.cpp" />
+    <ClCompile Include="..\..\src\CRC_OPT.cpp" />
+    <ClCompile Include="..\..\src\DebugDump.cpp" />
+    <ClCompile Include="..\..\src\Debugger.cpp" />
+    <ClCompile Include="..\..\src\DepthBuffer.cpp" />
+    <ClCompile Include="..\..\src\DepthBufferRender\ClipPolygon.cpp" />
+    <ClCompile Include="..\..\src\DepthBufferRender\DepthBufferRender.cpp" />
+    <ClCompile Include="..\..\src\DisplayLoadProgress.cpp" />
+    <ClCompile Include="..\..\src\DisplayWindow.cpp" />
+    <ClCompile Include="..\..\src\FrameBuffer.cpp" />
+    <ClCompile Include="..\..\src\FrameBufferInfo.cpp" />
+    <ClCompile Include="..\..\src\GBI.cpp" />
+    <ClCompile Include="..\..\src\gDP.cpp" />
+    <ClCompile Include="..\..\src\GLideN64.cpp" />
+    <ClCompile Include="..\..\src\Graphics\ColorBufferReader.cpp" />
+    <ClCompile Include="..\..\src\Graphics\CombinerProgram.cpp" />
+    <ClCompile Include="..\..\src\Graphics\Context.cpp" />
+    <ClCompile Include="..\..\src\Graphics\ObjectHandle.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\GLFunctions.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_CombinerInputs.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_CombinerProgramBuilder.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_CombinerProgramImpl.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_CombinerProgramUniformFactory.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_FXAA.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_ShaderStorage.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_SpecialShadersFactory.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_Utils.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\mupen64plus\mupen64plus_DisplayWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_Attributes.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_BufferManipulationObjectFactory.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_CachedFunctions.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_ColorBufferReaderWithBufferStorage.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_ColorBufferReaderWithPixelBuffer.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_ColorBufferReaderWithReadPixels.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_ContextImpl.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_GLInfo.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_Parameters.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_TextureManipulationObjectFactory.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_UnbufferedDrawer.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_Utils.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\opengl_BufferedDrawer.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\opengl_Wrapper.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\opengl_WrappedFunctions.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\opengl_Command.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\opengl_ObjectPool.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\RingBufferPool.cpp" />
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\windows\windows_DisplayWindow.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Graphics\OpenGLContext\windows\WindowsWGL.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gSP.cpp" />
+    <ClCompile Include="..\..\src\iob.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Keys.cpp" />
+    <ClCompile Include="..\..\src\Log.cpp" />
+    <ClCompile Include="..\..\src\MupenPlusPluginAPI.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mupenplus\CommonAPIImpl_mupenplus.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mupenplus\Config_mupenplus.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mupenplus\MemoryStatus_mupenplus.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mupenplus\MupenPlusAPIImpl.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\N64.cpp" />
+    <ClCompile Include="..\..\src\NoiseTexture.cpp" />
+    <ClCompile Include="..\..\src\PaletteTexture.cpp" />
+    <ClCompile Include="..\..\src\Performance.cpp" />
+    <ClCompile Include="..\..\src\PostProcessor.cpp" />
+    <ClCompile Include="..\..\src\RDP.CPP" />
+    <ClCompile Include="..\..\src\GraphicsDrawer.cpp" />
+    <ClCompile Include="..\..\src\RSP.cpp" />
+    <ClCompile Include="..\..\src\RSP_LoadMatrix.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\RSP_LoadMatrixX86.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SoftwareRender.cpp" />
+    <ClCompile Include="..\..\src\TexrectDrawer.cpp" />
+    <ClCompile Include="..\..\src\TextDrawer.cpp" />
+    <ClCompile Include="..\..\src\TextureFilterHandler.cpp" />
+    <ClCompile Include="..\..\src\Textures.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3D.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DAM.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DBETA.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DDKR.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DEX.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DEX2.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DEX2ACCLAIM.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DEX2CBFD.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DZEX2.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DFLX2.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DGOLDEN.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DPD.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DSETA.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F5Rogue.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F3DTEXA.cpp" />
+    <ClCompile Include="..\..\src\uCodes\F5Indi_Naboo.cpp" />
+    <ClCompile Include="..\..\src\uCodes\L3D.cpp" />
+    <ClCompile Include="..\..\src\uCodes\L3DEX.cpp" />
+    <ClCompile Include="..\..\src\uCodes\L3DEX2.cpp" />
+    <ClCompile Include="..\..\src\uCodes\S2DEX.cpp" />
+    <ClCompile Include="..\..\src\uCodes\S2DEX2.cpp" />
+    <ClCompile Include="..\..\src\uCodes\T3DUX.cpp" />
+    <ClCompile Include="..\..\src\uCodes\Turbo3D.cpp" />
+    <ClCompile Include="..\..\src\uCodes\ZSort.cpp" />
+    <ClCompile Include="..\..\src\uCodes\ZSortBOSS.cpp" />
+    <ClCompile Include="..\..\src\VI.cpp" />
+    <ClCompile Include="..\..\src\windows\CommonAPIImpl_windows.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\Config_windows.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\GLideN64_windows.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\MemoryStatus_windows.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\windows\ZilmarAPIImpl_windows.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\xxHash\xxhash.c" />
+    <ClCompile Include="..\..\src\ZilmarPluginAPI.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ZlutTexture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\3DMath.h" />
+    <ClInclude Include="..\..\src\BufferCopy\ColorBufferToRDRAM.h" />
+    <ClInclude Include="..\..\src\BufferCopy\DepthBufferToRDRAM.h" />
+    <ClInclude Include="..\..\src\BufferCopy\RDRAMtoColorBuffer.h" />
+    <ClInclude Include="..\..\src\BufferCopy\WriteToRDRAM.h" />
+    <ClInclude Include="..\..\src\Combiner.h" />
+    <ClInclude Include="..\..\src\CombinerKey.h" />
+    <ClInclude Include="..\..\src\Config.h" />
+    <ClInclude Include="..\..\src\convert.h" />
+    <ClInclude Include="..\..\src\CRC.h" />
+    <ClInclude Include="..\..\src\DebugDump.h" />
+    <ClInclude Include="..\..\src\Debugger.h" />
+    <ClInclude Include="..\..\src\DepthBuffer.h" />
+    <ClInclude Include="..\..\src\DepthBufferRender\ClipPolygon.h" />
+    <ClInclude Include="..\..\src\DepthBufferRender\DepthBufferRender.h" />
+    <ClInclude Include="..\..\src\DisplayLoadProgress.h" />
+    <ClInclude Include="..\..\src\DisplayWindow.h" />
+    <ClInclude Include="..\..\src\FrameBuffer.h" />
+    <ClInclude Include="..\..\src\FrameBufferInfo.h" />
+    <ClInclude Include="..\..\src\FrameBufferInfoAPI.h" />
+    <ClInclude Include="..\..\src\GBI.h" />
+    <ClInclude Include="..\..\src\gDP.h" />
+    <ClInclude Include="..\..\src\GLideN64.h" />
+    <ClInclude Include="..\..\src\GLideNHQ\Ext_TxFilter.h" />
+    <ClInclude Include="..\..\src\Graphics\ColorBufferReader.h" />
+    <ClInclude Include="..\..\src\Graphics\CombinerProgram.h" />
+    <ClInclude Include="..\..\src\Graphics\Context.h" />
+    <ClInclude Include="..\..\src\Graphics\ContextImpl.h" />
+    <ClInclude Include="..\..\src\Graphics\FramebufferTextureFormats.h" />
+    <ClInclude Include="..\..\src\Graphics\ObjectHandle.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLFunctions.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_CombinerInputs.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_CombinerProgramBuilder.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_CombinerProgramImpl.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_CombinerProgramUniformFactory.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_FXAA.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_ShaderPart.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_ShaderStorage.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_SpecialShadersFactory.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\GLSL\glsl_Utils.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_Attributes.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_BufferManipulationObjectFactory.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_CachedFunctions.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_ColorBufferReaderWithBufferStorage.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_ColorBufferReaderWithPixelBuffer.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_ColorBufferReaderWithReadPixels.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_ContextImpl.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_GLInfo.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_GraphicsDrawer.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_TextureManipulationObjectFactory.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_UnbufferedDrawer.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_Utils.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\opengl_BufferedDrawer.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\atomicops.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\opengl_Wrapper.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\opengl_WrappedFunctions.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\BlockingQueue.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\opengl_Command.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\opengl_ObjectPool.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\readerwriterqueue.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\ThreadedOpenGl\RingBufferPool.h" />
+    <ClInclude Include="..\..\src\Graphics\OpenGLContext\windows\WindowsWGL.h">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\src\Graphics\Parameter.h" />
+    <ClInclude Include="..\..\src\Graphics\Parameters.h" />
+    <ClInclude Include="..\..\src\Graphics\PixelBuffer.h" />
+    <ClInclude Include="..\..\src\Graphics\ShaderProgram.h" />
+    <ClInclude Include="..\..\src\gSP.h" />
+    <ClInclude Include="..\..\src\inc\glext.h" />
+    <ClInclude Include="..\..\src\Keys.h" />
+    <ClInclude Include="..\..\src\Log.h" />
+    <ClInclude Include="..\..\src\MemoryStatus.h" />
+    <ClInclude Include="..\..\src\mupenplus\GLideN64_mupenplus.h">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\src\N64.h" />
+    <ClInclude Include="..\..\src\NoiseTexture.h" />
+    <ClInclude Include="..\..\src\PaletteTexture.h" />
+    <ClInclude Include="..\..\src\Performance.h" />
+    <ClInclude Include="..\..\src\Platform.h" />
+    <ClInclude Include="..\..\src\PluginAPI.h" />
+    <ClInclude Include="..\..\src\PostProcessor.h" />
+    <ClInclude Include="..\..\src\RDP.h" />
+    <ClInclude Include="..\..\src\GraphicsDrawer.h" />
+    <ClInclude Include="..\..\src\RSP.h" />
+    <ClInclude Include="..\..\src\SoftwareRender.h" />
+    <ClInclude Include="..\..\src\TexrectDrawer.h" />
+    <ClInclude Include="..\..\src\TextDrawer.h" />
+    <ClInclude Include="..\..\src\TextureFilterHandler.h" />
+    <ClInclude Include="..\..\src\Textures.h" />
+    <ClInclude Include="..\..\src\Types.h" />
+    <ClInclude Include="..\..\src\uCodes\F3D.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DAM.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DBETA.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DDKR.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DEX.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DEX2.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DEX2ACCLAIM.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DEX2CBFD.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DZEX2.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DFLX2.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DGOLDEN.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DPD.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DSETA.h" />
+    <ClInclude Include="..\..\src\uCodes\F5Rogue.h" />
+    <ClInclude Include="..\..\src\uCodes\F3DTEXA.h" />
+    <ClInclude Include="..\..\src\uCodes\F5Indi_Naboo.h" />
+    <ClInclude Include="..\..\src\uCodes\L3D.h" />
+    <ClInclude Include="..\..\src\uCodes\L3DEX.h" />
+    <ClInclude Include="..\..\src\uCodes\L3DEX2.h" />
+    <ClInclude Include="..\..\src\uCodes\S2DEX.h" />
+    <ClInclude Include="..\..\src\uCodes\S2DEX2.h" />
+    <ClInclude Include="..\..\src\uCodes\T3DUX.h" />
+    <ClInclude Include="..\..\src\uCodes\Turbo3D.h" />
+    <ClInclude Include="..\..\src\uCodes\ZSort.h" />
+    <ClInclude Include="..\..\src\uCodes\ZSortBOSS.h" />
+    <ClInclude Include="..\..\src\VI.h" />
+    <ClInclude Include="..\..\src\windows\GLideN64_windows.h" />
+    <ClInclude Include="..\..\src\wst.h" />
+    <ClInclude Include="..\..\src\xxHash\xxhash.h" />
+    <ClInclude Include="..\..\src\ZilmarGFX_1_3.h">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Debug_mupenplus' Or '$(Configuration)'=='Release_mupenplus'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ZlutTexture.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libGLideNHQ.vcxproj">
+      <Project>{da965bcf-2219-47af-ace7-eaf76d5d4756}</Project>
+    </ProjectReference>
+    <ProjectReference Include="osal.vcxproj">
+      <Project>{7bf6f100-31db-44ae-a2a5-5ddeed9a909c}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

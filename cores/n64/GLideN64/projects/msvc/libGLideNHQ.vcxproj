@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{DA965BCF-2219-47AF-ACE7-EAF76D5D4756}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>libGLideNHQ</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolSet>$(DefaultPlatformToolset)</PlatformToolSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir>$(SolutionDir)build\$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <TargetName>libGLideNHQ</TargetName>
+    <TargetExt>.lib</TargetExt>
+    <OutDir>$(SolutionDir)bin\$(Platform)\$(Configuration)\lib\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\src;$(ProjectDir)..\..\src\inc;$(ProjectDir)..\..\src\osal;$(ProjectDir)..\..\src\GLideNHQ\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>UNICODE;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;OS_WINDOWS;__MSC__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32_ASM;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PreprocessorDefinitions>_DEBUG;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>libpngd.lib;zlibd.lib;</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' And '$(Platform)'=='Win32'">
+    <Lib>
+      <AdditionalLibraryDirectories Condition="'$(MSBuildAssemblyVersion)'=='12.0'">lib/msvc12/dbg</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(MSBuildAssemblyVersion)'!='12.0'">lib/dbg</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug' And '$(Platform)'=='x64'">
+    <Lib>
+      <AdditionalLibraryDirectories>lib/x64/dbg</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>libpng.lib;zlib.lib;</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="('$(Configuration)'=='Release') And '$(Platform)'=='Win32'">
+    <Lib>
+      <AdditionalLibraryDirectories Condition="'$(MSBuildAssemblyVersion)'=='12.0'">lib/msvc12/rel</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories Condition="'$(MSBuildAssemblyVersion)'!='12.0'">lib/rel</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="('$(Configuration)'=='Release') And '$(Platform)'=='x64'">
+    <Lib>
+      <AdditionalLibraryDirectories>lib/x64/rel</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\GLideNHQ\TextureFilters.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TextureFilters_2xsai.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TextureFilters_hq2x.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TextureFilters_hq4x.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TextureFilters_xbrz.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxCache.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxDbg.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxFilter.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxFilterExport.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxHiResCache.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxImage.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxQuantize.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxReSample.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxTexCache.cpp" />
+    <ClCompile Include="..\..\src\GLideNHQ\TxUtil.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

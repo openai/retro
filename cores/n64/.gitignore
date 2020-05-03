@@ -1,0 +1,14 @@
+*.o
+*.dll
+*.dylib
+*libretro*.lib
+*libretro*.so
+*libretro*.a
+*.d
+*.js
+*.bc
+asm_defines_nasm.h
+asm_defines_gas.h
+.vscode/ipch/*
+.vscode/c_cpp_properties.json
+linker.list
