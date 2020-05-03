@@ -137,3 +137,9 @@ retro/VERSION.txt
 Temporary
 *.mkv
 *.search
+
+# specific to this project
+*regress/*
+*gym-retro-integration*
+src/ui/Makefile
+tests/Makefile
