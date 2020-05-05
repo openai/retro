@@ -1,0 +1,4 @@
+tasks:
+  - init: pip install . && cmake .
+image:
+  file: .gitpod.Dockerfile
