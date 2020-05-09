@@ -13,6 +13,8 @@
 #include "emulator.h"
 #include "libretro.h"
 
+#include "logging.h"
+
 #ifndef _WIN32
 #define GETSYM dlsym
 #else
@@ -28,7 +30,7 @@ static Emulator* s_loadedEmulator = nullptr;
 static map<string, const char*> s_envVariables = {
 	{ "genesis_plus_gx_bram", "per game" },
 	{ "genesis_plus_gx_render", "single field" },
-	{ "genesis_plus_gx_blargg_ntsc_filter", "disabled" }
+	{ "genesis_plus_gx_blargg_ntsc_filter", "disabled" },
 };
 
 static void (*retro_init)(void);
@@ -79,7 +81,9 @@ bool Emulator::loadRom(const string& romPath) {
 	}
 
 	auto core = coreForRom(romPath);
+	ZLOG("core: %s", core.c_str());
 	if (core.size() == 0) {
+		ZLOG("1", "");
 		return false;
 	}
 
@@ -96,19 +100,22 @@ bool Emulator::loadRom(const string& romPath) {
 		lib += "so";
 #endif
 		if (!loadCore(corePath() + "/" + lib)) {
+			ZLOG("2", "");
 			return false;
 		}
 		m_core = core;
 	}
-
+	ZLOG("Core loaded successfully", "");
 	retro_game_info gameInfo;
 	ifstream in(romPath, ios::binary | ios::ate);
 	if (in.fail()) {
+		ZLOG("failed to load rom path", "");
 		return false;
 	}
 	ostringstream out;
 	gameInfo.size = in.tellg();
 	if (in.fail()) {
+		ZLOG("3", "");
 		return false;
 	}
 	char* romData = new char[gameInfo.size];
@@ -117,14 +124,16 @@ bool Emulator::loadRom(const string& romPath) {
 	in.seekg(0, ios::beg);
 	in.read(romData, gameInfo.size);
 	if (in.fail()) {
+		ZLOG("4", "");
 		delete[] romData;
 		return false;
 	}
 	in.close();
-
+	ZLOG("loading game: path: %s", gameInfo.path);
 	auto res = retro_load_game(&gameInfo);
 	delete[] romData;
 	if (!res) {
+		ZLOG("failed to load game", "");
 		return false;
 	}
 	retro_get_system_av_info(&m_avInfo);
@@ -234,7 +243,9 @@ void Emulator::setCheat(unsigned index, bool enabled, const char* code) {
 }
 
 bool Emulator::loadCore(const string& corePath) {
+	ZLOG("loadCore: corePath: %s", corePath.c_str());
 	if (s_loadedEmulator) {
+		ZLOG("loadCore 1", "");
 		return false;
 	}
 
@@ -244,9 +255,11 @@ bool Emulator::loadCore(const string& corePath) {
 	m_coreHandle = dlopen(corePath.c_str(), RTLD_LAZY);
 #endif
 	if (!m_coreHandle) {
+		ZLOG("loadCore 2", "");
 		return false;
 	}
 
+	// I guess this is casting the underlying emulator functions to a common, usable form.
 	retro_init = reinterpret_cast<void (*)()>(GETSYM(m_coreHandle, "retro_init"));
 	retro_deinit = reinterpret_cast<void (*)()>(GETSYM(m_coreHandle, "retro_deinit"));
 	retro_api_version = reinterpret_cast<unsigned int (*)()>(GETSYM(m_coreHandle, "retro_api_version"));
@@ -269,7 +282,7 @@ bool Emulator::loadCore(const string& corePath) {
 	retro_set_audio_sample_batch = reinterpret_cast<void (*)(retro_audio_sample_batch_t)>(GETSYM(m_coreHandle, "retro_set_audio_sample_batch"));
 	retro_set_input_poll = reinterpret_cast<void (*)(retro_input_poll_t)>(GETSYM(m_coreHandle, "retro_set_input_poll"));
 	retro_set_input_state = reinterpret_cast<void (*)(short (*)(unsigned int, unsigned int, unsigned int, unsigned int))>(GETSYM(m_coreHandle, "retro_set_input_state"));
-
+	ZLOG("loadCore 3", "");
 	// The default according to the docs
 	m_imgDepth = 15;
 	s_loadedEmulator = this;
@@ -281,7 +294,7 @@ bool Emulator::loadCore(const string& corePath) {
 	retro_set_input_poll(cbInputPoll);
 	retro_set_input_state(cbInputState);
 	retro_init();
-
+	ZLOG("loadCore 4", "");
 	return true;
 }
 
@@ -335,6 +348,14 @@ void Emulator::reconfigureAddressSpace() {
 	}
 }
 
+static void fallback_log(enum retro_log_level level, const char* fmt, ...) {
+	(void) level;
+	va_list va;
+	va_start(va, fmt);
+	vfprintf(stderr, fmt, va);
+	va_end(va);
+}
+
 bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 	assert(s_loadedEmulator);
 	switch (cmd) {
@@ -356,11 +377,17 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		return true;
 	case RETRO_ENVIRONMENT_GET_VARIABLE: {
 		struct retro_variable* var = reinterpret_cast<struct retro_variable*>(data);
+		ZLOG("var->key: %s\n", var->key);
 		if (s_envVariables.count(string(var->key))) {
 			var->value = s_envVariables[string(var->key)];
 			return true;
 		}
 		return false;
+	}
+	case RETRO_ENVIRONMENT_GET_LOG_INTERFACE: {
+		struct retro_log_callback* log = reinterpret_cast<struct retro_log_callback*>(data);
+		log->log = fallback_log;
+		return true;
 	}
 	case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
 		if (!s_loadedEmulator->m_corePath) {
