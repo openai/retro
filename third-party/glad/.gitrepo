@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/Dav1dde/glad.git
+	branch = 5bf3eda6da606324999775b88a90ed572202be93
+	commit = 5bf3eda6da606324999775b88a90ed572202be93
+	parent = fecb4e4755a27ff318070c5174451ed25258f80a
+	method = merge
+	cmdver = 0.4.1
