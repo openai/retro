@@ -17,6 +17,8 @@
 
 #include "zlib.h"
 
+#include "logging.h"
+
 QSettings EmulatorController::s_settings;
 QString EmulatorController::s_path;
 
@@ -26,6 +28,7 @@ EmulatorController::EmulatorController(QObject* parent)
 	QDir coreDir(QString::fromStdString(Retro::corePath()));
 	coreDir.setNameFilters(QStringList{ "*.json" });
 	for (const auto& info : coreDir.entryList()) {
+		ZLOG("filepath: %s", info.toUtf8().constData());
 		QFile jsonDoc(coreDir.filePath(info));
 		jsonDoc.open(QIODevice::ReadOnly);
 		QByteArray json(jsonDoc.readAll());
@@ -47,15 +50,18 @@ void EmulatorController::initCorePath() {
 }
 
 bool EmulatorController::loadGame(const QString& path) {
+	ZLOG("loadGame: path %s", path.toUtf8().constData());
 	QFileInfo info(path);
 	QString core = coreForFile(path);
 	if (!core.size()) {
+		ZLOG("1", "");
 		return false;
 	}
 
 	m_re.unloadCore();
 	m_initialState.clear();
 	if (!m_re.loadRom(path.toStdString())) {
+		ZLOG("2", "");
 		return false;
 	}
 
@@ -337,7 +343,7 @@ QString EmulatorController::dataPath() {
 		connect(subproc, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), subproc, [subproc](int, QProcess::ExitStatus) {
 			subproc->deleteLater();
 		});
-		subproc->start("python3", {"-c", "import retro; print(retro.data.path())"});
+		subproc->start("python3", { "-c", "import retro; print(retro.data.path())" });
 		subproc->waitForStarted();
 		while (subproc->state() != QProcess::NotRunning) {
 			subproc->waitForFinished(10);

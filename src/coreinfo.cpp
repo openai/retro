@@ -110,6 +110,12 @@ bool loadCoreInfo(const string& jsonData) {
 		}
 		s_coreToLib[core.key()] = core->at("lib").get<string>();
 	}
+
+        // std::cout << "extensions:" << std::endl;
+        // for (const auto& kvp : s_extensionToCore) {
+        //   std::cout << kvp.first << std::endl;;
+        // }
+        
 	return true;
 }
 
