@@ -1,0 +1,103 @@
+/*!
+
+@page news Release notes
+
+@tableofcontents
+
+
+@section news_34 Release notes for version 3.4
+
+@subsection features_34 New features in version 3.4
+
+@subsubsection standard_cursors_34 More standard cursors
+
+GLFW now provides the standard cursor shapes @ref GLFW_RESIZE_NWSE_CURSOR and
+@ref GLFW_RESIZE_NESW_CURSOR for diagonal resizing, @ref GLFW_RESIZE_ALL_CURSOR
+for omni-directional resizing and @ref GLFW_NOT_ALLOWED_CURSOR for showing an
+action is not allowed.
+
+Unlike the original set, these shapes may not be available everywhere and
+creation will then fail with the new @ref GLFW_CURSOR_UNAVAILABLE error.
+
+The cursors for horizontal and vertical resizing are now referred to as @ref
+GLFW_RESIZE_EW_CURSOR and @ref GLFW_RESIZE_NS_CURSOR, and the pointing hand
+cursor is now referred to as @ref GLFW_POINTING_HAND_CURSOR.  The older names
+are still available.
+
+For more information see @ref cursor_standard.
+
+
+@subsubsection features_34_win32_keymenu Support for keyboard access to Windows window menu
+
+GLFW now provides the
+[GLFW_WIN32_KEYBOARD_MENU](@ref GLFW_WIN32_KEYBOARD_MENU_hint) window hint for
+enabling keyboard access to the window menu via the Alt+Space and
+Alt-and-then-Space shortcuts.  This may be useful for more GUI-oriented
+applications.
+
+
+@subsection caveats_34 Caveats for version 3.4
+
+@subsubsection standalone_34 Tests and examples are disabled when built as a sub-project
+
+GLFW now does not build the tests and examples when it is added as
+a subdirectory of another CMake project.  To enable these, set the @ref
+GLFW_BUILD_TESTS and @ref GLFW_BUILD_EXAMPLES cache variables before adding the
+GLFW subdirectory.
+
+@code{.cmake}
+set(GLFW_BUILD_EXAMPLES ON CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS ON CACHE BOOL "" FORCE)
+add_subdirectory(path/to/glfw)
+@endcode
+
+
+@subsubsection initmenu_34 macOS main menu now created at initialization
+
+GLFW now creates the main menu and completes the initialization of NSApplication
+during initialization.  Programs that do not want a main menu can disable it
+with the [GLFW_COCOA_MENUBAR](@ref GLFW_COCOA_MENUBAR_hint) init hint.
+
+
+@subsubsection corevideo_34 CoreVideo dependency has been removed
+
+GLFW no longer depends on the CoreVideo framework on macOS and it no longer
+needs to be specified during compilation or linking.
+
+
+@subsection deprecations_34 Deprecations in version 3.4
+
+@subsection removals_34 Removals in 3.4
+
+@subsubsection wl_shell_34 Support for the wl_shell protocol has been removed
+
+Support for the wl_shell protocol has been removed and GLFW now only supports
+the XDG-Shell protocol.  If your Wayland compositor does not support XDG-Shell
+then GLFW will fail to initialize.
+
+
+@subsection symbols_34 New symbols in version 3.4
+
+@subsubsection functions_34 New functions in version 3.4
+@subsubsection types_34 New types in version 3.4
+@subsubsection constants_34 New constants in version 3.4
+
+ - @ref GLFW_POINTING_HAND_CURSOR
+ - @ref GLFW_RESIZE_EW_CURSOR
+ - @ref GLFW_RESIZE_NS_CURSOR
+ - @ref GLFW_RESIZE_NWSE_CURSOR
+ - @ref GLFW_RESIZE_NESW_CURSOR
+ - @ref GLFW_RESIZE_ALL_CURSOR
+ - @ref GLFW_NOT_ALLOWED_CURSOR
+ - @ref GLFW_CURSOR_UNAVAILABLE
+ - @ref GLFW_WIN32_KEYBOARD_MENU
+
+
+@section news_archive Release notes for earlier versions
+
+- [Release notes for 3.3](https://www.glfw.org/docs/3.3/news.html)
+- [Release notes for 3.2](https://www.glfw.org/docs/3.2/news.html)
+- [Release notes for 3.1](https://www.glfw.org/docs/3.1/news.html)
+- [Release notes for 3.0](https://www.glfw.org/docs/3.0/news.html)
+
+*/
