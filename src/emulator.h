@@ -11,6 +11,9 @@
 #include <windows.h>
 #endif
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 namespace Retro {
 
 const int N_BUTTONS = 16;
@@ -61,6 +64,7 @@ private:
 	bool loadCore(const std::string& corePath);
 	void fixScreenSize(const std::string& romName);
 	void reconfigureAddressSpace();
+	bool setupHardwareRender(retro_hw_render_callback* data);
 
 	static bool cbEnvironment(unsigned cmd, void* data);
 	static void cbVideoRefresh(const void* data, unsigned width, unsigned height, size_t pitch);
@@ -84,6 +88,9 @@ private:
 	std::vector<retro_memory_descriptor> m_map;
 
 	char* m_corePath = nullptr;
+
+	// OpenGL / GLFW state.
+	GLFWwindow* m_glfw_window = nullptr;
 
 #ifdef _WIN32
 	HMODULE m_coreHandle = nullptr;

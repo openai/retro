@@ -3,6 +3,38 @@ if(POLICY CMP0048)
     cmake_policy(SET CMP0048 NEW)
 endif()
 
+# START added
+option(GLFW_BUILD_DOCS OFF)
+option(GLFW_BUILD_EXAMPLES OFF)
+option(GLFW_BUILD_TESTS OFF)
+add_subdirectory(third-party/glfw)
+
+set(GLAD_LIBRARIES dl)
+
+include_directories(third-party/glad/include/
+                    third-party/glfw/include/)
+
+file(GLOB VENDORS_SOURCES third-party/glad/src/glad.c)
+
+add_definitions(-DGLFW_INCLUDE_NONE
+                -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
+
+# Questions
+# 1. where to put include dirs?
+# compare with other include dirs vars
+# just include them here
+
+# 2. where to add VENDORS_SOURCES
+# originally it was included in the executable
+# maybe check for other source files
+# I think it depends on what needs it
+# what needs it?
+# the emulate.cpp file basically
+# so where is that compiled here?
+# under add_librar(retro-base ...) I believe, so adding it there
+
+# END added
+
 find_package(Git QUIET)
 
 find_package(PythonInterp REQUIRED)
@@ -232,8 +264,10 @@ add_library(retro-base STATIC
     src/search.cpp
     src/utils.cpp
     src/zipfile.cpp
-    ${LUA_LIBRARY})
-target_link_libraries(retro-base ${ZLIB_LIBRARY} ${LIBZIP_LIBRARIES} ${LUA_LIBRARY} ${LUA_LIBRRAY})
+    ${LUA_LIBRARY}
+    ${VENDORS_SOURCES})
+  target_link_libraries(retro-base ${ZLIB_LIBRARY} ${LIBZIP_LIBRARIES} ${LUA_LIBRARY} ${LUA_LIBRRAY}
+    glfw ${GLFW_LIBRARIES} ${GLAD_LIBRARIES})
 add_dependencies(retro-base ${CORE_TARGETS})
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_link_libraries(retro-base dl)

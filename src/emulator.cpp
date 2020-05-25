@@ -31,6 +31,8 @@ static map<string, const char*> s_envVariables = {
 	{ "genesis_plus_gx_bram", "per game" },
 	{ "genesis_plus_gx_render", "single field" },
 	{ "genesis_plus_gx_blargg_ntsc_filter", "disabled" },
+	{ "mupen64plus-rdp-plugin", "angrylion" },
+	{ "mupen64plus-rsp-plugin", "hle" },
 };
 
 static void (*retro_init)(void);
@@ -138,6 +140,8 @@ bool Emulator::loadRom(const string& romPath) {
 	}
 	retro_get_system_av_info(&m_avInfo);
 	fixScreenSize(romPath);
+
+	// It's possible this is where the opengl window/context should be creation.
 
 	m_romLoaded = true;
 	m_romPath = romPath;
@@ -356,9 +360,85 @@ static void fallback_log(enum retro_log_level level, const char* fmt, ...) {
 	va_end(va);
 }
 
+bool Emulator::setupHardwareRender(retro_hw_render_callback* data) {
+	assert(data->context_type == RETRO_HW_CONTEXT_OPENGL);
+
+	glfwInit();
+
+	// Set configuration variables.
+	ZLOG("GLFW VERSION MAJOR: %d", data->version_major);
+	ZLOG("GLFW VERSION MINOR: %d", data->version_minor);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, data->version_major);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, data->version_minor);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	// And a more variables from glsm.c:
+	// hw_render.context_reset      = params->context_reset;
+	// hw_render.context_destroy    = params->context_destroy;
+	// hw_render.stencil            = params->stencil;
+	// hw_render.depth              = true;
+	// hw_render.bottom_left_origin = true;
+	// hw_render.cache_context      = true;
+	// Set window to be invisible:
+	// set GLFW_VISIBLE appropriately.
+
+	// For some reason the image width / height is zero at this point.
+	int width = getImageWidth();
+	if (width == 0) {
+		constexpr int kDefaultWidth = 500;
+		width = kDefaultWidth;
+	}
+	int height = getImageHeight();
+	if (height == 0) {
+		constexpr int kDefaultHeight = 500;
+		height = kDefaultHeight;
+	}
+	ZLOG("image width: %d", width);
+	ZLOG("image height: %d", height);
+	m_glfw_window = glfwCreateWindow(width, height, "retro", nullptr, nullptr);
+
+	// Check for Valid Context
+	if (m_glfw_window == nullptr) {
+		int code = glfwGetError(nullptr);
+		ZLOG("Failed to Create OpenGL Context. Error code: %#010x\n", code);
+		return false;
+	}
+
+	// Create Context and Load OpenGL Functions
+	glfwMakeContextCurrent(m_glfw_window);
+	gladLoadGL();
+	ZLOG("OpenGL %s\n", glGetString(GL_VERSION));
+	glGetStringi(GL_EXTENSIONS, 0);
+	const char* name = (const char*) glGetStringi(GL_EXTENSIONS, 0);
+	printf("name:\n%s\n", name);
+	// It's possible this call needs to be made before `glfwMakeContextCurrent`.
+	data->context_reset();
+
+	return true;
+
+	// Where does the rest of this go?
+	// // Rendering Loop
+	// while (glfwWindowShouldClose(mWindow) == false) {
+	//     if (glfwGetKey(mWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	//         glfwSetWindowShouldClose(mWindow, true);
+
+	//     // Background Fill Color
+	//     glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
+	//     glClear(GL_COLOR_BUFFER_BIT);
+
+	//     // Flip Buffers and Draw
+	//     glfwSwapBuffers(mWindow);
+	//     glfwPollEvents();
+	// }   glfwTerminate();
+}
+
 bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 	assert(s_loadedEmulator);
 	switch (cmd) {
+	case RETRO_ENVIRONMENT_SET_HW_RENDER:
+		return s_loadedEmulator->setupHardwareRender(
+			reinterpret_cast<struct retro_hw_render_callback*>(data));
 	case RETRO_ENVIRONMENT_SET_PIXEL_FORMAT:
 		switch (*reinterpret_cast<retro_pixel_format*>(data)) {
 		case RETRO_PIXEL_FORMAT_XRGB8888:
@@ -380,6 +460,7 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		ZLOG("var->key: %s\n", var->key);
 		if (s_envVariables.count(string(var->key))) {
 			var->value = s_envVariables[string(var->key)];
+			ZLOG("var->value: %s\n", var->value);
 			return true;
 		}
 		return false;
