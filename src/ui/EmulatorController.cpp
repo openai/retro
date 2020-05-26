@@ -26,6 +26,7 @@ EmulatorController::EmulatorController(QObject* parent)
 	: QObject(parent) {
 	initCorePath();
 	QDir coreDir(QString::fromStdString(Retro::corePath()));
+	ZLOG("corepath: %s", coreDir.absolutePath().toUtf8().constData());
 	coreDir.setNameFilters(QStringList{ "*.json" });
 	for (const auto& info : coreDir.entryList()) {
 		ZLOG("filepath: %s", info.toUtf8().constData());
@@ -70,6 +71,7 @@ bool EmulatorController::loadGame(const QString& path) {
 
 	m_keybinds[0].clear();
 	for (const auto& key : m_re.keybinds()) {
+		ZLOG("keybind: %s", key.c_str());
 		if (!key.size()) {
 			m_keybinds[0].append(-1);
 		} else if (key == "ENTER") {

@@ -17,7 +17,7 @@
 namespace Retro {
 
 const int N_BUTTONS = 16;
-const int MAX_PLAYERS = 2;
+const int MAX_PLAYERS = 4;
 
 class GameData;
 class Emulator {
