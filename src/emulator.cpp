@@ -528,7 +528,10 @@ void Emulator::configureData(GameData* data) {
 	m_addressSpace->reset();
 	Retro::configureData(data, m_core);
 	reconfigureAddressSpace();
+	ZLOG("rambase: %zx", Retro::ramBase(m_core));
+	ZLOG("memory size: %zx", retro_get_memory_size(RETRO_MEMORY_SYSTEM_RAM));
 	if (m_addressSpace->blocks().empty() && retro_get_memory_size(RETRO_MEMORY_SYSTEM_RAM)) {
+		ZLOG("adding block to memory", "");
 		m_addressSpace->addBlock(Retro::ramBase(m_core), retro_get_memory_size(RETRO_MEMORY_SYSTEM_RAM), retro_get_memory_data(RETRO_MEMORY_SYSTEM_RAM));
 	}
 }

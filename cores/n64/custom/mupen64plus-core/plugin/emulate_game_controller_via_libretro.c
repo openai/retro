@@ -362,23 +362,23 @@ void inputGetKeys_default(int Control, BUTTONS* Keys) {
 		Keys->Value |= (analogY < 0) ? CSTICK_UP : CSTICK_DOWN;
 
         if (Control == 0) {
-          printf("\n");
-          printf("R_DPAD: %u\n", Keys->R_DPAD);
-          printf("L_DPAD: %u\n", Keys->L_DPAD);
-          printf("D_DPAD: %u\n", Keys->D_DPAD);
-          printf("U_DPAD: %u\n", Keys->U_DPAD);
-          printf("START_BUTTON: %u\n", Keys->START_BUTTON);
-          printf("Z_TRIG: %u\n", Keys->Z_TRIG);
-          printf("A_BUTTON: %u\n", Keys->A_BUTTON);
-          printf("B_BUTTON: %u\n", Keys->B_BUTTON);
-          printf("R_CBUTTON: %u\n", Keys->R_CBUTTON);
-          printf("L_CBUTTON: %u\n", Keys->L_CBUTTON);
-          printf("D_CBUTTON: %u\n", Keys->D_CBUTTON);
-          printf("U_CBUTTON: %u\n", Keys->U_CBUTTON);
-          printf("R_TRIG: %u\n", Keys->R_TRIG);
-          printf("L_TRIG: %u\n", Keys->L_TRIG);
-          printf("X analog: %d\n", analogX);
-          printf("Y analog: %d\n", analogY);
+          /* printf("\n"); */
+          /* printf("R_DPAD: %u\n", Keys->R_DPAD); */
+          /* printf("L_DPAD: %u\n", Keys->L_DPAD); */
+          /* printf("D_DPAD: %u\n", Keys->D_DPAD); */
+          /* printf("U_DPAD: %u\n", Keys->U_DPAD); */
+          /* printf("START_BUTTON: %u\n", Keys->START_BUTTON); */
+          /* printf("Z_TRIG: %u\n", Keys->Z_TRIG); */
+          /* printf("A_BUTTON: %u\n", Keys->A_BUTTON); */
+          /* printf("B_BUTTON: %u\n", Keys->B_BUTTON); */
+          /* printf("R_CBUTTON: %u\n", Keys->R_CBUTTON); */
+          /* printf("L_CBUTTON: %u\n", Keys->L_CBUTTON); */
+          /* printf("D_CBUTTON: %u\n", Keys->D_CBUTTON); */
+          /* printf("U_CBUTTON: %u\n", Keys->U_CBUTTON); */
+          /* printf("R_TRIG: %u\n", Keys->R_TRIG); */
+          /* printf("L_TRIG: %u\n", Keys->L_TRIG); */
+          /* printf("X analog: %d\n", analogX); */
+          /* printf("Y analog: %d\n", analogY); */
         }
 	inputGetKeys_reuse(analogX, analogY, Control, Keys);
 }

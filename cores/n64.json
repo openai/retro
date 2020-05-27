@@ -2,7 +2,7 @@
     "N64": {
         "lib": "mupen64plus_next",
         "ext": ["n64"],
-        "rambase": 8257536,
+        "rambase": 2147483648,
         "keybinds": ["B", "Y", "TAB", "ENTER", "UP", "DOWN", "LEFT", "RIGHT", "A", "X", "L", "R"],
         "buttons": ["B", "Y", "SELECT", "START", "UP", "DOWN", "LEFT", "RIGHT", "A", "X", "L", "R"],
         "actions": [

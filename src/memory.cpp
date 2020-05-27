@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <unordered_map>
 
+#include "logging.h"
+
 using namespace Retro;
 using namespace std;
 
@@ -432,14 +434,19 @@ Datum AddressSpace::operator[](size_t offset) {
 
 Datum AddressSpace::operator[](const Variable& var) {
 	for (auto& kv : m_blocks) {
+		ZLOG("var.address: %zx", var.address);
+		ZLOG("kv.first: %zx", kv.first);
 		if (var.address < kv.first) {
+			ZLOG("1 too small var.address", "");
 			throw std::out_of_range("No known mapping");
 		}
 		if (var.address - kv.first >= kv.second.size()) {
+			ZLOG("2 too large var.address", "");
 			continue;
 		}
 		return Datum(kv.second.offset(0), Variable{ var.type, var.address - kv.first, var.mask }, *m_overlay);
 	}
+	ZLOG("2b", "");
 	throw std::out_of_range("No known mapping");
 }
 
@@ -460,6 +467,7 @@ uint8_t AddressSpace::operator[](size_t offset) const {
 int64_t AddressSpace::operator[](const Variable& var) const {
 	for (const auto& kv : m_blocks) {
 		if (var.address < kv.first) {
+			ZLOG("3", "");
 			throw std::out_of_range("No known mapping");
 		}
 		if (var.address - kv.first >= kv.second.size()) {
@@ -475,6 +483,7 @@ int64_t AddressSpace::operator[](const Variable& var) const {
 		value &= var.mask;
 		return value;
 	}
+	ZLOG("4", "");
 	throw std::out_of_range("No known mapping");
 }
 

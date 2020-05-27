@@ -1,8 +1,12 @@
 #include "json.hpp"
 
+#include <typeinfo>
+
 #include "coreinfo.h"
 #include "data.h"
 #include "utils.h"
+
+#include "logging.h"
 
 using namespace std;
 using nlohmann::json;
@@ -70,7 +74,18 @@ vector<string> keybinds(const string& core) {
 }
 
 size_t ramBase(const string& core) {
-	return s_cores[core].value("rambase", 0);
+	// const auto value = s_cores[core].value("rambase", 0);
+	// ZLOG("type of value: %s", typeid(value).name());
+	// ZLOG("rambase (d): %d", value);
+	// ZLOG("rambase (u): %u", value);
+	// ZLOG("rambase (x): %x", value);
+	// ZLOG("rambase (zx): %zx", value);
+	// ZLOG("rambase (->size_t)(zx): %zx", static_cast<size_t>(value));
+	// ZLOG("rambase (unsigned->size_t)(zx): %zx", static_cast<size_t>((unsigned)value));
+	// ZLOG("rambase (long->size_t)(zx): %zx", static_cast<size_t>((long)value));
+	// Cast to an unsigned integer before converting to size_t. If you directly convert the
+	// integer it gives an incorrect result when the value is large enough.
+	return static_cast<unsigned int>(s_cores[core].value("rambase", 0));
 }
 
 void configureData(GameData* data, const string& core) {
@@ -111,11 +126,11 @@ bool loadCoreInfo(const string& jsonData) {
 		s_coreToLib[core.key()] = core->at("lib").get<string>();
 	}
 
-        // std::cout << "extensions:" << std::endl;
-        // for (const auto& kvp : s_extensionToCore) {
-        //   std::cout << kvp.first << std::endl;;
-        // }
-        
+	// std::cout << "extensions:" << std::endl;
+	// for (const auto& kvp : s_extensionToCore) {
+	//   std::cout << kvp.first << std::endl;;
+	// }
+
 	return true;
 }
 

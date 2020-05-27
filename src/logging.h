@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <stdarg.h>
 
 #include "libretro.h"
 
