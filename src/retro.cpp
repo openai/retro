@@ -25,6 +25,8 @@ static inline T _hypot(T x, T y) {
 #include <unordered_map>
 #include <unordered_set>
 
+#include "logging.h"
+
 namespace py = pybind11;
 
 using std::string;
@@ -60,18 +62,33 @@ struct PyRetroEmulator {
 	}
 
 	py::array_t<uint8_t> getScreen() {
+		ZLOG("getScreen", "");
 		long w = m_re.getImageWidth();
 		long h = m_re.getImageHeight();
 		py::array_t<uint8_t> arr({ { h, w, 3 } });
 		uint8_t* data = arr.mutable_data();
 		Image out(Image::Format::RGB888, data, w, h, w);
 		Image in;
-		if (m_re.getImageDepth() == 16) {
-			in = Image(Image::Format::RGB565, m_re.getImageData(), w, h, m_re.getImagePitch());
-		} else if (m_re.getImageDepth() == 32) {
-			in = Image(Image::Format::RGBX888, m_re.getImageData(), w, h, m_re.getImagePitch());
+
+		// if (m_re.getImageData() != nullptr) {
+		// 	ZLOG("IMAGE NOT NULL", "");
+		// } else {
+		// 	ZLOG("IMAGE NULL", "");
+		// }
+
+		if (m_re.getImageData() != nullptr) {
+			ZLOG("has image data", "");
+			if (m_re.getImageDepth() == 16) {
+				ZLOG("1", "");
+				in = Image(Image::Format::RGB565, m_re.getImageData(), w, h, m_re.getImagePitch());
+			} else if (m_re.getImageDepth() == 32) {
+				ZLOG("2", "");
+				in = Image(Image::Format::RGBX888, m_re.getImageData(), w, h, m_re.getImagePitch());
+			}
+			in.copyTo(&out);
+		} else {
+			ZLOG("does not have image data", "");
 		}
-		in.copyTo(&out);
 		return arr;
 	}
 

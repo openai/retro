@@ -115,8 +115,10 @@ bool EmulatorController::loadGame(const QString& path) {
 		m_scenManifest = dir.filePath("scenario.json");
 	}
 
+	ZLOG("resetting data", "");
 	m_data->reset();
 	m_re.configureData(m_data.get());
+	ZLOG("manifest is not null: %b", !m_dataManifest.isNull());
 	if (!m_dataManifest.isNull()) {
 		m_data->load(m_dataManifest.toStdString());
 	}
@@ -228,6 +230,22 @@ void EmulatorController::loadState(const QByteArray& data) {
 
 	if (m_running) {
 		start();
+	}
+
+	/*
+          Here's why I added this:
+          1. for some reason n64 pointer to ram is null when this typically calls configureData
+          2. after some point, I'm not sure what the ram pointer is no longer null
+          3. but the memory address thing isn't updated so it's just all zeros forever
+          4. so by making this call here again, it updates the pointer
+          - I guess after loading a state, the ram pointer isn't null
+          5. and that addresses the issue
+
+          - this took me 4 hours to figure out so you better not delete this without
+          - really knowing what you're doing
+         */
+	if (true) {
+		m_re.configureData(m_data.get());
 	}
 }
 
