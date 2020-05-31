@@ -4,6 +4,8 @@ import retro.data
 from retro._retro import Movie, RetroEmulator, core_path
 from retro.enums import Actions, State, Observations
 from retro.retro_env import RetroEnv
+from retro.n64_env import N64Env
+from retro.examples.interactive import Interactive
 
 
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -17,7 +19,7 @@ for path in ('VERSION.txt', '../VERSION'):
     except IOError:
         pass
 
-__all__ = ['Movie', 'RetroEmulator', 'Actions', 'State', 'Observations', 'get_core_path', 'get_romfile_system', 'get_system_info', 'make', 'RetroEnv']
+__all__ = ['Movie', 'RetroEmulator', 'Actions', 'State', 'Observations', 'get_core_path', 'get_romfile_system', 'get_system_info', 'make', 'RetroEnv', 'N64Env', 'Interactive']
 
 retro.data.init_core_info(core_path())
 
@@ -52,4 +54,8 @@ def make(game, state=State.DEFAULT, inttype=retro.data.Integrations.DEFAULT, **k
             raise
         else:
             raise FileNotFoundError('Game not found: %s. Did you make sure to import the ROM?' % game)
-    return RetroEnv(game, state, inttype=inttype, **kwargs)
+
+    if "N64" in game:
+        return N64Env(game, state,  inttype=inttype, **kwargs)
+    else:
+        return RetroEnv(game, state, inttype=inttype, **kwargs)

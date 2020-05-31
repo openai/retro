@@ -265,4 +265,5 @@ def main(argv=sys.argv[1:]):
 
 
 if __name__ == '__main__':
+    retro.data.add_custom_integration("custom")
     main()

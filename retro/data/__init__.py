@@ -5,6 +5,9 @@ import json
 import os
 import sys
 
+from retro.data.ssb64_ram import SSB64RAM
+from retro.data.ssb64_game_data import SSB64GameData
+
 try:
     import enum
     from enum import Flag
@@ -25,7 +28,7 @@ except ImportError:
             except ValueError:
                 return value
 
-__all__ = ['GameData', 'Integrations', 'add_integrations', 'add_custom_integration', 'path', 'get_file_path', 'get_romfile_path', 'list_games', 'list_states', 'merge']
+__all__ = ['GameData', 'Integrations', 'add_integrations', 'add_custom_integration', 'path', 'get_file_path', 'get_romfile_path', 'list_games', 'list_states', 'merge', 'SSB64RAM', 'SSB64GameData']
 
 if sys.platform.startswith('linux'):
     EXT = 'so'
@@ -246,6 +249,7 @@ def add_custom_integration(path):
 
 def init_core_info(path):
     for fname in glob.glob(os.path.join(path, '*.json')):
+        print(fname)
         with open(fname) as f:
             core_info = f.read()
             RetroEmulator.load_core_info(core_info)

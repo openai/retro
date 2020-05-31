@@ -100,6 +100,10 @@ class SSB64RAM:
         self._assert_valid_player_index(player_index)
         # Stock is stored starting from 0 so add 1 to give the actual value.
         stock = self.match_settings[self.players_bases[player_index] + self.stock_suboffset] + 1
+        # Stock is unsigned, so when it wraps around to 255 + 1 = 256.
+        # When this happens return a stock value of 0.
+        if stock == 256:
+            stock = 0
         assert stock >= 0
         return stock
 
