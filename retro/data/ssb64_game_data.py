@@ -7,7 +7,9 @@ class SSB64GameData:
     # Assume only two players.
     num_players = 2
 
-    def __init__(self):
+    def __init__(self, penalize_taking_damage=False, reward_inflicting_damage=True):
+        self.penalize_taking_damage = penalize_taking_damage
+        self.reward_inflicting_damage = reward_inflicting_damage
         self.ram = None
         self.player_state = None
         self.reset()
@@ -39,14 +41,17 @@ class SSB64GameData:
         if stock_change != 0:
             return -100
 
-        # Penalize taking damage.
-        reward = -self.player_state[player_index]["damage_change"]
+        if self.penalize_taking_damage:
+            reward = -self.player_state[player_index]["damage_change"]
+        else:
+            reward = 0
 
         # Reward dealing damage or having other players lose a stock.
         for other_player_index in range(self.num_players):
             if other_player_index == player_index:
                 continue
-            reward += self.player_state[other_player_index]["damage_change"]
+            if self.reward_inflicting_damage:
+                reward += self.player_state[other_player_index]["damage_change"]
             if self.player_state[other_player_index]["stock_change"] != 0:
                 reward += 100
 

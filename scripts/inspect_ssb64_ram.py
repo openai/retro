@@ -15,10 +15,15 @@ import gym
 import matplotlib.pyplot as plt
 import numpy as np
 import retro
+import tensorflow as tf
 
+from baselines.common.atari_wrappers import (WarpFrame, FrameStack, ScaledFloatFrame, MaxAndSkipEnv)
+from baselines.common.policies import build_policy
 from baselines.common.retro_wrappers import (make_retro, wrap_deepmind_retro, MovieRecord,
                                              RewardScaler)
-from baselines.common.atari_wrappers import (WarpFrame, FrameStack, ScaledFloatFrame, MaxAndSkipEnv)
+from baselines.common.vec_env import SubprocVecEnv, DummyVecEnv
+from baselines.ppo2.model import Model
+from baselines.ppo2.runner import Runner
 
 
 def main1():
@@ -172,6 +177,8 @@ def main5():
 
 
 def main6():
+    retro.data.add_custom_integration("custom")
+
     def wrap_deepmind_n64(env, reward_scale=1 / 100.0, frame_stack=4):
         env = MaxAndSkipEnv(env, skip=4)
         env = WarpFrame(env, width=150, height=100)
@@ -180,18 +187,23 @@ def main6():
         env = RewardScaler(env, scale=1 / 100.0)
         return env
 
-    retro.data.add_custom_integration("custom")
-    env = retro.n64_env.N64Env(game="SuperSmashBros-N64",
-                               use_restricted_actions=retro.Actions.MULTI_DISCRETE,
-                               inttype=retro.data.Integrations.CUSTOM,
-                               obs_type=retro.Observations.IMAGE)
-    env = wrap_deepmind_n64(env)
+    def make_env():
+        retro.data.add_custom_integration("custom")
+        env = retro.n64_env.N64Env(game="SuperSmashBros-N64",
+                                   use_restricted_actions=retro.Actions.MULTI_DISCRETE,
+                                   inttype=retro.data.Integrations.CUSTOM,
+                                   obs_type=retro.Observations.IMAGE)
+        env = wrap_deepmind_n64(env)
+        return env
+
+    env = make_env()
+
     env.reset()
     num_steps = 20000
     action = np.array([0, 0, 0])
     for i in range(num_steps):
         sys.stdout.write(f"\r{i+1} / {num_steps}")
-        action = env.action_space.sample()
+        # action = env.action_space.sample()
         obs, reward, done, info = env.step(action)
         if done:
             env.reset()
@@ -213,5 +225,78 @@ def main6():
     return env
 
 
+def main7():
+    retro.data.add_custom_integration("custom")
+
+    def wrap_deepmind_n64(env, reward_scale=1 / 100.0, frame_stack=4):
+        env = MaxAndSkipEnv(env, skip=4)
+        env = WarpFrame(env, width=150, height=100)
+        env = FrameStack(env, frame_stack)
+        env = ScaledFloatFrame(env)
+        env = RewardScaler(env, scale=1 / 100.0)
+        return env
+
+    def make_env():
+        retro.data.add_custom_integration("custom")
+        env = retro.n64_env.N64Env(game="SuperSmashBros-N64",
+                                   use_restricted_actions=retro.Actions.MULTI_DISCRETE,
+                                   inttype=retro.data.Integrations.CUSTOM,
+                                   obs_type=retro.Observations.IMAGE)
+        env = wrap_deepmind_n64(env)
+        return env
+
+    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.75)
+    sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_options))
+
+    nenvs = 2
+    # env = DummyVecEnv([make_env] * nenvs)
+    env = SubprocVecEnv([make_env] * nenvs)
+    policy = build_policy(env, "impala_cnn")
+    ob_space = env.observation_space
+    ac_space = env.action_space
+    nsteps = 10
+    nminibatches = 2
+    nbatch = nenvs * nsteps
+    nbatch_train = nbatch // nminibatches
+    model = Model(policy=policy,
+                     ob_space=ob_space,
+                     ac_space=ac_space,
+                     nbatch_act=nenvs,
+                     nbatch_train=nbatch_train,
+                     nsteps=nsteps,
+                     ent_coef=0.01,
+                     vf_coef=0.5,
+                     max_grad_norm=0.5,
+                     comm=None,
+                     mpi_rank_weight=1)
+    runner = Runner(env=env, model=model, nsteps=10, gamma=.99, lam=.95)
+
+    env.reset()
+    num_steps = 20000
+    action = [np.array([0, 0, 0]), np.array([0, 0, 0])]
+    for i in range(num_steps):
+        sys.stdout.write(f"\r{i+1} / {num_steps}")
+        # action = env.action_space.sample()
+        obs, reward, dones, info = env.step(action)
+        # env.reset(dones)
+        # env.render()
+
+        if i % 50 == 0:
+            fig, axs = plt.subplots(nrows=4, ncols=2, figsize=(20, 12))
+            for env_index in range(nenvs):
+                for j in range(4):
+                    row = env_index * 2 + j // 2
+                    col = j % 2
+                    print(row)
+                    print(col)
+                    axs[row, col].imshow(obs[env_index, :, :, j])
+            plt.show()
+            plt.close()
+    end = time.time()
+    print(end - start)
+
+    return env
+
+
 if __name__ == "__main__":
-    main6()
+    main7()
