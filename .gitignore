@@ -140,6 +140,8 @@ Temporary
 
 # specific to this project
 *regress/*
+*regress*
 *gym-retro-integration*
 src/ui/Makefile
 tests/Makefile
+*.3
