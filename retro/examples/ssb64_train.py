@@ -33,12 +33,12 @@ def wrap_monitoring_n64(env,
 
 
 def main():
-    expdir = os.path.join("/home/wulfebw/experiments", "ssb64_002", "run_005")
+    expdir = os.path.join("/home/wulfebw/experiments", "ssb64_002", "run_007")
     os.makedirs(expdir, exist_ok=True)
     monitor_filepath = os.path.join(expdir, "monitor.csv")
     movie_dir = os.path.join(expdir, "movies")
     os.makedirs(movie_dir, exist_ok=True)
-    load_filepath = "/home/wulfebw/experiments/ssb64_002/run_004/checkpoints/00010"
+    load_filepath = "/home/wulfebw/experiments/ssb64_002/run_006/checkpoints/00250"
 
     # This configures baselines logging.
     configure(dir=expdir)
@@ -62,7 +62,7 @@ def main():
         env = wrap_n64(env)
         env = wrap_monitoring_n64(env,
                                   monitor_filepath=monitor_filepath,
-                                  movie_dir=movie_dir if rank == 0 else None)
+                                  movie_dir=movie_dir)
         return env
 
     def make_vec_env(nenvs=4, frame_stack=4):
@@ -76,18 +76,18 @@ def main():
         venv = VecFrameStack(venv, frame_stack)
         return venv
 
-    venv = make_vec_env()
+    venv = make_vec_env(nenvs=8)
     ppo2.learn(network='impala_cnn',
                env=venv,
                total_timesteps=int(100e6),
                nsteps=256,
-               nminibatches=4,
+               nminibatches=8,
                lam=0.95,
                gamma=0.999,
                noptepochs=4,
                log_interval=1,
                ent_coef=.01,
-               lr=lambda f: f * 2.5e-4,
+               lr=lambda f: f * 2e-4,
                cliprange=0.1,
                save_interval=10,
                load_path=load_filepath)
