@@ -228,9 +228,9 @@ def main6():
 def main7():
     retro.data.add_custom_integration("custom")
 
-    def wrap_deepmind_n64(env, reward_scale=1 / 100.0, frame_stack=4):
+    def wrap_deepmind_n64(env, reward_scale=1 / 100.0, frame_stack=1, grayscale=False):
         env = MaxAndSkipEnv(env, skip=4)
-        env = WarpFrame(env, width=150, height=100)
+        env = WarpFrame(env, width=150, height=100, grayscale=grayscale)
         env = FrameStack(env, frame_stack)
         env = ScaledFloatFrame(env)
         env = RewardScaler(env, scale=1 / 100.0)
@@ -251,7 +251,7 @@ def main7():
     nenvs = 2
     # env = DummyVecEnv([make_env] * nenvs)
     env = SubprocVecEnv([make_env] * nenvs)
-    policy = build_policy(env, "impala_cnn")
+    policy = build_policy(env, "impala_cnn_lstm")
     ob_space = env.observation_space
     ac_space = env.action_space
     nsteps = 10
@@ -276,7 +276,7 @@ def main7():
     action = [np.array([0, 0, 0]), np.array([0, 0, 0])]
     for i in range(num_steps):
         sys.stdout.write(f"\r{i+1} / {num_steps}")
-        # action = env.action_space.sample()
+        action = [env.action_space.sample() for _ in range(nenvs)]
         obs, reward, dones, info = env.step(action)
         # env.reset(dones)
         # env.render()
@@ -284,12 +284,18 @@ def main7():
         if i % 50 == 0:
             fig, axs = plt.subplots(nrows=4, ncols=2, figsize=(20, 12))
             for env_index in range(nenvs):
-                for j in range(4):
+                for j in range(1):
                     row = env_index * 2 + j // 2
                     col = j % 2
                     print(row)
                     print(col)
-                    axs[row, col].imshow(obs[env_index, :, :, j])
+                    axs[row, col].imshow(obs[env_index, :, :, :])
+                # for j in range(4):
+                #     row = env_index * 2 + j // 2
+                #     col = j % 2
+                #     print(row)
+                #     print(col)
+                #     axs[row, col].imshow(obs[env_index, :, :, j])
             plt.show()
             plt.close()
     end = time.time()
