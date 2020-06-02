@@ -11,7 +11,7 @@ import retro
 import tensorflow as tf
 
 
-def wrap_n64(env, reward_scale=1 / 100.0, frame_skip=4, width=150, height=100):
+def wrap_n64(env, reward_scale=1 / 100.0, frame_skip=4, width=150, height=100, grayscale=True):
     env = MaxAndSkipEnv(env, skip=frame_skip)
     env = WarpFrame(env, width=width, height=height)
     env = ScaledFloatFrame(env)
@@ -33,12 +33,13 @@ def wrap_monitoring_n64(env,
 
 
 def main():
-    expdir = os.path.join("/home/wulfebw/experiments", "ssb64_002", "run_007")
+    expdir = os.path.join("/home/wulfebw/experiments", "ssb64_003", "run_001")
     os.makedirs(expdir, exist_ok=True)
     monitor_filepath = os.path.join(expdir, "monitor.csv")
     movie_dir = os.path.join(expdir, "movies")
     os.makedirs(movie_dir, exist_ok=True)
-    load_filepath = "/home/wulfebw/experiments/ssb64_002/run_006/checkpoints/00250"
+    load_filepath = None
+    # load_filepath = "/home/wulfebw/experiments/ssb64_002/run_006/checkpoints/00250"
 
     # This configures baselines logging.
     configure(dir=expdir)
@@ -53,34 +54,38 @@ def main():
                                             inter_op_parallelism_threads=1,
                                             gpu_options=gpu_options))
 
-    def make_env(rank):
+    def make_env(rank, recurrent=False):
         retro.data.add_custom_integration("custom")
         env = retro.n64_env.N64Env(game="SuperSmashBros-N64",
                                    use_restricted_actions=retro.Actions.MULTI_DISCRETE,
                                    inttype=retro.data.Integrations.CUSTOM,
                                    obs_type=retro.Observations.IMAGE)
-        env = wrap_n64(env)
-        env = wrap_monitoring_n64(env,
-                                  monitor_filepath=monitor_filepath,
-                                  movie_dir=movie_dir)
+        kwargs = {}
+        if recurrent:
+            kwargs = dict(grayscale=False)
+        env = wrap_n64(env, **kwargs)
+        env = wrap_monitoring_n64(env, monitor_filepath=monitor_filepath, movie_dir=movie_dir)
         return env
 
-    def make_vec_env(nenvs=4, frame_stack=4):
-        venv = SubprocVecEnv([lambda: make_env(rank) for rank in range(nenvs)])
+    def make_vec_env(nenvs=4, recurrent=False):
+        venv = SubprocVecEnv([lambda: make_env(rank, recurrent) for rank in range(nenvs)])
         # Uncomment this line in place of the one above for debugging.
         # venv = DummyVecEnv([lambda: make_env(0)])
 
-        # Perform the frame stack at the vectorized environment level as opposed to at
-        # the individual environment level. I think this allows you to communicate fewer
-        # images across processes.
-        venv = VecFrameStack(venv, frame_stack)
+        if not recurrent:
+            # Perform the frame stack at the vectorized environment level as opposed to at
+            # the individual environment level. I think this allows you to communicate fewer
+            # images across processes.
+            venv = VecFrameStack(venv, frame_stack)
         return venv
 
-    venv = make_vec_env(nenvs=8)
-    ppo2.learn(network='impala_cnn',
+    network_name = "impala_cnn_lstm"
+    recurrent = "lstm" in network_name
+    venv = make_vec_env(nenvs=8, recurrent=recurrent)
+    ppo2.learn(network=network_name,
                env=venv,
                total_timesteps=int(100e6),
-               nsteps=256,
+               nsteps=128,
                nminibatches=8,
                lam=0.95,
                gamma=0.999,
