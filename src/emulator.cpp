@@ -342,7 +342,7 @@ void Emulator::fixScreenSize(const string& romName) {
 	} else if (!strcmp(systemInfo.library_name, "Mupen64Plus-Next OpenGL")) {
 		// Default results in bottom half of frame being empty.
 		// m_avInfo.geometry.base_height = 236;
-		m_avInfo.geometry.base_height = 475;
+		m_avInfo.geometry.base_height = 480;
 		// m_avInfo.geometry.base_height = 800; // 236
 		// m_avInfo.geometry.base_height = 800;
 	}
@@ -827,7 +827,6 @@ void Emulator::cbVideoRefresh(const void* data, unsigned width, unsigned height,
 	// 	sum += static_cast<int>(s_loadedEmulator->m_pixels[i]);
 	// }
 	// ZLOG("first sum: %d", sum);
-
 
 	glReadPixels(0, 0, w, h, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, s_loadedEmulator->m_pixels.data());
 	s_loadedEmulator->m_imgData = s_loadedEmulator->m_pixels.data();
