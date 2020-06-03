@@ -33,7 +33,7 @@ def wrap_monitoring_n64(env,
 
 
 def main():
-    expdir = os.path.join("/home/wulfebw/experiments", "ssb64_003", "run_001")
+    expdir = os.path.join("/home/wulfebw/experiments", "ssb64_004", "run_001")
     os.makedirs(expdir, exist_ok=True)
     monitor_filepath = os.path.join(expdir, "monitor.csv")
     movie_dir = os.path.join(expdir, "movies")
@@ -67,7 +67,7 @@ def main():
         env = wrap_monitoring_n64(env, monitor_filepath=monitor_filepath, movie_dir=movie_dir)
         return env
 
-    def make_vec_env(nenvs=4, recurrent=False):
+    def make_vec_env(nenvs=4, recurrent=False, frame_stack=4):
         venv = SubprocVecEnv([lambda: make_env(rank, recurrent) for rank in range(nenvs)])
         # Uncomment this line in place of the one above for debugging.
         # venv = DummyVecEnv([lambda: make_env(0)])
@@ -79,9 +79,9 @@ def main():
             venv = VecFrameStack(venv, frame_stack)
         return venv
 
-    network_name = "impala_cnn_lstm"
+    network_name = "impala_cnn"
     recurrent = "lstm" in network_name
-    venv = make_vec_env(nenvs=8, recurrent=recurrent)
+    venv = make_vec_env(nenvs=16, recurrent=recurrent)
     ppo2.learn(network=network_name,
                env=venv,
                total_timesteps=int(100e6),
