@@ -378,7 +378,6 @@ static void fallback_log(enum retro_log_level level, const char* fmt, ...) {
 }
 
 GLuint Emulator::compileShader(unsigned type, unsigned count, const char** strings) {
-	ZLOG("compileShader", "");
 	GLuint shader = glCreateShader(type);
 	glShaderSource(shader, count, strings, NULL);
 	glCompileShader(shader);
@@ -429,7 +428,6 @@ static void resize_to_aspect(double ratio, int sw, int sh, int* dw, int* dh) {
 } //  namespace
 
 void Emulator::refreshVertexData() {
-	ZLOG("refreshVertexData", "");
 	const auto tex_w = m_avInfo.geometry.max_width;
 	const auto tex_h = m_avInfo.geometry.max_height;
 	const auto clip_w = m_avInfo.geometry.base_width;
@@ -465,7 +463,6 @@ void Emulator::refreshVertexData() {
 }
 
 void Emulator::initShaders() {
-	ZLOG("initShaders", "");
 	GLuint vshader = Emulator::compileShader(GL_VERTEX_SHADER, 1, &s_vshader_src);
 	GLuint fshader = Emulator::compileShader(GL_FRAGMENT_SHADER, 1, &s_fshader_src);
 	GLuint program = glCreateProgram();
@@ -515,7 +512,6 @@ void Emulator::initShaders() {
 }
 
 void Emulator::createWindow() {
-	ZLOG("createWindow", "");
 	assert(m_hw.context_type == RETRO_HW_CONTEXT_OPENGL_CORE);
 	glfwInit();
 
@@ -564,14 +560,9 @@ void Emulator::createWindow() {
 	initShaders();
 	glfwSwapInterval(1);
 	glfwSwapBuffers(m_glfw_window);
-
-	glGetStringi(GL_EXTENSIONS, 0);
-	const char* name = (const char*) glGetStringi(GL_EXTENSIONS, 0);
-	printf("name:\n%s\n", name);
 }
 
 void Emulator::initFramebuffer() {
-	ZLOG("initFramebuffer", "");
 	int width = getImageWidth();
 	int height = getImageHeight();
 
@@ -603,8 +594,6 @@ void Emulator::initFramebuffer() {
 }
 
 bool Emulator::setupHardwareRender() {
-	ZLOG("setupHardwareRender", "");
-
 	auto* geom = &m_avInfo.geometry;
 	// int nwidth, nheight;
 	// resize_to_aspect(geom->aspect_ratio, geom->base_width * 1, geom->base_height * 1, &nwidth, &nheight);
@@ -651,35 +640,17 @@ bool Emulator::setupHardwareRender() {
 	refreshVertexData();
 	m_hw.context_reset();
 	return true;
-
-	// Where does the rest of this go?
-	// // Rendering Loop
-	// while (glfwWindowShouldClose(mWindow) == false) {
-	//     if (glfwGetKey(mWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-	//         glfwSetWindowShouldClose(mWindow, true);
-
-	//     // Background Fill Color
-	//     glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
-	//     glClear(GL_COLOR_BUFFER_BIT);
-
-	//     // Flip Buffers and Draw
-	//     glfwSwapBuffers(mWindow);
-	//     glfwPollEvents();
-	// }   glfwTerminate();
 }
 
 uintptr_t Emulator::cbGetCurrentFramebuffer() {
-	ZLOG("cbGetCurrentFramebuffer", "");
 	assert(s_loadedEmulator);
 	return s_loadedEmulator->m_fbo_id;
 }
 
 bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 	assert(s_loadedEmulator);
-	ZLOG("cbEnvironment", "");
 	switch (cmd) {
 	case RETRO_ENVIRONMENT_SET_HW_RENDER: {
-		ZLOG("RETRO_ENVIRONMENT_SET_HW_RENDER", "");
 		struct retro_hw_render_callback* hw = reinterpret_cast<struct retro_hw_render_callback*>(data);
 		hw->get_current_framebuffer = s_loadedEmulator->cbGetCurrentFramebuffer;
 		hw->get_proc_address = (retro_hw_get_proc_address_t) glfwGetProcAddress;
@@ -687,7 +658,6 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		return true;
 	}
 	case RETRO_ENVIRONMENT_SET_PIXEL_FORMAT:
-		ZLOG("RETRO_ENVIRONMENT_SET_PIXEL_FORMAT", "");
 		switch (*reinterpret_cast<retro_pixel_format*>(data)) {
 		case RETRO_PIXEL_FORMAT_XRGB8888:
 			s_loadedEmulator->m_imgDepth = 32;
@@ -713,35 +683,28 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		}
 		return true;
 	case RETRO_ENVIRONMENT_GET_VARIABLE: {
-		ZLOG("RETRO_ENVIRONMENT_GET_VARIABLE", "");
 		struct retro_variable* var = reinterpret_cast<struct retro_variable*>(data);
 		if (s_envVariables.count(string(var->key))) {
 			var->value = s_envVariables[string(var->key)];
-			ZLOG("key: %s value: %s", var->key, var->value);
-			ZLOG("key: %s value: %s", var->key, s_envVariables[string(var->key)]);
 			return true;
 		}
 		return false;
 	}
 	case RETRO_ENVIRONMENT_GET_LOG_INTERFACE: {
-		ZLOG("RETRO_ENVIRONMENT_GET_LOG_INTERFACE", "");
 		struct retro_log_callback* log = reinterpret_cast<struct retro_log_callback*>(data);
 		log->log = fallback_log;
 		return true;
 	}
 	case RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY:
-		ZLOG("RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY", "");
 		if (!s_loadedEmulator->m_corePath) {
 			s_loadedEmulator->m_corePath = strdup(corePath().c_str());
 		}
 		*reinterpret_cast<const char**>(data) = s_loadedEmulator->m_corePath;
 		return true;
 	case RETRO_ENVIRONMENT_GET_CAN_DUPE:
-		ZLOG("RETRO_ENVIRONMENT_GET_CAN_DUPE", "");
 		*reinterpret_cast<bool*>(data) = true;
 		return true;
 	case RETRO_ENVIRONMENT_SET_MEMORY_MAPS:
-		ZLOG("RETRO_ENVIRONMENT_SET_MEMORY_MAPS", "");
 		s_loadedEmulator->m_map.clear();
 		for (size_t i = 0; i < static_cast<const retro_memory_map*>(data)->num_descriptors; ++i) {
 			s_loadedEmulator->m_map.emplace_back(static_cast<const retro_memory_map*>(data)->descriptors[i]);
@@ -749,7 +712,6 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		s_loadedEmulator->reconfigureAddressSpace();
 		return true;
 	case RETRO_ENVIRONMENT_SET_VARIABLES: {
-		ZLOG("RETRO_ENVIRONMENT_SET_VARIABLES", "");
 		const struct retro_variable* vars = (const struct retro_variable*) data;
 		size_t num_vars = 0;
 
@@ -785,9 +747,9 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		for (const struct retro_variable* v = g_vars; v->key; ++v) {
 			s_envVariables.insert({ string(v->key), v->value });
 		}
-		for (const auto& [key, value] : s_envVariables) {
-			ZLOG("key: %s value: %s", key.c_str(), value);
-		}
+		// for (const auto& [key, value] : s_envVariables) {
+		// 	ZLOG("key: %s value: %s", key.c_str(), value);
+		// }
 		// Freeing this breaks stuff so I guess I just won't free them!
 		// for (const struct retro_variable* v = g_vars; v->key; ++v) {
 		// 	free((char*) v->key);
@@ -798,7 +760,6 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		return true;
 	}
 	case RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE: {
-		ZLOG("RETRO_ENVIRONMENT_GET_VARIABLE_UPDATE", "");
 		bool* bval = (bool*) data;
 		*bval = false;
 		return true;
@@ -813,7 +774,6 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 }
 
 void Emulator::cbVideoRefresh(const void* data, unsigned width, unsigned height, size_t pitch) {
-	ZLOG("cbVideoRefresh", "");
 	assert(s_loadedEmulator);
 	// if (data) {
 	// 	// THIS MIGHT BREAK NOW.
@@ -867,6 +827,7 @@ void Emulator::cbVideoRefresh(const void* data, unsigned width, unsigned height,
 	// 	sum += static_cast<int>(s_loadedEmulator->m_pixels[i]);
 	// }
 	// ZLOG("first sum: %d", sum);
+
 
 	glReadPixels(0, 0, w, h, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, s_loadedEmulator->m_pixels.data());
 	s_loadedEmulator->m_imgData = s_loadedEmulator->m_pixels.data();

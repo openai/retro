@@ -275,6 +275,9 @@ class N64Env(gym.Env):
 
     def get_screen(self, player=0):
         img = self.em.get_screen()
+        # OpenGL returns the image flipped and I'm not sure how to fix it there.
+        img = np.flipud(img)
+
         x, y, w, h = self.data.crop_info(player)
         if not w or x + w > img.shape[1]:
             w = img.shape[1]

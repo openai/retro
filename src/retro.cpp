@@ -74,7 +74,10 @@ struct PyRetroEmulator {
 				in = Image(Image::Format::RGB565, m_re.getImageData(), w, h, m_re.getImagePitch());
 			} else if (m_re.getImageDepth() == 32) {
 				in = Image(Image::Format::RGBX888, m_re.getImageData(), w, h, m_re.getImagePitch());
+			} else {
+				ZLOG("Invalid image depth: %d", m_re.getImageDepth());
 			}
+
 			in.copyTo(&out);
 		} else {
 			ZLOG("does not have image data", "");
