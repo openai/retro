@@ -341,8 +341,10 @@ void Emulator::fixScreenSize(const string& romName) {
 		m_avInfo.geometry.base_height = 242;
 	} else if (!strcmp(systemInfo.library_name, "Mupen64Plus-Next OpenGL")) {
 		// Default results in bottom half of frame being empty.
-		m_avInfo.geometry.base_height = 800; // 236
-		m_avInfo.geometry.base_height = 800;
+		// m_avInfo.geometry.base_height = 236;
+		m_avInfo.geometry.base_height = 475;
+		// m_avInfo.geometry.base_height = 800; // 236
+		// m_avInfo.geometry.base_height = 800;
 	}
 }
 
@@ -536,7 +538,7 @@ void Emulator::createWindow() {
 	// hw_render.cache_context      = true;
 	// Set window to be invisible:
 	// set GLFW_VISIBLE appropriately.
-	glfwWindowHint(GLFW_VISIBLE, GL_TRUE);
+	glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 
 	// For some reason the image width / height is zero at this point.
 	int width = getImageWidth();
@@ -786,7 +788,7 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		for (const auto& [key, value] : s_envVariables) {
 			ZLOG("key: %s value: %s", key.c_str(), value);
 		}
-                // Freeing this breaks stuff so I guess I just won't free them!
+		// Freeing this breaks stuff so I guess I just won't free them!
 		// for (const struct retro_variable* v = g_vars; v->key; ++v) {
 		// 	free((char*) v->key);
 		// 	free((char*) v->value);
@@ -802,25 +804,22 @@ bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 		return true;
 	}
 	case RETRO_ENVIRONMENT_SET_GEOMETRY: {
-		ZLOG("RETRO_ENVIRONMENT_SET_GEOMETRY", "");
 		return false;
 	}
 	default:
-		ZLOG("default", "");
 		return false;
 	}
-	ZLOG("end", "");
 	return false;
 }
 
 void Emulator::cbVideoRefresh(const void* data, unsigned width, unsigned height, size_t pitch) {
 	ZLOG("cbVideoRefresh", "");
 	assert(s_loadedEmulator);
-	if (data) {
-		// THIS MIGHT BREAK NOW.
-		// Ok it definitely breaks. Need to set it to real image data.
-		// s_loadedEmulator->m_imgData = data;
-	}
+	// if (data) {
+	// 	// THIS MIGHT BREAK NOW.
+	// 	// Ok it definitely breaks. Need to set it to real image data.
+	// 	// s_loadedEmulator->m_imgData = data;
+	// }
 	if (pitch) {
 		s_loadedEmulator->m_imgPitch = pitch;
 	}
@@ -841,15 +840,48 @@ void Emulator::cbVideoRefresh(const void* data, unsigned width, unsigned height,
 	int w = 0, h = 0;
 	glfwGetWindowSize(s_loadedEmulator->m_glfw_window, &w, &h);
 	glViewport(0, 0, w, h);
-
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(s_loadedEmulator->m_program);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, s_loadedEmulator->m_tex_id);
 	glBindVertexArray(s_loadedEmulator->m_vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	// glfwSwapBuffers(s_loadedEmulator->m_glfw_window);
 	glBindVertexArray(0);
 	glUseProgram(0);
+
+	// check OpenGL error
+	// ZLOG("Before", "");
+	// GLenum err;
+	// while ((err = glGetError()) != GL_NO_ERROR) {
+	// 	cerr << "OpenGL error: " << err << endl;
+	// }
+
+	if (s_loadedEmulator->m_pixels.size() < w * h * 4) {
+		s_loadedEmulator->m_pixels.resize(w * h * 4);
+	}
+
+	// int sum = 0;
+	// for (size_t i = 0; i < w * h * 4; ++i) {
+	// 	sum += static_cast<int>(s_loadedEmulator->m_pixels[i]);
+	// }
+	// ZLOG("first sum: %d", sum);
+
+	glReadPixels(0, 0, w, h, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, s_loadedEmulator->m_pixels.data());
+	s_loadedEmulator->m_imgData = s_loadedEmulator->m_pixels.data();
+
+	// ZLOG("After", "");
+	// while ((err = glGetError()) != GL_NO_ERROR) {
+	// 	cerr << "OpenGL error: " << err << endl;
+	// }
+
+	// sum = 0;
+	// for (size_t i = 0; i < w * h * 4; ++i) {
+	// 	sum += static_cast<int>(s_loadedEmulator->m_pixels[i]);
+	// }
+	// ZLOG("second sum: %d", sum);
+
 	glfwSwapBuffers(s_loadedEmulator->m_glfw_window);
 }
 

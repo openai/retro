@@ -116,6 +116,9 @@ private:
 	GLint m_u_tex;
 	GLint m_u_mvp;
 
+	// Buffer used to store opengl pixel output.
+	std::vector<uint8_t> m_pixels;
+
 #ifdef _WIN32
 	HMODULE m_coreHandle = nullptr;
 #else
