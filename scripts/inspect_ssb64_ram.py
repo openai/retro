@@ -179,6 +179,8 @@ def main5():
 def main6():
     retro.data.add_custom_integration("custom")
 
+    import faulthandler; faulthandler.enable()
+    
     def wrap_deepmind_n64(env, reward_scale=1 / 100.0, frame_stack=4):
         env = MaxAndSkipEnv(env, skip=4)
         env = WarpFrame(env, width=150, height=100)
@@ -305,4 +307,4 @@ def main7():
 
 
 if __name__ == "__main__":
-    main7()
+    main6()

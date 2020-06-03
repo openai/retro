@@ -64,7 +64,12 @@ private:
 	bool loadCore(const std::string& corePath);
 	void fixScreenSize(const std::string& romName);
 	void reconfigureAddressSpace();
-	bool setupHardwareRender(retro_hw_render_callback* data);
+
+	void initShaders();
+	void createWindow();
+	void initFramebuffer();
+	bool setupHardwareRender();
+	void refreshVertexData();
 
 	static bool cbEnvironment(unsigned cmd, void* data);
 	static void cbVideoRefresh(const void* data, unsigned width, unsigned height, size_t pitch);
@@ -72,6 +77,8 @@ private:
 	static size_t cbAudioSampleBatch(const int16_t* data, size_t frames);
 	static void cbInputPoll();
 	static int16_t cbInputState(unsigned port, unsigned device, unsigned index, unsigned id);
+	static uintptr_t cbGetCurrentFramebuffer();
+	static GLuint compileShader(unsigned type, unsigned count, const char** strings);
 
 	bool m_buttonMask[MAX_PLAYERS][N_BUTTONS]{};
 
@@ -89,8 +96,25 @@ private:
 
 	char* m_corePath = nullptr;
 
-	// OpenGL / GLFW state.
+	// Video info.
 	GLFWwindow* m_glfw_window = nullptr;
+	struct retro_hw_render_callback m_hw;
+	GLuint m_tex_id;
+	GLuint m_fbo_id;
+	GLuint m_rbo_id;
+	GLuint m_pixfmt;
+	GLuint m_pixtype;
+	GLuint m_bpp;
+
+	// Shader info.
+	GLuint m_vao;
+	GLuint m_vbo;
+	GLuint m_program;
+
+	GLint m_i_pos;
+	GLint m_i_coord;
+	GLint m_u_tex;
+	GLint m_u_mvp;
 
 #ifdef _WIN32
 	HMODULE m_coreHandle = nullptr;
