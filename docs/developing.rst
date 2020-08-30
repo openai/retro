@@ -51,6 +51,13 @@ If you installed MSYS2 into an alternate directory please use that instead of C:
 Then in the same prompt, without closing it first, continue with the steps in the next section.
 If you close the prompt you will need to rerun the last commands before you can rebuild.
 
+Linux prerequisites
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: shell
+
+    sudo apt-get install zlib1g-dev
+    
 Building
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -84,7 +91,7 @@ Linux
 
 .. code-block:: shell
 
-    sudo apt-get install capnproto libcapnp-dev libqt5opengl5-dev qtbase5-dev
+    sudo apt-get install capnproto libcapnp-dev libqt5opengl5-dev qtbase5-dev zlib1g-dev
     cmake . -DBUILD_UI=ON -UPYLIB_DIRECTORY
     make -j$(grep -c ^processor /proc/cpuinfo)
     ./gym-retro-integration
