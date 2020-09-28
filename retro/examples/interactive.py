@@ -245,7 +245,7 @@ def main():
     parser.add_argument('--game', default='Airstriker-Genesis')
     parser.add_argument('--state', default=retro.State.DEFAULT)
     parser.add_argument('--scenario', default=None)
-    parser.add_argument('--record', default=None)
+    parser.add_argument('--record', default=None, nargs='?', const=True)
     args = parser.parse_args()
 
     ia = RetroInteractive(game=args.game, state=args.state, scenario=args.scenario, record=args.record)
