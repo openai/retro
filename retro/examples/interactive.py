@@ -203,8 +203,8 @@ class RetroInteractive(Interactive):
     """
     Interactive setup for retro games
     """
-    def __init__(self, game, state, scenario):
-        env = retro.make(game=game, state=state, scenario=scenario)
+    def __init__(self, game, state, scenario, record):
+        env = retro.make(game=game, state=state, scenario=scenario, record=record)
         self._buttons = env.buttons
         super().__init__(env=env, sync=False, tps=60, aspect_ratio=4/3)
 
@@ -245,9 +245,10 @@ def main():
     parser.add_argument('--game', default='Airstriker-Genesis')
     parser.add_argument('--state', default=retro.State.DEFAULT)
     parser.add_argument('--scenario', default=None)
+    parser.add_argument('--record', default=None, nargs='?', const=True)
     args = parser.parse_args()
 
-    ia = RetroInteractive(game=args.game, state=args.state, scenario=args.scenario)
+    ia = RetroInteractive(game=args.game, state=args.state, scenario=args.scenario, record=args.record)
     ia.run()
 
 
