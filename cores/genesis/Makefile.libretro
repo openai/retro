@@ -32,6 +32,7 @@ endif
 TARGET_NAME := genesis_plus_gx
 
 LIBS := -lm
+CFLAGS := -fcommon
 
 GIT_VERSION ?= " $(shell git rev-parse --short HEAD || echo unknown)"
 ifneq ($(GIT_VERSION)," unknown")
