@@ -10,6 +10,8 @@ Supported platforms:
 - macOS 10.13 (High Sierra), 10.14 (Mojave)
 - Linux (manylinux1)
 
+CPU with `SSSE3` or better
+
 Supported Pythons:
 
 - 3.6
