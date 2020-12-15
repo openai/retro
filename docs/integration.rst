@@ -244,7 +244,20 @@ Common Errors
 Using a Custom Integration from Python
 --------------------------------------
 
-Once you have created an integration, you can put it in a folder called ``custom_integrations`` and tell ``retro`` about your custom integration using the ``add_custom_path`` function:
+Once you have created an integration, you can put it in a folder called ``custom_integrations``. In particular, your integration directory name should follow the following structure (depending on the rom type):
+
+- ``.md``: ``*-Genesis`` (e.g. ``AddamsFamily-Genesis``)
+- ``.sfc``: ``*-Snes`` (e.g. ``AddamsFamily-Snes``)
+- ``.nes``: ``*-Nes`` (e.g. ``AddamsFamily-Nes``)
+- ``.a26``: ``*-Atari2600`` (e.g. ``Adventure-Atari2600``)
+- ``.gb``: ``*-GameBoy`` (e.g. ``AeroStar-GameBoy``)
+- ``.gba``: ``*-GbAdvance`` (e.g. ``MarioKart-GbAdvance``)
+- ``.gbc``: ``*-GbColor`` (e.g. ``PokemonPinball-GbColor``)
+- ``.gg``: ``*-GameGear`` (e.g. ``MortalKombat-GameGear``)
+- ``.pce``: ``*-PCEngine`` (e.g. ``SoldierBlade-PCEngine``)
+- ``.sms``: ``*-Sms`` (e.g. ``AddamsFamily-Sms``)
+
+Then you can tell ``retro`` about your custom integration using the ``add_custom_path`` function:
 
 .. code-block:: python
 
