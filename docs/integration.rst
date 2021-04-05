@@ -131,10 +131,15 @@ For more information on the conditions that can be defined, see :ref:`appendix-o
 The Integration UI
 --------------------------------------
 
-The integration UI helps you easily find variables and see what is going on with the reward function.  You can download the compiled UI package for your platform here:
+The integration UI helps you easily find variables and see what is going on with the reward function. 
+
+You can normally download the compiled UI package for your platform here:
 
 * `Windows Integration UI <https:///storage.googleapis.com/gym-retro/builds/Gym%20Retro-latest-win64.zip>`_
 * `Mac Integration UI <https:///storage.googleapis.com/gym-retro/builds/Gym%20Retro-latest-Darwin.dmg>`_
+
+However, if those URLs no longer work, you can also download these packages from `GitHub's Releases <https://github.com/openai/retro/releases/tag/f347d7e>`_
+
 
 Integrating a new ROM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
