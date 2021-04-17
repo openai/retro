@@ -17,7 +17,8 @@ RUN apt-add-repository -y ppa:deadsnakes/ppa && \
         libpython3.5-dev python3.5-venv \
         libpython3.6-dev python3.6-venv \
         libpython3.7-dev python3.7-venv \
-        libpython3.8-dev python3.8-venv && \
+        libpython3.8-dev python3.8-venv \
+        libpython3.9-dev python3.9-venv && \
     apt-get clean
 
 RUN python3.5 -m venv ~/venv3.5 && \
@@ -34,6 +35,9 @@ RUN python3.5 -m venv ~/venv3.5 && \
     pip install google-auth google-cloud-storage pytest requests && \
     python3.8 -m venv ~/venv3.8 && \
     . ~/venv3.8/bin/activate && \
+    pip install wheel && \
+    pip install google-auth google-cloud-storage pytest requests && \
+    . ~/venv3.9/bin/activate && \
     pip install wheel && \
     pip install google-auth google-cloud-storage pytest requests && \
     rm -rf ~/.cache && \

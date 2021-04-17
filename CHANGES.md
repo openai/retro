@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1
+
+* add python 3.9 support
+
 ## 0.8.0
 
 * add python 3.8 support

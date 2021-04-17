@@ -9,6 +9,7 @@ env:
   - PYVER=3.6
   - PYVER=3.7
   - PYVER=3.8
+  - PYVER=3.9
 os:
   - linux
   - osx
@@ -30,6 +31,10 @@ matrix:
       env:
         - CROSS=win64
         - PYVER=3.8
+    - os: linux
+      env:
+        - CROSS=win64
+        - PYVER=3.9
 
 before_script:
   - mkdir -p $HOME/roms
