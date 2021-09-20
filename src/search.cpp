@@ -488,6 +488,7 @@ inline void hash_combine(std::size_t& seed, const T& v) {
 	seed = b * kMul;
 }
 #elif __SIZEOF_SIZE_T__ == 4
+template<class T>
 inline void hash_combine(std::size_t& seed, const T& v) {
 	std::hash<T> hasher;
 	const std::size_t kMul = 0x9e3779b9;
