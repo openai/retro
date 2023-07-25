@@ -1,8 +1,8 @@
 # pip requirements for cpython 3.6
 # NOTE: certifi has GPG signatures; could download and verify independently.
-certifi==2018.10.15 \
-    --hash=sha256:339dc09518b07e2fa7eda5450740925974815557727d6bd35d319c1524a04a4c \
-    --hash=sha256:6d58c986d22b038c8c0df30d639f23a3e6d172a05c3583e766f4c0b785c0986a
+certifi==2023.7.22 \
+    --hash=sha256:539cc1d13202e33ca466e88b2807e29f4c13049d6d87031a3c110744495cb082 \
+    --hash=sha256:92d6037539857d8206b8f6ae472e8b77db8058fec5937a1ef3f54304089edbb9
 auditwheel==1.9.0 \
     --hash=sha256:daa496bb307012502dd70ba6116b14e28849a30e93b290fb403e83b4926c8918 \
     --hash=sha256:fe8cbf74d16e7d1a89fd96b689f8e16f196edfb66cc98eb8a345bc03e28fed63
