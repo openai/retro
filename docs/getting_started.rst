@@ -92,7 +92,7 @@ What games have already been integrated?  Note that this will display all define
     import retro
     retro.data.list_games()
 
-The actual integration data can be see in the `Gym Retro Github repo <https://github.com/openai/retro/tree/master/retro/data/stable>`_.
+The actual integration data can be seen in the `Gym Retro Github repo <https://github.com/openai/retro/tree/master/retro/data/stable>`_.
 
 .. _importing-roms:
 

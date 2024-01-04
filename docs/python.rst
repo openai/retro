@@ -28,7 +28,7 @@ You can also create your own action spaces derived from these.  For an example, 
 Observations
 --------------------------------------
 
-The default observations are RGB images of the game, but you can view RAM values instead (often much smaller than the RGB images and also your agent can observate the game state more directly).  If you want variable values, any variables defined in ``data.json`` will appear in the ``info`` dict after each step.
+The default observations are RGB images of the game, but you can view RAM values instead (often much smaller than the RGB images and also your agent can observe the game state more directly).  If you want variable values, any variables defined in ``data.json`` will appear in the ``info`` dict after each step.
 
 .. autoclass:: retro.Observations
    :members:
